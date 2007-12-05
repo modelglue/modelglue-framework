@@ -218,6 +218,25 @@
 	<cfset variables.testExecuteEventHandler_ResultQueueing_order = variables.testExecuteEventHandler_ResultQueueing_order & "implicit" />
 </cffunction>
 
+<cffunction name="testExecuteEventHandler_ViewRendering" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	<cfset var eh = createEventHandler() />
+	<cfset var view = createView() />
+			
+	<cfset view.name = "testRenderView" />
+	<cfset view.template = "testView.cfm" />
+
+	<cfset eh.name = "eh" />
+	<cfset eh.addView(view) />
+
+	<cfset ec.setValue("viewContents", "testEventHandler_ViewRendering") />
+	<cfset ec.addEventHandler(eh) />
+	<cfset ec.execute() />
+	
+	<cfset assertTrue(ec.getViewCollection().getFinalView() eq "testEventHandler_ViewRendering", "view not rendered to last position.") />
+</cffunction>
+
+
 <!--- VIEW TESTS --->
 <cffunction name="testGetViewCollection" access="public" returntype="void">
 	<cfset var ec = createEventContext() />
@@ -254,6 +273,25 @@
 	<cfset ec.renderView(view) />
 	
 	<cfset assertTrue(ec.getView("testRenderView") eq "testRenderViewContent", "view not rendered!") />
+</cffunction>
+
+<cffunction name="testRenderStackedView" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	<cfset var innerView = createView() />
+	<cfset var outerView = createView() />
+	
+	<cfset innerView.name = "innerView" />
+	<cfset innerView.template = "testView.cfm" />
+	
+	<cfset outerView.name = "outerView" />
+	<cfset outerView.template = "testOuterView.cfm" />
+	
+	<cfset ec.setValue("viewContents", "testRenderStackedViewContent") />
+	
+	<cfset ec.renderView(innerView) />
+	<cfset ec.renderView(outerView) />
+	
+	<cfset assertTrue(ec.getView("outerView") eq "testRenderStackedViewContent", "view not rendered!") />
 </cffunction>
 
 
