@@ -7,12 +7,18 @@
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
+
+	<!--- External maps of listeners and handlers --->
 	<cfset variables._listeners = structNew() />
 	<cfset variables._eventHandlers = structNew() />
+
+	<!--- External list of event phases --->
+	<cfset variables._requestPhases = "" />
 
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
 	<cfset variables._nextView = "" />
+	
 
 	<cfset resetResults() />
 
@@ -32,6 +38,11 @@
 <cffunction name="setViewRenderer" output="false" hint="I set the instance of the view renderer to use when a request is made to render a view.">
 	<cfargument name="viewRenderer" hint="The view renderer to use." />
 	<cfset variables._viewRenderer = arguments.viewRenderer />	
+</cffunction>
+
+<cffunction name="setRequestPhases" output="false" hint="I set the instance of the view renderer to use when a request is made to render a view.">
+	<cfargument name="requestPhases" hint="The view renderer to use." />
+	<cfset variables._requestPhases = arguments.requestPhases />	
 </cffunction>
 
 <!--- EVENT HANDLER QUEUE MANAGEMENT --->
@@ -58,7 +69,7 @@
 	<cfreturn variables._initialEvent />
 </cffunction>
 
-<cffunction name="getNextEventHandler" output="false" hint="Returns the next event handler in the queue.">
+<cffunction name="getNextEventHandler" access="public" output="false" hint="Returns the next event handler in the queue.">
 	<cfset var eh = variables._nextEventHandler.eventHandler />
 	<cfset variables._nextEventHandler = variables._nextEventHandler.next />
 	<cfreturn eh />
@@ -68,26 +79,36 @@
 	<cfreturn isStruct(variables._nextEventHandler) />
 </cffunction>
 
-<cffunction name="onReadyForExecution" output="false" hint="Invoked when all ""under the hood"" events (onRequestStart, etc.) are complete.">
+<cffunction name="onReadyForExecution" access="public" output="false" hint="Invoked when all ""under the hood"" events (onRequestStart, etc.) are complete.">
 	<cfset variables._readyForExecution = true />
 </cffunction>
 
 <!--- REQUEST EXECUTION --->
 <cffunction name="execute" output="false" hint="Executes the event request.  Duck typed for speed:  returns the request itself.">
-	<cfset var eh = "" />
+	<cfset var i = "" />
 	
-	<!--- TODO:  Add plug-in points...but that requires configuration.  We're just doing core request for now. --->
+	<cfif isArray(variables._requestPhases)>
+		<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
+			<cfset variables._requestPhases[i].execute(this) />
+		</cfloop>
+	<cfelse>
+		<cfset executeEventQueue() />
+	</cfif>
+		
+	<cfreturn this />
+</cffunction>
+
+<cffunction name="executeEventQueue" access="package" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
+	<cfset var eh = "" />
 	
 	<!--- Run event handlers (broadcast/listener/result addition) --->
 	<cfloop condition="isStruct(variables._nextEventHandler)">
 		<cfset eh = getNextEventHandler() />
 		<cfset executeEventHandler(eh) />
 	</cfloop>
-	
-	<!--- Render views.  TODO:  Moves to per-phase rendering. --->
-	<cfset renderViewQueue() />
 
-	<cfreturn this />
+	<!--- Render all views queued. --->
+	<cfset renderViewQueue() />
 </cffunction>
 
 <cffunction name="executeEventHandler" output="false" hint="Executes an event handler:  invokes listener functions, handles results, and queues views for rendering.">
@@ -218,7 +239,7 @@
 	<cfreturn variables._viewCollection.getView(argumentCollection=arguments) />
 </cffunction>
 
-<cffunction name="renderView" output="false" hint="I render a view into the view collection.">
+<cffunction name="renderView" access="public" output="false" hint="I render a view into the view collection.">
   <cfargument name="view" type="any" hint="I am the view to render.">
 
 	<cfset var content = variables._viewRenderer.renderView(this, arguments.view) />
@@ -226,7 +247,7 @@
 	<cfset addView(arguments.view.name, content, arguments.view.append) />
 </cffunction>
 
-<cffunction name="queueView" access="public" returnType="void" output="false" hint="I add a view to the queue of views to render.">
+<cffunction name="queueView" access="private" returnType="void" output="false" hint="I add a view to the queue of views to render.">
   <cfargument name="view" type="any" hint="I am the view to queue.">
 
 	<cfset var link = structNew() />
@@ -241,14 +262,14 @@
 	</cfif>	
 </cffunction>
 
-<cffunction name="getNextView" output="false" hint="Returns the next view in the queue.">
+<cffunction name="getNextView" access="private" output="false" hint="Returns the next view in the queue.">
 	<cfset var view = variables._nextView.view />
 	<cfset variables._nextView = variables._nextView.next />
 	<cfreturn view />
 </cffunction>
 
 
-<cffunction name="renderViewQueue" access="public" returnType="void" output="false" hint="I render all views currently in the queue.">
+<cffunction name="renderViewQueue" access="private" returnType="void" output="false" hint="I render all views currently in the queue.">
 	<cfset var view = "" />
 	
 	<cfloop condition="isStruct(variables._nextView)">
