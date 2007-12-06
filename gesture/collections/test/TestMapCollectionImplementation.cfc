@@ -73,7 +73,7 @@
 	
 	<cfset arrayAppend(sources, src1) />
 	<cfset arrayAppend(sources, src2) />
-	<cfset col.init(sources) />
+	<cfset col.init(values=sources) />
 
 	<cfset assertTrue(col.getValue("val") eq "src2", "Second like-named value not defined properly.") />
 	<cfset assertTrue(col.getValue("src1val") eq "src1val", "First source value not defined properly.") />
@@ -86,7 +86,7 @@
 		
 	<cfset src1.src1val = "src1val" />
 
-	<cfset col.init(src1) />
+	<cfset col.init(values=src1) />
 		
 	<cfset assertTrue(col.getValue("src1val") eq "src1val", "First source value not defined properly.") />
 </cffunction>

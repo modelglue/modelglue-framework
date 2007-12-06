@@ -1,0 +1,19 @@
+<model-glue>
+
+<controllers>
+	<controller id="modelglueinternal.initializationController"
+							type="ModelGlue.gesture.modules.internal.initialization.controller.InitializationController"
+	>
+		<message-listener message="modelglue.loadFrameworkIntoScope" function="loadFrameworkIntoScope" />	
+	</controller>
+</controllers>
+
+<event-handlers>
+	<event-handler name="modelglue.onApplicationInitialization">
+		<broadcasts>
+			<message name="modelglue.loadFrameworkIntoScope" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+
+</model-glue>

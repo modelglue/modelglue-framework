@@ -1,6 +1,9 @@
 <cfcomponent output="false" hint="I represent an event request and its context.  I am what you see as arguments.event.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new EventContext.">
+	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />
+	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
+	<cfargument name="requestPhases" default="#arrayNew(1)#" hint="Request phases." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
@@ -9,17 +12,16 @@
 	<cfset variables._initialEvent = "" />
 
 	<!--- External maps of listeners and handlers --->
-	<cfset variables._listeners = structNew() />
-	<cfset variables._eventHandlers = structNew() />
+	<cfset variables._listeners = arguments.messageListeners />
+	<cfset variables._eventHandlers = arguments.eventHandlers />
 
 	<!--- External list of event phases --->
-	<cfset variables._requestPhases = "" />
+	<cfset variables._requestPhases = arguments.requestPhases />
 
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
 	<cfset variables._nextView = "" />
 	
-
 	<cfset resetResults() />
 
 	<cfreturn this />
@@ -87,7 +89,7 @@
 <cffunction name="execute" output="false" hint="Executes the event request.  Duck typed for speed:  returns the request itself.">
 	<cfset var i = "" />
 	
-	<cfif isArray(variables._requestPhases)>
+	<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
 		<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
 			<cfset variables._requestPhases[i].execute(this) />
 		</cfloop>

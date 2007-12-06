@@ -1,6 +1,14 @@
 <cfcomponent output="false" hint="The core of the Model-Glue framework.  Unlike earlier versions, I'm basically just an event dispatcher and a way to get to other core components."> 
 
+<!---
+ Some properties are checked on _every_ request.  In this case, they're 
+ exposed as public to avoid the cost of an accessor method.
+--->
+<cfproperty name="initialized" type="boolean" hint="Is ModelGlue initialized (present in the Application scope) and not needing reconfiguraion? " />
+
 <cffunction name="init" output="false" hint="Constructor.">
+	<cfset this.initialized = false />
+	
 	<!---
 		The registry of message listeners in Model-Glue. 
 		
@@ -18,7 +26,33 @@
 	--->
 	<cfset variables._eventHandlers = structNew() />
 	
+	<!---
+		The phases of an event request.
+	--->
+	<cfset variables._phases = arrayNew(1) />
+
 	<cfreturn this />
+</cffunction>
+
+<!--- FRAMEWORK CONFIGURATION ELEMENTS --->
+
+<!--- These are often accessed directly to shrink the stack during execution.  --->
+<cffunction name="setRequestPhases" output="false" hint="Sets the request phases to be used in event context execution.">
+	<cfargument name="phases" />
+	<cfset variables._phases = arguments.phases />
+</cffunction>
+
+
+<!--- EVENT INVOCATION --->
+<cffunction name="handleRequest" output="false" hint="Runs an event request, returning the EventContext.  Duck-typed return for speed.">
+	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
+									 	variables._eventHandlers,
+									 	variables._messageListeners,
+									 	variables._phases
+						 			 ) 
+	/>
+	
+	<cfset ctx.execute() />
 </cffunction>
 
 <!--- EVENT LISTENER MANAGEMENT --->

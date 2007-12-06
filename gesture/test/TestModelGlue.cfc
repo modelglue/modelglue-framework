@@ -51,4 +51,8 @@
 	<cfset assertTrue(eh.name eq "eventHandler", "event handler not returned!") />
 </cffunction>
 
+<!--- PHASED INVOCATION TESTS --->
+<cffunction name="testPhase_Initialization" returntype="void" access="public">
+</cffunction>
+
 </cfcomponent>

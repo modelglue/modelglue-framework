@@ -1,0 +1,22 @@
+<beans>
+
+<bean id="modelglue.ModelGlue" class="ModelGlue.gesture.ModelGlue">
+	
+	<!--
+		Array of EventRequestPhase implementations.
+		
+		These will be executed in the order defined.
+	-->
+	<property name="requestPhases">
+		<list>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Initialization" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Population" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
+		</list>
+	</property>
+	
+</bean>
+
+</beans>
