@@ -69,4 +69,21 @@
 	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue not in app scope!") />
 </cffunction>
 
+<cffunction name="testPhase_Population" returntype="void" access="public">
+	<cfset var mg = createBootstrappedModelGlue() />
+	<cfset var context = "" />
+
+	<cfset form.someFormKey = "someFormValue" />
+	<cfset url.someUrlKey = "someUrlValue" />
+	<cfset form.conflictKey = "formConflictValue" />
+	<cfset url.conflictKey = "urlConflictValue" />
+	
+	<cfset context = mg.handleRequest()  />
+	
+	<cfset assertTrue(context.getValue("someFormKey") eq "someFormValue", "form value not populated") />
+	<cfset assertTrue(context.getValue("someUrlKey") eq "someUrlValue", "form value not populated") />
+	<cfset assertTrue(context.getValue("conflictKey") eq "formConflictValue", "conflict value not recognized from form") />
+		
+</cffunction>
+
 </cfcomponent>

@@ -42,6 +42,10 @@
 	<cfset this.phases = arguments.phases />
 </cffunction>
 
+<cffunction name="setEventPopulators" output="false" hint="Sets the populators to be used in event context population.">
+	<cfargument name="populators" />
+	<cfset this.populators = arguments.populators />
+</cffunction>
 
 <!--- This is the internal bean factory (may be same as the one used by getBean()). --->
 <cffunction name="setInternalBeanFactory" output="false" hint="Sets an inversion of control container to use for internal class resolution.">
@@ -62,6 +66,8 @@
 	/>
 	
 	<cfset ctx.execute() />
+	
+	<cfreturn ctx />
 </cffunction>
 
 <!--- EVENT LISTENER MANAGEMENT --->

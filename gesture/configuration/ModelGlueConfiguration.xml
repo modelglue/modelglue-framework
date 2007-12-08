@@ -1,6 +1,17 @@
 <beans>
 
 <bean id="modelglue.ModelGlue" class="ModelGlue.gesture.ModelGlue">
+	<!--
+		Array of Populators.  These populate the event values from form, url, etc.
+		
+		Values are populated in the order defined:  last populator values overwrite prior!
+	-->
+	<property name="eventPopulators">
+		<list>
+			<bean class="ModelGlue.gesture.eventrequest.population.UrlPopulator" />
+			<bean class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+		</list>
+	</property>
 	
 	<!--
 		Array of EventRequestPhase implementations.
@@ -19,7 +30,16 @@
 					</list>
 				</constructor-arg>
 			</bean>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Population" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Population">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
 			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration" />
 			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation" />
 			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
