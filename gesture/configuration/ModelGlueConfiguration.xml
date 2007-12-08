@@ -9,14 +9,56 @@
 	-->
 	<property name="requestPhases">
 		<list>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Initialization" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Initialization">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
 			<bean class="ModelGlue.gesture.eventrequest.phase.Population" />
 			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration" />
 			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation" />
 			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
 		</list>
 	</property>
-	
 </bean>
 
+<!--
+	Factory responsible for creating ModuleLoader implementations.
+	
+	If you wanted to define your own type of module loader, such as one
+	that loaded controllers / event handlers from a database, you can implement
+	it and register it here.
+-->
+<bean id="modelglue.ModuleLoaderFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+	<constructor-arg name="registeredClasses">
+		<map>
+			<entry key="XML">
+				<value>ModelGlue.gesture.module.XMLModuleLoader</value>
+			</entry>
+		</map>
+	</constructor-arg>
+</bean>
+
+<!--
+	Factory responsible for creating EventHandler implementations.
+
+	If you wanted to define your own type of event handler, you can implement
+	it.  It need not be registered here:  simply calling the create() method
+	with the type name will instantiate it.  See TypeDefaultingMapBasedFactory.
+-->
+<bean id="modelglue.EventHandlerFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+	<constructor-arg name="registeredClasses">
+		<map>
+			<entry key="EventHandler">
+				<value>ModelGlue.gesture.eventhandler.EventHandler</value>
+			</entry>
+		</map>
+	</constructor-arg>
+</bean>
+	
 </beans>

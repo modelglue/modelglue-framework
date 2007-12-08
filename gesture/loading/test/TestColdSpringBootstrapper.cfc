@@ -45,4 +45,18 @@
 	<cfset assertTrue(getMetadata(mg).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue instance not created from bean factory.") />
 </cffunction>
 
+<cffunction name="testInternalBeanFactory" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var cfg = "" />
+	
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset cfg = mg.getInternalBean("modelglue.ModelGlueConfiguration") />
+	
+	<cfset assertTrue(getMetadata(cfg).name eq "ModelGlue.gesture.configuration.ModelGlueConfiguration", "Configuration instance not created from bean factory.") />
+</cffunction>
+
 </cfcomponent>

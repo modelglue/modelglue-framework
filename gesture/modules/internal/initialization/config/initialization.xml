@@ -1,4 +1,4 @@
-<model-glue>
+<modelglue>
 
 <controllers>
 	<controller id="modelglueinternal.initializationController"
@@ -14,6 +14,11 @@
 			<message name="modelglue.loadFrameworkIntoScope" />
 		</broadcasts>
 	</event-handler>
+	<event-handler name="modelglue.onApplicationStoredInScope">
+		<broadcasts>
+			<message name="modelglue.onApplicationStoredInScope" />
+		</broadcasts>
+	</event-handler>
 </event-handlers>
 
-</model-glue>
+</modelglue>

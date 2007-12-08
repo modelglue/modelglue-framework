@@ -1,0 +1,6 @@
+<modelglue>
+
+<module location="/ModelGlue/gesture/module/test/recursiveXmlModule.xml" />
+<include template="/ModelGlue/gesture/module/test/recursiveXmlModule.xml" />
+
+</modelglue>

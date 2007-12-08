@@ -1,0 +1,28 @@
+<modelglue>
+
+<controllers>
+	<controller id="controller" type="ModelGlue.gesture.module.test.Controller">
+		<message-listener message="messageName" function="listener" />
+	</controller>
+</controllers>
+	
+<event-handlers>
+	<event-handler name="eventHandlerName">
+		<broadcasts>
+			<message name="messageName">
+				<argument name="argumentName" value="argumentValue" />
+			</message>
+		</broadcasts>
+		<results>
+			<result name="resultName" do="eventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
+			<result do="implicitEventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
+		</results>
+		<views>
+			<include name="viewName" template="templateName">
+				<value name="valueName" value="valueValue" overwrite="false" />
+			</include>
+		</views>
+	</event-handler>
+</event-handlers>
+
+</modelglue>

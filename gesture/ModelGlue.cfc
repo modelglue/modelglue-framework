@@ -8,7 +8,7 @@
 
 <cffunction name="init" output="false" hint="Constructor.">
 	<cfset this.initialized = false />
-	
+	<cfset variables._internalBeanFactory = "" />	
 	<!---
 		The registry of message listeners in Model-Glue. 
 		
@@ -16,7 +16,7 @@
 		of a simple structure to lower the number of function calls and streamline
 		things.
 	--->
-	<cfset variables._messageListeners = structNew() />
+	<cfset this.messageListeners = structNew() />
 
 	<!---
 		The registry of event handlers in Model-Glue. 
@@ -24,12 +24,12 @@
 		In keeping with the "simple" theme of MG3, it's just a struct keyed
 		by name.  Yeeha!
 	--->
-	<cfset variables._eventHandlers = structNew() />
+	<cfset this.eventHandlers = structNew() />
 	
 	<!---
 		The phases of an event request.
 	--->
-	<cfset variables._phases = arrayNew(1) />
+	<cfset this.phases = arrayNew(1) />
 
 	<cfreturn this />
 </cffunction>
@@ -39,16 +39,25 @@
 <!--- These are often accessed directly to shrink the stack during execution.  --->
 <cffunction name="setRequestPhases" output="false" hint="Sets the request phases to be used in event context execution.">
 	<cfargument name="phases" />
-	<cfset variables._phases = arguments.phases />
+	<cfset this.phases = arguments.phases />
+</cffunction>
+
+
+<!--- This is the internal bean factory (may be same as the one used by getBean()). --->
+<cffunction name="setInternalBeanFactory" output="false" hint="Sets an inversion of control container to use for internal class resolution.">
+	<cfargument name="beanFactory" type="any" required="true" />
+	<cfset variables._internalBeanFactory = beanFactory />	
+</cffunction>
+<cffunction name="getInternalBean" output="false" hint="Gets a bean from the internal IoC container.">
+	<cfargument name="name" type="string" required="true" />
+	<cfreturn variables._internalBeanFactory.getBean(arguments.name) />
 </cffunction>
 
 
 <!--- EVENT INVOCATION --->
 <cffunction name="handleRequest" output="false" hint="Runs an event request, returning the EventContext.  Duck-typed return for speed.">
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
-									 	variables._eventHandlers,
-									 	variables._messageListeners,
-									 	variables._phases
+										modelglue=this
 						 			 ) 
 	/>
 	
@@ -64,13 +73,13 @@
 	<cfset var listener = createObject("component", "ModelGlue.gesture.eventhandler.MessageListener") />
 	
 	<cfif not hasEventListener(arguments.messageName)>
-		<cfset variables._messageListeners[arguments.messageName] = arrayNew(1) />
+		<cfset this.messageListeners[arguments.messageName] = arrayNew(1) />
 	</cfif>
 	
 	<cfset listener.target = arguments.listenerInstance />
 	<cfset listener.listenerFunction = arguments.listenerFunctionName />
 	
-	<cfset arrayAppend(variables._messageListeners[arguments.messageName], listener) />
+	<cfset arrayAppend(this.messageListeners[arguments.messageName], listener) />
 	
 	<cfreturn this />
 </cffunction>
@@ -78,13 +87,13 @@
 <cffunction name="hasEventListener" output="false" returntype="boolean" hint="Does at least one listener exist for the given message name?">
 	<cfargument name="messageName" type="string" required="true" hint="The message name to check for listeners for." />
 	
-	<cfreturn structKeyExists(variables._messageListeners, arguments.messageName) />
+	<cfreturn structKeyExists(this.messageListeners, arguments.messageName) />
 </cffunction>
 
 <cffunction name="getEventListeners" output="false" returntype="array" hint="Returns listeners for a given message.  If none exist, you'll get a key not defined error - we're going for speed, not friendliness, as this is one of the most heavily hit methods in Model-Glue.">
 	<cfargument name="messageName" type="string" required="true" hint="The message name to return listeners for." />
 	
-	<cfreturn variables._messageListeners[arguments.messageName] />
+	<cfreturn this.messageListeners[arguments.messageName] />
 </cffunction>
 
 <!--- EVENT HANDLER MANAGEMENT --->
@@ -93,7 +102,7 @@
 	
 	<cfset var i = "" />
 	
-	<cfset variables._eventHandlers[arguments.eventHandler.name] = arguments.eventHandler />
+	<cfset this.eventHandlers[arguments.eventHandler.name] = arguments.eventHandler />
 	
 	<cfreturn this />
 </cffunction>
@@ -101,7 +110,7 @@
 <cffunction name="getEventHandler" output="false" hint="I get an event handler by name.  If one doesn't exist, a struct key not found error is thrown - this is a heavy hit method, so it's about speed, not being nice.">
 	<cfargument name="eventHandlerName" type="string" required="true" hint="The event handler to return." />
 	
-	<cfreturn variables._eventHandlers[arguments.eventHandlerName] />
+	<cfreturn this.eventHandlers[arguments.eventHandlerName] />
 </cffunction>
 
 </cfcomponent>

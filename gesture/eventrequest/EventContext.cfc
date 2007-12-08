@@ -4,6 +4,7 @@
 	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />
 	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
 	<cfargument name="requestPhases" default="#arrayNew(1)#" hint="Request phases." />
+	<cfargument name="modelglue" required="false" hint="The framework itself." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
@@ -11,13 +12,24 @@
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
 
-	<!--- External maps of listeners and handlers --->
-	<cfset variables._listeners = arguments.messageListeners />
-	<cfset variables._eventHandlers = arguments.eventHandlers />
-
-	<!--- External list of event phases --->
-	<cfset variables._requestPhases = arguments.requestPhases />
-
+	<cfif structKeyExists(arguments, "modelglue")>
+		<!--- External maps of listeners and handlers --->
+		<cfset variables._listeners = arguments.modelglue.messageListeners />
+		<cfset variables._eventHandlers = arguments.modelglue.eventHandlers />
+	
+		<!--- External list of event phases --->
+		<cfset variables._requestPhases = arguments.modelglue.phases />
+		
+		<cfset variables._modelGlue = arguments.modelglue />
+	<cfelse>
+		<!--- External maps of listeners and handlers --->
+		<cfset variables._listeners = arguments.messageListeners />
+		<cfset variables._eventHandlers = arguments.eventHandlers />
+	
+		<!--- External list of event phases --->
+		<cfset variables._requestPhases = arguments.requestPhases />
+	</cfif>
+	
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
 	<cfset variables._nextView = "" />
@@ -45,8 +57,14 @@
 <cffunction name="setRequestPhases" output="false" hint="I set the instance of the view renderer to use when a request is made to render a view.">
 	<cfargument name="requestPhases" hint="The view renderer to use." />
 	<cfset variables._requestPhases = arguments.requestPhases />	
+	<cfdump var="#variables._requestPhases#"><cfabort />
+	
 </cffunction>
 
+<cffunction name="getModelGlue" output="false" hint="Gets the instance of ModelGlue associated with this context.">
+	<cfreturn variables._modelGlue />
+</cffunction>
+						
 <!--- EVENT HANDLER QUEUE MANAGEMENT --->
 <cffunction name="addEventHandler" output="false" hint="Queues an event handler to be executed as part of this request.">
 	<cfargument name="eventHandler" hint="An EventHandler instance to queue.  Duck-typed for speed." />
@@ -100,7 +118,7 @@
 	<cfreturn this />
 </cffunction>
 
-<cffunction name="executeEventQueue" access="package" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
+<cffunction name="executeEventQueue" access="public" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
 	<cfset var eh = "" />
 	
 	<!--- Run event handlers (broadcast/listener/result addition) --->

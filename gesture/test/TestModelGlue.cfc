@@ -12,6 +12,15 @@
 	<cfreturn createObject("component", "ModelGlue.gesture.eventhandler.EventHandler") />
 </cffunction>
 
+<cffunction name="createBootstrappedModelGlue" access="private">
+	<cfset var boot = createObject("component", "ModelGlue.gesture.loading.XMLColdSpringBootstrapper") />
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
+	<cfset boot.initialModulePath = "/ModelGlue/gesture/test/primaryModule.xml" />
+	<cfset boot.storeModelGlue() />
+	
+	<cfreturn boot.createModelGlue() />
+</cffunction>
+
 <!--- LISTENER REGISTRATION TESTS --->
 <cffunction name="testAddEventListener" returntype="void" access="public">
 	<cfset var mg = createModelGlue() />
@@ -53,6 +62,11 @@
 
 <!--- PHASED INVOCATION TESTS --->
 <cffunction name="testPhase_Initialization" returntype="void" access="public">
+	<cfset var mg = createBootstrappedModelGlue() />
+	
+	<cfset mg.handleRequest() />
+	
+	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue not in app scope!") />
 </cffunction>
 
 </cfcomponent>
