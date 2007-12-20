@@ -5,12 +5,14 @@
 	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
 	<cfargument name="requestPhases" default="#arrayNew(1)#" hint="Request phases." />
 	<cfargument name="modelglue" required="false" hint="The framework itself." />
+	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
+	<cfset variabels._currentEventHandler = "" />
 
 	<cfif structKeyExists(arguments, "modelglue")>
 		<!--- External maps of listeners and handlers --->
@@ -33,6 +35,8 @@
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
 	<cfset variables._nextView = "" />
+	
+	<cfset setStatePersister(arguments.statePersister) />
 	
 	<cfset resetResults() />
 
@@ -61,6 +65,12 @@
 	
 </cffunction>
 
+<cffunction name="setStatePersister" output="false" hint="I set the mechanism by which this event context should persist and recall its state across requests.">
+	<cfargument name="statePersister" />
+	
+	<cfset variables._statePersister = arguments.statePersister />
+</cffunction>
+
 <cffunction name="getModelGlue" output="false" hint="Gets the instance of ModelGlue associated with this context.">
 	<cfreturn variables._modelGlue />
 </cffunction>
@@ -83,10 +93,6 @@
 	<cfelse>
 		<cfset variables._nextEventHandler.next = link />
 	</cfif>	
-</cffunction>
-
-<cffunction name="getInitialEventHandler" output="false" hint="Returns the name of the initial event in this request.">
-	<cfreturn variables._initialEvent />
 </cffunction>
 
 <cffunction name="getNextEventHandler" access="public" output="false" hint="Returns the next event handler in the queue.">
@@ -136,10 +142,13 @@
 	
 	<cfset var message = "" />
 	<cfset var results = "" />
+	<cfset var result = "" />
 	
 	<cfset var i = "" />
 	<cfset var j = "" />
 		
+	<cfset variables._currentEventHandler = arguments.eventHandler />
+	
 	<!--- Invoke message broadcasts. --->
 	<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages)#" index="i">
 		<cfset message = arguments.eventHandler.messages[i] />
@@ -157,7 +166,13 @@
 	<cfloop from="1" to="#arrayLen(results)#" index="i">
 		<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i])>
 			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[results[i]])#" index="j">
-				<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[results[i]][j].event]) />
+				<cfset result = arguments.eventHandler.results[results[i]][j] />
+				
+				<cfif result.redirect>
+					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+				<cfelse>
+					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[results[i]][j].event]) />
+				</cfif>
 			</cfloop>
 		</cfif>
 	</cfloop>
@@ -166,7 +181,13 @@
 	<cfif structKeyExists(arguments.eventHandler.results, "")>
 		<cfset results = arguments.eventHandler.results[""] />
 		<cfloop from="1" to="#arrayLen(results)#" index="i">
-			<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
+				<cfset result = results[i] />
+				
+				<cfif result.redirect>
+					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+				<cfelse>
+					<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
+				</cfif>
 		</cfloop>
 	</cfif>
 		
@@ -177,6 +198,23 @@
 	<cfloop from="1" to="#arrayLen(arguments.eventHandler.views)#" index="i">
 		<cfset queueView(arguments.eventHandler.views[i]) />
 	</cfloop>
+</cffunction>
+
+<!--- EVENT KNOWLEDGE --->
+<cffunction name="getCurrentEventHandler" access="private" hint="Returns the current event handler.  Not something to be manipulated at runtime (private)!">
+	<cfreturn variables._currentEventHandler />
+</cffunction>
+
+<cffunction name="getEventHandlerName" access="private" hint="Returns the name of the currently executing event handler.">
+	<cfreturn getCurrentEventHandler().name />
+</cffunction>
+
+<cffunction name="getInitialEventHandler" output="false" hint="Returns the initial event in this request.">
+	<cfreturn variables._initialEvent />
+</cffunction>
+
+<cffunction name="getInitialEventHandlerName" access="private" hint="Returns the name of the user-requested event handler.">
+	<cfreturn getInitialEventHandler().name />
 </cffunction>
 
 <!--- RESULT MANAGEMENT --->
@@ -193,6 +231,33 @@
 	
 	<!--- TODO:  Add redirect capabilities.  How the @#@#$ are we going to unit test that?  Mock forwarder?--->
 	<cfset arrayAppend(variables._results, arguments.result) />
+</cffunction>
+
+<!--- LOCATION MANAGEMENT --->
+<cffunction name="forwardToUrl" access="public" hint="Forwards to a given URL, optionally storing state across the redirect.">
+	<cfargument name="url" type="string" hint="The URL to redirect to using <cflocation />">
+	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />
+	<cfargument name="addToken" type="boolean" default="false" hint="Should session tokens be added to the url?">
+	
+	<cfif arguments.preserveState>
+		<cfset saveState() />
+	</cfif>
+	
+	<cflocation url="#arguments.url#" addToken="#arguments.addToken#" />
+</cffunction>
+
+<cffunction name="forward" access="public" hint="Forwards the request to a given event name, optionally storing state across the redirect.">
+	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
+	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />
+	<cfargument name="addToken" type="boolean" default="false" hint="Should session tokens be added to the url?">
+	<cfargument name="append" default="" hint="The list of values to append." />
+	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+
+	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
+	
+	<cfset var url = urlManager.linkTo(this, arguments.eventName, arguments.append, arguments.anchor) />
+	
+	<cfset forwardToUrl(url, arguments.preserveState, arguments.addToken) /> 
 </cffunction>
 
 <!--- STATE (DATA BUS) MANAGEMENT --->
@@ -238,6 +303,17 @@
   <cfargument name="struct" type="struct" required="true" hint="I am the struct to merge." />
 
 	<cfreturn variables._state.merge(argumentCollection=arguments) />
+</cffunction>
+
+<cffunction name="saveState" access="public" returntype="void" output="false" hint="I save all state to session._modelglue.preservedState (if no exceptions are thrown!).">
+	<cfset variables._statePersister.save(this) />
+</cffunction>
+
+<cffunction name="loadState" access="public" returntype="void" output="false" hint="I save all state to session._modelglue.preservedState (if no exceptions are thrown!).">
+	<cftry>
+		<cfset variables._statePersister.load(this) />
+		<cfcatch></cfcatch>
+	</cftry>
 </cffunction>
 
 <!--- VIEW MANAGEMENT --->

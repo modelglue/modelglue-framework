@@ -2,6 +2,7 @@
 
 <controllers>
 	<controller	type="ModelGlue.gesture.modules.internal.population.controller.PopulationController">
+		<message-listener message="modelglue.contextPopulationNeeded" function="loadPreservedState" />	
 		<message-listener message="modelglue.contextPopulationNeeded" function="populateEventContext" />	
 	</controller>
 </controllers>

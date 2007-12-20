@@ -31,10 +31,43 @@
 	--->
 	<cfset this.phases = arrayNew(1) />
 
+	<!---
+		Configuration settings.
+	--->
+	<cfset this.configuration = structNew() />
+	
 	<cfreturn this />
 </cffunction>
 
 <!--- FRAMEWORK CONFIGURATION ELEMENTS --->
+
+<!--- Configuration Settings --->
+<cffunction name="setModelGlueConfiguration" output="false" hint="Sets the MG Configuration bean instance to use.">
+	<cfargument name="configuration" required="true" type="ModelGlue.gesture.configuration.ModelGlueConfiguration" />
+	
+	<cfset var source = arguments.configuration.getInstance() />
+	<cfset var i = "" />
+	
+	<cfloop collection="#source#" item="i">
+		<cfset setConfigSetting(i, source[i]) />
+	</cfloop>
+</cffunction>
+
+<cffunction name="setConfigSetting" output="false" hint="Sets a configuration setting.">
+	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
+	<cfargument name="settingValue" type="string" hint="The value to set." />
+	
+	<cfset this.configuration[arguments.settingName] = arguments.settingValue />
+</cffunction>
+
+<cffunction name="getConfigSetting" output="false" hint="Gets a configuration setting by name.">
+	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
+	
+	<cfreturn this.configuration[arguments.settingName] />
+</cffunction>
+
+
+
 
 <!--- These are often accessed directly to shrink the stack during execution.  --->
 <cffunction name="setRequestPhases" output="false" hint="Sets the request phases to be used in event context execution.">

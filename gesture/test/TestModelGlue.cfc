@@ -73,6 +73,9 @@
 	<cfset var mg = createBootstrappedModelGlue() />
 	<cfset var context = "" />
 
+	<cfset structClear(form) />
+	<cfset structClear(url) />
+
 	<cfset form.someFormKey = "someFormValue" />
 	<cfset url.someUrlKey = "someUrlValue" />
 	<cfset form.conflictKey = "formConflictValue" />
@@ -84,6 +87,24 @@
 	<cfset assertTrue(context.getValue("someUrlKey") eq "someUrlValue", "form value not populated") />
 	<cfset assertTrue(context.getValue("conflictKey") eq "formConflictValue", "conflict value not recognized from form") />
 		
+</cffunction>
+
+<cffunction name="testPhase_StatefulRedirectPopulation" returntype="void" access="public">
+	<cfset var mg = createBootstrappedModelGlue() />
+	<cfset var context = "" />
+
+	<cfset structClear(form) />
+	<cfset structClear(url) />
+	
+	<cfset form.conflictKey = "formConflictValue" />
+
+	<cfset session._modelgluePreservedState.preservedValueName = "preservedValue" /> 	
+	<cfset session._modelgluePreservedState.conflictKey = "sessionConflictValue" /> 	
+	<cfset context = mg.handleRequest()  />
+	
+	<cfset assertTrue(context.getValue("preservedValueName") eq "preservedValue", "preserved value not populated") />
+	<cfset assertFalse(structKeyExists(session, "_modelgluePreservedState"), "preserved state not cleared") />
+	<cfset assertTrue(context.getValue("conflictKey") eq "formConflictValue", "conflict value not recognized from form") />
 </cffunction>
 
 </cfcomponent>

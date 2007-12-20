@@ -12,6 +12,7 @@
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.loading.test.TestXMLColdSpringBootstrapper"))>
 
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.eventrequest.population.test.TestPopulator"))>
+	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.eventrequest.url.test.TestUrlManager"))>
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.eventrequest.test.TestEventContext"))>
 
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.eventhandler.test.TestEventHandler"))>

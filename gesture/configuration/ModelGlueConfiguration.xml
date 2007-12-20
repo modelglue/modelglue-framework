@@ -1,6 +1,17 @@
 <beans>
 
 <bean id="modelglue.ModelGlue" class="ModelGlue.gesture.ModelGlue">
+	<!-- 
+		Configuration to use.
+		
+		This should be defined in your application's local ColdSpring.xml file.
+		
+		If it's not, the definition provided later in this file will be used instead.
+	-->
+	<property name="modelGlueConfiguration">
+		<ref bean="modelGlue.ModelGlueConfiguration" />
+	</property>
+	
 	<!--
 		Array of Populators.  These populate the event values from form, url, etc.
 		
@@ -8,8 +19,8 @@
 	-->
 	<property name="eventPopulators">
 		<list>
-			<bean class="ModelGlue.gesture.eventrequest.population.UrlPopulator" />
-			<bean class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+			<ref bean="modelGlue.urlPopulator" />
+			<ref bean="modelGlue.formPopulator" />
 		</list>
 	</property>
 	
@@ -81,4 +92,42 @@
 	</constructor-arg>
 </bean>
 	
+<!--
+	Default URL manager to use.
+-->
+<bean id="modelglue.UrlManager" class="ModelGlue.gesture.eventrequest.url.UrlManager">
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+	
+<!--
+	URL Populator to use.
+-->
+<bean id="modelGlue.urlPopulator" class="ModelGlue.gesture.eventrequest.population.UrlPopulator">
+	<property name="urlManager">
+		<ref bean="modelglue.UrlManager" />
+	</property>
+</bean>
+
+<!--
+	Form Populator to use.
+-->
+<bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+
+<!--
+		Default MG config bean.
+-->
+<bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
+	<property name="defaultEvent">
+		<value>home</value>
+	</property>
+	<property name="reload">
+		<value>false</value>
+	</property>
+	<property name="debug">
+		<value>none</value>
+	</property>
+</bean>		
+
 </beans>

@@ -1,5 +1,10 @@
 <cfcomponent extends="org.cfcunit.framework.TestCase" output="false">
 
+<cffunction name="createBootstrapper" access="private">
+	<cfreturn createObject("component", "ModelGlue.gesture.loading.XMLColdSpringBootstrapper") />
+</cffunction>
+
+
 <cffunction name="testStructBasedPopulator" output="false" returntype="void" access="public">
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
 	<cfset var pop = createObject("component", "ModelGlue.gesture.eventrequest.population.StructBasedPopulator").init() />
@@ -12,8 +17,17 @@
 </cffunction>
 
 <cffunction name="testUrlBasedPopulator" output="false" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var urlManager = "" />
+	<cfset var mg = "" />
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
-	<cfset var pop = createObject("component", "ModelGlue.gesture.eventrequest.population.UrlPopulator").init() />
+	<cfset var pop = "" />
+	
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml" />
+
+	<cfset mg = boot.createModelGlue() />
+
+	<cfset pop = mg.getInternalBean("modelGlue.urlPopulator") />
 	
 	<cfset url.someKey = "someUrlValue" />
 	

@@ -236,7 +236,6 @@
 	<cfset assertTrue(ec.getViewCollection().getFinalView() eq "testEventHandler_ViewRendering", "view not rendered to last position.") />
 </cffunction>
 
-
 <!--- VIEW TESTS --->
 <cffunction name="testGetViewCollection" access="public" returntype="void">
 	<cfset var ec = createEventContext() />
@@ -294,5 +293,45 @@
 	<cfset assertTrue(ec.getView("outerView") eq "testRenderStackedViewContent", "view not rendered!") />
 </cffunction>
 
+<!--- LOCATION TESTS --->
+<cffunction name="testForwardToUrl" access="public" returntype="void">
+	<cfset var cfhttp = "" />
+	
+	<cfset var msg = createUUID() />
+	
+	<cfhttp url="http://localhost/gesture/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://localhost/gesture/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
+	
+	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#', got '#cfhttp.filecontent#'") />
+</cffunction>
+
+<cffunction name="testSaveState" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	
+	<cfset assertFalse(ec.getValue("someKey") eq "bar") />
+	
+	<cfset ec.setValue("someKey", "bar") />
+	
+	<cfset ec.saveState() />
+	
+	<cfset assertTrue(structKeyExists(session, "_modelgluePreservedState"), "_modelgluePreservedState not in session") />
+	<cfset assertTrue(structKeyExists(session._modelgluePreservedState, "someKey"), "someKey not in preservedState") />
+	<cfset assertTrue(session._modelgluePreservedState.someKey eq "bar", "someKey's value is not 'bar'") />
+</cffunction>
+
+<cffunction name="testLoadState" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	
+	<cfset assertFalse(ec.getValue("someKey") eq "bar") />
+	
+	<cfset ec.setValue("someKey", "bar") />
+	
+	<cfset ec.saveState() />
+
+	<cfset ec = createEventContext() />
+	
+	<cfset ec.loadState() />
+	
+	<cfset assertTrue(ec.getValue("someKey") eq "bar", "state not loaded: somekey != bar") />
+</cffunction>
 
 </cfcomponent>
