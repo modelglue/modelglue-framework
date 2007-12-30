@@ -1,0 +1,18 @@
+<modelglue>
+	
+<controllers>
+	<controller id="configurationController"
+						  type="ModelGlue.gesture.modules.internal.configuration.controller.ConfigurationController">
+		<message-listener message="modelglue.readyForModuleLoading" function="loadInitialXMLModule" />
+	</controller>	
+</controllers>
+	
+<event-handlers>
+	<event-handler name="modelglue.readyForModuleLoading">
+		<broadcasts>
+			<message name="modelglue.readyForModuleLoading" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>

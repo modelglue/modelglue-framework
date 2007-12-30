@@ -1,5 +1,11 @@
 <modelglue>
 
+<config>
+	<setting name="arbitrarySetting" value="arbitrarySettingValue" />
+	<setting name="viewMappings" value="viewMappingsValue" />
+	<setting name="beanMappings" value="/ModelGlue/gesture/module/test/additionalColdSpringBeans.xml" />
+</config>
+	
 <controllers>
 	<controller id="controller" type="ModelGlue.gesture.module.test.Controller">
 		<message-listener message="messageName" function="listener" />

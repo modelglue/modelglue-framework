@@ -334,4 +334,50 @@
 	<cfset assertTrue(ec.getValue("someKey") eq "bar", "state not loaded: somekey != bar") />
 </cffunction>
 
+<!--- TRACE TESTS --->
+<cffunction name="testTrace" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	
+	<cfset var trace = ec.getTrace() />
+	
+	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq 0, "initial trace statement incorrect")>
+
+	<cfset ec.trace("typeVal", "messageVal", "tagVal", "traceTypeVal") />
+	
+	<cfset trace = ec.getTrace() />
+	
+	<cfset assertTrue(arrayLen(trace) eq 2, "second trace statement not added") />
+	<cfset assertTrue(trace[2].time gt trace[1].time, "time not greater!") />
+	<cfset assertTrue(trace[2].type eq "typeVal", "typeVal incorrect") />
+	<cfset assertTrue(trace[2].message eq "messageVal", "messageVal incorrect") />
+	<cfset assertTrue(trace[2].tag eq "tagVal", "tagVal incorrect") />
+	<cfset assertTrue(trace[2].traceType eq "traceTypeVal", "traceTypeVal incorrect") />
+</cffunction>
+
+<!--- BEAN POPULATION TEST --->
+<cffunction name="testMakeEventBeanAllFields" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	<cfset var bean = createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.test.Bean").init() />
+	
+	<cfset ec.setValue("implicitProp", "implicitPropValue") />
+	<cfset ec.setValue("explicitProp", "explicitPropValue") />
+	
+	<cfset ec.makeEventBean(bean) />
+	
+	<cfset assertTrue(bean.explicitProp eq "explicitPropValue", "explicit prop not set") />
+	<cfset assertTrue(bean.getImplicitProp() eq "implicitPropValue", "implicit prop not set") />
+</cffunction>
+
+<cffunction name="testMakeEventBeanWithExplicitlyListedFields" access="public" returntype="void">
+	<cfset var ec = createEventContext() />
+	<cfset var bean = createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.test.Bean").init() />
+	
+	<cfset ec.setValue("explicitProp", "explicitPropValue") />
+	
+	<cfset ec.makeEventBean(bean, "explicitProp") />
+	
+	<cfset assertTrue(bean.explicitProp eq "explicitPropValue", "explicit prop not set") />
+	<cfset assertTrue(bean.getImplicitProp() eq "", "implicit prop set when not whitelisted!") />
+</cffunction>
+
 </cfcomponent>

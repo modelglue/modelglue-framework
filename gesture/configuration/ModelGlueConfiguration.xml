@@ -51,10 +51,54 @@
 					</list>
 				</constructor-arg>
 			</bean>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration" />
-			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation" />
+			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/configuration/config/configuration.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/invocation/config/invocation.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
 			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
 		</list>
+	</property>
+	
+	<!-- IoC Adapter to use -->
+	<property name="iocAdapter">
+		<ref bean="modelglue.iocAdapter" />
+	</property>
+
+	<!-- 
+		View Renderer to use.
+	-->
+	<property name="viewRenderer">
+		<ref bean="modelglue.viewRenderer" />
+	</property>
+
+	<!-- 
+		State Persister to use
+	-->
+	<property name="statePersister">
+		<ref bean="modelglue.statePersister" />
+	</property>
+
+	<!-- 
+		Log Renderer to use
+	-->
+	<property name="logRenderer">
+		<bean class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
 	</property>
 </bean>
 
@@ -83,6 +127,9 @@
 	with the type name will instantiate it.  See TypeDefaultingMapBasedFactory.
 -->
 <bean id="modelglue.EventHandlerFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+	<constructor-arg name="createSingletons">
+		<value>false</value>
+	</constructor-arg>
 	<constructor-arg name="registeredClasses">
 		<map>
 			<entry key="EventHandler">
@@ -115,6 +162,21 @@
 -->
 <bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
 
+<!--
+	IoC Adapter to use
+-->
+<bean id="modelGlue.iocAdapter" class="ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter" />
+
+<!--
+	View renderer
+-->
+<bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer" />
+
+<!--
+	State persister
+-->
+<bean id="modelglue.statePersister" class="ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister" />
+	
 <!--
 		Default MG config bean.
 -->

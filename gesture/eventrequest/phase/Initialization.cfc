@@ -2,6 +2,8 @@
 						 hint="Represents the beginning of the Model-Glue lifecycle.  Execution only does work when Model-Glue is not initialized."
 >
 	
+<cfset this.name = "Initialization" />
+	
 <cffunction name="execute" returntype="void" output="false" hint="Executes the request phase.">
 	<cfargument name="eventContext" hint="I am the event context to act upon.  Duck typed for speed.  Should have no queued events when execute() is called, but this isn't checked (to save time)." />
 	

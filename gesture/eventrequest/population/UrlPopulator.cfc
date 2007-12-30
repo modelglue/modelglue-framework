@@ -11,6 +11,8 @@
 	<cfargument name="context" hint="EventContext to populate." />
 	
 	<cfset super.populate(context, variables._urlManager.extractValues()) />
+	
+	<cfset variables._urlManager.populateLocation(arguments.context) />
 </cffunction>
 
 </cfcomponent>

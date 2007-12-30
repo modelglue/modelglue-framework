@@ -1,0 +1,11 @@
+<modelglue>
+	
+<event-handlers>
+	<event-handler name="modelglue.onRequestStart">
+		<broadcasts>
+			<message name="onRequestStart" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>

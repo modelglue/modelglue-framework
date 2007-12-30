@@ -10,6 +10,7 @@
 	<cfargument name="loadedModules" type="struct" default="#structNew()#" hint="Location-keyed collection of modules loaded _during this loading request_ (prevents infinitely recursive loading)." />
 	
 	<cfset var xml = "" />
+	<cfset var settingBlocks = "" />
 	<cfset var controllerBlocks = "" />
 	<cfset var ehBlocks = "" />
 	<cfset var modules = "" />
@@ -52,6 +53,13 @@
 		<cfset loader = moduleLoaderFactory.create("XML") />
 		<cfset loader.load(arguments.modelglue, includes[i].xmlAttributes.template, arguments.loadedModules) />
 	</cfloop>
+
+	<!--- Load settings --->
+	<cfset settingBlocks = xmlSearch(xml, "/modelglue/config") />
+
+	<cfloop from="1" to="#arrayLen(settingBlocks)#" index="i">
+		<cfset loadSettings(arguments.modelglue, settingBlocks[i]) />
+	</cfloop>
 	
 	<!--- Load controllers --->
 	<cfset controllerBlocks = xmlSearch(xml, "/modelglue/controllers") />
@@ -69,6 +77,67 @@
 </cffunction>
 
 <!--- PRIVATE --->
+<cffunction name="loadSettings" output="false" hint="Loads settings from <settings> block.">
+	<cfargument name="modelglue" />
+	<cfargument name="settingsXML" />
+	
+	<cfset var settingXml = "" />
+	<cfset var val = "" />
+	<cfset var i = "" />
+	<cfset var j = "" />
+	<cfset var iocAdapter = "" />
+	
+	<!--- First pass through settings to catch some (beanFactoryLoader) that must be caught _first_ --->
+	<cfloop from="1" to="#arrayLen(arguments.settingsXML.xmlChildren)#" index="i">
+		<cfset settingXml = arguments.settingsXML.xmlChildren[i] />
+		
+		<cfswitch expression="#settingXml.xmlAttributes.name#">
+			<!--- 
+				Reverse-compatibility hook:  "beanFactoryLoader" is a 1.x setting
+				that allowed switching between ChiliBeans and ColdSpring.
+				
+				Now, if it's detected and set to the old ChiliBeans loader (which 
+				doesn't even exist anymore!), we shift the IoC adapter to the
+				ChiliBeansAdapter.
+			---> 
+			<cfcase value="beanFactoryLoader">
+				<cfif settingXml.xmlAttributes.value eq "ModelGlue.Core.ChiliBeansLoader">
+					<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
+					
+					<!--- If we're not currently using ChiliBeans, shift to it. --->
+					<cfif getMetadata(iocAdapter).name neq "ModelGlue.Bean.BeanFactory">
+						<cfset iocAdapter = createObject("component", "ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter").init("") />
+						<cfset arguments.modelglue.setIocAdapter(iocAdapter) />
+					</cfif>
+					
+				</cfif>
+			</cfcase>
+		</cfswitch>
+	</cfloop>
+	
+	<cfloop from="1" to="#arrayLen(arguments.settingsXML.xmlChildren)#" index="i">
+		<cfset settingXml = arguments.settingsXML.xmlChildren[i] />
+		
+		<cfswitch expression="#settingXml.xmlAttributes.name#">
+			<cfcase value="beanMappings">
+				<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
+				<cfloop list="#settingXml.xmlAttributes.value#" index="j">
+						<cfset iocAdapter.loadBeanDefinitionsFromFile(j) />
+				</cfloop>
+			</cfcase>
+			<cfcase value="viewMappings">
+				<cfset val = arguments.modelGlue.getConfigSetting("viewMappings") />
+				<cfset val = listAppend(val, settingXml.xmlAttributes.value) />
+				<cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(val) />
+				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />
+			</cfcase>
+			<cfdefaultcase>
+				<cfset arguments.modelglue.setConfigSetting(settingXml.xmlAttributes.name, settingXml.xmlAttributes.value) />
+			</cfdefaultcase>
+		</cfswitch>
+	</cfloop>
+</cffunction>	
+
 <cffunction name="loadControllers" output="false" hint="Loads controllers from <controllers> block.">
 	<cfargument name="modelglue" />
 	<cfargument name="controllersXML" />
@@ -80,7 +149,9 @@
 	
 	<cfloop from="1" to="#arrayLen(arguments.controllersXML.xmlChildren)#" index="i">
 		<cfset ctrlXml = arguments.controllersXML.xmlChildren[i] />
-		<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init() />
+		
+		<cfparam name="ctrlXml.xmlAttributes.id" default="#ctrlXml.xmlAttributes.type#" />
+		<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
 	
 		<cfloop from="1" to="#arrayLen(ctrlXml.xmlChildren)#" index="j">
 			<cfset listXml = ctrlXml.xmlChildren[j] />
@@ -108,6 +179,8 @@
 		<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 
 		<cfset ehInst.name = ehXml.xmlAttributes.name />
+		
+		<cflog text="EH Instance: #ehInst.name#" />
 		
 		<!--- Load messages --->
 		<cfset childXml = xmlSearch(ehXml, "broadcasts") />
@@ -215,14 +288,16 @@
 	<cfset var valueInst = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
-	
-	
+
 	<cfloop from="1" to="#arrayLen(arguments.viewsXml.xmlChildren)#" index="i">
 		<cfset viewXml = arguments.viewsXml.xmlChildren[i] />
 		<cfset viewInst = createObject("component", "ModelGlue.gesture.eventhandler.View") />
 	
 		<cfset viewInst.name = viewXml.xmlAttributes.name />
 		<cfset viewInst.template = viewXml.xmlAttributes.template />
+		
+		<cfparam name="viewXml.xmlAttributes.append" default="false" />
+		<cfset viewInst.append = viewXml.xmlAttributes.append />
 		
 		<cfloop from="1" to="#arrayLen(viewXml.xmlChildren)#" index="j">
 			<cfset valueXml = viewXml.xmlChildren[j] />
@@ -243,7 +318,6 @@
 		
 		<cfset arguments.eventHandler.addView(viewInst) />
 	</cfloop>
-
 </cffunction>
 
 </cfcomponent>

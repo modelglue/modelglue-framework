@@ -86,7 +86,6 @@
 	
 </cffunction>
 
-
 <cffunction name="testIncludeStyleMasterXMLModule" returntype="void" access="public">
 	<cfset var boot = createBootstrapper() />
 	<cfset var mg = "" />
@@ -142,4 +141,67 @@
 	<!--- Not going into an infinite loop = passing. --->	
 </cffunction>
 
+<cffunction name="testSettingParsing_arbitrary" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/simpleXmlModule.xml") />
+
+	<cfset assertTrue(mg.getConfigSetting("arbitrarySetting") eq "arbitrarySettingValue", "arbitrary setting not set") />
+</cffunction>
+
+<cffunction name="testSettingParsing_viewMappings" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	<cfset var viewRenderer = "" />
+	
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+
+	<cfset mg.setConfigSetting("viewMappings", "initialViewMapping") />
+	
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/simpleXmlModule.xml") />
+
+	<cfset assertTrue(mg.getConfigSetting("viewMappings") eq "initialViewMapping,viewMappingsValue", "viewMappingsValue not appended (was: '#mg.getConfigSetting("viewMappings")#')") />
+	
+	<cfset viewRenderer = mg.getInternalBean("modelglue.viewRenderer") />
+	
+	<cfset assertTrue(arrayToList(viewRenderer.getViewMappings()) eq "initialViewMapping,viewMappingsValue", "viewMappingsValue not in viewRenderer's mappings (was: '#arrayToList(viewRenderer.getViewMappings())#')") />
+	
+</cffunction>
+
+<cffunction name="testSettingParsing_beanMappings_coldSpring" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+
+	<cfset mg.setConfigSetting("viewMappings", "initialViewMapping") />
+	
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/simpleXmlModule.xml") />
+	
+	<cfset obj = mg.getBean("mapCollection") />
+
+	<!--- If we don't throw error, we made it. --->
+</cffunction>
+	
 </cfcomponent>

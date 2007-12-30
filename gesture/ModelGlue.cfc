@@ -1,4 +1,6 @@
-<cfcomponent output="false" hint="The core of the Model-Glue framework.  Unlike earlier versions, I'm basically just an event dispatcher and a way to get to other core components."> 
+<cfcomponent output="false" extends="ModelGlue.ModelGlue"
+	hint="The core of the Model-Glue framework.  Unlike earlier versions, I'm basically just an event dispatcher and a way to get to other core components."
+> 
 
 <!---
  Some properties are checked on _every_ request.  In this case, they're 
@@ -66,8 +68,11 @@
 	<cfreturn this.configuration[arguments.settingName] />
 </cffunction>
 
+<cffunction name="hasConfigSetting" output="false" hint="States if a given config setting exists.">
+	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
 
-
+	<cfreturn structKeyExists(this.configuration, arguments.settingName) />
+</cffunction>
 
 <!--- These are often accessed directly to shrink the stack during execution.  --->
 <cffunction name="setRequestPhases" output="false" hint="Sets the request phases to be used in event context execution.">
@@ -80,6 +85,21 @@
 	<cfset this.populators = arguments.populators />
 </cffunction>
 
+<cffunction name="setViewRenderer" output="false" hint="Sets the view renderer to use to render output.">
+	<cfargument name="viewRenderer" output="false" />
+	<cfset variables._viewRenderer = arguments.viewRenderer />
+</cffunction>
+
+<cffunction name="setStatePersister" output="false" hint="Sets the state persister to use to maintain state during redirects.">
+	<cfargument name="statePersister" output="false" />
+	<cfset variables._statePersister = arguments.statePersister />
+</cffunction>
+
+<cffunction name="setLogRenderer" output="false" hint="Sets the log renderer to use to render the request log.">
+	<cfargument name="logRenderer" output="false" />
+	<cfset variables._logRenderer = arguments.logRenderer />
+</cffunction>
+
 <!--- This is the internal bean factory (may be same as the one used by getBean()). --->
 <cffunction name="setInternalBeanFactory" output="false" hint="Sets an inversion of control container to use for internal class resolution.">
 	<cfargument name="beanFactory" type="any" required="true" />
@@ -90,11 +110,31 @@
 	<cfreturn variables._internalBeanFactory.getBean(arguments.name) />
 </cffunction>
 
+<cffunction name="setIocAdapter" output="false" hint="Sets the IoC adapter to use, wrapping the IoC bean factory used by getBean() (and getConfigBean()).">
+	<cfargument name="iocAdapter" output="false" hint="iocAdapter implementation." />
+	
+	<cfset variables._iocAdapter = arguments.iocAdapter />
+</cffunction>
+<cffunction name="getIocAdapter" output="false" hint="Gets the IoC adapter in use (wraps the IoC bean factory used by getBean() (and getConfigBean())).">
+	<cfreturn variables._iocAdapter />
+</cffunction>
+<cffunction name="getBean" output="false" hint="Gets a bean from the IoC adapter.  Replaces the deprecated getConfigBean().">
+	<cfargument name="name" output="false" hint="The name / id of the bean to retrieve." />
+	
+	<cfreturn variables._iocAdapter.getBean(arguments.name) />
+</cffunction>
+<cffunction name="getConfigBean" output="false" hint="Deprecated.  Use getBean().">
+	<cfargument name="name" output="false" hint="The name / id of the bean to retrieve." />
+	
+	<cfreturn getBean(arguments.name) />
+</cffunction>
 
 <!--- EVENT INVOCATION --->
 <cffunction name="handleRequest" output="false" hint="Runs an event request, returning the EventContext.  Duck-typed return for speed.">
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
-										modelglue=this
+										modelglue=this,
+										viewRenderer=variables._viewRenderer,
+										statePersister=variables._statePersister
 						 			 ) 
 	/>
 	
@@ -150,6 +190,19 @@
 	<cfargument name="eventHandlerName" type="string" required="true" hint="The event handler to return." />
 	
 	<cfreturn this.eventHandlers[arguments.eventHandlerName] />
+</cffunction>
+
+<cffunction name="hasEventHandler" output="false" hint="Does an event handler by the given name exist?">
+	<cfargument name="eventHandlerName" type="string" required="true" hint="The event handler in question." />
+	
+	<cfreturn structKeyExists(this.eventHandlers, arguments.eventHandlerName) />
+</cffunction>
+
+<!--- LOGGING --->
+<cffunction name="renderContextLog" output="false" returntype="string" hint="I return a rendered version of an EventContext's request log.">
+	<cfargument name="eventContext" />
+	
+	<cfreturn variables._logRenderer.renderLog(arguments.eventContext) />
 </cffunction>
 
 </cfcomponent>

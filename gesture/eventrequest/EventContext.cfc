@@ -1,4 +1,4 @@
-<cfcomponent output="false" hint="I represent an event request and its context.  I am what you see as arguments.event.">
+<cfcomponent output="false" extends="ModelGlue.Core.Event" hint="I represent an event request and its context.  I am what you see as arguments.event.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new EventContext.">
 	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />
@@ -6,13 +6,18 @@
 	<cfargument name="requestPhases" default="#arrayNew(1)#" hint="Request phases." />
 	<cfargument name="modelglue" required="false" hint="The framework itself." />
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
+	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
+	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.BeanUtilsPopulator").init()#" hint="Populator used by makeEventBean()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
-	<cfset variabels._currentEventHandler = "" />
+	<cfset variables._currentEventHandler = "" />
+	<cfset variables._currentMessage = "" />
+	<cfset variables._trace = arrayNew(1) />
+	<cfset variables._created = getTickCount() />
 
 	<cfif structKeyExists(arguments, "modelglue")>
 		<!--- External maps of listeners and handlers --->
@@ -34,12 +39,18 @@
 	
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
+	<cfset variables._lastEventHandler = "" />
 	<cfset variables._nextView = "" />
+	<cfset variables._lastView = "" />
 	
 	<cfset setStatePersister(arguments.statePersister) />
-	
+	<cfset setViewRenderer(arguments.viewRenderer) />
+	<cfset setBeanPopulator(arguments.beanPopulator) />
+
 	<cfset resetResults() />
 
+	<cfset trace("Creation", "Event Context Created") />
+	 
 	<cfreturn this />
 </cffunction>
 
@@ -71,6 +82,12 @@
 	<cfset variables._statePersister = arguments.statePersister />
 </cffunction>
 
+<cffunction name="setBeanPopulator" output="false" hint="I set Populator used by makeEventBean.">
+	<cfargument name="beanPopulator" />
+	
+	<cfset variables._beanPopulator = arguments.beanPopulator />
+</cffunction>
+
 <cffunction name="getModelGlue" output="false" hint="Gets the instance of ModelGlue associated with this context.">
 	<cfreturn variables._modelGlue />
 </cffunction>
@@ -81,23 +98,28 @@
 	
 	<cfset var link = structNew() />
 
+	<cflog text="Adding event handler: #eventHandler.name#" />
+	
 	<cfset link.eventHandler = arguments.eventHandler />
 	<cfset link.next = "" />
 
 	<cfif variables._readyForExecution and not isObject(variables._initialEvent)>
 		<cfset variables._initialEvent = arguments.eventHandler />
 	</cfif>
-	
+
 	<cfif not isStruct(variables._nextEventHandler)>
 		<cfset variables._nextEventHandler = link />
+		<cfset variables._lastEventHandler = link />
 	<cfelse>
-		<cfset variables._nextEventHandler.next = link />
+		<cfset variables._lastEventHandler.next = link />
+		<cfset variables._lastEventHandler = link />
 	</cfif>	
 </cffunction>
 
 <cffunction name="getNextEventHandler" access="public" output="false" hint="Returns the next event handler in the queue.">
 	<cfset var eh = variables._nextEventHandler.eventHandler />
 	<cfset variables._nextEventHandler = variables._nextEventHandler.next />
+	
 	<cfreturn eh />
 </cffunction>
 
@@ -112,15 +134,38 @@
 <!--- REQUEST EXECUTION --->
 <cffunction name="execute" output="false" hint="Executes the event request.  Duck typed for speed:  returns the request itself.">
 	<cfset var i = "" />
+	<cfset var exceptionEventHandler = "" />
 	
-	<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
-		<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
-			<cfset variables._requestPhases[i].execute(this) />
-		</cfloop>
-	<cfelse>
-		<cfset executeEventQueue() />
-	</cfif>
-		
+	<!--- Try to execute the event phases or nonphased request --->
+	<cftry>
+		<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
+			<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
+				<cfset this.trace(variables._requestPhases[i].name, "Beginning request phase.") /> 
+				<cfset variables._requestPhases[i].execute(this) />
+				<cfset this.trace(variables._requestPhases[i].name, "Request phase complete.") /> 
+			</cfloop>
+		<cfelse>
+			<cfset executeEventQueue() />
+		</cfif>
+		<cfcatch>
+			<!--- Bus the exception --->
+			<cfset setValue("exception", cfcatch) />
+			
+			<!--- Trace the exception.  Maybe people will like this ;) --->
+			<cfset trace("Exception", cfcatch) />
+			
+			<!--- If we're not running the exception handler, queue the exception handler. --->
+			<cfset exceptionEventHandler = variables._modelGlue.getConfigSetting("defaultExceptionHandler") />
+			
+			<cfif getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
+				<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
+				<cfset executeEventQueue() />
+			<cfelse>
+				<cfrethrow />
+			</cfif>
+		</cfcatch>
+	</cftry>
+	
 	<cfreturn this />
 </cffunction>
 
@@ -149,11 +194,19 @@
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
+	<cfset this.trace("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHAndler.name#"">") /> 
+	
 	<!--- Invoke message broadcasts. --->
 	<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages)#" index="i">
 		<cfset message = arguments.eventHandler.messages[i] />
+		
+		<cfset variables._currentMessage = message />
+
+		<cfset this.trace("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
+
 		<cfif structKeyExists(variables._listeners, message.name)>
 			<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
+				<cfset this.trace("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
 				<cfset variables._listeners[message.name][j].invokeListener(this) />
 			</cfloop>
 		</cfif>
@@ -168,6 +221,8 @@
 			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[results[i]])#" index="j">
 				<cfset result = arguments.eventHandler.results[results[i]][j] />
 				
+				<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
+
 				<cfif result.redirect>
 					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
 				<cfelse>
@@ -182,6 +237,8 @@
 		<cfset results = arguments.eventHandler.results[""] />
 		<cfloop from="1" to="#arrayLen(results)#" index="i">
 				<cfset result = results[i] />
+
+				<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 				
 				<cfif result.redirect>
 					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
@@ -215,6 +272,17 @@
 
 <cffunction name="getInitialEventHandlerName" access="private" hint="Returns the name of the user-requested event handler.">
 	<cfreturn getInitialEventHandler().name />
+</cffunction>
+
+<cffunction name="getArgument" access="public" hint="Gets a value of an argument from the currently broadcast message.">
+	<cfargument name="name" type="string" required="true" />
+	<cfargument name="default" type="string" required="false" />
+	
+	<cfif structKeyExists(arguments, "default")>
+		<cfreturn variables._currentMessage.arguments.getValue(arguments.name, arguments.default) />
+	<cfelse>
+		<cfreturn variables._currentMessage.arguments.getValue(arguments.name) />
+	</cfif>
 </cffunction>
 
 <!--- RESULT MANAGEMENT --->
@@ -351,27 +419,90 @@
 	<cfset link.view = arguments.view />
 	<cfset link.next = "" />
 
+	<cfset trace("View Queue", "View queued: #view.template#") />
+	
 	<cfif not isStruct(variables._nextView)>
 		<cfset variables._nextView = link />
+		<cfset variables._lastView = link />
 	<cfelse>
-		<cfset variables._nextView.next = link />
+		<cfset variables._lastView.next = link />
+		<cfset variables._lastView = link />
 	</cfif>	
+	
 </cffunction>
 
 <cffunction name="getNextView" access="private" output="false" hint="Returns the next view in the queue.">
 	<cfset var view = variables._nextView.view />
 	<cfset variables._nextView = variables._nextView.next />
+
 	<cfreturn view />
 </cffunction>
 
-
 <cffunction name="renderViewQueue" access="private" returnType="void" output="false" hint="I render all views currently in the queue.">
 	<cfset var view = "" />
-	
+
 	<cfloop condition="isStruct(variables._nextView)">
 		<cfset view = getNextView() />
+
+		<cfset this.trace("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
+
 		<cfset renderView(view) />
 	</cfloop>
+</cffunction>
+
+<cffunction name="getLastRendereredView" access="public" returntype="string" output="false" hint="Gets the last renderered view content.">
+	<cfreturn variables._viewCollection.getFinalView() />
+</cffunction>
+
+<!--- TRACE LOG --->
+<cffunction name="getTrace" access="public" returntype="array" output="false" hint="Gets the trace log for the event context.">
+	<cfreturn variables._trace />
+</cffunction>
+
+<cffunction name="getCreated" access="public" returntype="numeric" output="false" hint="Gets the tick count for when this event context was initialized.">
+	<cfreturn variables._created />
+</cffunction>
+
+<cffunction name="trace" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
+  <cfargument name="type" type="string" />
+  <cfargument name="message" type="any" />
+  <cfargument name="tag" type="string" default="" />
+  <cfargument name="traceType" type="string" default="OK" />
+
+	<cfset arguments.time = getTickCount() />
+	
+	<cfif not isSimpleValue(arguments.message)>
+		<cfsavecontent variable="arguments.message"><cfdump var="#arguments.message#" /></cfsavecontent>
+	</cfif>
+	
+	<cfset arrayAppend(variables._trace, arguments) />
+</cffunction>
+
+
+<!--- BEAN POPULATION --->
+<cffunction name="makeEventBean" access="public" returnType="any" output="false" hint="Populates a CFC instance's properties with like-named event values (or the list of values passed in the VALUES argument).">
+	<cfargument name="target" type="any" hint="An instance of a CFC or the name of a CFC to instantiate and populate." />
+	<cfargument name="fields" type="string" default="" hint="(Optional) List of properties to populate." />
+	
+	<cfset var source = "" />
+	<cfset var i = "" />
+	
+	<!--- 
+				TODO:  Building this secondary struct for a field-limited population is inefficient.  
+				BeanUtils should be updated with this feature, and then the populator adapter
+				changed.
+	--->
+	<cfif len(fields)>
+		<cfset source = structNew() />
+		
+		<cfloop list="#arguments.fields#" index="i">
+			<cfset source[i] = getValue(i) />
+		</cfloop>
+	<cfelse>
+		<cfset source = getAll() />
+	</cfif>
+	
+	<cfreturn variables._beanPopulator.populate(arguments.target, source) />
 </cffunction>
 
 </cfcomponent>
