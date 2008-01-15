@@ -21,6 +21,11 @@
 	<cfset this.messageListeners = structNew() />
 
 	<!---
+		Map of registered controllers
+	--->
+	<cfset this.controllers = structNew() />
+	
+	<!---
 		The registry of event handlers in Model-Glue. 
 		
 		In keeping with the "simple" theme of MG3, it's just a struct keyed
@@ -113,6 +118,9 @@
 	<cfargument name="beanFactory" type="any" required="true" />
 	<cfset variables._internalBeanFactory = beanFactory />	
 </cffunction>
+<cffunction name="getInternalBeanFactory" output="false" hint="Gets the internal bean factory.">
+	<cfreturn variables._internalBeanFactory />
+</cffunction>
 <cffunction name="getInternalBean" output="false" hint="Gets a bean from the internal IoC container.">
 	<cfargument name="name" type="string" required="true" />
 	<cfreturn variables._internalBeanFactory.getBean(arguments.name) />
@@ -183,6 +191,20 @@
 	<cfargument name="messageName" type="string" required="true" hint="The message name to return listeners for." />
 	
 	<cfreturn this.messageListeners[arguments.messageName] />
+</cffunction>
+
+<!--- CONTROLLER MANAGEMENT --->
+<cffunction name="addController" output="false" returntype="void" hint="Registers a controller with the framework.">
+	<cfargument name="controllerId" type="string" hint="Unique ID.  Will replace existing controller in the controller registry, but _not_ existing event listeners!">
+	<cfargument name="controllerInstance" type="any" />
+	
+	<cfset this.controllers[arguments.controllerId] = arguments.controllerInstance />
+</cffunction>
+
+<cffunction name="getController" output="false" returntype="any" hint="Gets a controller by id.">
+	<cfargument name="controllerId" type="string" />
+	
+	<cfreturn this.controllers[arguments.controllerId] />
 </cffunction>
 
 <!--- EVENT HANDLER MANAGEMENT --->

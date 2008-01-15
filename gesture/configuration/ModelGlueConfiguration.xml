@@ -102,6 +102,11 @@
 	</property>
 </bean>
 
+<!-- 
+	Injector that performs "beans"-scope injection and autowiring for controllers.
+-->
+<bean id="modelglue.controllerBeanInjector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
+	
 <!--
 	Factory responsible for creating ModuleLoader implementations.
 	

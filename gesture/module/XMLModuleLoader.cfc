@@ -145,20 +145,41 @@
 	<cfargument name="modelglue" />
 	<cfargument name="controllersXML" />
 	
+	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.controllerBeanInjector") />
 	<cfset var ctrlInst = "" />
 	<cfset var ctrlXml = "" />
 	<cfset var listXml = "" />
+	<cfset var ctrlVars = "" />
+	<cfset var beanId = "" />
 	<cfset var i = "" />
 	
 	<cfloop from="1" to="#arrayLen(arguments.controllersXML.xmlChildren)#" index="i">
 		<cfset ctrlXml = arguments.controllersXML.xmlChildren[i] />
 		
 		<cfparam name="ctrlXml.xmlAttributes.id" default="#ctrlXml.xmlAttributes.type#" />
+		<cfparam name="ctrlXml.xmlAttributes.beans" default="" />
 		<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
-	
+
+		<!--- Create injection hooks --->
+		<cfset injector.createInjectionHooks(ctrlInst) />
+		
+		<!--- Always create the "beans" scope, even though it's explicitly created if needed by inject() --->
+		<cfset ctrlVars = ctrlInst._modelGlueBeanInjection_getVariablesScope() />
+		<cfset ctrlVars.beans = structNew() />
+
+		<!--- Perform bean injection --->
+		<cfloop list="#ctrlXml.xmlAttributes.beans#" index="beanId">
+			<cfset injector.injectBean(beanId, ctrlInst) />
+		</cfloop>
+
+		<!--- Perform autowiring --->
+		<cfset injector.autowire(ctrlInst) />
+				
+		<!--- Add event listeners --->
 		<cfloop from="1" to="#arrayLen(ctrlXml.xmlChildren)#" index="j">
 			<cfset listXml = ctrlXml.xmlChildren[j] />
 			<cfset modelglue.addEventListener(listXml.xmlAttributes.message, ctrlInst, listXml.xmlAttributes.function) />
+			<cfset modelglue.addController(ctrlXml.xmlAttributes.id, ctrlInst) />
 		</cfloop>
 	</cfloop>
 </cffunction>	

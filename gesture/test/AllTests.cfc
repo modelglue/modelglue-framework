@@ -23,7 +23,9 @@
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.collections.test.TestViewCollection"))>
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.collections.test.TestMapCollectionImplementation"))>
 
+	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.externaladapters.beaninjection.test.TestColdSpringBeanInjector")) />	
 	<cfset suite.addTestSuite(CreateObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.test.TestBeanUtilsPopulator")) />	
+
 	<cfreturn suite/>
 </cffunction>
 

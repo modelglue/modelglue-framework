@@ -9,10 +9,15 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
-	
+	<cfset var controllerVars = "" />
+	<cfset var beanFactory = "" />
+
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
@@ -25,31 +30,16 @@
 	<cfset obj = obj[1] />
 	<cfset assertTrue(GetMetadata(obj.target).name eq "ModelGlue.gesture.module.test.Controller", "Controller not of right type") />
 	<cfset assertTrue(obj.listenerFunction eq "listener", "listener function not right name") />
-	
+
+	<!--- Test controller bean injection / autowiring --->
+	<cfset ctrl = mg.getController("controller") />
+	<cfset assertTrue(structKeyExists(ctrl, "_modelGlueBeanInjection_getVariablesScope"), "injection hooks not created in controller") />
+	<cfset controllerVars = ctrl._modelGlueBeanInjection_getVariablesScope() />
+	<cfset assertTrue(structKeyExists(controllerVars, "beans"), "beans scope not created") />
+	<cfset assertTrue(structKeyExists(controllerVars.beans, "bean") and isObject(controllerVars.beans.bean), "beans.bean not existent or not object") />
+	<cfset assertTrue(isObject(ctrl.getBean2()), "controller not autowired") />
 	
 	<!--- Test event handler loading --->
-	
-	<!---
-	<event-handlers>
-		<event-handler name="eventHandlerName">
-			<broadcasts>
-				<message name="messageName">
-					<argument name="argumentName" value="argumentValue" />
-				</message>
-			</broadcasts>
-			<results>
-				<result name="resultName" do="eventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
-				<result do="implicitEventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
-			</results>
-			<views>
-				<include name="viewName" template="templateName">
-					<value name="valueName" value="valueValue" overwrite="false" />
-				</include>
-			</views>
-		</event-handler>
-	</event-handlers>
-	--->
-	
 	<cfset obj = mg.getEventHandler("eventHandlerName") />
 	<cfset assertTrue(isObject(obj), "event handler not object!") />
 	
@@ -91,10 +81,14 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
@@ -110,10 +104,14 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
@@ -129,6 +127,7 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
@@ -146,10 +145,14 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 
@@ -164,10 +167,14 @@
 	<cfset var loader = "" />
 	<cfset var obj = "" />
 	<cfset var viewRenderer = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 
@@ -188,10 +195,14 @@
 	<cfset var mg = "" />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
 	
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	
 	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 

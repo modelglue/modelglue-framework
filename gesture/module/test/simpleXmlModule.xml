@@ -7,7 +7,7 @@
 </config>
 	
 <controllers>
-	<controller id="controller" type="ModelGlue.gesture.module.test.Controller">
+	<controller id="controller" type="ModelGlue.gesture.module.test.Controller" beans="bean">
 		<message-listener message="messageName" function="listener" />
 	</controller>
 </controllers>
