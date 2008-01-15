@@ -13,9 +13,45 @@
 
 <cffunction name="createBeanFactory" output="false" hint="Configures and returns the bean factory for use.">
 	<cfset var bf = createObject("component", "coldspring.beans.DefaultXmlBeanFactory").init() />
+	<cfset var csPath = this.coldspringPath />
+	<cfset var originalCsPath = csPath />
+	<cfset var cfg = "" />
+
+	<!--- If we're in legacy or unity mode, we must explicitly load use the internal configuration file --->
+	<cfif this.modelglueVersionIndicator eq this.versionIndicators.legacy
+				or this.modelglueVersionIndicator eq this.versionIndicators.unity>
+		<cfset csPath = expandPath("/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml") />
+	</cfif>
 	
-	<cfset bf.loadBeans(expandPath(this.coldspringPath)) />
+	<cfif not fileExists(csPath)>
+		<cfset csPath = expandPath(csPath) />
+	</cfif>
+
+	<cfif not fileExists(csPath)>
+		<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#csPath#) doesn't exist!" />
+	</cfif>
 	
+	<cfset bf.loadBeans(csPath) />
+
+	<!--- If we're in unity mode, we now load the _local_ ColdSpring beans on top of the core --->
+	<cfif this.modelglueVersionIndicator eq this.versionIndicators.unity>
+		<cfif not fileExists(originalCsPath)>
+			<cfset originalCsPath = expandPath(originalCsPath) />
+		</cfif>
+	
+		<cfif not fileExists(originalCsPath)>
+			<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#originalCsPath#) doesn't exist!" />
+		</cfif>
+
+		<cfset bf.loadBeans(originalCsPath) />
+	</cfif>
+
+	<!--- If we're in legacy mode, we change the value of the primaryModule in the configuration. --->
+	<cfif this.modelglueVersionIndicator eq this.versionIndicators.legacy>
+		<cfset cfg = bf.getBean("modelglue.ModelGlueConfiguration") />
+		<cfset cfg.setPrimaryModule(this.primaryModulePath) />
+	</cfif>
+		
 	<cfif isObject(this.parentBeanFactory)>
 		<cfset bf.setParent(this.parentBeanFactory) />
 	</cfif>
@@ -33,7 +69,7 @@
 </cffunction>
 
 <cffunction name="storeModelGlue" output="false" hint="Creates and sets configuration into an instance of ModelGlue.cfc (created from ColdSpring definition.">
-	<cfset super.storeModelGlue(createModelGlue()) />
+	<cfreturn super.storeModelGlue(createModelGlue()) />
 </cffunction>
 
 </cfcomponent>

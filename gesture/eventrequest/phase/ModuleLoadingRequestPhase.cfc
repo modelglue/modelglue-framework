@@ -10,14 +10,16 @@
 	<cfset variables._modules = arguments.modules />	
 </cffunction>
 
-<cffunction name="loadModules" access="private" output="false" hint="Loads modules associated with this phase.">
+<cffunction name="loadModules" access="private" output="false" hint="Loads modules associated with this phase if we're in an initializing request.">
 	<cfargument name="modelglue" />
 	
 	<cfset var i = "" />
 	
-	<cfloop from="1" to="#arrayLen(variables._modules)#" index="i">
-		<cfset variables._moduleLoader.load(modelglue, variables._modules[i]) />
-	</cfloop>
+	<cfif request._modelglue.bootstrap.initializationRequest>
+		<cfloop from="1" to="#arrayLen(variables._modules)#" index="i">
+			<cfset variables._moduleLoader.load(modelglue, variables._modules[i]) />
+		</cfloop>
+	</cfif>
 </cffunction>
 
 </cfcomponent>

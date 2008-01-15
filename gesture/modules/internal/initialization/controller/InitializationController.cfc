@@ -2,11 +2,19 @@
 
 <cffunction name="loadFrameworkIntoScope" output="false" hint="I get the bootstrapper from the request scope and save the instance of Model-Glue into the application scope.">
 	<cfargument name="event" />
+
+	<cfset var mg = "" />
+	<cfset var boot = "" />
+
+	<cfset arguments.event.setValue("modelglueReloaded", request._modelglue.bootstrap.initializationRequest) />
 	
-	<cfset var mg = request._modelglue.bootstrapper.framework />
-	<cfset var boot = request._modelglue.bootstrapper.bootstrapper />
-	
-	<cfset application[boot.applicationKey] = mg />
+	<cfif request._modelglue.bootstrap.initializationRequest>
+		<cfset mg = request._modelglue.bootstrap.framework />
+		<cfset boot = request._modelglue.bootstrap.bootstrapper />
+		
+		<cfset application[boot.applicationKey] = mg />
+	</cfif>
+
 </cffunction>
 
 </cfcomponent>

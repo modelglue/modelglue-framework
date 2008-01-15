@@ -38,7 +38,6 @@
 	<cfreturn variables._instance.Reload />
 </cffunction>
 
-<!---
 <cffunction name="setRescaffold" returntype="void" output="false" access="public">
 	<cfargument name="Rescaffold"  type="boolean" />
 	<cfset variables._instance.Rescaffold = arguments.Rescaffold />
@@ -62,7 +61,6 @@
 <cffunction name="getRescaffoldPassword" returntype="string" output="false">
 	<cfreturn variables._instance.RescaffoldPassword />
 </cffunction>
---->
 
 <cffunction name="setDebug" returntype="void" output="false" access="public">
 	<cfargument name="Debug"  type="string"/>
@@ -102,7 +100,6 @@
 	<cfreturn variables._instance.ViewMappings />
 </cffunction>
 
-<!---
 <cffunction name="setGeneratedViewMapping" returntype="void" output="false" access="public">
 	<cfargument name="GeneratedViewMapping" type="string" />
 	<cfset variables._instance.GeneratedViewMapping = arguments.GeneratedViewMapping />
@@ -110,8 +107,11 @@
 <cffunction name="getGeneratedViewMapping" returntype="string" output="false">
 	<cfreturn variables._instance.GeneratedViewMapping />
 </cffunction>
---->
 
+<cffunction name="setConfigurationPath" returntype="void" output="false" access="public" hint="Deprecated in favor of setPrimaryModule.  Included for Unity reverse compatibility.">
+	<cfargument name="PrimaryModule" type="string" />
+	<cfset setPrimaryModule(arguments.primaryModule) />
+</cffunction>
 <cffunction name="setPrimaryModule" returntype="void" output="false" access="public">
 	<cfargument name="PrimaryModule" type="string" />
 	<cfset variables._instance.PrimaryModule = arguments.PrimaryModule />
@@ -128,7 +128,6 @@
 	<cfreturn variables._instance.PrimaryModuleType />
 </cffunction>
 
-<!---
 <cffunction name="setScaffoldConfigurationPath" returntype="void" output="false" access="public">
 	<cfargument name="ScaffoldConfigurationPath" type="string" />
 	<cfset variables._instance.ScaffoldConfigurationPath = arguments.ScaffoldConfigurationPath />
@@ -144,17 +143,10 @@
 <cffunction name="getScaffoldPath" returntype="string" output="false">
 	<cfreturn variables._instance.ScaffoldPath />
 </cffunction>
---->
 
-<!---
-<cffunction name="setStatePrecedence" returntype="void" output="false" access="public">
+<cffunction name="setStatePrecedence" returntype="void" output="false" access="public" hint="Deprecated: DOES NOTHING!">
 	<cfargument name="StatePrecedence" type="string" />
-	<cfset variables._instance.StatePrecedence = arguments.StatePrecedence />
 </cffunction>
-<cffunction name="getStatePrecedence" returntype="string" output="false">
-	<cfreturn variables._instance.StatePrecedence />
-</cffunction>
---->
 
 <cffunction name="setReloadKey" returntype="void" output="false" access="public">
 	<cfargument name="ReloadKey" />
@@ -196,7 +188,6 @@
 	<cfreturn variables._instance.DefaultCacheTimeout />
 </cffunction>
 
-<!---
 <cffunction name="setDefaultScaffolds" returntype="void" output="false" access="public">
 	<cfargument name="DefaultScaffolds" type="string" />
 	<cfset variables._instance.DefaultScaffolds = arguments.DefaultScaffolds />
@@ -204,6 +195,5 @@
 <cffunction name="getDefaultScaffolds" returntype="string" output="false">
 	<cfreturn variables._instance.DefaultScaffolds />
 </cffunction>
---->
 
 </cfcomponent>

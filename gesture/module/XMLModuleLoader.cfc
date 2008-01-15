@@ -25,7 +25,10 @@
 	</cfif>
 	<cfset arguments.loadedModules[arguments.path] = true />
 	
-	<cfset arguments.path = expandPath(arguments.path) />
+	<!--- Expand path if needed. --->
+	<cfif not fileExists(arguments.path) and fileExists(expandPath(arguments.path))>
+		<cfset arguments.path = expandPath(arguments.path) />
+	</cfif>
 	
 	<cfif not fileExists(arguments.path)>
 		<cfthrow message="The XML module to be loaded from ""#arguments.path#"" can't be loaded because the file can't be found or read."
@@ -179,8 +182,6 @@
 		<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 
 		<cfset ehInst.name = ehXml.xmlAttributes.name />
-		
-		<cflog text="EH Instance: #ehInst.name#" />
 		
 		<!--- Load messages --->
 		<cfset childXml = xmlSearch(ehXml, "broadcasts") />

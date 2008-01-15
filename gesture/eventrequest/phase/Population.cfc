@@ -13,7 +13,6 @@
 	<!--- 
 		Before event queue runs, we need to load any configured modules.
 	--->
-	
 	<cfset loadModules(modelglue) />
 	
 	<!--- Add the newly loaded event to the queue. --->

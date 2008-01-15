@@ -8,7 +8,7 @@
 	<cfargument name="eventContext" hint="I am the event context to act upon.  Duck typed for speed.  Should have no queued events when execute() is called, but this isn't checked (to save time)." />
 
 	<cfset var modelglue = arguments.eventContext.getModelGlue() />
-	<cfset var initialEventHandlerName = arguments.eventContext.getValue(arguments.eventContext.getValue("eventValue")) />
+	<cfset var initialEventHandlerName = arguments.eventContext.getValue(arguments.eventContext.getValue("eventValue"), modelglue.getConfigSetting("defaultEvent")) />
 	<cfset var initialEventHandler = "" />
 
 	<!--- Load module and queue onRequestStart --->
@@ -17,16 +17,12 @@
 	<!--- Add the newly loaded event to the queue. --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onRequestStart") />
 	<cfset arguments.eventContext.addEventHandler(event) />
-	
-	<!--- Determine and queue the initial event handler --->	
-	<cfif len(initialEventHandlerName)>
-		<cfset initialEventHandler = modelglue.getEventHandler(initialEventHandlerName) />
-	<cfelse>
-		<cfset initialEventHandler = modelglue.getEventHandler(modelglue.getConfigSetting("defaultEvent")) />
-	</cfif>
 
-	<cfset arguments.eventContext.addEventHandler(initialEventHandler) />
+	<!--- Tell the context to run its queue. --->
+	<cfset arguments.eventContext.executeEventQueue() />
 	
+	<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
+
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue() />
 		

@@ -9,8 +9,13 @@
 </cffunction>
 
 <cffunction name="createEventContext" access="private">
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
-	<cfset ec.setViewRenderer(createObject("component", "ModelGlue.gesture.view.ViewRenderer").init()) />
+	<cfset var ec = "" />
+	<cfset var vr = "" />
+	
+	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
+	<cfset vr.addViewMapping("/ModelGlue/gesture/view/test/views") />	
+		
+	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(viewRenderer=vr) />
 	<cfreturn ec />
 </cffunction>
 
@@ -267,6 +272,7 @@
 	<cfset view.name = "testRenderView" />
 	<cfset view.template = "testView.cfm" />
 	
+	
 	<cfset ec.setValue("viewContents", "testRenderViewContent") />
 	
 	<cfset ec.renderView(view) />
@@ -339,8 +345,11 @@
 	<cfset var ec = createEventContext() />
 	
 	<cfset var trace = ec.getTrace() />
-	
-	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq 0, "initial trace statement incorrect")>
+	<cfset var thread = CreateObject("java", "java.lang.Thread")>
+
+	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq ec.getCreated(), "initial trace statement incorrect")>
+
+	<cfset thread.sleep(100)>	
 
 	<cfset ec.trace("typeVal", "messageVal", "tagVal", "traceTypeVal") />
 	

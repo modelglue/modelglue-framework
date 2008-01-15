@@ -72,8 +72,6 @@
 <cffunction name="setRequestPhases" output="false" hint="I set the instance of the view renderer to use when a request is made to render a view.">
 	<cfargument name="requestPhases" hint="The view renderer to use." />
 	<cfset variables._requestPhases = arguments.requestPhases />	
-	<cfdump var="#variables._requestPhases#"><cfabort />
-	
 </cffunction>
 
 <cffunction name="setStatePersister" output="false" hint="I set the mechanism by which this event context should persist and recall its state across requests.">
@@ -98,11 +96,11 @@
 	
 	<cfset var link = structNew() />
 
-	<cflog text="Adding event handler: #eventHandler.name#" />
-	
 	<cfset link.eventHandler = arguments.eventHandler />
 	<cfset link.next = "" />
 
+	<cfset trace("Event Queue", "Queueing event handler: #arguments.eventHandler.name#") />
+	
 	<cfif variables._readyForExecution and not isObject(variables._initialEvent)>
 		<cfset variables._initialEvent = arguments.eventHandler />
 	</cfif>
@@ -141,7 +139,9 @@
 		<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
 			<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
 				<cfset this.trace(variables._requestPhases[i].name, "Beginning request phase.") /> 
+				
 				<cfset variables._requestPhases[i].execute(this) />
+				
 				<cfset this.trace(variables._requestPhases[i].name, "Request phase complete.") /> 
 			</cfloop>
 		<cfelse>
@@ -157,7 +157,7 @@
 			<!--- If we're not running the exception handler, queue the exception handler. --->
 			<cfset exceptionEventHandler = variables._modelGlue.getConfigSetting("defaultExceptionHandler") />
 			
-			<cfif getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
+			<cfif isObject(getCurrentEventHandler()) and getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
 				<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
 				<cfset executeEventQueue() />
 			<cfelse>

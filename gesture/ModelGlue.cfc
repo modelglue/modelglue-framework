@@ -87,7 +87,15 @@
 
 <cffunction name="setViewRenderer" output="false" hint="Sets the view renderer to use to render output.">
 	<cfargument name="viewRenderer" output="false" />
+
+	<cfset var i = "" />
+	<cfset var mappings = getConfigSetting("viewMappings") />
+	
 	<cfset variables._viewRenderer = arguments.viewRenderer />
+	
+	<cfloop list="#mappings#" index="i">
+		<cfset variables._viewRenderer.addViewMapping(i) />
+	</cfloop>
 </cffunction>
 
 <cffunction name="setStatePersister" output="false" hint="Sets the state persister to use to maintain state during redirects.">
@@ -150,6 +158,8 @@
 	<cfargument name="listenerFunctionName" type="string" required="true" hint="The name of the listener function to fire.  A warning (but not an exception) will be added to the EventRequest if it's not defined at time of invocation." />
 	
 	<cfset var listener = createObject("component", "ModelGlue.gesture.eventhandler.MessageListener") />
+
+	<Cflog text="adding listener for #messageName# (#listenerFunctionName#)" />
 	
 	<cfif not hasEventListener(arguments.messageName)>
 		<cfset this.messageListeners[arguments.messageName] = arrayNew(1) />
