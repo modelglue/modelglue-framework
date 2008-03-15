@@ -16,6 +16,7 @@
 <cffunction name="renderView" output="false" hint="I render a view and return the resultant HTML.">
   <cfargument name="eventContext" type="any" hint="Event context in which this view is being rendered.">
   <cfargument name="view" type="any" hint="I am the view to render.">
+	<cfargument name="helpers" hint="I am the ""helpers"" scope available within the view." default="#structNew()#" />
 
 	<cfset var i = "" />
 	<cfset var j = "" />
@@ -43,7 +44,7 @@
 						 message="The template (#arguments.view.template#) was not found in any registered view mappings (#arrayToList(variables._viewMappings)#)." />
 	</cfif>
 	
-  <cfsavecontent variable="result"><cfmodule template="/ModelGlue/gesture/view/ViewRenderer.cfm" includepath="#template#" viewstate="#arguments.eventContext#" viewcollection="#arguments.eventContext.getViewCollection()#"></cfsavecontent>
+  <cfsavecontent variable="result"><cfmodule template="/ModelGlue/gesture/view/ViewRenderer.cfm" includepath="#template#" viewstate="#arguments.eventContext#" viewcollection="#arguments.eventContext.getViewCollection()#" helpers="#arguments.helpers#"></cfsavecontent>
 	
 	<cfreturn result />
 	<!---

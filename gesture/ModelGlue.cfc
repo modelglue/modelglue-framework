@@ -39,6 +39,11 @@
 	<cfset this.phases = arrayNew(1) />
 
 	<!---
+		Helper libraries.
+	--->
+	<cfset this.helpers = createObject("component", "ModelGlue.gesture.helper.Helpers") />
+	
+	<!---
 		Configuration settings.
 	--->
 	<cfset this.configuration = structNew() />
@@ -50,9 +55,9 @@
 
 <!--- Configuration Settings --->
 <cffunction name="setModelGlueConfiguration" output="false" hint="Sets the MG Configuration bean instance to use.">
-	<cfargument name="configuration" required="true" type="ModelGlue.gesture.configuration.ModelGlueConfiguration" />
+	<cfargument name="modelGlueConfiguration" required="true" type="ModelGlue.gesture.configuration.ModelGlueConfiguration" />
 	
-	<cfset var source = arguments.configuration.getInstance() />
+	<cfset var source = arguments.modelGlueConfiguration.getInstance() />
 	<cfset var i = "" />
 	
 	<cfloop collection="#source#" item="i">
@@ -150,7 +155,8 @@
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
 										modelglue=this,
 										viewRenderer=variables._viewRenderer,
-										statePersister=variables._statePersister
+										statePersister=variables._statePersister,
+										helpers=this.helpers
 						 			 ) 
 	/>
 	
@@ -199,6 +205,11 @@
 	<cfargument name="controllerInstance" type="any" />
 	
 	<cfset this.controllers[arguments.controllerId] = arguments.controllerInstance />
+	
+	<!--- Add the "helpers" scope. --->
+	<cfif not structKeyExists(arguments.controllerInstance, "helpers")>
+		<cfset arguments.controllerInstance.setHelpers(this.helpers) />
+	</cfif>
 </cffunction>
 
 <cffunction name="getController" output="false" returntype="any" hint="Gets a controller by id.">

@@ -17,4 +17,15 @@
 
 </cffunction>
 
+<cffunction name="loadHelpers" output="false" hint="I load helpers.">
+	<cfset var inj = beans["modelglue.helperInjector"] />
+	<cfset var mg = getModelGlue() />
+	<cfset var mappings = mg.getConfigSetting("helperMappings") />
+	<cfset var mapping = "" />
+	
+	<cfloop list="#mappings#" index="mapping">
+		<cfset inj.injectPath(mg.helpers, mapping) />
+	</cfloop>
+</cffunction>
+
 </cfcomponent>

@@ -1,4 +1,4 @@
-<cfcomponent>
+<cfcomponent beans="bean,bean2">
 
 <cfset setVariablesValue("internallySet") />
 

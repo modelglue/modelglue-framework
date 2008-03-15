@@ -18,4 +18,10 @@
 	<cfreturn variables._modelGlue />
 </cffunction>
 
+<cffunction name="setHelpers" output="false" hint="Sets the ""helpers"" scope into this controller.">
+	<cfargument name="helpers" />
+	<cfset variables.helpers = arguments.helpers />
+</cffunction>
+
+
 </cfcomponent>

@@ -6,6 +6,7 @@
     <cfset variables._instance.debug = "true" />
     <cfset variables._instance.reloadPassword = "true" />
     <cfset variables._instance.viewMappings = "" />
+    <cfset variables._instance.helperMappings = "" />
     <cfset variables._instance.primaryModule = "" />
     <cfset variables._instance.primaryModuleType = "XML.Gesture" />
     <cfset variables._instance.reloadKey = "init" />
@@ -13,7 +14,6 @@
     <cfset variables._instance.defaultTemplate = "index.cfm" />
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = "5" />
-    
 		
     <cfreturn this />
 </cffunction>
@@ -98,6 +98,14 @@
 </cffunction>
 <cffunction name="getViewMappings" returntype="string" output="false">
 	<cfreturn variables._instance.ViewMappings />
+</cffunction>
+
+<cffunction name="setHelperMappings" returntype="void" output="false" access="public">
+	<cfargument name="HelperMappings" type="string" />
+	<cfset variables._instance.HelperMappings = arguments.HelperMappings />
+</cffunction>
+<cffunction name="getHelperMappings" returntype="string" output="false">
+	<cfreturn variables._instance.HelperMappings />
 </cffunction>
 
 <cffunction name="setGeneratedViewMapping" returntype="void" output="false" access="public">

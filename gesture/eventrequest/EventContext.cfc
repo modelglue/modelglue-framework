@@ -8,7 +8,8 @@
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
 	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.BeanUtilsPopulator").init()#" hint="Populator used by makeEventBean()." />
-	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
+	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
+	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." defailt="#structNew()#" />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
@@ -18,6 +19,7 @@
 	<cfset variables._currentMessage = "" />
 	<cfset variables._trace = arrayNew(1) />
 	<cfset variables._created = getTickCount() />
+	<cfset variables._helpers = arguments.helpers />
 
 	<cfif structKeyExists(arguments, "modelglue")>
 		<!--- External maps of listeners and handlers --->
@@ -406,7 +408,7 @@
 <cffunction name="renderView" access="public" output="false" hint="I render a view into the view collection.">
   <cfargument name="view" type="any" hint="I am the view to render.">
 
-	<cfset var content = variables._viewRenderer.renderView(this, arguments.view) />
+	<cfset var content = variables._viewRenderer.renderView(this, arguments.view, variables._helpers) />
 	
 	<cfset addView(arguments.view.name, content, arguments.view.append) />
 </cffunction>

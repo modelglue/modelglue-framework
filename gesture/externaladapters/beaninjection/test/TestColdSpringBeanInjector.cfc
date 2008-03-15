@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase">
+<cfcomponent extends="mxunit.framework.TestCase">
 
 <cfset createBeanFactory() />
 
@@ -47,6 +47,23 @@
 	<cfloop list="bean,bean2" index="beanId">
 		<cfset injector.injectBean(beanId, bean) />
 	</cfloop>
+	
+	<cfset beanVars = bean._modelGlueBeanInjection_getVariablesScope() />
+	
+	<cfset assertTrue(structKeyExists(beanVars, "beans"), "'beans' struct not created") />
+	<cfset assertTrue(structKeyExists(beanVars.beans, "bean"), "'bean' not in 'beans' scope") />
+	<cfset assertTrue(isObject(beanVars.beans.bean), "'bean' in 'beans' not object") />
+	<cfset assertTrue(getMetadata(beanVars.beans.bean).name eq "ModelGlue.gesture.externaladapters.beaninjection.test.Bean", "'bean' in 'beans' not right type!") />
+	<cfset assertTrue(getMetadata(beanVars.beans.bean2).name eq "ModelGlue.gesture.externaladapters.beaninjection.test.Bean2", "'bean2' in 'beans' not right type!") />
+</cffunction>
+
+<cffunction name="testMetadataInjection" output="false" returntype="void" access="public">
+	<cfset var bean = createTargetBean() />
+	<cfset var injector = createInjector() />
+	<cfset var beanId = "" />
+	<cfset var beanVars = "" />
+	
+	<cfset injector.injectBeanByMetadata(bean) />
 	
 	<cfset beanVars = bean._modelGlueBeanInjection_getVariablesScope() />
 	

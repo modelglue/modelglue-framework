@@ -181,6 +181,11 @@
 	State persister
 -->
 <bean id="modelglue.statePersister" class="ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister" />
+
+<!--
+	Helper injector
+-->
+<bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector" />
 	
 <!--
 		Default MG config bean.
@@ -194,6 +199,9 @@
 	</property>
 	<property name="debug">
 		<value>none</value>
+	</property>
+	<property name="helperMappings">
+		<value>/ModelGlue/helpers/cflib</value>
 	</property>
 </bean>		
 

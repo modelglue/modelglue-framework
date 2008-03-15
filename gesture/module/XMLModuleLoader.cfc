@@ -167,7 +167,7 @@
 		<cfset ctrlVars = ctrlInst._modelGlueBeanInjection_getVariablesScope() />
 		<cfset ctrlVars.beans = structNew() />
 
-		<!--- Perform bean injection --->
+		<!--- Perform bean injection: XML --->
 		<cfloop list="#ctrlXml.xmlAttributes.beans#" index="beanId">
 			<cfset injector.injectBean(beanId, ctrlInst) />
 		</cfloop>

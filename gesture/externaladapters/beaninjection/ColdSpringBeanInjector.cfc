@@ -20,6 +20,19 @@
 	</cfif>
 </cffunction>
 
+<cffunction name="injectBeanByMetadata" access="public" returntype="void" hint="Injects a given bean with any beans listed in the ""beans"" attribute on its <cfcomponent> tag.">
+	<cfargument name="target" type="any" hint="Target for injection." />
+	
+	<cfset var md = getMetadata(arguments.target) />
+	<cfset var beanId = "" />
+	
+	<cfparam name="md.beans" default="" />
+	
+	<cfloop list="#md.beans#" index="beanId">
+		<cfset injectBean(beanId, arguments.target) />
+	</cfloop>
+</cffunction>
+
 <cffunction name="injectBean" access="public" returntype="void" hint="Injects a given bean into the variables.beans structure in the target.">
 	<cfargument name="beanId" type="string" hint="Id of bean to inject" />
 	<cfargument name="target" type="any" hint="Target for injection.  If injection hooks don't yet exist, they'll be created." />
