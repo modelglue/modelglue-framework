@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase">
+<cfcomponent extends="mxunit.framework.TestCase">
 
 <cffunction name="createMapCollectionNoInit" access="private" hint="Creates a basic MapCollection to test without running init().">
 	<cfreturn createObject("component", "ModelGlue.gesture.collections.MapCollection") />

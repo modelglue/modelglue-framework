@@ -9,7 +9,7 @@
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
 	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.BeanUtilsPopulator").init()#" hint="Populator used by makeEventBean()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
-	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." defailt="#structNew()#" />
+	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." default="#structNew()#" />
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
@@ -156,12 +156,16 @@
 			<!--- Trace the exception.  Maybe people will like this ;) --->
 			<cfset trace("Exception", cfcatch) />
 			
-			<!--- If we're not running the exception handler, queue the exception handler. --->
-			<cfset exceptionEventHandler = variables._modelGlue.getConfigSetting("defaultExceptionHandler") />
-			
-			<cfif isObject(getCurrentEventHandler()) and getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
-				<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
-				<cfset executeEventQueue() />
+			<cfif structKeyExists(variables, "_modelGlue")>
+				<!--- If we're not running the exception handler, queue the exception handler. --->
+				<cfset exceptionEventHandler = variables._modelGlue.getConfigSetting("defaultExceptionHandler") />
+				
+				<cfif isObject(getCurrentEventHandler()) and getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
+					<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
+					<cfset executeEventQueue() />
+				<cfelse>
+					<cfrethrow />
+				</cfif>
 			<cfelse>
 				<cfrethrow />
 			</cfif>
@@ -193,14 +197,18 @@
 	
 	<cfset var i = "" />
 	<cfset var j = "" />
+	<cfset var requestFormat = getValue("requestFormat", "") />
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
 	<cfset this.trace("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHAndler.name#"">") /> 
 	
-	<!--- Invoke message broadcasts. --->
-	<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages)#" index="i">
-		<cfset message = arguments.eventHandler.messages[i] />
+	<!--- 
+		Invoke "" message broadcasts.  Code repeated for format, if necessary, to 
+		avoid string parsing - this is a per-request invocation!
+	--->
+	<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages.cfNullKeyWorkaround)#" index="i">
+		<cfset message = arguments.eventHandler.messages.cfNullKeyWorkaround[i] />
 		
 		<cfset variables._currentMessage = message />
 
@@ -213,35 +221,70 @@
 			</cfloop>
 		</cfif>
 	</cfloop>
+	<cfif len(requestFormat) and structKeyExists(arguments.eventHandler.messages, requestFormat)>
+		<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages[requestFormat])#" index="i">
+			<cfset message = arguments.eventHandler.messages[requestFormat][i] />
+			
+			<cfset variables._currentMessage = message />
 	
+			<cfset this.trace("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
+	
+			<cfif structKeyExists(variables._listeners, message.name)>
+				<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
+					<cfset this.trace("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
+					<cfset variables._listeners[message.name][j].invokeListener(this) />
+				</cfloop>
+			</cfif>
+		</cfloop>
+	</cfif>
+		
 	<!--- Get, queue, and reset results. --->
 	<cfset results = getResults() />
 	
-	<!--- Queue explicit results --->
+	<!--- Queue explicit results: repetitive on purpose. --->
 	<cfloop from="1" to="#arrayLen(results)#" index="i">
-		<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i])>
-			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[results[i]])#" index="j">
-				<cfset result = arguments.eventHandler.results[results[i]][j] />
+		<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i]) and isArray(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])>
+			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])#" index="j">
+				<cfset result = arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j] />
 				
 				<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 
 				<cfif result.redirect>
 					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
 				<cfelse>
-					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[results[i]][j].event]) />
+					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j].event]) />
 				</cfif>
 			</cfloop>
 		</cfif>
 	</cfloop>
-
-	<!--- TODO: Queue implicit results --->
-	<cfif structKeyExists(arguments.eventHandler.results, "")>
-		<cfset results = arguments.eventHandler.results[""] />
+	<cfif len(requestFormat)>
+		
+		<cfloop from="1" to="#arrayLen(results)#" index="i">
+			<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i], requestFormat) and isArray(arguments.eventHandler.results[requestFormat][results[i]])>
+				<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[requestFormat][results[i]])#" index="j">
+					<cfset result = arguments.eventHandler.results[requestFormat][results[i]][j] />
+					
+					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
+	
+					<cfif result.redirect>
+						<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+					<cfelse>
+						<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[requestFormat][results[i]][j].event]) />
+					</cfif>
+				</cfloop>
+			</cfif>
+		</cfloop>
+	</cfif>
+	
+	<!--- Queue implicit results --->
+	<cfif structKeyExists(arguments.eventHandler.results.cfNullKeyWorkaround, "cfNullKeyWorkaround") and isArray(arguments.eventHandler.results.cfNullKeyWorkaround.cfNullKeyWorkaround)>
+		<cfset results = arguments.eventHandler.results.cfNullKeyWorkaround.cfNullKeyWorkaround />
+		
 		<cfloop from="1" to="#arrayLen(results)#" index="i">
 				<cfset result = results[i] />
 
 				<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
-				
+
 				<cfif result.redirect>
 					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
 				<cfelse>
@@ -249,14 +292,37 @@
 				</cfif>
 		</cfloop>
 	</cfif>
+	<cfif len(requestFormat) and structKeyExists(arguments.eventHandler.results, requestFormat)>
+		<cfif structKeyExists(arguments.eventHandler.results[requestFormat], "cfNullKeyWorkaround") 
+					and isArray(arguments.eventHandler.results[requestFormat].cfNullKeyWorkaround)>
+			<cfset results = arguments.eventHandler.results[requestFormat].cfNullKeyWorkaround />
+			
+			<cfloop from="1" to="#arrayLen(results)#" index="i">
+					<cfset result = results[i] />
+	
+					<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
+	
+					<cfif result.redirect>
+						<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+					<cfelse>
+						<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
+					</cfif>
+			</cfloop>
+		</cfif>
+	</cfif>
 		
 	<!--- Reset results --->
 	<cfset resetResults() />
 	
-	<!--- Queue views --->
-	<cfloop from="1" to="#arrayLen(arguments.eventHandler.views)#" index="i">
-		<cfset queueView(arguments.eventHandler.views[i]) />
+	<!--- Queue views.  Repetitive on purpose - speed over elegance here. --->
+	<cfloop from="1" to="#arrayLen(arguments.eventHandler.views.cfNullKeyWorkaround)#" index="i">
+		<cfset queueView(arguments.eventHandler.views.cfNullKeyWorkaround[i]) />
 	</cfloop>
+	<cfif len(requestFormat) and structKeyExists(arguments.eventHandler.views, requestFormat)>
+		<cfloop from="1" to="#arrayLen(arguments.eventHandler.views[requestFormat])#" index="i">
+			<cfset queueView(arguments.eventHandler.views[requestFormat][i]) />
+		</cfloop>
+	</cfif>
 </cffunction>
 
 <!--- EVENT KNOWLEDGE --->

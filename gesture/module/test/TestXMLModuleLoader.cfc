@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase">
+<cfcomponent extends="mxunit.framework.TestCase">
 	
 <cffunction name="createBootstrapper" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />
@@ -42,38 +42,116 @@
 	<!--- Test event handler loading --->
 	<cfset obj = mg.getEventHandler("eventHandlerName") />
 	<cfset assertTrue(isObject(obj), "event handler not object!") />
+	<cfset assertTrue(obj.access eq "accessValue", "accessValue not set") />
+	<cfset assertTrue(obj.cache eq "cacheValue", "cacheValue not set") />
+	<cfset assertTrue(obj.cacheKey eq "cacheKeyValue", "cacheKey not set") />
+	<cfset assertTrue(obj.cacheTimeout eq 42, "cacheTimeout not set") />
 	
 	<!--- Messages --->
-	<cfset assertTrue(arrayLen(obj.messages) eq 1, "message not found or more than one message found") />
-	<cfset assertTrue(obj.messages[1].name eq "messageName", "message name not set") />
-	<cfset assertTrue(obj.messages[1].arguments.getValue("argumentName") eq "argumentValue", "argument value not set (result = '#obj.messages[1].arguments.getValue("argumentName")#')") />
+	<cfset assertTrue(arrayLen(obj.messages.cfNullKeyWorkaround) eq 1, "message not found or more than one message found") />
+	<cfset assertTrue(obj.messages.cfNullKeyWorkaround[1].name eq "messageName", "message name not set") />
+	<cfset assertTrue(obj.messages.cfNullKeyWorkaround[1].arguments.getValue("argumentName") eq "argumentValue", "argument value not set (result = '#obj.messages.cfNullKeyWorkaround[1].arguments.getValue("argumentName")#')") />
 
 	<!--- Results --->
-	<cfset assertTrue(structCount(obj.results) eq 2, "results not found or two results not found") />
-	<cfset assertTrue(arrayLen(obj.results.resultName) eq 1, "resultName result not  found or more than one result mapped") />
-	<cfset assertTrue(obj.results.resultName[1].event eq "eventName", "resultName event prop misdefined") />
-	<cfset assertTrue(obj.results.resultName[1].redirect, "resultName redirect prop misdefined") />
-	<cfset assertTrue(obj.results.resultName[1].append eq "appendValue", "resultName append prop misdefined") />
-	<cfset assertTrue(obj.results.resultName[1].anchor eq "anchorValue", "resultName anchor prop misdefined") />
-	<cfset assertFalse(obj.results.resultName[1].preservestate, "resultName preservestate prop misdefined") />
+	<cfset assertTrue(structCount(obj.results.cfNullKeyWorkaround) eq 2, "results not found or two results not found") />
+	<cfset assertTrue(arrayLen(obj.results.cfNullKeyWorkaround.resultName) eq 1, "resultName result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.resultName[1].event eq "eventName", "resultName event prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.resultName[1].redirect, "resultName redirect prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.resultName[1].append eq "appendValue", "resultName append prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.resultName[1].anchor eq "anchorValue", "resultName anchor prop misdefined") />
+	<cfset assertFalse(obj.results.cfNullKeyWorkaround.resultName[1].preservestate, "resultName preservestate prop misdefined") />
 
-	<cfset assertTrue(arrayLen(obj.results[""]) eq 1, "implicit result result not  found or more than one result mapped") />
-	<cfset assertTrue(obj.results[""][1].event eq "implicitEventName", "implicit result event prop misdefined") />
-	<cfset assertTrue(obj.results[""][1].redirect, "implicit result redirect prop misdefined") />
-	<cfset assertTrue(obj.results[""][1].append eq "appendValue", "implicit result append prop misdefined") />
-	<cfset assertTrue(obj.results[""][1].anchor eq "anchorValue", "implicit result anchor prop misdefined") />
-	<cfset assertFalse(obj.results[""][1].preservestate, "implicit result preservestate prop misdefined") />
+	<cfset assertTrue(arrayLen(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround) eq 1, "implicit result result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround[1].event eq "implicitEventName", "implicit result event prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround[1].redirect, "implicit result redirect prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround[1].append eq "appendValue", "implicit result append prop misdefined") />
+	<cfset assertTrue(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround[1].anchor eq "anchorValue", "implicit result anchor prop misdefined") />
+	<cfset assertFalse(obj.results.cfNullKeyWorkaround.cfNullKeyWorkaround[1].preservestate, "implicit result preservestate prop misdefined") />
 	
 	<!--- Views --->
-	<cfset assertTrue(arrayLen(obj.views) eq 1, "view not found or more than one view found") />
-	<cfset assertTrue(obj.views[1].name eq "viewName", "view name not set") />
-	<cfset assertTrue(obj.views[1].template eq "templateName", "view template not set") />
-	<cfset assertTrue(structCount(obj.views[1].values) eq 1, "number of values is not one") />
-	<cfset assertTrue(structKeyExists(obj.views[1].values, "valueName"), "value named ""valuename"" not found") />
-	<cfset assertTrue(obj.views[1].values.valueName.name eq "valueName", "valueName value not named valueName (ugh, that's confusing.)") />	
-	<cfset assertTrue(obj.views[1].values.valueName.value eq "valueValue", "valueName value not set to valueValue") />	
-	<cfset assertFalse(obj.views[1].values.valueName.overwrite eq "valueValue", "valueName value wasn't set to not overwrite") />	
+	<cfset assertTrue(arrayLen(obj.views.cfNullKeyWorkaround) eq 1, "view not found or more than one view found") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].name eq "viewName", "view name not set") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].template eq "templateName", "view template not set") />
+	<cfset assertTrue(structCount(obj.views.cfNullKeyWorkaround[1].values) eq 1, "number of values is not one") />
+	<cfset assertTrue(structKeyExists(obj.views.cfNullKeyWorkaround[1].values, "valueName"), "value named ""valuename"" not found") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].values.valueName.name eq "valueName", "valueName value not named valueName (ugh, that's confusing.)") />	
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].values.valueName.value eq "valueValue", "valueName value not set to valueValue") />	
+	<cfset assertFalse(obj.views.cfNullKeyWorkaround[1].values.valueName.overwrite eq "valueValue", "valueName value wasn't set to not overwrite") />	
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cache eq "cacheValue", "cacheValue not set on view") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "cacheKeyValue", "cacheKey not set on view") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheTimeout eq 42, "cacheTimeout not set on view") />
 	
+</cffunction>
+
+<cffunction name="testFormattedXMLModule" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	<cfset var controllerVars = "" />
+	<cfset var beanFactory = "" />
+
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/formattedXmlModule.xml") />
+	
+	<!--- Test event handler loading --->
+	<cfset obj = mg.getEventHandler("eventHandlerName") />
+	<cfset assertTrue(isObject(obj), "event handler not object!") />
+	
+	<!--- Messages --->
+	<cfset assertTrue(arrayLen(obj.messages.explicitFormat) eq 1, "message not found or more than one message found") />
+	<cfset assertTrue(obj.messages.explicitFormat[1].name eq "formatMessageName", "message name not set") />
+
+	<!--- Results --->
+	<cfset assertTrue(structCount(obj.results.explicitFormat) eq 2, "results not found or two results not found") />
+	<cfset assertTrue(arrayLen(obj.results.explicitFormat.formatResultName) eq 1, "resultName result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results.explicitFormat.formatResultName[1].event eq "formatEventName", "resultName event prop misdefined") />
+
+	<cfset assertTrue(arrayLen(obj.results.explicitFormat.cfNullKeyWorkaround) eq 1, "implicit result result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results.explicitFormat.cfNullKeyWorkaround[1].event eq "formatImplicitEventName", "implicit result event prop misdefined") />
+	
+	<!--- Views --->
+	<cfset assertTrue(arrayLen(obj.views.explicitFormat) eq 1, "view not found or more than one view found") />
+	<cfset assertTrue(obj.views.explicitFormat[1].name eq "formatViewName", "view name not set") />
+	
+</cffunction>
+
+<cffunction name="testCacheKeyConventions" returntype="void" access="public">
+	<cfset var boot = createBootstrapper() />
+	<cfset var mg = "" />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	<cfset var controllerVars = "" />
+	<cfset var beanFactory = "" />
+
+	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
+	
+	<cfset mg = boot.createModelGlue() />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/simpleXmlModule.xml") />
+	
+	<!--- applicationCacheKeyConventions --->
+	<cfset obj = mg.getEventHandler("applicationCacheKeyConventions") />
+	<cfset assertTrue(obj.cacheKey eq "application.eventHandler.applicationCacheKeyConventions", "app event cache key not set") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "application.eventHandler.applicationCacheKeyConventions.view.1", "app view cache key not set") />
+	
+	<!--- sessionCacheKeyConventions --->
+	<cfset obj = mg.getEventHandler("sessionCacheKeyConventions") />
+	<cfset assertTrue(obj.cacheKey eq "session.eventHandler.sessionCacheKeyConventions", "session event cache key not set") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "session.eventHandler.sessionCacheKeyConventions.view.1", "session view cache key not set") />
 </cffunction>
 
 <cffunction name="testIncludeStyleMasterXMLModule" returntype="void" access="public">

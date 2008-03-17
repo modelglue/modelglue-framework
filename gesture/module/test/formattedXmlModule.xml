@@ -13,32 +13,28 @@
 </controllers>
 	
 <event-handlers>
-	<event-handler name="eventHandlerName" cache="cacheValue" cacheKey="cacheKeyValue" cacheTimeout="42" access="accessValue">
+	<event-handler name="eventHandlerName">
 		<broadcasts>
 			<message name="messageName">
 				<argument name="argumentName" value="argumentValue" />
 			</message>
 		</broadcasts>
+		<broadcasts format="explicitFormat">
+			<message name="formatMessageName" />
+		</broadcasts>
 		<results>
 			<result name="resultName" do="eventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
 			<result do="implicitEventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
 		</results>
+		<results format="explicitFormat">
+			<result name="formatResultName" do="formatEventName" />
+			<result do="formatImplicitEventName" />
+		</results>
 		<views>
-			<include name="viewName" template="templateName" cache="cacheValue" cacheKey="cacheKeyValue" cacheTimeout="42">
-				<value name="valueName" value="valueValue" overwrite="false" />
-			</include>
+			<include name="viewName" template="templateName" />
 		</views>
-	</event-handler>
-
-	<event-handler name="sessionCacheKeyConventions" cache="session">
-		<views>
-			<include name="viewName" template="templateName" cache="session" />
-		</views>
-	</event-handler>
-
-	<event-handler name="applicationCacheKeyConventions" cache="application">
-		<views>
-			<include name="viewName" template="templateName" cache="application" />
+		<views format="explicitFormat">
+			<include name="formatViewName" template="formatTemplateName" />
 		</views>
 	</event-handler>
 </event-handlers>

@@ -116,26 +116,50 @@
 	<cfset var listeners = structNew() />
 	<cfset var listener = createListener() />
 	
+	<cfset eh1.name = "eh1" />
+
 	<cfset listener.target = this />
 	<cfset listener.listenerFunction = "listener_testExecuteEventHandler_ListenerInvocation" />
 	<cfset msg.name = "message" />
-	
 	<cfset listeners[msg.name] = arrayNew(1) />
 	<cfset arrayAppend(listeners[msg.name], listener) />
+	<cfset eh1.addMessage(msg) />
+
+	<cfset listener = createListener() />
+	<cfset listener.target = this />
+	<cfset listener.listenerFunction = "listener_testExecuteEventHandler_ListenerInvocation_byFormat" />
+	<cfset msg = createMessage() />
+	<cfset msg.name = "explicitFormatMessage" />
+	<cfset listeners[msg.name] = arrayNew(1) />
+	<cfset arrayAppend(listeners[msg.name], listener) />
+	<cfset eh1.addMessage(msg, "explicitFormat") />
+	
+	<cfset er = createEventContext() />
 	<cfset er.setListenerMap(listeners) />
 	
-	<cfset msg.name = "message" />
-	
-	<cfset eh1.name = "eh1" />
-	<cfset eh1.addMessage(msg) />
-	
 	<cfset variables.testExecuteEventHandler_ListenerInvocation_value = false />
+	<cfset variables.testExecuteEventHandler_ListenerInvocation_value_byFormat = false />
 	<cfset er.executeEventHandler(eh1) />
 	<cfset assertTrue(variables.testExecuteEventHandler_ListenerInvocation_value, "listener function not invoked!") />
+	<cfset assertFalse(variables.testExecuteEventHandler_ListenerInvocation_value_byFormat, "listener function invoked for explicit format during unformatted execution!") />
+
+	<cfset er = createEventContext() />
+	<cfset er.setListenerMap(listeners) />
+	<cfset er.setValue("requestFormat", "explicitFormat") />
+	<cfset variables.testExecuteEventHandler_ListenerInvocation_value = false />
+	<cfset variables.testExecuteEventHandler_ListenerInvocation_value_byFormat = false />
+	<cfset er.executeEventHandler(eh1) />
+	<cfset assertTrue(variables.testExecuteEventHandler_ListenerInvocation_value, "listener function not invoked!") />
+	<cfset assertTrue(variables.testExecuteEventHandler_ListenerInvocation_value_byFormat, "listener function not invoked for explicit format during formatted execution!") />
+
 </cffunction>
 
 <cffunction name="listener_testExecuteEventHandler_ListenerInvocation" access="public" returntype="void">
 	<cfset variables.testExecuteEventHandler_ListenerInvocation_value = true />
+</cffunction>
+
+<cffunction name="listener_testExecuteEventHandler_ListenerInvocation_byFormat" access="public" returntype="void">
+	<cfset variables.testExecuteEventHandler_ListenerInvocation_value_byFormat = true />
 </cffunction>
 
 <cffunction name="testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
@@ -204,7 +228,99 @@
 	<cfset variables.testExecuteEventHandler_ResultQueueing_order = "" />
 	<cfset er.addEventHandler(eh1) />
 	<cfset er.execute() />
+		
+	<!--- All listeners should have fired --->
+	<cfset assertTrue(variables.listener1_testExecuteEventHandler_ResultQueueing_value, "First listener didn't execute!") />
+	<cfset assertTrue(variables.listener2_testExecuteEventHandler_ResultQueueing_value, "Second listener didn't execute!") />
 	
+	<!--- Results should fire in explicit -> implicit order --->
+	<cfset assertTrue(variables.testExecuteEventHandler_ResultQueueing_order eq "explicitimplicit", "Results not fired in correct order.") />
+</cffunction>
+
+<cffunction name="testExecuteEventHandler_ResultQueueing_forFormat" access="public" returntype="void">
+	<cfset var er = createEventContext() />
+	<cfset var eh1 = createEventHandler() />
+	<cfset var eh2 = createEventHandler() />
+	<cfset var eh3 = createEventHandler() />
+	<cfset var msg1 = createMessage() />
+	<cfset var msg2 = createMessage() />
+	<cfset var msg3 = createMessage() />
+	<cfset var listeners = structNew() />
+	<cfset var listener1 = createListener() />
+	<cfset var listener2 = createListener() />
+	<cfset var listener3 = createListener() />
+	<cfset var eventHandlers = structNew() />
+	<cfset var result1 = createResult() />
+	<cfset var result2 = createResult() />
+
+	<!--- Set up listeners --->	
+	<cfset listener1.target = this />
+	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
+	<cfset msg1.name = "message1" />
+
+	<cfset listener2.target = this />
+	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
+	<cfset msg2.name = "message2" />
+
+	<cfset listener3.target = this />
+	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
+	<cfset msg3.name = "message3" />
+	
+	<cfset listeners[msg1.name] = arrayNew(1) />
+	<cfset listeners[msg2.name] = arrayNew(1) />
+	<cfset listeners[msg3.name] = arrayNew(1) />
+	<cfset arrayAppend(listeners[msg1.name], listener1) />
+	<cfset arrayAppend(listeners[msg2.name], listener2) />
+	<cfset arrayAppend(listeners[msg3.name], listener3) />
+	<cfset er.setListenerMap(listeners) />
+
+	<!--- Set up event handlers --->	
+	<cfset eh1.name = "eh1" />
+	<cfset eh1.addMessage(msg1, "explicitFormat") />
+	<!--- Explicit result --->
+	<cfset result1.name = "result1" />
+	<cfset result1.event = "eh2" />
+	<cfset eh1.addResult(result1, "explicitFormat") />
+	<!--- Implicit result --->
+	<cfset result2.name = "" />
+	<cfset result2.event = "eh3" />
+	<cfset eh1.addResult(result2, "explicitFormat") />
+
+	<cfset eh2.name = "eh2" />
+	<cfset eh2.addMessage(msg2, "explicitFormat") />
+
+	<cfset eh3.name = "eh3" />
+	<cfset eh3.addMessage(msg3, "explicitFormat") />
+
+	<cfset eventHandlers[eh1.name] = eh1 />
+	<cfset eventHandlers[eh2.name] = eh2 />
+	<cfset eventHandlers[eh3.name] = eh3 />
+
+	<!--- Execute --->	
+	<cfset er = createEventContext() />
+	<cfset er.setListenerMap(listeners) />
+	<cfset er.setEventHandlerMap(eventHandlers) />
+	<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = false />
+	<cfset variables.listener2_testExecuteEventHandler_ResultQueueing_value = false />
+	<cfset variables.testExecuteEventHandler_ResultQueueing_order = "" />
+	<cfset er.addEventHandler(eh1) />
+	<cfset er.execute() />
+		
+	<!--- No listeners should have fired --->
+	<cfset assertFalse(variables.listener1_testExecuteEventHandler_ResultQueueing_value, "First listener executed despite format!") />
+	<cfset assertFalse(variables.listener2_testExecuteEventHandler_ResultQueueing_value, "Second listener executed despite format!") />
+
+	<!--- Execute --->	
+	<cfset er = createEventContext() />
+	<cfset er.setValue("requestFormat", "explicitFormat") />
+	<cfset er.setEventHandlerMap(eventHandlers) />
+	<cfset er.setListenerMap(listeners) />
+	<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = false />
+	<cfset variables.listener2_testExecuteEventHandler_ResultQueueing_value = false />
+	<cfset variables.testExecuteEventHandler_ResultQueueing_order = "" />
+	<cfset er.addEventHandler(eh1) />
+	<cfset er.execute() />
+		
 	<!--- All listeners should have fired --->
 	<cfset assertTrue(variables.listener1_testExecuteEventHandler_ResultQueueing_value, "First listener didn't execute!") />
 	<cfset assertTrue(variables.listener2_testExecuteEventHandler_ResultQueueing_value, "Second listener didn't execute!") />
@@ -233,18 +349,34 @@
 	<cfset var ec = createEventContext() />
 	<cfset var eh = createEventHandler() />
 	<cfset var view = createView() />
+	<cfset var formattedView = createView() />
 			
 	<cfset view.name = "testRenderView" />
 	<cfset view.template = "testView.cfm" />
 
+	<cfset formattedView.name = "testFormattedRenderView" />
+	<cfset formattedView.template = "testFormatView.cfm" />
+
 	<cfset eh.name = "eh" />
 	<cfset eh.addView(view) />
+	<cfset eh.addView(formattedView, "explicitFormat") />
 
+	<cfset ec = createEventContext() />
 	<cfset ec.setValue("viewContents", "testEventHandler_ViewRendering") />
+	<cfset ec.setValue("formatViewContents", "testEventHandler_formatViewRendering") />
 	<cfset ec.addEventHandler(eh) />
 	<cfset ec.execute() />
 	
 	<cfset assertTrue(ec.getViewCollection().getFinalView() eq "testEventHandler_ViewRendering", "view not rendered to last position.") />
+
+	<cfset ec = createEventContext() />
+	<cfset ec.setValue("requestFormat", "explicitFormat") />
+	<cfset ec.setValue("viewContents", "testEventHandler_ViewRendering") />
+	<cfset ec.setValue("formatViewContents", "testEventHandler_formatViewRendering") />
+	<cfset ec.addEventHandler(eh) />
+	<cfset ec.execute() />
+	
+	<cfset assertTrue(ec.getViewCollection().getFinalView() eq "testEventHandler_formatViewRendering", "formatted view not rendered to last position.") />
 </cffunction>
 
 <!--- VIEW TESTS --->
@@ -311,7 +443,7 @@
 	
 	<cfset var msg = createUUID() />
 	
-	<cfhttp url="http://localhost/gesture/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://localhost/gesture/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
+	<cfhttp url="http://localhost:8080/cfusion/gesture/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://localhost:8080/cfusion/gesture/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
 	
 	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#', got '#cfhttp.filecontent#'") />
 </cffunction>

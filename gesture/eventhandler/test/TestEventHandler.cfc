@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
+<cfcomponent extends="mxunit.framework.TestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
 
 <cffunction name="createEventHandler" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.eventhandler.EventHandler") />
@@ -25,6 +25,9 @@
 	<cfset var eh = createEventHandler() />
 	
 	<cfset assertTrue(eh.access eq "public", "access should default to ""public""") />
+	<cfset assertTrue(eh.cache eq "") />
+	<cfset assertTrue(eh.cacheKey eq "") />
+	<cfset assertTrue(eh.cacheTimeout eq 0) />
 </cffunction>
 
 <!--- MESSAGE TESTS --->
@@ -40,12 +43,11 @@
 	
 	<cfset message.name = "message" />
 
-	<cfset assertFalse(arrayLen(eh.messages), "messages should have no length before add")>	
 	<cfset assertFalse(eh.hasMessage("message"), "hasMessage returned true before adding message!") />
 
 	<cfset eh.addMessage(message) />
 
-	<cfset assertTrue(arrayLen(eh.messages), "messages should have a length after add")>	
+	<cfset assertTrue(arrayLen(eh.messages.cfNullKeyWorkaround), "messages should have a length after add")>	
 	<cfset assertTrue(eh.hasMessage("message"), "hasMessage returned false after adding message!") />
 </cffunction>
 
@@ -55,13 +57,11 @@
 	<cfset var result = createResult() />
 	
 	<cfset result.name = "result" />
-
-	<cfset assertFalse(structCount(eh.results), "results should have no length before add")>	
 	<cfset assertFalse(eh.hasResult("result"), "hasResult returned true before adding result!") />
 
 	<cfset eh.addResult(result) />
 	
-	<cfset assertTrue(structCount(eh.results), "results should have length after add")>	
+	<cfset assertTrue(structCount(eh.results.cfNullKeyWorkaround), "results should have length after add")>	
 	<cfset assertTrue(eh.hasResult("result"), "hasResult returned false after adding result!") />
 </cffunction>
 
@@ -70,6 +70,9 @@
 	<cfset var view = createView() />
 	
 	<cfset assertFalse(view.append, "view should have apend=true by default")>	
+	<cfset assertTrue(view.cache eq "") />
+	<cfset assertTrue(view.cacheKey eq "") />
+	<cfset assertTrue(view.cacheTimeout eq 0) />
 </cffunction>
 
 <cffunction name="testEventHandler_AddView" returntype="void" access="public">
@@ -78,11 +81,9 @@
 	
 	<cfset view.name = "view" />
 
-	<cfset assertFalse(arrayLen(eh.views), "views should have no length before add")>	
-
 	<cfset eh.addView(view) />
 	
-	<cfset assertTrue(arrayLen(eh.views), "views should have length before add")>	
+	<cfset assertTrue(arrayLen(eh.views["cfNullKeyWorkaround"]), "views should have length before add")>	
 </cffunction>
 
 <cffunction name="testView_AddValue" returntype="void" access="public">

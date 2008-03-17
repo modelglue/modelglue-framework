@@ -188,8 +188,6 @@
 <bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector" />
 	
 <!--
-		Default MG config bean.
--->
 <bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
 	<property name="defaultEvent">
 		<value>home</value>
@@ -204,5 +202,6 @@
 		<value>/ModelGlue/helpers/cflib</value>
 	</property>
 </bean>		
+-->
 
 </beans>

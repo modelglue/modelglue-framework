@@ -199,10 +199,22 @@
 		<cfset ehXml = arguments.handlersXML.xmlChildren[i] />
 
 		<cfparam name="ehXml.xmlAttributes.type" default="EventHandler" />
+		<cfparam name="ehXml.xmlAttributes.access" default="public" />
+		<cfparam name="ehXml.xmlAttributes.cache" default="" />
+		<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
+		<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
 				
 		<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 
 		<cfset ehInst.name = ehXml.xmlAttributes.name />
+		<cfset ehInst.access = ehXml.xmlAttributes.access />
+		<cfset ehInst.cache = ehXml.xmlAttributes.cache />
+		<cfset ehInst.cacheKey = ehXml.xmlAttributes.cacheKey />
+		<cfset ehInst.cacheTimeout = ehXml.xmlAttributes.cacheTimeout />
+		
+		<cfif len(ehInst.cache) and not len(ehInst.cacheKey)>
+			<cfset ehInst.cacheKey = ehInst.cache & ".eventHandler." & ehInst.name />
+		</cfif>
 		
 		<!--- Load messages --->
 		<cfset childXml = xmlSearch(ehXml, "broadcasts") />
@@ -259,7 +271,11 @@
 			<cfset msgInst.arguments.setValue(argXml.xmlAttributes.name, argXml.xmlAttributes.value) />
 		</cfloop>
 		
-		<cfset arguments.eventHandler.addMessage(msgInst) />
+		<cfif structKeyExists(arguments.broadcastsXml.xmlAttributes, "format")>
+			<cfset arguments.eventHandler.addMessage(msgInst, arguments.broadcastsXml.xmlAttributes.format) />
+		<cfelse>
+			<cfset arguments.eventHandler.addMessage(msgInst) />
+		</cfif>
 	</cfloop>
 </cffunction>
 
@@ -295,8 +311,12 @@
 				</cfdefaultcase>
 			</cfswitch>
 		</cfloop>
-		
-		<cfset arguments.eventHandler.addResult(resInst) />
+
+		<cfif structKeyExists(arguments.resultsXml.xmlAttributes, "format")>
+			<cfset arguments.eventHandler.addResult(resInst, arguments.resultsXml.xmlAttributes.format) />
+		<cfelse>
+			<cfset arguments.eventHandler.addResult(resInst) />
+		</cfif>
 	</cfloop>
 </cffunction>
 
@@ -319,8 +339,19 @@
 		<cfset viewInst.template = viewXml.xmlAttributes.template />
 		
 		<cfparam name="viewXml.xmlAttributes.append" default="false" />
+		<cfparam name="viewXml.xmlAttributes.cache" default="" />
+		<cfparam name="viewXml.xmlAttributes.cacheKey" default="" />
+		<cfparam name="viewXml.xmlAttributes.cacheTimeout" default="0" />
+
 		<cfset viewInst.append = viewXml.xmlAttributes.append />
+		<cfset viewInst.cache = viewXml.xmlAttributes.cache />
+		<cfset viewInst.cacheKey = viewXml.xmlAttributes.cacheKey />
+		<cfset viewInst.cacheTimeout = viewXml.xmlAttributes.cacheTimeout />
 		
+		<cfif len(viewInst.cache) and not len(viewInst.cacheKey)>
+			<cfset viewInst.cacheKey = viewInst.cache & ".eventHandler." & arguments.eventHandler.name & ".view.#i#" />
+		</cfif>
+
 		<cfloop from="1" to="#arrayLen(viewXml.xmlChildren)#" index="j">
 			<cfset valueXml = viewXml.xmlChildren[j] />
 			<cfset valueInst = createObject("component", "ModelGlue.gesture.eventhandler.Value") />
@@ -334,11 +365,16 @@
 				</cfif>
 				<cfset valueInst.overwrite = valueXml.xmlAttributes.overwrite />
 			</cfif>
-			
+
 			<cfset viewInst.addValue(valueInst) />
 		</cfloop>
-		
-		<cfset arguments.eventHandler.addView(viewInst) />
+
+		<cfif structKeyExists(arguments.viewsXml.xmlAttributes, "format")>
+			<cfset arguments.eventHandler.addView(viewInst, arguments.viewsXml.xmlAttributes.format) />
+		<cfelse>
+			<cfset arguments.eventHandler.addView(viewInst) />
+		</cfif>
+
 	</cfloop>
 </cffunction>
 
