@@ -59,6 +59,9 @@
 	<cfset var methodName = "" />
 	<cfset var bean = "" />
 	
+	<!--- TMP --->
+	<cfset var name = getMetadata(target).name />
+	
 	<cfloop collection="#arguments.target#" item="methodName">
 		<cfif left(methodName, 3) eq "set" and variables._beanFactory.containsBean(right(methodName, len(methodName) - 3))>
 			<cfset bean = variables._beanFactory.getBean(right(methodName, len(methodName) - 3)) />

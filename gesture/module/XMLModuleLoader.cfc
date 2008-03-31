@@ -144,6 +144,7 @@
 <cffunction name="loadControllers" output="false" hint="Loads controllers from <controllers> block.">
 	<cfargument name="modelglue" />
 	<cfargument name="controllersXML" />
+
 	
 	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.controllerBeanInjector") />
 	<cfset var ctrlInst = "" />
@@ -152,7 +153,7 @@
 	<cfset var ctrlVars = "" />
 	<cfset var beanId = "" />
 	<cfset var i = "" />
-	
+
 	<cfloop from="1" to="#arrayLen(arguments.controllersXML.xmlChildren)#" index="i">
 		<cfset ctrlXml = arguments.controllersXML.xmlChildren[i] />
 		

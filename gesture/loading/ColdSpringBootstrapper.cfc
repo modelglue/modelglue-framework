@@ -33,7 +33,9 @@
 	
 	<cfset bf.loadBeans(csPath) />
 
-	<!--- If we're in unity mode, we now load the _local_ ColdSpring beans on top of the core --->
+	<!--- If we're in unity mode, we now load the _local_ ColdSpring beans on top of the core 
+				and handle compatability bean id's.
+	--->
 	<cfif this.modelglueVersionIndicator eq this.versionIndicators.unity>
 		<cfif not fileExists(originalCsPath)>
 			<cfset originalCsPath = expandPath(originalCsPath) />
@@ -44,6 +46,10 @@
 		</cfif>
 
 		<cfset bf.loadBeans(originalCsPath) />
+		
+		<!--- TODO: Compatibility aliases
+		<cfset bf.loadBeans(expandPath("/ModelGlue/unity/config/UnityCompatabilityAliases.xml")) />
+		 --->
 	</cfif>
 
 	<!--- If we're in legacy mode, we change the value of the primaryModule in the configuration. --->

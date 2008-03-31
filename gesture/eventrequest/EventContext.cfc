@@ -399,6 +399,12 @@
 	</cfif>
 </cffunction>
 
+<cffunction name="argumentExists" access="public" hint="Does an argument of the given name exist in the currently broadcast message?">
+	<cfargument name="argumentName" type="string" />
+	
+	<cfreturn variables._currentMessage.arguments.exists(arguments.argumentName) />
+</cffunction>
+
 <!--- RESULT MANAGEMENT --->
 <cffunction name="resetResults" access="public" hint="Resets results to an empty array.">
 	<cfset variables._results = arrayNew(1) />
@@ -601,22 +607,7 @@
 	<cfset var source = "" />
 	<cfset var i = "" />
 	
-	<!--- 
-				TODO:  Building this secondary struct for a field-limited population is inefficient.  
-				BeanUtils should be updated with this feature, and then the populator adapter
-				changed.
-	--->
-	<cfif len(fields)>
-		<cfset source = structNew() />
-		
-		<cfloop list="#arguments.fields#" index="i">
-			<cfset source[i] = getValue(i) />
-		</cfloop>
-	<cfelse>
-		<cfset source = getAll() />
-	</cfif>
-	
-	<cfreturn variables._beanPopulator.populate(arguments.target, source) />
+	<cfreturn variables._beanPopulator.populate(arguments.target, variables._state) />
 </cffunction>
 
 </cfcomponent>

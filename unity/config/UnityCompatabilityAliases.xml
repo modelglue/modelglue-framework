@@ -1,0 +1,3 @@
+<beans>
+	<alias alias="modelglue.ModelGlueConfiguration" name="ModelGlueConfiguration" /> 
+</beans>

@@ -31,9 +31,10 @@
 			<cfset boot = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />
 
 			<cfset boot.applicationKey = ModelGlue_APP_KEY />
-			<cfset boot.coldspringPath = expandPath(ModelGlue_LOCAL_COLDSPRING_PATH) />
+			<cfset boot.coldspringPath = ModelGlue_LOCAL_COLDSPRING_PATH />
 			<cfset boot.modelglueVersionIndicator = ModelGlue_VERSION_INDICATOR />
 			<cfset boot.primaryModulePath = ModelGlue_CONFIG_PATH />
+			<cfset boot.parentBeanFactory = ModelGlue_PARENT_BEAN_FACTORY />
 
 			<cfset mg = boot.storeModelGlue() />
 		<cfelse>
@@ -48,6 +49,8 @@
 
 <cfoutput>#ec.getLastRendereredView()#</cfoutput>
 
+<cfif mg.configuration.debug neq "false" and mg.configuration.debug neq "none"> 
 <cfoutput>
-#mg.renderContextLog(ec)#
+	#mg.renderContextLog(ec)#
 </cfoutput>
+</cfif>

@@ -113,6 +113,11 @@
 	<cfset this.cacheAdapter = arguments.cacheAdapter />
 </cffunction>
 
+<cffunction name="setBeanPopulator" output="false" hint="Sets the caching adapter to use for content caching.">
+	<cfargument name="beanPopulator" output="false" />
+	<cfset variables._beanPopulator = arguments.beanPopulator />
+</cffunction>
+
 <cffunction name="setStatePersister" output="false" hint="Sets the state persister to use to maintain state during redirects.">
 	<cfargument name="statePersister" output="false" />
 	<cfset variables._statePersister = arguments.statePersister />
@@ -161,10 +166,11 @@
 										modelglue=this,
 										viewRenderer=variables._viewRenderer,
 										statePersister=variables._statePersister,
+										beanPopulator=variables._beanPopulator,
 										helpers=this.helpers
 						 			 ) 
 	/>
-	
+
 	<cfset ctx.execute() />
 	
 	<cfreturn ctx />

@@ -75,6 +75,11 @@
 		</list>
 	</property>
 	
+	<!-- Bean Populator to use -->
+	<property name="beanPopulator">
+		<ref bean="modelglue.beanPopulator" />
+	</property>
+
 	<!-- IoC Adapter to use -->
 	<property name="iocAdapter">
 		<ref bean="modelglue.iocAdapter" />
@@ -168,14 +173,19 @@
 </bean>
 
 <!--
-	Session facade
--->
-<bean id="modelglue.sessionFacade" class="ModelGlue.gesture.externaladapters.session.AdobeColdFusionSessionFacade" />
-
-<!--
 	Form Populator to use.
 -->
 <bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+
+<!--
+	Bean Populator to use (fuels makeEventBean())
+-->
+<bean id="modelGlue.beanPopulator" class="ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator" />
+	
+<!--
+	Session facade
+-->
+<bean id="modelglue.sessionFacade" class="ModelGlue.gesture.externaladapters.session.AdobeColdFusionSessionFacade" />
 
 <!--
 	IoC Adapter to use

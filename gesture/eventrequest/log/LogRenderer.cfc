@@ -8,9 +8,15 @@
 	<cfset var i = "" />
 	<cfset var initialTime = "" />
 	<cfset var eventTime = "" />
-	
+
+	<!--- Shortcut to bypass.  Man, why did I ever do it like this? --->
+	<cfif structKeyExists(request, "modelGlueSuppressDebugging")>
+		<cfreturn "" />
+	</cfif>
+		
 	<cfoutput>
 	<cfsavecontent variable="out">
+		<div clear="both">
 		<h1>Model-Glue Debugging</h1>
 		
 		<table width="100%" cellpadding="2" cellspacing="0" border="1">
@@ -36,6 +42,7 @@
 			</tr>
 		</cfloop>
 		</table>
+		</div>
 	</cfsavecontent>
 	</cfoutput>
 	
