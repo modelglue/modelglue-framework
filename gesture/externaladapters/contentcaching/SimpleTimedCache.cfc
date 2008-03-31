@@ -15,7 +15,7 @@
 
 <cffunction name="put" access="public" hint="Puts content into the cache.">
 	<cfargument name="key" type="string" hint="Key for the content." />
-	<cfargument name="content" type="string" hint="The content to cache." />
+	<cfargument name="content" type="any" hint="The content to cache." />
 	<cfargument name="timeout" type="numeric" hint="Seconds this item should live in the cache." default="#variables._defaultTimeout#" />
 
 	<cfset arguments.created = now() />

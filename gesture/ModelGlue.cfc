@@ -108,6 +108,11 @@
 	</cfloop>
 </cffunction>
 
+<cffunction name="setCacheAdapter" output="false" hint="Sets the caching adapter to use for content caching.">
+	<cfargument name="cacheAdapter" output="false" />
+	<cfset this.cacheAdapter = arguments.cacheAdapter />
+</cffunction>
+
 <cffunction name="setStatePersister" output="false" hint="Sets the state persister to use to maintain state during redirects.">
 	<cfargument name="statePersister" output="false" />
 	<cfset variables._statePersister = arguments.statePersister />

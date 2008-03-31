@@ -5,8 +5,9 @@
 <cfproperty name="messages" type="array" hint="Messages broadcast when this event handler is run.  Add messages with addMessage()!" />
 <cfproperty name="views" type="array" hint="Messages broadcast when this event handler is run.  Add views with addView()!" />
 <cfproperty name="resMappings" type="array" hint="Result definitions.  Add resMappings with addResult()!" />
-<cfproperty name="cache" type="string" hint="Either ""application"" or ""session"" to allow app-wide or session-specific caching." />
+<cfproperty name="cache" type="boolean" hint="Cache this event-handler?" />
 <cfproperty name="cacheKey" type="string" hint="Key by which this event-handler should be known in the cache.  Typically set by convention." />
+<cfproperty name="cacheKeyValues" type="string" hint="List of event values to append to the cache key." />
 <cfproperty name="cacheTimeout" type="numeric" hint="Number of seconds this event-handler should be cached." />
 
 <cfset this.name = "" />
@@ -17,8 +18,9 @@
 <cfset this.views.cfNullKeyWorkaround = arrayNew(1) />
 <cfset this.results = structNew() />
 <cfset this.results.cfNullKeyWorkaround = structNew() />
-<cfset this.cache = "" />
+<cfset this.cache = 0 />
 <cfset this.cacheKey = "" />
+<cfset this.cacheKeyValues = "" />
 <cfset this.cacheTimeout = 0 />
 
 <cffunction name="addMessage" returntype="ModelGlue.gesture.eventhandler.EventHandler" output="false" hint="Adds a Message and returns this.">

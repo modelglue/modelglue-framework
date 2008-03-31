@@ -80,6 +80,11 @@
 		<ref bean="modelglue.iocAdapter" />
 	</property>
 
+	<!-- Cache Adapter to use -->
+	<property name="cacheAdapter">
+		<ref bean="modelglue.cacheAdapter" />
+	</property>
+
 	<!-- 
 		View Renderer to use.
 	-->
@@ -163,6 +168,11 @@
 </bean>
 
 <!--
+	Session facade
+-->
+<bean id="modelglue.sessionFacade" class="ModelGlue.gesture.externaladapters.session.AdobeColdFusionSessionFacade" />
+
+<!--
 	Form Populator to use.
 -->
 <bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
@@ -171,6 +181,14 @@
 	IoC Adapter to use
 -->
 <bean id="modelGlue.iocAdapter" class="ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter" />
+
+<!--
+	Cache Adapter to use
+-->
+<bean id="modelGlue.cacheAdapter" class="ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache">
+	<constructor-arg name="sweepInterval"><value>60</value></constructor-arg>
+	<constructor-arg name="defaultTimeout"><value>60</value></constructor-arg>
+</bean>
 
 <!--
 	View renderer

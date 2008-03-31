@@ -25,8 +25,9 @@
 	<cfset var eh = createEventHandler() />
 	
 	<cfset assertTrue(eh.access eq "public", "access should default to ""public""") />
-	<cfset assertTrue(eh.cache eq "") />
+	<cfset assertTrue(eh.cache eq false) />
 	<cfset assertTrue(eh.cacheKey eq "") />
+	<cfset assertTrue(eh.cacheKeyValues eq "") />
 	<cfset assertTrue(eh.cacheTimeout eq 0) />
 </cffunction>
 
@@ -70,8 +71,9 @@
 	<cfset var view = createView() />
 	
 	<cfset assertFalse(view.append, "view should have apend=true by default")>	
-	<cfset assertTrue(view.cache eq "") />
+	<cfset assertTrue(view.cache eq false) />
 	<cfset assertTrue(view.cacheKey eq "") />
+	<cfset assertTrue(view.cacheKeyValues eq "") />
 	<cfset assertTrue(view.cacheTimeout eq 0) />
 </cffunction>
 

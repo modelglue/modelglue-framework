@@ -43,8 +43,9 @@
 	<cfset obj = mg.getEventHandler("eventHandlerName") />
 	<cfset assertTrue(isObject(obj), "event handler not object!") />
 	<cfset assertTrue(obj.access eq "accessValue", "accessValue not set") />
-	<cfset assertTrue(obj.cache eq "cacheValue", "cacheValue not set") />
+	<cfset assertTrue(obj.cache eq "true", "cacheValue not set") />
 	<cfset assertTrue(obj.cacheKey eq "cacheKeyValue", "cacheKey not set") />
+	<cfset assertTrue(obj.cacheKeyValues eq "eventKeyValue", "cacheKeyValues not set") />
 	<cfset assertTrue(obj.cacheTimeout eq 42, "cacheTimeout not set") />
 	
 	<!--- Messages --->
@@ -77,9 +78,10 @@
 	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].values.valueName.name eq "valueName", "valueName value not named valueName (ugh, that's confusing.)") />	
 	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].values.valueName.value eq "valueValue", "valueName value not set to valueValue") />	
 	<cfset assertFalse(obj.views.cfNullKeyWorkaround[1].values.valueName.overwrite eq "valueValue", "valueName value wasn't set to not overwrite") />	
-	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cache eq "cacheValue", "cacheValue not set on view") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cache eq "true", "cacheValue not set on view") />
 	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "cacheKeyValue", "cacheKey not set on view") />
 	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheTimeout eq 42, "cacheTimeout not set on view") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKeyValues eq "viewKeyValue", "cacheTimeout not set on view") />
 	
 </cffunction>
 
@@ -143,15 +145,11 @@
 	
 	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/simpleXmlModule.xml") />
 	
-	<!--- applicationCacheKeyConventions --->
-	<cfset obj = mg.getEventHandler("applicationCacheKeyConventions") />
-	<cfset assertTrue(obj.cacheKey eq "application.eventHandler.applicationCacheKeyConventions", "app event cache key not set") />
-	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "application.eventHandler.applicationCacheKeyConventions.view.1", "app view cache key not set") />
-	
-	<!--- sessionCacheKeyConventions --->
-	<cfset obj = mg.getEventHandler("sessionCacheKeyConventions") />
-	<cfset assertTrue(obj.cacheKey eq "session.eventHandler.sessionCacheKeyConventions", "session event cache key not set") />
-	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "session.eventHandler.sessionCacheKeyConventions.view.1", "session view cache key not set") />
+	<!--- cacheKeyConventions --->
+	<cfset obj = mg.getEventHandler("cacheKeyConventions") />
+	<cfset assertFalse(obj.cache, "Event set to cache=true by default!") />
+	<cfset assertTrue(obj.cacheKey eq "eventHandler.cacheKeyConventions", "event cache key not set ") />
+	<cfset assertTrue(obj.views.cfNullKeyWorkaround[1].cacheKey eq "eventHandler.cacheKeyConventions.view.1", "session view cache key not set") />
 </cffunction>
 
 <cffunction name="testIncludeStyleMasterXMLModule" returntype="void" access="public">

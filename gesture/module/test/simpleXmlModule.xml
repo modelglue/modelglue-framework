@@ -13,7 +13,7 @@
 </controllers>
 	
 <event-handlers>
-	<event-handler name="eventHandlerName" cache="cacheValue" cacheKey="cacheKeyValue" cacheTimeout="42" access="accessValue">
+	<event-handler name="eventHandlerName" cache="true" cacheKey="cacheKeyValue" cacheTimeout="42" access="accessValue" cacheKeyValues="eventKeyValue">
 		<broadcasts>
 			<message name="messageName">
 				<argument name="argumentName" value="argumentValue" />
@@ -24,21 +24,15 @@
 			<result do="implicitEventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
 		</results>
 		<views>
-			<include name="viewName" template="templateName" cache="cacheValue" cacheKey="cacheKeyValue" cacheTimeout="42">
+			<include name="viewName" template="templateName" cache="true" cacheKey="cacheKeyValue" cacheTimeout="42" cacheKeyValues="viewKeyValue">
 				<value name="valueName" value="valueValue" overwrite="false" />
 			</include>
 		</views>
 	</event-handler>
 
-	<event-handler name="sessionCacheKeyConventions" cache="session">
+	<event-handler name="cacheKeyConventions">
 		<views>
-			<include name="viewName" template="templateName" cache="session" />
-		</views>
-	</event-handler>
-
-	<event-handler name="applicationCacheKeyConventions" cache="application">
-		<views>
-			<include name="viewName" template="templateName" cache="application" />
+			<include name="viewName" template="templateName" cache="true" />
 		</views>
 	</event-handler>
 </event-handlers>

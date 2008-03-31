@@ -176,8 +176,39 @@
 </cffunction>
 
 <cffunction name="executeEventQueue" access="public" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
-	<cfset var eh = "" />
+	<cfset var initialEh = 0 />
+	<cfset var eh = 0 />
+	<cfset var cacheKey = 0 />
+	<cfset var cacheReq = "" />
+	<cfset var i = 0 />
+	<cfset var requestFormat = getValue("requestFormat", "") />
 	
+	<cfif not isStruct(variables._nextEventHandler)>
+		<!--- Nothing to do! --->
+		<cfreturn />
+	</cfif>
+	
+	<!--- First handler in queue is the cache point. --->
+	<cfset initialEh = variables._nextEventHandler.eventHandler />
+
+	<cfif initialEh.cache>
+		<cfset cacheKey = initialEh.cacheKey />
+		<cfloop list="#initialEh.cacheKeyValues#" index="i">
+			<cfset cacheKey = "#requestFormat#." & cacheKey & ".#getValue(i)#" />
+		</cfloop>
+		
+		<cfset cacheReq = variables._modelglue.cacheAdapter.get(cacheKey) />
+
+		<cfif cacheReq.success>
+			<cfset this.trace("Event Handler Cache", "Cached initial event handler used.", "Key: #cacheKey#") /> 
+			<cfset this.addView(cacheReq.content.key, cacheReq.content.output) />
+		
+			<!--- Reset the queue --->
+			<cfset variables._nextEventHandler = "" />
+			<cfreturn />
+		</cfif>
+	</cfif>
+	 
 	<!--- Run event handlers (broadcast/listener/result addition) --->
 	<cfloop condition="isStruct(variables._nextEventHandler)">
 		<cfset eh = getNextEventHandler() />
@@ -186,9 +217,23 @@
 
 	<!--- Render all views queued. --->
 	<cfset renderViewQueue() />
+
+	<cfif initialEh.cache>
+		<cfset cacheReq = structNew() />
+		<cfset cacheReq.key = variables._viewCollection.getFinalViewKey() />
+		<cfset cacheReq.output = variables._viewCollection.getFinalView() />
+		
+		<cfif initialEh.cacheTimeout>
+			<cfset variables._modelglue.cacheAdapter.put(cacheKey, cacheReq, initialEh.cacheTimeout) />
+		<cfelse>
+			<cfset variables._modelglue.cacheAdapter.put(cacheKey, cacheReq) />
+		</cfif>
+
+		<cfset this.trace("Event Handler Cache", "Caching initial event handler", "Key: #cacheKey#") /> 
+	</cfif>
 </cffunction>
 
-<cffunction name="executeEventHandler" output="false" hint="Executes an event handler:  invokes listener functions, handles results, and queues views for rendering.">
+<cffunction name="executeEventHandler" output="false" hint="Executes an event handler:  invokes listener functions, handles results, and queues views for rendering">
 	<cfargument name="eventHandler" hint="The event handler to execute.  Duck-typed for speed." />
 	
 	<cfset var message = "" />
@@ -198,6 +243,7 @@
 	<cfset var i = "" />
 	<cfset var j = "" />
 	<cfset var requestFormat = getValue("requestFormat", "") />
+	<cfset var cacheKey = "" />
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	

@@ -167,11 +167,15 @@
 		<cfset ctrlVars = ctrlInst._modelGlueBeanInjection_getVariablesScope() />
 		<cfset ctrlVars.beans = structNew() />
 
+		<!--- Perform bean injection: Metadata --->
+		<cfset injector.injectBeanByMetadata(ctrlInst) />
+		
 		<!--- Perform bean injection: XML --->
 		<cfloop list="#ctrlXml.xmlAttributes.beans#" index="beanId">
 			<cfset injector.injectBean(beanId, ctrlInst) />
 		</cfloop>
-
+		
+		<cfset injector.injectBeanByMetadata(ctrlInst) />
 		<!--- Perform autowiring --->
 		<cfset injector.autowire(ctrlInst) />
 				
@@ -200,20 +204,25 @@
 
 		<cfparam name="ehXml.xmlAttributes.type" default="EventHandler" />
 		<cfparam name="ehXml.xmlAttributes.access" default="public" />
-		<cfparam name="ehXml.xmlAttributes.cache" default="" />
+		<cfparam name="ehXml.xmlAttributes.cache" default="false" />
 		<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
+		<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
 		<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
 				
 		<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 
 		<cfset ehInst.name = ehXml.xmlAttributes.name />
 		<cfset ehInst.access = ehXml.xmlAttributes.access />
-		<cfset ehInst.cache = ehXml.xmlAttributes.cache />
+		
+		<cfif isBoolean(ehXml.xmlAttributes.cache)>
+			<cfset ehInst.cache = ehXml.xmlAttributes.cache />
+		</cfif>
 		<cfset ehInst.cacheKey = ehXml.xmlAttributes.cacheKey />
+		<cfset ehInst.cacheKeyValues = ehXml.xmlAttributes.cacheKeyValues />
 		<cfset ehInst.cacheTimeout = ehXml.xmlAttributes.cacheTimeout />
 		
 		<cfif len(ehInst.cache) and not len(ehInst.cacheKey)>
-			<cfset ehInst.cacheKey = ehInst.cache & ".eventHandler." & ehInst.name />
+			<cfset ehInst.cacheKey = "eventHandler." & ehInst.name />
 		</cfif>
 		
 		<!--- Load messages --->
@@ -339,17 +348,21 @@
 		<cfset viewInst.template = viewXml.xmlAttributes.template />
 		
 		<cfparam name="viewXml.xmlAttributes.append" default="false" />
-		<cfparam name="viewXml.xmlAttributes.cache" default="" />
+		<cfparam name="viewXml.xmlAttributes.cache" default="false" />
 		<cfparam name="viewXml.xmlAttributes.cacheKey" default="" />
+		<cfparam name="viewXml.xmlAttributes.cacheKeyValues" default="" />
 		<cfparam name="viewXml.xmlAttributes.cacheTimeout" default="0" />
 
 		<cfset viewInst.append = viewXml.xmlAttributes.append />
-		<cfset viewInst.cache = viewXml.xmlAttributes.cache />
+		<cfif isBoolean(viewXml.xmlAttributes.cache)>
+			<cfset viewInst.cache = viewXml.xmlAttributes.cache />
+		</cfif>
 		<cfset viewInst.cacheKey = viewXml.xmlAttributes.cacheKey />
+		<cfset viewInst.cacheKeyValues = viewXml.xmlAttributes.cacheKeyValues />
 		<cfset viewInst.cacheTimeout = viewXml.xmlAttributes.cacheTimeout />
 		
 		<cfif len(viewInst.cache) and not len(viewInst.cacheKey)>
-			<cfset viewInst.cacheKey = viewInst.cache & ".eventHandler." & arguments.eventHandler.name & ".view.#i#" />
+			<cfset viewInst.cacheKey = "eventHandler." & arguments.eventHandler.name & ".view.#i#" />
 		</cfif>
 
 		<cfloop from="1" to="#arrayLen(viewXml.xmlChildren)#" index="j">

@@ -10,17 +10,20 @@
 	<cfset var modelglue = arguments.eventContext.getModelGlue() />
 	<cfset var event = "" />
 	
-	<!--- 
-		Before event queue runs, we need to load any configured modules.
-	--->
-	<cfset loadModules(modelglue) />
-	
-	<!--- Add the newly loaded event to the queue. --->
-	<cfset event =  modelglue.getEventHandler("modelglue.readyForModuleLoading") />
-	<cfset arguments.eventContext.addEventHandler(event) />
-	
-	<!--- Tell the context to run its queue. --->
-	<cfset arguments.eventContext.executeEventQueue() />
+	<!--- Only do anything if this isn't an initialization request. --->
+	<cfif request._modelglue.bootstrap.initializationRequest>
+		<!--- 
+			Before event queue runs, we need to load any configured modules.
+		--->
+		<cfset loadModules(modelglue) />
+		
+		<!--- Add the newly loaded event to the queue. --->
+		<cfset event =  modelglue.getEventHandler("modelglue.readyForModuleLoading") />
+		<cfset arguments.eventContext.addEventHandler(event) />
+		
+		<!--- Tell the context to run its queue. --->
+		<cfset arguments.eventContext.executeEventQueue() />
+	</cfif>
 </cffunction>
 
 </cfcomponent>

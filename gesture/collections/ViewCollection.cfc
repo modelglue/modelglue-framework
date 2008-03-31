@@ -47,4 +47,8 @@
   </cfif>
 </cffunction>
 
+<cffunction name="getFinalViewKey" access="public" output="false" hint="I get the key of last view entered into the view collection.">
+	<cfreturn variables.finalViewKey />
+</cffunction>
+
 </cfcomponent>

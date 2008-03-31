@@ -15,9 +15,17 @@
 <cfset request._modelglue.bootstrap = structNew() />
 <cfset request._modelglue.bootstrap.initializationRequest = false />
 
-<cfif 1 eq 1 or not structKeyExists(application, ModelGlue_APP_KEY) or structKeyExists(url, "init")>
+<cfif not structKeyExists(application, ModelGlue_APP_KEY) 
+			or (
+					structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)
+					and url[application[ModelGlue_APP_KEY].configuration.reloadKey] eq application[ModelGlue_APP_KEY].configuration.reloadPassword
+			)>
 	<cflock name="#expandPath(".")#/.modelglue.loading" type="exclusive" timeout="60">
-		<cfif 1 eq 1 or not structKeyExists(application, ModelGlue_APP_KEY) or structKeyExists(url, "init")>
+		<cfif not structKeyExists(application, ModelGlue_APP_KEY)
+					or (
+							structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)
+							and url[application[ModelGlue_APP_KEY].configuration.reloadKey] eq application[ModelGlue_APP_KEY].configuration.reloadPassword
+					)>
 			<cfset request._modelglue.bootstrap.initializationRequest = true />
 
 			<cfset boot = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />

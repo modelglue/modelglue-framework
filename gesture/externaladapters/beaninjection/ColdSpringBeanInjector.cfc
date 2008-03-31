@@ -25,12 +25,12 @@
 	
 	<cfset var md = getMetadata(arguments.target) />
 	<cfset var beanId = "" />
-	
-	<cfparam name="md.beans" default="" />
-	
-	<cfloop list="#md.beans#" index="beanId">
-		<cfset injectBean(beanId, arguments.target) />
-	</cfloop>
+
+	<cfif structKeyExists(md, "beans")>
+		<cfloop list="#md.beans#" index="beanId">
+			<cfset injectBean(beanId, arguments.target) />
+		</cfloop>
+	</cfif>
 </cffunction>
 
 <cffunction name="injectBean" access="public" returntype="void" hint="Injects a given bean into the variables.beans structure in the target.">
@@ -50,7 +50,7 @@
 		<cfset beanVariablesScope.beans = structNew() />
 	</cfif>
 	
-	<cfset beanVariablesScope.beans[arguments.beanId] = bean />
+	<cfset beanVariablesScope.beans[replaceNoCase(arguments.beanId, ".", "", "all")] = bean />
 </cffunction>
 
 <cffunction name="autowire" access="public" returntype="void" hint="Autowires a CFC based on setter methods.">
