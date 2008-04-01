@@ -157,10 +157,17 @@
 	<cfloop from="1" to="#arrayLen(arguments.controllersXML.xmlChildren)#" index="i">
 		<cfset ctrlXml = arguments.controllersXML.xmlChildren[i] />
 		
+		<cfparam name="ctrlXml.xmlAttributes.type" default="" />
+		<cfparam name="ctrlXml.xmlAttributes.bean" default="" />
 		<cfparam name="ctrlXml.xmlAttributes.id" default="#ctrlXml.xmlAttributes.type#" />
 		<cfparam name="ctrlXml.xmlAttributes.beans" default="" />
-		<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
-
+		
+		<cfif len(ctrlXml.xmlAttributes.bean)>
+			<cfset ctrlInst = arguments.modelGlue.getBean(ctrlXml.xmlAttributes.bean) />
+		<cfelse>
+			<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
+		</cfif>
+		
 		<!--- Create injection hooks --->
 		<cfset injector.createInjectionHooks(ctrlInst) />
 		
