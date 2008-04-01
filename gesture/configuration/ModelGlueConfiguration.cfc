@@ -5,7 +5,7 @@
     <cfset variables._instance.reload = "true" />
     <cfset variables._instance.debug = "true" />
     <cfset variables._instance.reloadPassword = "true" />
-    <cfset variables._instance.viewMappings = "" />
+    <cfset variables._instance.viewMappings = arrayNew(1) />
     <cfset variables._instance.helperMappings = "" />
     <cfset variables._instance.primaryModule = "" />
     <cfset variables._instance.primaryModuleType = "XML.Gesture" />
@@ -94,9 +94,9 @@
 
 <cffunction name="setViewMappings" returntype="void" output="false" access="public">
 	<cfargument name="ViewMappings" type="string" />
-	<cfset variables._instance.ViewMappings = arguments.ViewMappings />
+	<cfset variables._instance.ViewMappings = listToArray(arguments.ViewMappings) />
 </cffunction>
-<cffunction name="getViewMappings" returntype="string" output="false">
+<cffunction name="getViewMappings" returntype="array" output="false">
 	<cfreturn variables._instance.ViewMappings />
 </cffunction>
 

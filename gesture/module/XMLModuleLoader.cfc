@@ -88,6 +88,7 @@
 	<cfset var val = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
+	<cfset var tmpArray = "" />
 	<cfset var iocAdapter = "" />
 	
 	<!--- First pass through settings to catch some (beanFactoryLoader) that must be caught _first_ --->
@@ -129,10 +130,18 @@
 				</cfloop>
 			</cfcase>
 			<cfcase value="viewMappings">
+				<!---
 				<cfset val = arguments.modelGlue.getConfigSetting("viewMappings") />
-				<cfset val = listAppend(val, settingXml.xmlAttributes.value) />
-				<cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(val) />
+				<cfset arrayAppend(val, settingXml.xmlAttributes.value) />
+				--->
+				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
+				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
+					<cfset arrayAppend(arguments.modelglue.configuration.viewMappings, tmpArray[j]) />
+					<cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(tmpArray[j]) />
+				</cfloop>
+				<!---
 				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />
+				--->
 			</cfcase>
 			<cfdefaultcase>
 				<cfset arguments.modelglue.setConfigSetting(settingXml.xmlAttributes.name, settingXml.xmlAttributes.value) />
@@ -165,7 +174,12 @@
 		<cfif len(ctrlXml.xmlAttributes.bean)>
 			<cfset ctrlInst = arguments.modelGlue.getBean(ctrlXml.xmlAttributes.bean) />
 		<cfelse>
-			<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
+			<cftry>
+				<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
+				<cfcatch>
+					<cfdump var="#cfcatch#" label="#ctrlXml.xmlAttributes.type#"><Cfabort />
+				</cfcatch>
+			</cftry>
 		</cfif>
 		
 		<!--- Create injection hooks --->
@@ -209,60 +223,58 @@
 	
 	<cfloop from="1" to="#arrayLen(arguments.handlersXML.xmlChildren)#" index="i">
 		<cfset ehXml = arguments.handlersXML.xmlChildren[i] />
+		
+		<cfif ehXml.xmlName eq "event-handler">
 
-		<cfparam name="ehXml.xmlAttributes.type" default="EventHandler" />
-		<cfparam name="ehXml.xmlAttributes.access" default="public" />
-		<cfparam name="ehXml.xmlAttributes.cache" default="false" />
-		<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
-		<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
-		<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
-				
-		<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
+			<cfparam name="ehXml.xmlAttributes.eventType" default="EventHandler" />
+			<cfparam name="ehXml.xmlAttributes.access" default="public" />
+			<cfparam name="ehXml.xmlAttributes.cache" default="false" />
+			<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
+			<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
+			<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
+					
+			<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.eventType) >
+	
+			<cfset ehInst.name = ehXml.xmlAttributes.name />
+			<cfset ehInst.access = ehXml.xmlAttributes.access />
+			
+			<cfif isBoolean(ehXml.xmlAttributes.cache)>
+				<cfset ehInst.cache = ehXml.xmlAttributes.cache />
+			</cfif>
+			<cfset ehInst.cacheKey = ehXml.xmlAttributes.cacheKey />
+			<cfset ehInst.cacheKeyValues = ehXml.xmlAttributes.cacheKeyValues />
+			<cfset ehInst.cacheTimeout = ehXml.xmlAttributes.cacheTimeout />
+			
+			<cfif len(ehInst.cache) and not len(ehInst.cacheKey)>
+				<cfset ehInst.cacheKey = "eventHandler." & ehInst.name />
+			</cfif>
+			
+			<!--- Load messages --->
+			<cfset childXml = xmlSearch(ehXml, "broadcasts") />
+			
+			<cfloop from="1" to="#arrayLen(childXml)#" index="i">
+				<cfset loadMessages(ehInst, childXml[i]) />
+			</cfloop>
+			
+			<!--- Load results --->
+			<cfset childXml = xmlSearch(ehXml, "results") />
+			
+			<cfloop from="1" to="#arrayLen(childXml)#" index="i">
+				<cfset loadResults(ehInst, childXml[i]) />
+			</cfloop>
+			
+			
+			<!--- Load views --->
+			<cfset childXml = xmlSearch(ehXml, "views") />
+			
+			<cfloop from="1" to="#arrayLen(childXml)#" index="i">
+				<cfset loadViews(ehInst, childXml[i]) />
+			</cfloop>
+			
+			
+			<cfset modelglue.addEventHandler(ehInst) />
+		</cfif>
 
-		<cfset ehInst.name = ehXml.xmlAttributes.name />
-		<cfset ehInst.access = ehXml.xmlAttributes.access />
-		
-		<cfif isBoolean(ehXml.xmlAttributes.cache)>
-			<cfset ehInst.cache = ehXml.xmlAttributes.cache />
-		</cfif>
-		<cfset ehInst.cacheKey = ehXml.xmlAttributes.cacheKey />
-		<cfset ehInst.cacheKeyValues = ehXml.xmlAttributes.cacheKeyValues />
-		<cfset ehInst.cacheTimeout = ehXml.xmlAttributes.cacheTimeout />
-		
-		<cfif len(ehInst.cache) and not len(ehInst.cacheKey)>
-			<cfset ehInst.cacheKey = "eventHandler." & ehInst.name />
-		</cfif>
-		
-		<!--- Load messages --->
-		<cfset childXml = xmlSearch(ehXml, "broadcasts") />
-		
-		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
-			<cfset loadMessages(ehInst, childXml[i]) />
-		</cfloop>
-		
-		<!--- Load results --->
-		<cfset childXml = xmlSearch(ehXml, "results") />
-		
-		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
-			<cfset loadResults(ehInst, childXml[i]) />
-		</cfloop>
-		
-		
-		<!--- Load views --->
-		<cfset childXml = xmlSearch(ehXml, "views") />
-		
-		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
-			<cfset loadViews(ehInst, childXml[i]) />
-		</cfloop>
-		
-		
-		<cfset modelglue.addEventHandler(ehInst) />
-		<!---	
-		<cfloop from="1" to="#arrayLen(ehXml.xmlChildren)#" index="i">
-			<cfset listXml = ehXml.xmlChildren[i] />
-			<cfset modelglue.addEventListener(listXml.xmlAttributes.message, ehInst, listXml.xmlAttributes.function) />
-		</cfloop>
-		--->
 	</cfloop>
 </cffunction>	
 

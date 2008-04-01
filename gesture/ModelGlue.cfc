@@ -67,7 +67,7 @@
 
 <cffunction name="setConfigSetting" output="false" hint="Sets a configuration setting.">
 	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
-	<cfargument name="settingValue" type="string" hint="The value to set." />
+	<cfargument name="settingValue" type="any" hint="The value to set." />
 	
 	<cfset this.configuration[arguments.settingName] = arguments.settingValue />
 </cffunction>
@@ -103,8 +103,8 @@
 	
 	<cfset variables._viewRenderer = arguments.viewRenderer />
 	
-	<cfloop list="#mappings#" index="i">
-		<cfset variables._viewRenderer.addViewMapping(i) />
+	<cfloop from="1" to="#arrayLen(mappings)#" index="i">
+		<cfset variables._viewRenderer.addViewMapping(mappings[i]) />
 	</cfloop>
 </cffunction>
 
