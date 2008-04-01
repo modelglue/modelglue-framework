@@ -38,6 +38,7 @@
 				<constructor-arg name="modules">
 					<list>
 						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
+						<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
 					</list>
 				</constructor-arg>
 			</bean>

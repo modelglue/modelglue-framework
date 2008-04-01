@@ -11,6 +11,8 @@
 <cffunction name="init" output="false" hint="Constructor.">
 	<cfset this.initialized = false />
 	<cfset variables._internalBeanFactory = "" />	
+	<cfset variables._ormService = "" />
+	<cfset variables._ormAdapter = "" />
 	<!---
 		The registry of message listeners in Model-Glue. 
 		
@@ -131,6 +133,22 @@
 <cffunction name="setLogWriter" output="false" hint="Sets the log writer to use to write to the request log.">
 	<cfargument name="logWriter" output="false" />
 	<cfset variables._logWriter = arguments.logWriter />
+</cffunction>
+
+<cffunction name="setOrmAdapter" returntype="any" access="public" hint="I set the ORM adapter." output="false">
+	<cfargument name="ormAdapter" type="any" required="true" />
+	<cfset variables._ormAdapter = arguments.ormAdapter />
+</cffunction>
+<cffunction name="getOrmAdapter" returntype="any" access="public" hint="I return the ORM Adapter (abstracts multiple ORM implementations)." output="false">
+	<cfreturn variables._ormAdapter />
+</cffunction>
+
+<cffunction name="setOrmService" returntype="any" access="public" hint="I set the ORM service." output="false">
+	<cfargument name="ormService" type="any" required="true" />
+	<cfset variables._ormService = arguments.ormService />
+</cffunction>
+<cffunction name="getOrmService" returntype="any" access="public" hint="I return the ORM service (the concrete ORM implemenation used)." output="false">
+	<cfreturn variables._ormService />
 </cffunction>
 
 <!--- This is the internal bean factory (may be same as the one used by getBean()). --->
