@@ -128,6 +128,11 @@
 	<cfset variables._logRenderer = arguments.logRenderer />
 </cffunction>
 
+<cffunction name="setLogWriter" output="false" hint="Sets the log writer to use to write to the request log.">
+	<cfargument name="logWriter" output="false" />
+	<cfset variables._logWriter = arguments.logWriter />
+</cffunction>
+
 <!--- This is the internal bean factory (may be same as the one used by getBean()). --->
 <cffunction name="setInternalBeanFactory" output="false" hint="Sets an inversion of control container to use for internal class resolution.">
 	<cfargument name="beanFactory" type="any" required="true" />
@@ -167,6 +172,7 @@
 										viewRenderer=variables._viewRenderer,
 										statePersister=variables._statePersister,
 										beanPopulator=variables._beanPopulator,
+										logWriter=variables._logWriter,
 										helpers=this.helpers
 						 			 ) 
 	/>
@@ -184,8 +190,6 @@
 	
 	<cfset var listener = createObject("component", "ModelGlue.gesture.eventhandler.MessageListener") />
 
-	<Cflog text="adding listener for #messageName# (#listenerFunctionName#)" />
-	
 	<cfif not hasEventListener(arguments.messageName)>
 		<cfset this.messageListeners[arguments.messageName] = arrayNew(1) />
 	</cfif>

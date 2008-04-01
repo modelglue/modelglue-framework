@@ -8,6 +8,7 @@
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
 	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.BeanUtilsPopulator").init()#" hint="Populator used by makeEventBean()." />
+	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by trace()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
 	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." default="#structNew()#" />
 	
@@ -17,10 +18,11 @@
 	<cfset variables._initialEvent = "" />
 	<cfset variables._currentEventHandler = "" />
 	<cfset variables._currentMessage = "" />
-	<cfset variables._trace = arrayNew(1) />
-	<cfset variables._created = getTickCount() />
+	<cfset this.log = arrayNew(1) />
+	<cfset this.created = getTickCount() />
 	<cfset variables._helpers = arguments.helpers />
-
+	<cfset variables._logWriter = arguments.logWriter />
+	
 	<cfif structKeyExists(arguments, "modelglue")>
 		<!--- External maps of listeners and handlers --->
 		<cfset variables._listeners = arguments.modelglue.messageListeners />
@@ -576,11 +578,11 @@
 
 <!--- TRACE LOG --->
 <cffunction name="getTrace" access="public" returntype="array" output="false" hint="Gets the trace log for the event context.">
-	<cfreturn variables._trace />
+	<cfreturn this.log />
 </cffunction>
 
 <cffunction name="getCreated" access="public" returntype="numeric" output="false" hint="Gets the tick count for when this event context was initialized.">
-	<cfreturn variables._created />
+	<cfreturn this.created />
 </cffunction>
 
 <cffunction name="trace" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
@@ -595,7 +597,7 @@
 		<cfsavecontent variable="arguments.message"><cfdump var="#arguments.message#" /></cfsavecontent>
 	</cfif>
 	
-	<cfset arrayAppend(variables._trace, arguments) />
+	<cfset variables._logWriter.write(this, arguments) />
 </cffunction>
 
 

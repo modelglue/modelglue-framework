@@ -106,6 +106,13 @@
 	</property>
 
 	<!-- 
+		Log Writer to use
+	-->
+	<property name="logWriter">
+		<bean class="ModelGlue.gesture.eventrequest.log.ConsoleLogWriter" />
+	</property>
+	
+	<!-- 
 		Log Renderer to use
 	-->
 	<property name="logRenderer">
