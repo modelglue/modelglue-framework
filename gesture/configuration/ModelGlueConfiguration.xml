@@ -48,6 +48,7 @@
 				<constructor-arg name="modules">
 					<list>
 						<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/generation/config/generation.xml</value>
 					</list>
 				</constructor-arg>
 			</bean>
