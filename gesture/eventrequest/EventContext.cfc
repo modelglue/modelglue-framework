@@ -1,4 +1,4 @@
-<cfcomponent output="false" hint="I represent an event request and its context.  I am what you see as arguments.event.">
+<cfcomponent output="false" extends="ModelGlue.Core.Event" hint="I represent an event request and its context.  I am what you see as arguments.event.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new EventContext.">
 	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />

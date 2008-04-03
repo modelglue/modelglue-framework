@@ -16,6 +16,28 @@
 	<cfreturn getModelGlue().getOrmAdapter() />
 </cffunction>
 
+<cffunction name="loadORMAdapter" access="public" output="false">
+	<cfargument name="event" />
+	
+	<cfset var svc = "" />
+	<cfset var adapter = "" />
+	<cfset var mg = getModelGlue() />
+	<cftry>
+		<cfset svc = mg.getBean("ormService") />
+		<cfset adapter = mg.getBean("ormAdapter") />
+		
+		<cfset mg.setOrmService(svc) />
+		<cfset mg.setOrmAdapter(adapter) />
+		
+		<cfcatch>
+			<cfdump var="#cfcatch#" /><cfabort />
+		</cfcatch>
+	</cftry>
+	
+	<cfif not isObject(getOrmAdapter())>
+		<cfset arguments.event.trace("ORM", "No ORM adapter is configured.  You will not be able to scaffold or use generic database messages.") />
+	</cfif>
+</cffunction>
 
 <cffunction name="onRequestStart" access="public" output="false">
 	<cfargument name="event" />
@@ -64,6 +86,8 @@
 			<cfset result = getOrmAdapter().list(table=table,criteria=criteria,gatewaymethod=arguments.event.getArgument("gatewayMethod"),gatewayBean=arguments.event.getArgument("gatewayBean")) />
 		</cfif>
 	</cfif>
+	
+	<cfset arguments.event.trace("genericList", result) />
 	
 	<cfset arguments.event.setValue(queryName, result) />
 </cffunction>
