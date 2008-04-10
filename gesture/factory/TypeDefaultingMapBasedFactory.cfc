@@ -20,7 +20,7 @@
 	<cfif not variables._createSingletons>
 		<!--- Create and cache --->
 		<cfif structKeyExists(variables._typeMap, arguments.name)>
-			<cfset inst = createObject("component", variables._typeMap[arguments.name]) />
+			<cfset inst = createObject("component", variables._typeMap[arguments.name].class) />
 		<cfelse>
 			<cfset inst = createObject("component", arguments.name) />
 		</cfif>
@@ -42,7 +42,7 @@
 
 				<!--- Create and cache --->
 				<cfif structKeyExists(variables._typeMap, arguments.name)>
-					<cfset variables._singles[arguments.name] = createObject("component", variables._typeMap[arguments.name]) />
+					<cfset variables._singles[arguments.name] = createObject("component", variables._typeMap[arguments.name].class) />
 				<cfelse>
 					<cfset variables._singles[arguments.name] = createObject("component", arguments.name) />
 				</cfif>

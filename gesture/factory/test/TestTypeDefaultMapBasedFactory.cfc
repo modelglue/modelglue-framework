@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase">
+<cfcomponent extends="mxunit.framework.TestCase">
 
 <cfset variables.System = createObject("java", "java.lang.System") />
 
@@ -15,8 +15,8 @@
 	<cfset var inst1 = ""/>
 	<cfset var inst2 = ""/>
 
-	<cfset map.implOne = "ModelGlue.gesture.factory.test.ImplOne" />
-	<cfset map.implTwo = "ModelGlue.gesture.factory.test.ImplTwo" />
+	<cfset map.implOne = {class:"ModelGlue.gesture.factory.test.ImplOne"} />
+	<cfset map.implTwo = {class:"ModelGlue.gesture.factory.test.ImplTwo"} />
 	
 	<cfset fac.init(map) />
 	

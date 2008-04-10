@@ -110,7 +110,7 @@
 		Log Writer to use
 	-->
 	<property name="logWriter">
-		<bean class="ModelGlue.gesture.eventrequest.log.ConsoleLogWriter" />
+		<bean class="ModelGlue.gesture.eventrequest.log.LogWriter" />
 	</property>
 	
 	<!-- 
@@ -137,7 +137,7 @@
 	<constructor-arg name="registeredClasses">
 		<map>
 			<entry key="XML">
-				<value>ModelGlue.gesture.module.XMLModuleLoader</value>
+				<map><entry key="class"><value>ModelGlue.gesture.module.XMLModuleLoader</value></entry></map>
 			</entry>
 		</map>
 	</constructor-arg>
@@ -157,12 +157,14 @@
 	<constructor-arg name="registeredClasses">
 		<map>
 			<entry key="EventHandler">
-				<value>ModelGlue.gesture.eventhandler.EventHandler</value>
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.eventhandler.EventHandler</value></entry>
+				</map>
 			</entry>
 		</map>
 	</constructor-arg>
 </bean>
-	
+
 <!--
 	Default URL manager to use.
 -->
@@ -223,6 +225,13 @@
 	Helper injector
 -->
 <bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector" />
+	
+<!--
+	Event generator (does the creation of controllers, event-handler XML, etc. bits)
+-->
+<bean id="modelglue.eventGenerator" class="ModelGlue.gesture.modules.internal.generation.service.XMLEventGenerationService">
+	<constructor-arg name="modelglue"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+</bean>
 	
 <!--
 <bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">

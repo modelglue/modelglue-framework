@@ -22,6 +22,7 @@
 	<cfset var svc = "" />
 	<cfset var adapter = "" />
 	<cfset var mg = getModelGlue() />
+
 	<cftry>
 		<cfset svc = mg.getBean("ormService") />
 		<cfset adapter = mg.getBean("ormAdapter") />
@@ -29,8 +30,8 @@
 		<cfset mg.setOrmService(svc) />
 		<cfset mg.setOrmAdapter(adapter) />
 		
-		<cfcatch>
-			<cfdump var="#cfcatch#" /><cfabort />
+		<cfcatch type="coldspring.NoSuchBeanDefinitionException">
+			<!--- No bean, no ORM.  --->
 		</cfcatch>
 	</cftry>
 	

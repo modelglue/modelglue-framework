@@ -25,7 +25,6 @@
 
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue() />
-		
 </cffunction>
 
 </cfcomponent>

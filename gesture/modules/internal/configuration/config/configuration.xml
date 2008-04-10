@@ -13,6 +13,14 @@
 			<message name="modelglue.readyForModuleLoading" />
 		</broadcasts>
 	</event-handler>
+	<event-handler name="modelglue.modulesLoaded">
+		<broadcasts>
+			<message name="modelglue.modulesLoaded" />
+		</broadcasts>
+		<results>
+			<result name="configurationInvalidated" do="modelglue.readyForModuleLoading" />
+		</results>
+	</event-handler>
 </event-handlers>
 	
 </modelglue>

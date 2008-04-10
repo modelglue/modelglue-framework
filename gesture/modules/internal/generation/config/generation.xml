@@ -4,7 +4,7 @@
 	<controller id="modelglueinternal.generationController"
 				type="ModelGlue.gesture.modules.internal.generation.controller.GenerationController"
 	>
-		<message-listener message="modelglue.onEventContextPopulation" function="generateEvent" />
+		<message-listener message="modelglue.modulesLoaded" function="generateEvent" />
 	</controller>
 </controllers>
 

@@ -174,14 +174,9 @@
 		<cfif len(ctrlXml.xmlAttributes.bean)>
 			<cfset ctrlInst = arguments.modelGlue.getBean(ctrlXml.xmlAttributes.bean) />
 		<cfelse>
-			<cftry>
-				<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
-				<cfcatch>
-					<cfdump var="#cfcatch#" label="#ctrlXml.xmlAttributes.type#"><Cfabort />
-				</cfcatch>
-			</cftry>
+			<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
 		</cfif>
-		
+
 		<!--- Create injection hooks --->
 		<cfset injector.createInjectionHooks(ctrlInst) />
 		

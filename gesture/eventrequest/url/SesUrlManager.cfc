@@ -17,8 +17,8 @@
 	<cfset var eventValue = variables._mg.configuration.eventValue />
 
 	<cfset arguments.eventContext.setValue("eventValue", variables._mg.configuration.eventValue) />
-	<cfset arguments.eventContext.setValue("self", variables._mg.configuration.defaultTemplate) />
-	<cfset arguments.eventContext.setValue("myself", "#variables._mg.configuration.defaultTemplate#/#variables._mg.configuration.eventValue#/") />
+	<cfset arguments.eventContext.setValue("self", cgi.script_name) />
+	<cfset arguments.eventContext.setValue("myself", "#cgi.script_name#/") />
 </cffunction>
 
 <cffunction name="extractValues" output="false" hint="Extracts values that should be treated as URL parameters.  In the default UrlManager, this simply returns the URL scope.">
@@ -35,14 +35,16 @@
 	<cfelse>
 		<cfset pathArray = listToArray(cgi.PATH_INFO, "/") />
 	</cfif>
-
-	<cfloop from="1" to="#arrayLen(pathArray)#" index="i">
-		<cfif i mod 2 eq 1>
+	
+	<cfif arrayLen(pathArray)>
+		<cfset result[eventValue] = pathArray[1] />
+	</cfif>
+	
+	<cfloop from="2" to="#arrayLen(pathArray)#" index="i">
+		<cfif i mod 2 eq 0>
 			<cfset key = pathArray[i] />
 		<cfelse>
-			<cfif key neq eventValue>
-				<cfset result[key] = pathArray[i] />
-			</cfif>
+			<cfset result[key] = pathArray[i] />
 		</cfif>
 	</cfloop>
 	
@@ -61,7 +63,6 @@
 	<!--- Add the event --->
 	<cfset link = link & arguments.event />
 	
-
 	<!--- Add values --->
 	<cfloop list="#arguments.append#" index="i">
 		<cfset link = link & "/#i#/#urlEncodedFormat(arguments.eventContext.getValue(i))#" />

@@ -424,6 +424,16 @@
 </cffunction>
 
 <!--- LOCATION MANAGEMENT --->
+<cffunction name="linkTo" access="public" hint="Creates URLs using the configured URL manager.">
+	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
+	<cfargument name="append" default="" hint="The list of values to append." />
+	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+
+	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
+
+	<cfreturn urlManager.linkTo(this, arguments.eventName, arguments.append, arguments.anchor) />
+</cffunction>
+
 <cffunction name="forwardToUrl" access="public" hint="Forwards to a given URL, optionally storing state across the redirect.">
 	<cfargument name="url" type="string" hint="The URL to redirect to using <cflocation />">
 	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />

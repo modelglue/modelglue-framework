@@ -19,12 +19,18 @@
 			or (
 					structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)
 					and url[application[ModelGlue_APP_KEY].configuration.reloadKey] eq application[ModelGlue_APP_KEY].configuration.reloadPassword
+			)
+			or (
+					application[ModelGlue_APP_KEY].configuration.reload
 			)>
 	<cflock name="#expandPath(".")#/.modelglue.loading" type="exclusive" timeout="60">
 		<cfif not structKeyExists(application, ModelGlue_APP_KEY)
 					or (
 							structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)
 							and url[application[ModelGlue_APP_KEY].configuration.reloadKey] eq application[ModelGlue_APP_KEY].configuration.reloadPassword
+					)
+					or (
+							application[ModelGlue_APP_KEY].configuration.reload
 					)>
 			<cfset request._modelglue.bootstrap.initializationRequest = true />
 

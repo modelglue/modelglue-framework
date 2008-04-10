@@ -20,6 +20,8 @@
 		<!--- Add the newly loaded event to the queue. --->
 		<cfset event =  modelglue.getEventHandler("modelglue.readyForModuleLoading") />
 		<cfset arguments.eventContext.addEventHandler(event) />
+		<cfset event =  modelglue.getEventHandler("modelglue.modulesLoaded") />
+		<cfset arguments.eventContext.addEventHandler(event) />
 		
 		<!--- Tell the context to run its queue. --->
 		<cfset arguments.eventContext.executeEventQueue() />

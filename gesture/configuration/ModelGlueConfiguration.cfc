@@ -5,6 +5,7 @@
     <cfset variables._instance.reload = "true" />
     <cfset variables._instance.debug = "true" />
     <cfset variables._instance.reloadPassword = "true" />
+    <cfset variables._instance.applicationMapping = "" />
     <cfset variables._instance.viewMappings = arrayNew(1) />
     <cfset variables._instance.helperMappings = "" />
     <cfset variables._instance.primaryModule = "" />
@@ -52,6 +53,14 @@
 </cffunction>
 <cffunction name="getRescaffoldKey" returntype="string" output="false">
 	<cfreturn variables._instance.RescaffoldKey />
+</cffunction>
+
+<cffunction name="setApplicationPath" returntype="void" output="false" access="public">
+	<cfargument name="ApplicationPath"  type="string" />
+	<cfset variables._instance.ApplicationPath = arguments.ApplicationPath />
+</cffunction>
+<cffunction name="getApplicationPath" returntype="string" output="false">
+	<cfreturn variables._instance.ApplicationPath />
 </cffunction>
 
 <cffunction name="setRescaffoldPassword" returntype="void" output="false" access="public">
