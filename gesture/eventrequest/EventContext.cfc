@@ -374,19 +374,19 @@
 </cffunction>
 
 <!--- EVENT KNOWLEDGE --->
-<cffunction name="getCurrentEventHandler" access="private" hint="Returns the current event handler.  Not something to be manipulated at runtime (private)!">
+<cffunction name="getCurrentEventHandler" access="public" hint="Returns the current event handler.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
 	<cfreturn variables._currentEventHandler />
 </cffunction>
 
-<cffunction name="getEventHandlerName" access="private" hint="Returns the name of the currently executing event handler.">
+<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the currently executing event handler.">
 	<cfreturn getCurrentEventHandler().name />
 </cffunction>
 
-<cffunction name="getInitialEventHandler" output="false" hint="Returns the initial event in this request.">
+<cffunction name="getInitialEventHandler" access="public" output="false" hint="Returns the initial event in this request.">
 	<cfreturn variables._initialEvent />
 </cffunction>
 
-<cffunction name="getInitialEventHandlerName" access="private" hint="Returns the name of the user-requested event handler.">
+<cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
 	<cfreturn getInitialEventHandler().name />
 </cffunction>
 

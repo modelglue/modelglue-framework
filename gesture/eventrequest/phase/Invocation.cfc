@@ -11,10 +11,9 @@
 	<cfset var initialEventHandlerName = arguments.eventContext.getValue(arguments.eventContext.getValue("eventValue"), modelglue.getConfigSetting("defaultEvent")) />
 	<cfset var initialEventHandler = "" />
 
-	<!--- Load module and queue onRequestStart --->
 	<cfset loadModules(modelglue) />
 	
-	<!--- Add the newly loaded event to the queue. --->
+	<!--- Load module and queue onRequestStart --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onRequestStart") />
 	<cfset arguments.eventContext.addEventHandler(event) />
 
@@ -25,6 +24,10 @@
 
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue() />
+
+	<!--- Load module and queue onQueueComplete --->
+	<cfset event =  modelglue.getEventHandler("modelglue.onQueueComplete") />
+	<cfset arguments.eventContext.addEventHandler(event) />
 </cffunction>
 
 </cfcomponent>

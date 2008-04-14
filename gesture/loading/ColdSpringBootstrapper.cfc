@@ -1,7 +1,8 @@
 <cfcomponent output="false" extends="ModelGlue.gesture.loading.RequestScopeBootstrapper"
 						 hint="I contain information needed to load Model-Glue into the applciation scope based on a ColdSpring bean factory.">
 
-<cfproperty name="coldspringPath" type="string" hint="The logical path (mapping-based) to the ColdSpring .xml file containing bean definitions for the Model-Glue application." />
+<cfproperty name="coldspringPath" type="string" hint="The logical path (mapping-based) to the ColdSpring .xml file containing bean definitions for the Model-Glue *application*." />
+<cfproperty name="coreColdspringPath" type="string" hint="The logical path (mapping-based) to the ColdSpring .xml file containing bean definitions for the Model-Glue *framework*.  It's hoped that a new release of ColdSpring will come about, allowing <import> to be used in the coldspringPath file, making this and ModelGlue_CORE_COLDSPRING_PATH things of the past." />
 <cfproperty name="parentBeanFactory" type="any" hint="A parent bean factory to join to." />
 <cfproperty name="modelGlueBeanName" type="string" default="modelglue.ModelGlue" hint="The name of the bean that is the instance of ModelGlue.cfc to use as the framework." />
 <cfproperty name="modelGlueConfigurationBeanName" type="string" default="modelglue.ModelGlueConfiguration" hint="The name of the bean that is the instance of ModelGlueConfiguration.cfc to use as the framework's configuration." />
@@ -17,26 +18,33 @@
 	<cfset var originalCsPath = csPath />
 	<cfset var cfg = "" />
 
+	<!---
+	PENDING NEW COLDSPRING:
+	
+	We'll be able to use import and have a single ColdSpring config path.  This code is reverse compat support for after the shift.
+	
 	<!--- If we're in legacy or unity mode, we must explicitly load use the internal configuration file --->
 	<cfif this.modelglueVersionIndicator eq this.versionIndicators.legacy
 				or this.modelglueVersionIndicator eq this.versionIndicators.unity>
-		<cfset csPath = expandPath("/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml") />
+		<cfset csPath = expandPath(this.coreColdSpringPath) />
 	</cfif>
+	--->
 	
-	<cfif not fileExists(csPath)>
-		<cfset csPath = expandPath(csPath) />
-	</cfif>
-
+	<!--- For now, we still have to load the core. --->
+	<cfset csPath = expandPath(this.coreColdSpringPath) />
+	
 	<cfif not fileExists(csPath)>
 		<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#csPath#) doesn't exist!" />
 	</cfif>
 	
 	<cfset bf.loadBeans(csPath) />
 
-	<!--- If we're in unity mode, we now load the _local_ ColdSpring beans on top of the core 
+	<!--- If we're in unity mode (or, pre <import> CS for MG3 alpha...), we now load the _local_ ColdSpring beans on top of the core 
 				and handle compatability bean id's.
+				
+				TODO:  Make this not happen in Gesture after <import> is released.
 	--->
-	<cfif this.modelglueVersionIndicator eq this.versionIndicators.unity>
+	<cfif 1 or this.modelglueVersionIndicator eq this.versionIndicators.unity>
 		<cfif not fileExists(originalCsPath)>
 			<cfset originalCsPath = expandPath(originalCsPath) />
 		</cfif>
@@ -47,9 +55,10 @@
 
 		<cfset bf.loadBeans(originalCsPath) />
 		
-		<!--- TODO: Compatibility aliases
-		<cfset bf.loadBeans(expandPath("/ModelGlue/unity/config/UnityCompatabilityAliases.xml")) />
-		 --->
+		<!--- TODO: Remove condition after <import> is released --->
+		<cfif this.modelglueVersionIndicator eq this.versionIndicators.unity>
+			<cfset bf.loadBeans(expandPath("/ModelGlue/unity/config/UnityCompatabilityAliases.xml")) />
+		</cfif>
 	</cfif>
 
 	<!--- If we're in legacy mode, we change the value of the primaryModule in the configuration. --->

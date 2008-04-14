@@ -55,8 +55,6 @@
 	<cfset var item = "" />
 	<cfset var sinceLastSweep = dateDiff("s", variables._lastSweep, now()) />
 	
-	<cflog text="Since last sweep: #sinceLastSweep#" />
-	
 	<cfloop collection="#variables._content#" item="key">
 		<cfset item = variables._content[key] />
 		

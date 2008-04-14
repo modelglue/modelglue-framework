@@ -6,6 +6,11 @@
 			<message name="onRequestStart" />
 		</broadcasts>
 	</event-handler>
+	<event-handler name="modelglue.onQueueComplete">
+		<broadcasts>
+			<message name="onQueueComplete" />
+		</broadcasts>
+	</event-handler>
 </event-handlers>
 	
 </modelglue>

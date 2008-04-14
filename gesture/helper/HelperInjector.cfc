@@ -12,8 +12,6 @@
 	
 	<cfdirectory action="list" directory="#expandPath(arguments.path)#" name="files">
 	
-	<cflog text="#files.columnList#" />
-	
 	<cfloop query="files">
 		<cftry>
 			<cfif listLast(files.name, ".") eq "cfc">

@@ -55,16 +55,6 @@
 	<cfargument name="context" hint="The currently executing event context." />
 	<cfargument name="eventName" default="#arguments.context.getValue(arguments.context.getValue("eventValue"))#" hint="The name of the event to generate.  Defaults to eventValue in arguments.context." />
 
-	<cflog text="GEN XML TO: #getConfigFile()#" />
-	<cflog text="CONTROLLER FILE: #controllerPathNameFor(eventName)#" />
-	<cflog text="CONTROLLER TYPE: #controllerClassNameFor(eventName)#" />
-	<cflog text="LISTENER FUNCTION: #listenerFunctionNameFor(eventName)#" />
-	<cflog text="MESSAGE NAME: #messageNameFor(eventName)#" />
-	<cflog text="VIEW INCLUDE: #viewIncludeFor(eventName)#" />
-	<cflog text="VIEW FILE: #viewFileFor(eventName)#" />
-	
-	<cflog text="VIEW CONTENT: #generateViewContent(eventName)#" />
-	
 	<cfset generateController(eventName) />
 	<cfset generateEventHandler(eventName) />
 	<cfset generateView(eventName) />

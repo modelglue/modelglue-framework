@@ -33,7 +33,6 @@
 	<cfset includeFound = false />
 	<cfloop from="1" to="#arrayLen(variables._viewMappings)#" index="i">
 		<cfset template = variables._viewMappings[i] & "/" & arguments.view.template />
-		<cflog text="#template# - #expandPath(template)# - #fileExists(expandPath(template))#" />
 		<cfif fileExists(expandPath(template))>
 			<cfset includeFound = true />
 			<cfbreak />
