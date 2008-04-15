@@ -16,14 +16,16 @@
 	<!--- Load module and queue onRequestStart --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onRequestStart") />
 	<cfset arguments.eventContext.addEventHandler(event) />
-
-	<!--- Tell the context to run its queue. --->
-	<cfset arguments.eventContext.executeEventQueue() />
 	
+	<!--- 
+	Prepare for invocation _after_ queuing onRequestStart
+	
+	I don't really like having to put this here, but it works. 
+	--->
 	<cfset arguments.eventContext.prepareForInvocation() />
-	
-	<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
 
+	<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
+	
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue() />
 
