@@ -4,4 +4,4 @@
 
 <cfset ec.setValue("someValue", url.someValue) />
 
-<cfset ec.forwardToUrl(url.url, true) />
+<cfset ec.forwardToUrl(url.url, "", true) />

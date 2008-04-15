@@ -60,11 +60,11 @@
 	
 	<cfset er.addEventHandler(eh1) />
 	
-	<cfset er.onReadyForExecution() />
+	<cfset er.prepareForInvocation() />
 
 	<cfset er.addEventHandler(eh2) />
 	
-	<cfset assertTrue(er.getInitialEventHandler().name eq "eh2", "Initial event shouldn't be set until _after_ onReadyForExecution() is invoked!") />
+	<cfset assertTrue(er.getInitialEventHandler().name eq "eh2", "Initial event shouldn't be set until _after_ prepareForInvocation() is invoked!") />
 </cffunction>
 
 <cffunction name="testEventDequeueing" access="public" returntype="void">

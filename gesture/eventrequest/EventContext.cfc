@@ -129,7 +129,7 @@
 	<cfreturn isStruct(variables._nextEventHandler) />
 </cffunction>
 
-<cffunction name="onReadyForExecution" access="public" output="false" hint="Invoked when all ""under the hood"" events (onRequestStart, etc.) are complete.">
+<cffunction name="prepareForInvocation" access="public" output="false" hint="Invoked when all ""under the hood"" events (onRequestStart, etc.) are complete.">
 	<cfset variables._readyForExecution = true />
 </cffunction>
 
@@ -298,7 +298,7 @@
 				<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 
 				<cfif result.redirect>
-					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
 					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j].event]) />
 				</cfif>
@@ -315,7 +315,7 @@
 					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 	
 					<cfif result.redirect>
-						<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
 						<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[requestFormat][results[i]][j].event]) />
 					</cfif>
@@ -334,7 +334,7 @@
 				<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 
 				<cfif result.redirect>
-					<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
 					<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 				</cfif>
@@ -351,7 +351,7 @@
 					<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 	
 					<cfif result.redirect>
-						<cfset forward(result.event, result.preserveState, false, result.append, result.anchor) />
+						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
 						<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 					</cfif>
@@ -378,15 +378,19 @@
 	<cfreturn variables._currentEventHandler />
 </cffunction>
 
-<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the currently executing event handler.">
+<cffunction name="getCurrentEventHandlerName" access="public" hint="Returns the name of the currently executing event handler.">
 	<cfreturn getCurrentEventHandler().name />
 </cffunction>
 
-<cffunction name="getInitialEventHandler" access="public" output="false" hint="Returns the initial event in this request.">
+<cffunction name="getInitialEventHandler" access="public" output="false" hint="Returns the initial event in this request.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
 	<cfreturn variables._initialEvent />
 </cffunction>
 
-<cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
+<cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
+	<cfreturn getInitialEventHandler().name />
+</cffunction>
+
+<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
 	<cfreturn getInitialEventHandler().name />
 </cffunction>
 
@@ -448,11 +452,19 @@
 
 <cffunction name="forward" access="public" hint="Forwards the request to a given event name, optionally storing state across the redirect.">
 	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
+	<cfargument name="append" default="" hint="The list of values to append." />
+	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />
+	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+	<cfargument name="addToken" type="boolean" default="false" hint="Should session tokens be added to the url?">
+
+	<!--- Was:
+	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
 	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />
 	<cfargument name="addToken" type="boolean" default="false" hint="Should session tokens be added to the url?">
 	<cfargument name="append" default="" hint="The list of values to append." />
 	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
-
+	--->
+		
 	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
 	
 	<cfset var url = urlManager.linkTo(this, arguments.eventName, arguments.append, arguments.anchor) />

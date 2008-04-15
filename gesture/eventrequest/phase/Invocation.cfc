@@ -20,6 +20,8 @@
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue() />
 	
+	<cfset arguments.eventContext.prepareForInvocation() />
+	
 	<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
 
 	<!--- Tell the context to run its queue. --->
