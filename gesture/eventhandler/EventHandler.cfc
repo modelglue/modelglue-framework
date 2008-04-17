@@ -103,4 +103,10 @@
 	<cfreturn hasResult(argumentCollection=arguments) />
 </cffunction>
 
+<cffunction name="beforeConfiguration" access="public" returntype="void" output="false" hint="Called before configuring the event handler.  Subclasses can use this to add messages, results, or views before they're added by something like a ModelGlue XML file.">
+</cffunction>
+
+<cffunction name="afterConfiguration" access="public" returntype="void" output="false" hint="Called after configuring the event handler.  Subclasses can use this to add messages, results, or views after they're added by something like a ModelGlue XML file.">
+</cffunction>
+
 </cfcomponent>

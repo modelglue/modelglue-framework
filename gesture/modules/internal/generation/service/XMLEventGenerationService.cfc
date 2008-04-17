@@ -54,9 +54,11 @@
 <cffunction name="generateEvent" access="public" output="false">
 	<cfargument name="context" hint="The currently executing event context." />
 	<cfargument name="eventName" default="#arguments.context.getValue(arguments.context.getValue("eventValue"))#" hint="The name of the event to generate.  Defaults to eventValue in arguments.context." />
-
+	
+	<cfset var type = context.getValue("type", "") />
+	
 	<cfset generateController(eventName) />
-	<cfset generateEventHandler(eventName) />
+	<cfset generateEventHandler(eventName, type) />
 	<cfset generateView(eventName) />
 </cffunction>
 
@@ -91,9 +93,12 @@
 	
 	<cfif not fileExists(controllerFile)>
 		<cfset createController(eventName, controllerFile) />
-	<cfelseif not controllerHasFunction(ctrlInst, listenerFunctionNameFor(eventName))>
+	<cfelse>
 		<cfset ctrlInst = createObject("component", controllerClassNameFor(eventName)) />
-		<cfset createListenerFunction(ctrlInst, listenerFunctionNameFor(eventName), eventName, controllerFile) />
+		
+		<cfif not controllerHasFunction(ctrlInst, listenerFunctionNameFor(eventName))>
+			<cfset createListenerFunction(ctrlInst, listenerFunctionNameFor(eventName), eventName, controllerFile) />
+		</cfif>
 	</cfif>
 	
 	<cfset createListenerXML(getConfigFile(), controllerType, eventName) />
@@ -256,6 +261,7 @@
 
 <cffunction name="generateEventHandler" output="false">
 	<cfargument name="eventName" />
+	<cfargument name="type" />
 	
 	<cfset var targetFile = getConfigFile() />
 	<cfset var xmlString = "" />
@@ -316,6 +322,10 @@
 		</cfif>
 		
 		<cfset ehNode.xmlAttributes["name"] = eventName />
+		
+		<cfif len(type)>
+			<cfset ehNode.xmlAttributes["type"] = type />
+		</cfif>		
 
 		<cfset bNode = xmlElemNew(xml, "broadcasts") />
 		<cfset mNode = xmlElemNew(xml, "message") />

@@ -59,11 +59,17 @@
 		<cfset item = variables._content[key] />
 		
 		<cfif sinceLastSweep gt item.timeout>
-			<cfset structDelete(variables._content, key) />
+			<cfset purge(key) />
 		</cfif>
 	</cfloop>
 	
 	<cfset variables._lastSweep = now() />
+</cffunction>
+
+<cffunction name="purge" access="public" returntype="struct" hint="Purges content from the cache.">
+	<cfargument name="key" type="string" hint="Key for the content." />
+	
+	<cfset structDelete(variables._content, key) />
 </cffunction>
 
 <cffunction name="getContents" access="public" returntype="struct" hint="Gets information about cache contents.">

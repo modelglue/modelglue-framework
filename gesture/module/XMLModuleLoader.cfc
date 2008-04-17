@@ -221,15 +221,17 @@
 		
 		<cfif ehXml.xmlName eq "event-handler">
 
-			<cfparam name="ehXml.xmlAttributes.eventType" default="EventHandler" />
+			<cfparam name="ehXml.xmlAttributes.type" default="EventHandler" />
 			<cfparam name="ehXml.xmlAttributes.access" default="public" />
 			<cfparam name="ehXml.xmlAttributes.cache" default="false" />
 			<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
 					
-			<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.eventType) >
+			<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 	
+			<cfset ehInst.beforeConfiguration() />
+			
 			<cfset ehInst.name = ehXml.xmlAttributes.name />
 			<cfset ehInst.access = ehXml.xmlAttributes.access />
 			
@@ -266,6 +268,7 @@
 				<cfset loadViews(ehInst, childXml[i]) />
 			</cfloop>
 			
+			<cfset ehInst.afterConfiguration() />
 			
 			<cfset modelglue.addEventHandler(ehInst) />
 		</cfif>

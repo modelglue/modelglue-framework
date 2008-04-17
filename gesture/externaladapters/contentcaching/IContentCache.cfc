@@ -10,6 +10,10 @@
 	<cfargument name="key" type="string" hint="Key for the content." />
 </cffunction>
 
+<cffunction name="purge" access="public" returntype="struct" hint="Purges content from the cache.">
+	<cfargument name="key" type="string" hint="Key for the content." />
+</cffunction>
+
 <cffunction name="sweep" access="public" returntype="void" hint="Instructs implementation to sweep stale items.">
 </cffunction>
 
