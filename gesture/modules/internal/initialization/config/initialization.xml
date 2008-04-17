@@ -1,0 +1,26 @@
+<modelglue>
+
+<controllers>
+	<controller id="modelglueinternal.initializationController"
+				type="ModelGlue.gesture.modules.internal.initialization.controller.InitializationController"
+				beans="modelglue.HelperInjector"
+	>
+		<message-listener message="modelglue.loadFrameworkIntoScope" function="loadFrameworkIntoScope" />	
+		<message-listener message="modelglue.onApplicationStoredInScope" function="loadHelpers" />	
+	</controller>
+</controllers>
+
+<event-handlers>
+	<event-handler name="modelglue.onApplicationInitialization">
+		<broadcasts>
+			<message name="modelglue.loadFrameworkIntoScope" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onApplicationStoredInScope">
+		<broadcasts>
+			<message name="modelglue.onApplicationStoredInScope" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+
+</modelglue>
