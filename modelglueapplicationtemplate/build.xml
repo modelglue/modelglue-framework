@@ -18,12 +18,12 @@
 	Run the script.
 -->	
 <project name="New Model-Glue Application" default="build" basedir="..">
-	<property name="newApplicationName" value="modelgluesamples/simpleconfiguration" />
+	<property name="newApplicationName" value="myApplication" />
 	<property name="newApplicationDirectory" value="/Library/WebServer/Documents/${newApplicationName}" />
 
 	<!--
+	For the Windows/IIS crowd   
 	<property name="newApplicationDirectory" value="c:/inetpub/wwwroot/${newApplicationName}" />
-	For the OS X crowd (since Joe saw the light and converted)  
 	-->
 	
 	<!-- Where is the MG app template? -->
