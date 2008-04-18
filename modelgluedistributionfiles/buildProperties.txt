@@ -1,6 +1,0 @@
-sourceDirectory=/Library/WebServer/Documents/Model-Glue
-workingDirectory=/Library/WebServer/Documents/Model-Glue/modelgluebuilds/temp
-checkoutURL=http://svn.model-glue.com/trunk
-revisionNumber=260
-versionLabel=Working Copy
-versionNumber=2.0

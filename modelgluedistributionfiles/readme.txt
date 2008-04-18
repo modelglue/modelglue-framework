@@ -1,5 +1,5 @@
 Model-Glue
-Joe Rinehart (joe.rinehart@gmail.com)
+Joe Rinehart (joe@firemoss.com)
 Model-Glue @versionLabel@ (@versionNumber@.@revisionNumber@).
 
 Well, now you've gone and done it.  
@@ -11,12 +11,17 @@ As the good book says:  "Don't Panic"
 ** URLS TO KNOW ** 
 
 http://www.model-glue.com - The official Model-Glue web site.
+http://www.firemoss.com/blog - Joe's blog, where he'll often talk about Model-Glue
+http://groups.google.com/group/Model-Glue - The "official" Model-Glue Google Group
+http://groups.google.com/group/ModelGlue - The "unofficial" Model-Glue Google Group
 http://svn.model-glue.com - The Subversion repository where you can get the latest Model-Glue code.
-http://trac.model-glue.com - Model-Glue defect and feature request tracking.
 
 ** FULL DOCUMENTATION **
 
-There are detailed installation instructions in the ModelGlue/Docs/index.html file.  Seriously.  Check it out.  About 10x more docs than were ever written for Model-Glue 1.x.
+This is an alpha build.  Documentation is sparse.  It's intended more for seasoned Model-Glue users.
+
+All of the documentation from Model-Glue 2 (http://docs.model-glue.com) is relevant and fairly
+accurate, except for the <scaffold /> tag, which simply won't work at all (it's being replaced).
 
 ** QUICK INSTALLATION INSTRUCTIONS **
 
@@ -38,7 +43,9 @@ You may need to point a mapping named /ModelGlue to the directory (/ModelGlue) t
 
 ** WHEN THINGS BREAK **
 
-Visit http://trac.model-glue.com, click the "New Ticket" button, and fill out the form.  For anything you fill out, put the following, or it'll likely wind up at the bottom of the queue:
+For alpha purposes, post a message to the official Model-Glue group (http://groups.google.com/group/Model-Glue).
+
+If you include "Gesture alpha" in the subject, it'll get filtered in Joe's mail rules to a special box.
 
 1.  Exactly what you did
 2.  What happened (include exceptions, stack traces, sample code, etc.!)

@@ -1,1 +1,1 @@
-<cfsilent><cfapplication name="modelgluesamples/helloworld" sessionmanagement="true"/></cfsilent>
+<cfsilent><cfapplication name="modelgluesamples.helloworld" sessionmanagement="true"/></cfsilent>

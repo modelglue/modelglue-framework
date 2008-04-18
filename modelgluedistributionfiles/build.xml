@@ -1,11 +1,11 @@
 <project name="Model-Glue Distribution" default="build" basedir=".">
 
-<property name="workingDirectory" value="/Library/WebServer/Documents/Model-Glue/modelgluebuilds/temp" />
-<property name="zipDirectory" value="/Library/WebServer/Documents/Model-Glue/modelgluebuilds" />
-<property name="checkoutURL" value="http://svn.model-glue.com/trunk" />
-<property name="revisionNumber" value="304" />
-<property name="versionLabel" value="Model-Glue: ColdFusion" />
-<property name="versionNumber" value="2.0" />
+<property name="workingDirectory" value="/Library/WebServer/Documents/gesture/build/temp" />
+<property name="zipDirectory" value="/Library/WebServer/Documents/gesture/build" />
+<property name="checkoutURL" value="http://svn.firemoss.com/modelglue/trunk" />
+<property name="revisionNumber" value="53" />
+<property name="versionLabel" value="Model-Glue (Gesture) Alpha 1" />
+<property name="versionNumber" value="3.0" />
 
 <target name="build" depends="makeWorkingDirectory,export,header,replace,arrange,zip,cleanup">
 	

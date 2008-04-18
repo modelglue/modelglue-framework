@@ -4,8 +4,8 @@
 <bean id="modelglue.modelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
 
 	<!-- Be sure to change these to false when you go to production! -->
-	<property name="reload"><value>true</value></property>
-	<property name="debug"><value>false</value></property>
+	<property name="reload"><value>false</value></property>
+	<property name="debug"><value>true</value></property>
 	
 	<!-- Default event-handler -->
 	<property name="defaultEvent"><value>page.index</value></property>
@@ -21,7 +21,18 @@
 	<property name="helperMappings"><value>/modelgluesamples/helloworld/helpers,/ModelGlue/helpers/cflib</value></property>
 	
 	<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
- </bean>
+</bean>
+	
+<!-- 
+	If you need your own configuration values (datasource names, etc), put them here.
+	
+	See modelgluesamples/simpleconfiguration/controller/Controller for an example of how to get to the values.
+-->
+<bean id="modelglue.applicationConfiguration" class="ModelGlue.Bean.CommonBeans.SimpleConfig">
+	<property name="config">
+		<entry key="myDatasource"><value>myDatasource</value></entry>
+	</property>
+</bean>
   
 <!-- Put definitions for your own beans and services here -->
 

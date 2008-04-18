@@ -18,7 +18,7 @@
 	Run the script.
 -->	
 <project name="New Model-Glue Application" default="build" basedir="..">
-	<property name="newApplicationName" value="gesturedemo" />
+	<property name="newApplicationName" value="modelgluesamples/simpleconfiguration" />
 	<property name="newApplicationDirectory" value="/Library/WebServer/Documents/${newApplicationName}" />
 
 	<!--
