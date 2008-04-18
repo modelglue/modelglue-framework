@@ -7,6 +7,7 @@
   
   <cffunction name="SetConfig" access="public" return="void" output="false" hint="Set property: config">
     <cfargument name="value" type="struct"/>
+		
     <cfset variables.config=arguments.value />
   </cffunction>
   
