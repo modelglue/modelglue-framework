@@ -1,10 +1,5 @@
-<!--- 
-	CORE_COLDSPRING_PATH is defined in Unity template and _IGNORED_ in Gesture.  
+<cfsilent>
 	
-	This is a reverse compat break considered acceptable:  if you're using a custom
-	version of the framework, a 100% automatic upgrade probably isn't in the cards
-	to begin with!
---->
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_APP_KEY" default="_modelglue" />
 <cfparam name="ModelGlue_CONFIG_PATH" default="" />
@@ -55,7 +50,7 @@
 
 <cfset ec = mg.handleRequest() />
 
-<cfoutput>#ec.getLastRendereredView()#</cfoutput>
+</cfsilent><cfoutput>#ec.getLastRendereredView()#</cfoutput>
 
 <cfif mg.configuration.debug neq "false" and mg.configuration.debug neq "none"> 
 <cfoutput>
