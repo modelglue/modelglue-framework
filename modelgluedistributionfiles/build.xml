@@ -1,0 +1,108 @@
+<project name="Model-Glue Distribution" default="build" basedir=".">
+
+<property name="workingDirectory" value="/Library/WebServer/Documents/Model-Glue/modelgluebuilds/temp" />
+<property name="zipDirectory" value="/Library/WebServer/Documents/Model-Glue/modelgluebuilds" />
+<property name="checkoutURL" value="http://svn.model-glue.com/trunk" />
+<property name="revisionNumber" value="304" />
+<property name="versionLabel" value="Model-Glue: ColdFusion" />
+<property name="versionNumber" value="2.0" />
+
+<target name="build" depends="makeWorkingDirectory,export,header,replace,arrange,zip,cleanup">
+	
+</target>
+
+<!-- Make the working dir -->
+<target name="makeWorkingDirectory">
+	<delete dir="${workingDirectory}" />
+	<mkdir dir="${workingDirectory}" />
+</target>
+
+<!-- Check out the desired revision to build -->
+<target name="export">	
+		<exec executable="svn">
+		<arg value="export" />
+		<arg value="-r" />
+		<arg value="${revisionNumber}" />
+		<arg value="${checkoutURL}" />
+		<arg value="${workingDirectory}/export" />
+	</exec>
+</target>
+	
+<!-- Add the header boilerplate to all files -->
+<target name="header">
+	<mkdir dir="${workingDirectory}/build" />
+
+	<copy todir="${workingDirectory}/build">
+		<fileset dir="${workingDirectory}/export">
+			<exclude name="**/NOTICE" />
+			<exclude name="**/LICENSE" />
+			<exclude name="**/modelglueapplicationtemplate" />
+			<exclude name="**/documentation" />
+			<exclude name="**/*.xsl" />
+			<exclude name="**/*.xml" />
+			<exclude name="**/*.dtd" />
+			<exclude name="**/*.css" />
+		</fileset>
+		<filterchain>
+			<concatfilter prepend="header.txt" />
+		</filterchain>
+	</copy>
+
+	<copy todir="${workingDirectory}/build">
+		<fileset dir="${workingDirectory}/export">
+			<include name="**/*.xsl" />
+			<include name="**/*.xml" />
+			<include name="**/*.dtd" />
+			<include name="**/*.css" />
+		</fileset>
+	</copy>
+
+	<copy todir="${workingDirectory}/build">
+		<fileset dir="${workingDirectory}/export">
+			<include name="**/NOTICE" />
+			<include name="**/LICENSE" />
+			<include name="**/modelglueapplicationtemplate" />
+			<include name="**/documentation" />
+		</fileset>
+	</copy>
+	
+	<!-- ModelGlue.cfm now contains whitespace, clean it up! -->
+	<replaceregexp match="---&gt;\s+&lt;cfsilent&gt;" replace="---&gt;&lt;cfsilent&gt;">
+			<fileset dir="${workingDirectory}/build" includes="**/*.cfm"/>
+	</replaceregexp>
+		
+</target>
+
+<!-- Replace tokens -->	
+<target name="replace">
+	<replace dir="${workingDirectory}/build" token="@versionLabel@" value="${versionLabel}" />
+	<replace dir="${workingDirectory}/build" token="@versionNumber@" value="${versionNumber}" />
+	<replace dir="${workingDirectory}/build" token="@revisionNumber@" value="${revisionNumber}" />
+</target>
+
+<!-- Arrange files for distro -->
+<target name="arrange">
+	<delete file="${workingDirectory}/build/modelgluedistributionfiles/header.txt" />
+	<delete file="${workingDirectory}/build/modelgluedistributionfiles/build.xml" />
+	<delete dir="${workingDirectory}/build/modelgluebuilds" />
+	<!-- WTF is this doing here? -->
+	<delete dir="${workingDirectory}/build/trunk" />
+	
+	<copy todir="${workingDirectory}/build">
+		<fileset dir="${workingDirectory}/build/modelgluedistributionfiles" />
+	</copy>
+	<delete dir="${workingDirectory}/build/modelgluedistributionfiles" />
+</target>
+
+<!-- Zip it up -->
+<target name="zip">
+	<zip destfile="${workingDirectory}/modelglue_${versionNumber}.${revisionNumber}.zip" basedir="${workingDirectory}/build" />
+	<move file="${workingDirectory}/modelglue_${versionNumber}.${revisionNumber}.zip" todir="${zipDirectory}" />
+</target>
+
+<!-- Take out the papers and the trash -->
+<target name="cleanup">
+	<delete dir="${workingDirectory}" />
+</target>	
+	
+</project>
