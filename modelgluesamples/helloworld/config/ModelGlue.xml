@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+
+<event-handlers>
+	<event-handler name="page.index">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+	
+	<!-- Private events:  can't be accessed through a URL -->
+	<event-handler access="private" name="template.main">
+		<views>
+			<include name="main" template="templates/main.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+
