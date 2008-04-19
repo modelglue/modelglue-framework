@@ -1,4 +1,6 @@
-<cfcomponent output="false" extends="ModelGlue.gesture.controller.Controller" beans="modelglue.sessionFacade">
+<cfcomponent output="false" extends="ModelGlue.gesture.controller.Controller"
+						 beans="modelglue.sessionFacade"
+>
 
 <cffunction name="loadPreservedState" output="false" hint="I instruct the event context to load any preserved state.">
 	<cfargument name="event" />

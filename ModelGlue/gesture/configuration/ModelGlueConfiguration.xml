@@ -19,6 +19,8 @@
 	-->
 	<property name="eventPopulators">
 		<list>
+			<!-- Low-level bootstraps use request. -->
+			<ref bean="modelGlue.requestPopulator" />
 			<ref bean="modelGlue.urlPopulator" />
 			<ref bean="modelGlue.formPopulator" />
 		</list>
@@ -110,7 +112,7 @@
 		Log Writer to use
 	-->
 	<property name="logWriter">
-		<bean class="ModelGlue.gesture.eventrequest.log.LogWriter" />
+		<bean class="ModelGlue.gesture.eventrequest.log.ConsoleLogWriter" />
 	</property>
 	
 	<!-- 
@@ -187,6 +189,11 @@
 	Form Populator to use.
 -->
 <bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+
+<!--
+	Request Populator to use.
+-->
+<bean id="modelGlue.requestPopulator" class="ModelGlue.gesture.eventrequest.population.RequestPopulator" />
 
 <!--
 	Bean Populator to use (fuels makeEventBean())

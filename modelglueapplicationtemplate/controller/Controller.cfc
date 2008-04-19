@@ -3,6 +3,6 @@
 	<cffunction name="init" access="public" output="false" hint="Constructor">
 		<cfreturn this />
 	</cffunction>
-
+	
 </cfcomponent>
 	
