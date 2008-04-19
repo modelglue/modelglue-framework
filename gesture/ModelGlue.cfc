@@ -200,6 +200,30 @@
 	<cfreturn ctx />
 </cffunction>
 
+<cffunction name="executeEvent" output="false" hint="Creates and executes an event context for a specific event name, populating with the values passed in the ""values"" arguments.">
+	<cfargument name="eventName" type="string" />
+	<cfargument name="values" type="struct" />
+	
+	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
+										modelglue=this,
+										viewRenderer=variables._viewRenderer,
+										statePersister=variables._statePersister,
+										beanPopulator=variables._beanPopulator,
+										logWriter=variables._logWriter,
+										helpers=this.helpers,
+										requestPhases=arrayNew(1)
+						 			 ) 
+	/>
+
+	<cfset ctx.addEventHandler(getEventHandler(arguments.eventName)) />
+
+	<cfset ctx.merge(arguments.values) />
+
+	<cfset ctx.execute() />
+
+	<cfreturn ctx />
+</cffunction>
+
 <!--- EVENT LISTENER MANAGEMENT --->
 <cffunction name="addEventListener" output="false" returntype="ModelGlue.gesture.ModelGlue" hint="Adds a component and a function in that component (by name, so it need not be defined at time of add) to be fired in response to a message name.">
 	<cfargument name="messageName" type="string" required="true" hint="The message name to listen for." />

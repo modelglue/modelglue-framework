@@ -7,8 +7,8 @@
 <cfparam name="ModelGlue_CORE_COLDSPRING_PATH" default="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_VERSION_INDICATOR" default="GESTURE" />
+<cfparam name="request._modelglue.bootstrap" default="#structNew()#" />
 
-<cfset request._modelglue.bootstrap = structNew() />
 <cfset request._modelglue.bootstrap.initializationRequest = false />
 
 <cfif not structKeyExists(application, ModelGlue_APP_KEY) 

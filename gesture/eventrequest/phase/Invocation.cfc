@@ -13,6 +13,18 @@
 
 	<cfset loadModules(modelglue) />
 	
+	<!--- onApplicationStart --->
+	<cfif request._modelglue.bootstrap.initializationRequest>
+		<cfset event =  modelglue.getEventHandler("modelglue.onApplicationStart") />
+		<cfset arguments.eventContext.addEventHandler(event) />
+	</cfif>
+
+	<!--- onSessionStart --->
+	<cfif structKeyExists(request._modelglue.bootstrap, "sessionStart")>
+		<cfset event =  modelglue.getEventHandler("modelglue.onSessionStart") />
+		<cfset arguments.eventContext.addEventHandler(event) />
+	</cfif>
+	
 	<!--- Load module and queue onRequestStart --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onRequestStart") />
 	<cfset arguments.eventContext.addEventHandler(event) />

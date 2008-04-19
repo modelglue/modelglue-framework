@@ -3,7 +3,7 @@
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new EventContext.">
 	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />
 	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
-	<cfargument name="requestPhases" default="#arrayNew(1)#" hint="Request phases." />
+	<cfargument name="requestPhases" hint="Request phases." />
 	<cfargument name="modelglue" required="false" hint="The framework itself." />
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
@@ -28,9 +28,13 @@
 		<cfset variables._listeners = arguments.modelglue.messageListeners />
 		<cfset variables._eventHandlers = arguments.modelglue.eventHandlers />
 	
-		<!--- External list of event phases --->
-		<cfset variables._requestPhases = arguments.modelglue.phases />
-		
+		<!--- Default to MG's list of phases if none are passed. --->
+		<cfif not structKeyExists(arguments, "requestPhases")>
+			<cfset variables._requestPhases = arguments.modelglue.phases />
+		<cfelse>
+			<cfset variables._requestPhases = arguments.requestPhases />
+		</cfif>
+			
 		<cfset variables._modelGlue = arguments.modelglue />
 	<cfelse>
 		<!--- External maps of listeners and handlers --->
@@ -38,7 +42,11 @@
 		<cfset variables._eventHandlers = arguments.eventHandlers />
 	
 		<!--- External list of event phases --->
-		<cfset variables._requestPhases = arguments.requestPhases />
+		<cfif not structKeyExists(arguments, "requestPhases")>
+			<cfset variables._requestPhases = arrayNew(1) />
+		<cfelse>
+			<cfset variables._requestPhases = arguments.requestPhases />
+		</cfif>
 	</cfif>
 	
 	<!--- Event Handler and View queues are implemented as linked lists --->
@@ -109,7 +117,7 @@
 		<cfset variables._initialEvent = arguments.eventHandler />
 	</cfif>
 
-	<cfif not isStruct(variables._nextEventHandler)>
+	<cfif isSimpleValue(variables._nextEventHandler)>
 		<cfset variables._nextEventHandler = link />
 		<cfset variables._lastEventHandler = link />
 	<cfelse>
@@ -126,7 +134,7 @@
 </cffunction>
 
 <cffunction name="hasNextEventHandler" output="false" hint="Returns if there's another event handler in the queue.">
-	<cfreturn isStruct(variables._nextEventHandler) />
+	<cfreturn not isSimpleValue(variables._nextEventHandler) />
 </cffunction>
 
 <cffunction name="prepareForInvocation" access="public" output="false" hint="Invoked when all ""under the hood"" events (onRequestStart, etc.) are complete.">
@@ -184,6 +192,7 @@
 	<cfset var cacheReq = "" />
 	<cfset var i = 0 />
 	<cfset var requestFormat = getValue("requestFormat", "") />
+	<cfset var view = "" />
 	
 	<cfif not isStruct(variables._nextEventHandler)>
 		<!--- Nothing to do! --->
@@ -212,13 +221,24 @@
 	</cfif>
 	 
 	<!--- Run event handlers (broadcast/listener/result addition) --->
-	<cfloop condition="isStruct(variables._nextEventHandler)">
+	<cfloop condition="not isSimpleValue(variables._nextEventHandler)">
 		<cfset eh = getNextEventHandler() />
 		<cfset executeEventHandler(eh) />
 	</cfloop>
+	
+	<!--- Render all views queued - moved inline after tooling heavy load situations.
+	<cfif not isSimpleValue(variables._nextView)>
+		<cfset renderViewQueue() />
+	</cfif>
+	 --->
 
-	<!--- Render all views queued. --->
-	<cfset renderViewQueue() />
+	<cfloop condition="not isSimpleValue(variables._nextView)">
+		<cfset view = getNextView() />
+
+		<cfset this.trace("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
+
+		<cfset renderView(view) />
+	</cfloop>
 
 	<cfif initialEh.cache>
 		<cfset cacheReq = structNew() />
@@ -265,7 +285,12 @@
 		<cfif structKeyExists(variables._listeners, message.name)>
 			<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
 				<cfset this.trace("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
+				<!---
 				<cfset variables._listeners[message.name][j].invokeListener(this) />
+				--->
+				<cfinvoke component="#variables._listeners[message.name][j].target#" method="#variables._listeners[message.name][j].listenerFunction#">
+					<cfinvokeargument name="event" value="#this#" />
+				</cfinvoke>
 			</cfloop>
 		</cfif>
 	</cfloop>
