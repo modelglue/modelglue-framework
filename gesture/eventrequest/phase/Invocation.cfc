@@ -10,6 +10,7 @@
 	<cfset var modelglue = arguments.eventContext.getModelGlue() />
 	<cfset var initialEventHandlerName = arguments.eventContext.getValue(arguments.eventContext.getValue("eventValue"), modelglue.getConfigSetting("defaultEvent")) />
 	<cfset var initialEventHandler = "" />
+	<cfset var event = "" />
 
 	<cfset loadModules(modelglue) />
 	

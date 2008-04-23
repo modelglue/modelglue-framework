@@ -82,6 +82,7 @@ It's not anticipated that if a new ioc framework comes along that we'd support a
 <cffunction name="testAutowiring" output="false" returntype="void" access="public">
 	<cfset var bean = createTargetBean() />
 	<cfset var injector = createInjector() />
+	<cfset var beanVars = "" />
 	
 	<cfset injector.autowire(bean) />
 	<cfset injector.createInjectionHooks(bean) />

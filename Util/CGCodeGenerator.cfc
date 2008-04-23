@@ -8,9 +8,9 @@
 <cffunction name="clean" output="false">
 	<cfargument name="content" />
 	
-	<cfset content = replaceNoCase(content, "<cg", "<cf", "all") />
-	<cfset content = replaceNoCase(content, "</cg", "</cf", "all") />
-	<cfset content = replaceNoCase(content, "<=--", "<!--", "all") />
+	<cfset arguments.content = replaceNoCase(content, "<cg", "<cf", "all") />
+	<cfset arguments.content = replaceNoCase(content, "</cg", "</cf", "all") />
+	<cfset arguments.content = replaceNoCase(content, "<=--", "<!--", "all") />
 	
 	<cfreturn content />
 </cffunction>
@@ -39,6 +39,7 @@
 	<cfset var fileInStream = "" />
 	<cfset var fileOutStream = "" />
 	<cfset var fileObj = "" />
+	<cfset var system = "" />
 	
 	<cfset fileObj = createObject("java", "java.io.File").init(filename) />
 

@@ -389,6 +389,7 @@
 	<cfset var errors = "" />
 	<cfset var dict = "" />
 	<cfset var errorCollection = createObject("component", "ModelGlue.Util.ValidationErrorCollection").init() />
+	<cfset var i = "" />
 	
 	<cfset arguments.record.validate() />
 	

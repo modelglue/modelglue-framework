@@ -1,4 +1,4 @@
-<cfcomponent extends="mxunit.framework.TestCase">
+ 	<cfcomponent extends="mxunit.framework.TestCase">
 	
 <cffunction name="createBootstrapper" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />
@@ -11,6 +11,7 @@
 	<cfset var obj = "" />
 	<cfset var controllerVars = "" />
 	<cfset var beanFactory = "" />
+	<cfset var ctrl = "" />
 
 	<cfset boot.coldspringPath = "/ModelGlue/gesture/loading/test/ColdSpring.xml" />
 	

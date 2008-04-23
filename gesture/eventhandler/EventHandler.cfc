@@ -72,8 +72,8 @@
 	<cfargument name="result" type="ModelGlue.gesture.eventhandler.Result" />
 	<cfargument name="format" type="string" default="cfNullKeyWorkaround" />
 	
-	<cfif result.name eq "">
-		<cfset result.name = "cfNullKeyWorkaround" />
+	<cfif arguments.result.name eq "">
+		<cfset arguments.result.name = "cfNullKeyWorkaround" />
 	</cfif>
 	
 	<cfif not structKeyExists(this.results, arguments.format)>
