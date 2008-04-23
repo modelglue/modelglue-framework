@@ -8,6 +8,7 @@
 <cffunction name="testStructBasedPopulator" output="false" returntype="void" access="public">
 	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
 	<cfset var pop = createObject("component", "ModelGlue.gesture.eventrequest.population.StructBasedPopulator").init() />
+	<cfset var source = "" />
 	
 	<cfset source.someKey = "someValue" />
 	

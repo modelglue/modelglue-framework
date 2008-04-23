@@ -53,6 +53,7 @@ Sean Corfield	12/09/2006		Created
 		<cfset var props = skeleton.getPropertyIterator() />
 		<cfset var prop = 0 />
 		<cfset var pk = skeleton.getPrimaryKey() />
+		<cfset var keys = "" />
 
 		<cfset keys = structNew() />
 		

@@ -159,6 +159,7 @@
 	<cfargument name="eventName" />
 	
 	<cfset var function = listenerFunctionNameFor(eventName) />
+	<cfset var content = "" />
 	
 	<cfoutput>
 	<cfsavecontent variable="content">

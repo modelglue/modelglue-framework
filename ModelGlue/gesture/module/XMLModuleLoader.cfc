@@ -18,6 +18,7 @@
 	<cfset var i = "" />
 	<cfset var moduleLoaderFactory = modelglue.getInternalBean("modelglue.ModuleLoaderFactory") />
 	<cfset var moduleLoader = "" />
+	<cfset var loader = "" />
 	
 	<!--- Don't load a module twice. --->
 	<cfif structKeyExists(loadedModules, arguments.path)>
@@ -162,6 +163,7 @@
 	<cfset var ctrlVars = "" />
 	<cfset var beanId = "" />
 	<cfset var i = "" />
+	<cfset var j = "" />
 
 	<cfloop from="1" to="#arrayLen(arguments.controllersXML.xmlChildren)#" index="i">
 		<cfset ctrlXml = arguments.controllersXML.xmlChildren[i] />
