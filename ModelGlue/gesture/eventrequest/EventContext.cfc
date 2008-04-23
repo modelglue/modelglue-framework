@@ -186,6 +186,8 @@
 </cffunction>
 
 <cffunction name="executeEventQueue" access="public" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
+	<cfargument name="signalCompletion" />
+	
 	<cfset var initialEh = 0 />
 	<cfset var eh = 0 />
 	<cfset var cacheKey = 0 />
@@ -225,6 +227,13 @@
 		<cfset eh = getNextEventHandler() />
 		<cfset executeEventHandler(eh) />
 	</cfloop>
+
+	<!--- If we need to signal completion, do so. --->
+	<cfif structKeyExists(arguments, "signalCompletion")
+				and structKeyExists(variables._eventHandlers, "modelGlue.onQueueComplete")		
+	>
+		<cfset executeEventHandler(variables._eventHandlers.modelglue.onQueueComplete) />
+	</cfif>	
 	
 	<!--- Render all views queued - moved inline after tooling heavy load situations.
 	<cfif not isSimpleValue(variables._nextView)>
@@ -417,6 +426,10 @@
 
 <cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
 	<cfreturn getInitialEventHandler().name />
+</cffunction>
+
+<cffunction name="getMessage" access="public" hint="Returns the name of the currently broadcast message.">
+	<cfreturn variables._currentMessage />
 </cffunction>
 
 <cffunction name="getArgument" access="public" hint="Gets a value of an argument from the currently broadcast message.">
