@@ -8,8 +8,10 @@
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_VERSION_INDICATOR" default="GESTURE" />
 <cfparam name="request._modelglue.bootstrap" default="#structNew()#" />
+<cfparam name="request._modelglue.bootstrap.blockEvent" default="0" />
 
 <cfset request._modelglue.bootstrap.initializationRequest = false />
+<cfset request._modelglue.bootstrap.appKey = ModelGlue_APP_KEY />
 
 <cfif not structKeyExists(application, ModelGlue_APP_KEY) 
 			or (
@@ -48,12 +50,16 @@
 	<cfset mg = application[ModelGlue_APP_KEY] />
 </cfif>
 
-<cfset ec = mg.handleRequest() />
 
-</cfsilent><cfoutput>#ec.getLastRendereredView()#</cfoutput>
+<cfif not request._modelglue.bootstrap.blockEvent>
+	<cfset ec = mg.handleRequest() />
+</cfif>
+
+</cfsilent><cfif not request._modelglue.bootstrap.blockEvent><cfoutput>#ec.getLastRendereredView()#</cfoutput>
 
 <cfif mg.configuration.debug neq "false" and mg.configuration.debug neq "none"> 
 <cfoutput>
 	#mg.renderContextLog(ec)#
 </cfoutput>
+</cfif>
 </cfif>
