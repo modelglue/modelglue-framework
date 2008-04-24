@@ -28,7 +28,7 @@
 
 	<cfif structKeyExists(md, "beans")>
 		<cfloop list="#md.beans#" index="beanId">
-			<cfset injectBean(beanId, arguments.target) />
+			<cfset injectBean(trim(beanId), arguments.target) />
 		</cfloop>
 	</cfif>
 </cffunction>

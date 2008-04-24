@@ -3,7 +3,7 @@
 <cffunction name="init" output="false">
 	<cfargument name="modelglue" required="true" />
 	<cfargument name="controllerPath" type="string" default="" hint="Path in which to place controllers.  Defaults (on internal getter) to ./controller, relative to the executing template (CGI.CF_TEMPLATE_PATH)." />
-	<cfargument name="controllerPackage" type="string" default="" hint="Path in which to place controllers.  Defaults to {applicationPath}/controller." />
+	<cfargument name="controllerPackage" type="string" default="" hint="Paackage in which to place controllers.  Defaults to {applicationPath}/controller." />
 	<cfargument name="configFile" type="string" default="" hint="Path to ModelGlue.xml-format file in which to generate event-handler XML.  Defaults to the PrimaryModule (""configurationPath"" in Unity) setting." />	
 	<cfargument name="viewPath" type="string" default="#arguments.modelglue.configuration.viewmappings[1]#" hint="Path to directory in which views should be placed.  Defaults to the first entry in viewMappings." />	
 	

@@ -466,6 +466,15 @@
 </cffunction>
 
 <!--- LOCATION MANAGEMENT --->
+<cffunction name="formatUrlParameter" output="false" hint="Formats a key/value pair for the URL.">
+	<cfargument name="key" />
+	<cfargument name="value" />
+
+	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
+
+	<cfreturn urlManager.formatUrlParameter(argumentCollection=arguments) />
+</cffunction>
+
 <cffunction name="linkTo" access="public" hint="Creates URLs using the configured URL manager.">
 	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
 	<cfargument name="append" default="" hint="The list of values to append." />
