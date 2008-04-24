@@ -18,7 +18,7 @@
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
 	<property name="applicationPath"><value>/modelglueapplicationtemplate</value></property>
 	<property name="viewMappings"><value>/modelglueapplicationtemplate/views</value></property>
-	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers,/ModelGlue/helpers/cflib</value></property>
+	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers,/ModelGlue/helpers</value></property>
 	
 	<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
 </bean>

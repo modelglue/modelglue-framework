@@ -3,7 +3,7 @@
 <!--- Application settings --->
 <cfset this.name = "modelglueapplicationtemplate" />
 <cfset this.sessionManagement = true>
-<cfset this.sessionTimeout = createTimeSpan(0,0,0,2)>
+<cfset this.sessionTimeout = createTimeSpan(0,0,30,0)>
 
 <cffunction name="onSessionStart"  output="false">
 	<!--- Not sure anyone'll ever need this...
