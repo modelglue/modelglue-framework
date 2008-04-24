@@ -51,4 +51,11 @@
 	<cfreturn link />
 </cffunction>
 
+<cffunction name="formatUrlParameter" output="false" hint="Formats a key/value pair for the URL.">
+	<cfargument name="key" />
+	<cfargument name="value" />
+	
+	<cfreturn "&#arguments.key#=#arguments.value#" />
+</cffunction>
+
 </cfcomponent>
