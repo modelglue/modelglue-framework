@@ -24,6 +24,8 @@
 		</views>
 	</event-handler> 
 	-->
+	
+	<!-- A homepage for your application. -->
 	<event-handler name="page.index">
 		<broadcasts />
 		<results>
@@ -31,6 +33,28 @@
 		</results>
 		<views>
 			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- An error event to show when an error occurs, much like <cferror>. -->
+	<event-handler name="page.error">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/exception.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- A "404" event to show when the requested event isn't defined. -->
+	<event-handler name="page.missing">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/missingEvent.cfm" />
 		</views>
 	</event-handler>
 	

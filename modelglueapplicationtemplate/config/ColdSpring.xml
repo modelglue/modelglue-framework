@@ -9,6 +9,10 @@
 	
 	<!-- Default event-handler -->
 	<property name="defaultEvent"><value>page.index</value></property>
+	<!-- Execute this event when the requested event is missing. Won't work if generationEnabled=true and in development mode! -->
+	<property name="missingEvent"><value>page.missing</value></property>
+	<!-- Execute this event when an error occurs. -->
+	<property name="defaultExceptionHandler"><value>page.error</value></property>
 	
 	<!-- Controls reloading -->
 	<property name="reloadPassword"><value>true</value></property>
@@ -30,6 +34,8 @@
 	If you need your own configuration values (datasource names, etc), put them here.
 	
 	See modelgluesamples/simpleconfiguration/controller/Controller for an example of how to get to the values.
+	
+	Advanced users who are used to ColdSpring will probably delete this bean in favor of their own approach.
 -->
 <bean id="modelglue.applicationConfiguration" class="ModelGlue.Bean.CommonBeans.SimpleConfig">
 	<property name="config">

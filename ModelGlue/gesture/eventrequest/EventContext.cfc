@@ -169,7 +169,7 @@
 			<cfif structKeyExists(variables, "_modelGlue")>
 				<!--- If we're not running the exception handler, queue the exception handler. --->
 				<cfset exceptionEventHandler = variables._modelGlue.getConfigSetting("defaultExceptionHandler") />
-				
+			
 				<cfif isObject(getCurrentEventHandler()) and getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
 					<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
 					<cfset executeEventQueue() />

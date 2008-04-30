@@ -2,6 +2,7 @@
 
 <cffunction name="init" output="false">
     <cfset variables._instance.defaultEvent = "Home" />
+    <cfset variables._instance.missingEvent = "page.missing" />
     <cfset variables._instance.reload = "true" />
     <cfset variables._instance.debug = "true" />
     <cfset variables._instance.reloadPassword = "true" />
@@ -35,6 +36,14 @@
 </cffunction>
 <cffunction name="getDefaultEvent" returntype="string" output="false">
 	<cfreturn variables._instance.DefaultEvent />
+</cffunction>
+
+<cffunction name="setMissingEvent" returntype="void" output="false" access="public">
+	<cfargument name="MissingEvent" type="string" />
+	<cfset variables._instance.MissingEvent = arguments.Missingevent />
+</cffunction>
+<cffunction name="getMissingEvent" returntype="string" output="false">
+	<cfreturn variables._instance.MissingEvent />
 </cffunction>
 
 <cffunction name="setReload" returntype="void" output="false" access="public">
