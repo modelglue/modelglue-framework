@@ -242,23 +242,6 @@
 	<constructor-arg name="modelglue"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 </bean>
 	
-<!--
-<bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
-	<property name="defaultEvent">
-		<value>home</value>
-	</property>
-	<property name="reload">
-		<value>false</value>
-	</property>
-	<property name="debug">
-		<value>none</value>
-	</property>
-	<property name="helperMappings">
-		<value>/ModelGlue/helpers/cflib</value>
-	</property>
-</bean>		
--->
-	
 <!-- Reactor adapter/service -->
 <bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">
 	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>

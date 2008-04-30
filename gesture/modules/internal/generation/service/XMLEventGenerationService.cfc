@@ -2,52 +2,39 @@
 
 <cffunction name="init" output="false">
 	<cfargument name="modelglue" required="true" />
-	<cfargument name="controllerPath" type="string" default="" hint="Path in which to place controllers.  Defaults (on internal getter) to ./controller, relative to the executing template (CGI.CF_TEMPLATE_PATH)." />
-	<cfargument name="controllerPackage" type="string" default="" hint="Paackage in which to place controllers.  Defaults to {applicationPath}/controller." />
-	<cfargument name="configFile" type="string" default="" hint="Path to ModelGlue.xml-format file in which to generate event-handler XML.  Defaults to the PrimaryModule (""configurationPath"" in Unity) setting." />	
-	<cfargument name="viewPath" type="string" default="#arguments.modelglue.configuration.viewmappings[1]#" hint="Path to directory in which views should be placed.  Defaults to the first entry in viewMappings." />	
 	
 	<cfset super.init() />
 	
 	<cfset variables.mg = arguments.modelglue />
-	<cfset variables.controllerPath = arguments.controllerPath />
-	<cfset variables.controllerPackage = arguments.controllerPackage />
-	<cfset variables.configFile = arguments.configFile />
-	<cfset variables.viewPath = arguments.viewPath />
+	
+	<cfset variables.viewPath = arguments.modelglue.configuration.generationViewPath />
 </cffunction>
 
 <cffunction name="getControllerDirectory" access="private" output="false">
-	<cfif len(variables.controllerPath)>
-		<cfreturn expandPath(variables.controllerPath) />
+	<cfif left(variables.mg.configuration.generationControllerPath, 1) eq "/">
+		<cfreturn expandPath(variables.mg.configuration.generationControllerPath) />
 	<cfelse>
-		<cfreturn getDirectoryFromPath(cgi.cf_template_path) & "controller" />
+		<cfreturn expandPath("./" & variables.mg.configuration.generationControllerPath) />
 	</cfif>
 </cffunction>
 
 <cffunction name="getControllerPackage" access="private" output="false">
 	<cfset var string = "" />
-	<cfif len(variables.controllerPackage)>
-		<cfreturn variables.controllerPackage />
-	<cfelse>
-		<!--- too lazy for a regex right now...if anyone wants to contrib to mg, here's a chance --->
-		<cfset string = replace(variables.mg.configuration.applicationPath, "/", ".", "all") & ".controller" />
-		<cfif left(string, 1) eq ".">
-			<cfset string = right(string, len(string) - 1) />
-		</cfif>
-		
-		<cfreturn string />
+
+	<!--- too lazy for a regex right now...if anyone wants to contrib to mg, here's a chance --->
+	<cfset string = replace(variables.mg.configuration.generationControllerPath, "/", ".", "all") />
+	<cfif left(string, 1) eq ".">
+		<cfset string = right(string, len(string) - 1) />
 	</cfif>
+		
+	<cfreturn string />
 </cffunction>
 
 <cffunction name="getConfigFile" access="private" output="false">
-	<cfif len(variables.configFile)>
-		<cfreturn expandPath(variables.configFile) />
+	<cfif left(variables.mg.configuration.generationModule, 1) eq "/">
+		<cfreturn expandPath(variables.mg.configuration.generationModule) />
 	<cfelse>
-		<cfif left(variables.mg.configuration.primaryModule, 1) eq "/">
-			<cfreturn expandPath(variables.mg.configuration.primaryModule) />
-		<cfelse>
-			<cfreturn expandPath("./" & variables.mg.configuration.primaryModule) />
-		</cfif>
+		<cfreturn expandPath("./" & variables.mg.configuration.generationModule) />
 	</cfif>
 </cffunction>
 
@@ -56,6 +43,15 @@
 	<cfargument name="eventName" default="#arguments.context.getValue(arguments.context.getValue("eventValue"))#" hint="The name of the event to generate.  Defaults to eventValue in arguments.context." />
 	
 	<cfset var type = context.getValue("type", "") />
+	
+	<!---
+	<cflog text="Config file: #getConfigFile()#" />
+	<cflog text="Controller path: #controllerPathNameFor(eventName)#" />
+	<cflog text="Controller className: #controllerClassNameFor(eventName)#" />
+	<cflog text="ViewInclude: #viewIncludeFor(eventName)#" />
+	<cflog text="ViewFile: #viewFileFor(eventName)#" />
+	<cfabort />
+	--->
 	
 	<cfset generateController(eventName) />
 	<cfset generateEventHandler(eventName, type) />
