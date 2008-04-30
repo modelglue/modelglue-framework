@@ -15,6 +15,12 @@
     <cfset variables._instance.defaultTemplate = "index.cfm" />
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = "5" />
+
+		<!--- Generation --->
+		<cfset variables._instance.generationEnabled = false />
+		<cfset variables._instance.generationModule = "" />
+		<cfset variables._instance.generationControllerPath = "" />
+		<cfset variables._instance.generationViewPath = "" />
 		
     <cfreturn this />
 </cffunction>
@@ -58,6 +64,9 @@
 <cffunction name="setApplicationPath" returntype="void" output="false" access="public">
 	<cfargument name="ApplicationPath"  type="string" />
 	<cfset variables._instance.ApplicationPath = arguments.ApplicationPath />
+	<cfif not len(getGenerationControllerPath())>
+		<cfset setGenerationControllerPath(arguments.applicationPath & "/controller") />
+	</cfif>
 </cffunction>
 <cffunction name="getApplicationPath" returntype="string" output="false">
 	<cfreturn variables._instance.ApplicationPath />
@@ -104,6 +113,9 @@
 <cffunction name="setViewMappings" returntype="void" output="false" access="public">
 	<cfargument name="ViewMappings" type="string" />
 	<cfset variables._instance.ViewMappings = listToArray(arguments.ViewMappings) />
+	<cfif not len(getGenerationViewPath())>
+		<cfset setGenerationViewPath(listFirst(arguments.viewMappings)) />
+	</cfif>
 </cffunction>
 <cffunction name="getViewMappings" returntype="array" output="false">
 	<cfreturn variables._instance.ViewMappings />
@@ -132,10 +144,30 @@
 <cffunction name="setPrimaryModule" returntype="void" output="false" access="public">
 	<cfargument name="PrimaryModule" type="string" />
 	<cfset variables._instance.PrimaryModule = arguments.PrimaryModule />
+	<cfif not len(variables._instance.GenerationModule)>
+		<cfset setGenerationModule(arguments.PrimaryModule) />
+	</cfif>
 </cffunction>
 <cffunction name="getPrimaryModule" returntype="string" output="false">
 	<cfreturn variables._instance.PrimaryModule />
 </cffunction>
+
+<cffunction name="setGenerationConfigurationPath" returntype="void" output="false" access="public">
+	<cfargument name="GenerationModule" type="string" />
+	<cfset setGenerationModule(arguments.GenerationModule) />
+</cffunction>
+<cffunction name="setGenerationModule" returntype="void" output="false" access="public">
+	<cfargument name="GenerationModule" type="string" />
+	<cfset variables._instance.GenerationModule = arguments.GenerationModule />
+</cffunction>
+<cffunction name="getGenerationModule" returntype="string" output="false">
+	<cfif not len(variables._instance.generationModule)>
+		<cfreturn getPrimaryModule() />
+	<cfelse>
+		<cfreturn variables._instance.GenerationModule />
+	</cfif>
+</cffunction>
+
 
 <cffunction name="setPrimaryModuleType" returntype="void" output="false" access="public">
 	<cfargument name="PrimaryModuleType" type="string" />
@@ -211,6 +243,30 @@
 </cffunction>
 <cffunction name="getDefaultScaffolds" returntype="string" output="false">
 	<cfreturn variables._instance.DefaultScaffolds />
+</cffunction>
+
+<cffunction name="setGenerationControllerPath" returntype="void" output="false" access="public">
+	<cfargument name="GenerationControllerPath" type="string" />
+	<cfset variables._instance.GenerationControllerPath = arguments.GenerationControllerPath />
+</cffunction>
+<cffunction name="getGenerationControllerPath" returntype="string" output="false">
+	<cfreturn variables._instance.GenerationControllerPath />
+</cffunction>
+
+<cffunction name="setGenerationViewPath" returntype="void" output="false" access="public">
+	<cfargument name="GenerationViewPath" type="string" />
+	<cfset variables._instance.GenerationViewPath = arguments.GenerationViewPath />
+</cffunction>
+<cffunction name="getGenerationViewPath" returntype="string" output="false">
+	<cfreturn variables._instance.GenerationViewPath />
+</cffunction>
+
+<cffunction name="setGenerationEnabled" returntype="void" output="false" access="public">
+	<cfargument name="GenerationEnabled" type="string" />
+	<cfset variables._instance.GenerationEnabled = arguments.GenerationEnabled />
+</cffunction>
+<cffunction name="getGenerationEnabled" returntype="boolean" output="false">
+	<cfreturn variables._instance.GenerationEnabled />
 </cffunction>
 
 </cfcomponent>

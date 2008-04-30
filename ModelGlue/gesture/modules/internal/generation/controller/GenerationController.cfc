@@ -5,7 +5,7 @@
 	
 	<cfset var eventName = arguments.event.getValue(arguments.event.getValue("eventValue")) />
 	
-	<cfif not getModelGlue().hasEventHandler(eventName)>
+	<cfif not getModelGlue().hasEventHandler(eventName) and getModelGlue().getConfigSetting("generationEnabled")>
 		<cfset event.trace("Event Generation", "Generating ""#eventName#""") />
 		
 		<cfset beans.modelglueEventGenerator.generateEvent(arguments.event) />
