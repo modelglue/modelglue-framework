@@ -14,6 +14,8 @@
 
 	<cfset loadModules(modelglue) />
 	
+	<cfset one = two />
+	
 	<!--- onApplicationStart --->
 	<cfif request._modelglue.bootstrap.initializationRequest>
 		<cfset event =  modelglue.getEventHandler("modelglue.onApplicationStart") />
@@ -37,7 +39,14 @@
 	--->
 	<cfset arguments.eventContext.prepareForInvocation() />
 
-	<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
+	<cfif structKeyExists(modelglue.eventHandlers, initialEventHandlerName)>
+		<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
+	<cfelseif structKeyExists(modelglue.eventHandlers, modelglue.configuration.missingEvent)>
+		<cfset arguments.eventContext.setValue("missingEvent", initialEventHandlerName) />
+		<cfset arguments.eventContext.addEventHandler(modelglue.eventHandlers[modelglue.configuration.missingEvent]) />
+	<cfelse>
+		<cfthrow message="Model-Glue:  There is no known event handler for ""#initialEventHandlerName#""." />
+	</cfif>	
 	
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue(true) />
