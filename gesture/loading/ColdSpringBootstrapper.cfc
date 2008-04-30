@@ -44,7 +44,7 @@
 				
 				TODO:  Make this not happen in Gesture after <import> is released.
 	--->
-	<cfif 1 or this.modelglueVersionIndicator eq this.versionIndicators.unity>
+	<cfif this.modelglueVersionIndicator eq this.versionIndicators.gesture or this.modelglueVersionIndicator eq this.versionIndicators.unity>
 		<cfif not fileExists(originalCsPath)>
 			<cfset originalCsPath = expandPath(originalCsPath) />
 		</cfif>
@@ -63,6 +63,7 @@
 
 	<!--- If we're in legacy mode, we change the value of the primaryModule in the configuration. --->
 	<cfif this.modelglueVersionIndicator eq this.versionIndicators.legacy>
+		<cfset bf.loadBeans(expandPath("/ModelGlue/gesture/configuration/LegacyBeans.xml")) />
 		<cfset cfg = bf.getBean("modelglue.ModelGlueConfiguration") />
 		<cfset cfg.setPrimaryModule(this.primaryModulePath) />
 	</cfif>
