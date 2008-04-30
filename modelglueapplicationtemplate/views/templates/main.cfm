@@ -22,13 +22,15 @@ It expects you to run an event that includes a view named "body".
 		</p>
 		<p>
 			Thanks to 
-			<a href="http://www.corfield.org">Sean Corfield</a>, 
 			<a href="http://www.coldfusionjedi.com/">Raymond Camden</a>,
+			<a href="http://www.corfield.org">Sean Corfield</a>, 
+			<a href="http://www.web-relevant.com/blogs/cfobjective">Jared Rypka-Hauer</a>,
 			<a href="http://www.briankotek.com/blog/">Brian Kotek</a>,
 			<a href="http://www.compoundtheory.com">Mark Mandel</a>,
 			<a href="http://en.wikipedia.org/wiki/Ayn_Rand">Ayn Rand</a>,
 			<a href="http://www.d-ross.org">Dave Ross</a>,
 			<a href="http://cdscott.blogspot.com/">Chris Scott</a>,
+			<a href="http://www.boyzoid.com">Scott Stroz</a>,
 			<a href="http://www.firemoss.com">Firemoss</a>,
 			<a href="http://www.alagad.com">Alagad</a>,
 			<a href="http://www.aboutweb.com">AboutWeb</a>,
