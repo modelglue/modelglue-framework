@@ -26,12 +26,12 @@
 </cffunction>
 
 <cffunction name="linkTo" output="false" hint="Builds a link to the specified event, appending the listed values from the context and the anchor position specified.">
-	<cfargument name="eventContext" />
 	<cfargument name="event" default="" hint="The event to which the url should link." />
 	<cfargument name="append" default="" hint="The list of values to append." />
 	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
-	
-	<cfset var link = eventContext.getValue("myself") />
+	<cfargument name="eventContext" default="" hint="Required if using append." />
+		
+	<cfset var link = "#variables._mg.configuration.defaultTemplate#?#variables._mg.configuration.eventValue#=" />
 	<cfset var i = "" />
 	
 	<!--- Add the event --->

@@ -482,7 +482,7 @@
 
 	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
 
-	<cfreturn urlManager.linkTo(this, arguments.eventName, arguments.append, arguments.anchor) />
+	<cfreturn urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
 </cffunction>
 
 <cffunction name="forwardToUrl" access="public" hint="Forwards to a given URL, optionally storing state across the redirect.">
@@ -514,7 +514,7 @@
 		
 	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
 	
-	<cfset var url = urlManager.linkTo(this, arguments.eventName, arguments.append, arguments.anchor) />
+	<cfset var url = urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
 	
 	<cfset forwardToUrl(url, arguments.preserveState, arguments.addToken) /> 
 </cffunction>
@@ -564,11 +564,11 @@
 	<cfreturn variables._state.merge(argumentCollection=arguments) />
 </cffunction>
 
-<cffunction name="saveState" access="public" returntype="void" output="false" hint="I save all state to session._modelglue.preservedState (if no exceptions are thrown!).">
+<cffunction name="saveState" access="public" returntype="void" output="false" hint="I save all state to session">
 	<cfset variables._statePersister.save(this) />
 </cffunction>
 
-<cffunction name="loadState" access="public" returntype="void" output="false" hint="I save all state to session._modelglue.preservedState (if no exceptions are thrown!).">
+<cffunction name="loadState" access="public" returntype="void" output="false" hint="I load state from session.">
 	<cftry>
 		<cfset variables._statePersister.load(this) />
 		<cfcatch></cfcatch>
