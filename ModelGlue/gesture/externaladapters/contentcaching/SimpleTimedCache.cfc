@@ -20,20 +20,21 @@
 
 	<cfset arguments.created = now() />
 	<cfset variables._content[arguments.key] = arguments />	
-	
-	<cfif dateDiff("s", variables._lastSweep, now())>
-		<cflock name="#variables._lockName#" type="exclusive" timeout="30">
-			<cfif dateDiff("s", variables._lastSweep, now())>
-				<cfset sweep() />
-			</cfif>
-		</cflock>
-	</cfif>
 </cffunction>
 
 <cffunction name="get" access="public" returntype="struct" hint="Gets content from the cache.  Returns struct of {success:true, content=""content""}.  If not found, success will be false.">
 	<cfargument name="key" type="string" hint="Key for the content." />
 
 	<cfset var content = structNew() />
+
+	<cfif dateDiff("s", variables._lastSweep, now()) gt variables._sweepInterval>
+		<cflock name="#variables._lockName#" type="exclusive" timeout="30">
+			<cfif dateDiff("s", variables._lastSweep, now()) gt variables._sweepInterval>
+				<cfset sweep() />
+			</cfif>
+		</cflock>
+	</cfif>
+
 	<cftry>
 		<cfif structKeyExists(variables._content, arguments.key)>
 			<cfset content.success = true />
@@ -45,7 +46,7 @@
 			<cfset content.success = false />
 		</cfcatch>
 	</cftry>
-	
+
 	<cfreturn content />
 </cffunction>
 
@@ -66,7 +67,7 @@
 	<cfset variables._lastSweep = now() />
 </cffunction>
 
-<cffunction name="purge" access="public" returntype="struct" hint="Purges content from the cache.">
+<cffunction name="purge" access="public" returntype="void" hint="Purges content from the cache.">
 	<cfargument name="key" type="string" hint="Key for the content." />
 	
 	<cfset structDelete(variables._content, key) />

@@ -188,7 +188,7 @@
 <cffunction name="executeEventQueue" access="public" output="false" hint="Executes all event handlers currently in the event queue and renders queued views.">
 	<cfargument name="signalCompletion" />
 	
-	<cfset var initialEh = 0 />
+	<cfset var initialEh = variables._initialEvent />
 	<cfset var eh = 0 />
 	<cfset var cacheKey = 0 />
 	<cfset var cacheReq = "" />
@@ -200,11 +200,13 @@
 		<!--- Nothing to do! --->
 		<cfreturn />
 	</cfif>
-	
+
+	<!---
 	<!--- First handler in queue is the cache point. --->
 	<cfset initialEh = variables._nextEventHandler.eventHandler />
-
-	<cfif initialEh.cache>
+	--->
+	
+	<cfif isObject(variables._initialEvent) and initialEh.cache>
 		<cfset cacheKey = initialEh.cacheKey />
 		<cfloop list="#initialEh.cacheKeyValues#" index="i">
 			<cfset cacheKey = "#requestFormat#." & cacheKey & ".#getValue(i)#" />
@@ -249,7 +251,7 @@
 		<cfset renderView(view) />
 	</cfloop>
 
-	<cfif initialEh.cache>
+	<cfif isObject(initialEh) and initialEh.cache>
 		<cfset cacheReq = structNew() />
 		<cfset cacheReq.key = variables._viewCollection.getFinalViewKey() />
 		<cfset cacheReq.output = variables._viewCollection.getFinalView() />

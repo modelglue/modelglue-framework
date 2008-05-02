@@ -29,6 +29,9 @@
 	<!--- onRequestStart --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onRequestStart") />
 	<cfset arguments.eventContext.addEventHandler(event) />
+
+	<!--- Tell the context to run its queue. --->
+	<cfset arguments.eventContext.executeEventQueue(true) />
 	
 	<!--- 
 	Prepare for invocation _after_ queuing onRequestStart

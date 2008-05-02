@@ -19,21 +19,20 @@
 	<cfreturn mg[1] />
 </cffunction>
 
-<cffunction name="executeEvent" output="false" access="remote">
+<cffunction name="executeEvent" output="false" access="remote" returntype="struct">
 	<cfargument name="eventName" type="string" required="true" />
 	<cfargument name="values" type="struct" required="true" default="#structNew()#" >
+	<cfargument name="returnValues" type="string" required="false" default="" />
+		
+	<cfset var i = "" />
+	<cfset var event = getModelGlue().executeEvent(argumentCollection=arguments) />
+	<cfset var result = structNew() />
 	
-	<cfreturn getModelGlue().executeEvent(argumentCollection=arguments) />
-</cffunction>
-
-<cffunction name="getEventValue" output="false" access="remote">
-	<cfargument name="eventName" type="string" required="true" />
-	<cfargument name="desiredValue" type="string" required="true" />
-	<cfargument name="values" type="struct" required="true" default="#structNew()#" >
+	<cfloop list="#arguments.returnValues#" index="i">
+		<cfset result[i] = event.getValue(i) />
+	</cfloop>
 	
-	<cfset var ec = getModelGlue().executeEvent(argumentCollection=arguments) />
-	
-	<cfreturn ec.getValue(arguments.desiredValue) />
+	<cfreturn result />
 </cffunction>
 
 </cfcomponent>
