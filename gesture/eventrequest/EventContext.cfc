@@ -193,7 +193,7 @@
 	<cfset var cacheKey = 0 />
 	<cfset var cacheReq = "" />
 	<cfset var i = 0 />
-	<cfset var requestFormat = getValue("requestFormat", "") />
+	<cfset var requestFormat = getValue("requestFormat", "html") />
 	<cfset var view = "" />
 	
 	<cfif not isStruct(variables._nextEventHandler)>
@@ -463,7 +463,6 @@
 <cffunction name="addResult" access="public" hint="Adds a result, by name, to the result queue.">
 	<cfargument name="result" type="string" hint="The name of the result (e.g., ""formInvalid"" or the like) to add." />
 	
-	<!--- TODO:  Add redirect capabilities.  How the @#@#$ are we going to unit test that?  Mock forwarder?--->
 	<cfset arrayAppend(variables._results, arguments.result) />
 </cffunction>
 
