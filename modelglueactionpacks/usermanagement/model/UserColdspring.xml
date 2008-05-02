@@ -1,0 +1,32 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<bean id="UserDAO" class="modelglueactionpacks.usermanagement.model.UserDAO">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="UserGateway">
+			<ref bean="UserGateway"/>
+		</constructor-arg>
+	</bean>
+	<bean id="UserGateway" class="modelglueactionpacks.usermanagement.model.UserGateway">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+	</bean>
+	<bean id="UserService" class="modelglueactionpacks.usermanagement.model.UserService">
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="UserDAO">
+			<ref bean="UserDAO"/>
+		</constructor-arg>
+		<constructor-arg name="UserGateway">
+			<ref bean="UserGateway"/>
+		</constructor-arg>
+	</bean>
+</beans>
