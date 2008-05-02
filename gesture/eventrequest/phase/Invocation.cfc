@@ -14,8 +14,6 @@
 
 	<cfset loadModules(modelglue) />
 	
-	<cfset one = two />
-	
 	<!--- onApplicationStart --->
 	<cfif request._modelglue.bootstrap.initializationRequest>
 		<cfset event =  modelglue.getEventHandler("modelglue.onApplicationStart") />
