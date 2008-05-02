@@ -47,6 +47,10 @@ For alpha purposes, post a message to the official Model-Glue group (http://grou
 
 If you include "Gesture alpha" in the subject, it'll get filtered in Joe's mail rules to a special box.
 
+A real bug site (Trac?  Jira?  Assembla?  Not sure yet.) will show up soon.
+
+Please post:
+
 1.  Exactly what you did
 2.  What happened (include exceptions, stack traces, sample code, etc.!)
 3.  What you thought should of happened
