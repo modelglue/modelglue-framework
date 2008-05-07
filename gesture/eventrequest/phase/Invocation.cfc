@@ -31,7 +31,7 @@
 	<cfset arguments.eventContext.addEventHandler(event) />
 
 	<!--- Tell the context to run its queue. --->
-	<cfset arguments.eventContext.executeEventQueue(true) />
+	<cfset arguments.eventContext.executeEventQueue() />
 	
 	<!--- 
 	Prepare for invocation _after_ queuing onRequestStart
@@ -51,6 +51,12 @@
 	
 	<!--- Tell the context to run its queue. --->
 	<cfset arguments.eventContext.executeEventQueue(true) />
+
+	<!--- onRequestEnd --->
+	<cfset event =  modelglue.getEventHandler("modelglue.onRequestEnd") />
+	<cfset arguments.eventContext.addEventHandler(event) />
+
+	<cfset arguments.eventContext.executeEventQueue() />
 </cffunction>
 
 </cfcomponent>

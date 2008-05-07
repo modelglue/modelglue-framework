@@ -75,7 +75,9 @@
 					</list>
 				</constructor-arg>
 			</bean>
+			<!-- Haven't found a use for it.
 			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
+			-->
 		</list>
 	</property>
 	
@@ -112,7 +114,7 @@
 		Log Writer to use
 	-->
 	<property name="logWriter">
-		<bean class="ModelGlue.gesture.eventrequest.log.ConsoleLogWriter" />
+		<bean class="ModelGlue.gesture.eventrequest.log.LogWriter" />
 	</property>
 	
 	<!-- 

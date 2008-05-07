@@ -179,6 +179,9 @@
 		<cfelse>
 			<cfset ctrlInst = createObject("component", ctrlXml.xmlAttributes.type).init(arguments.modelglue, ctrlXml.xmlAttributes.id) />
 		</cfif>
+		
+		<!--- In case a controller constructor override doesn't do super() properly.... --->
+		<cfset ctrlInst.setModelGlue(arguments.modelglue) />
 
 		<!--- Create injection hooks --->
 		<cfset injector.createInjectionHooks(ctrlInst) />
