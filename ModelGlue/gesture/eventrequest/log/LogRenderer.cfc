@@ -20,7 +20,7 @@
 		<h1>Model-Glue Debugging</h1>
 		
 		<table width="100%" cellpadding="2" cellspacing="0" border="1">
-		<tr>
+		<tr bgcolor="yellow">
 			<td>Time</td>
 			<td>Type</td>
 			<td>Message</td>
