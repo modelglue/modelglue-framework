@@ -8,7 +8,16 @@
 	<cfset var i = "" />
 	<cfset var initialTime = "" />
 	<cfset var eventTime = "" />
+	<cfset var displayedRowCount = 0 />
 
+	<!--- mode isn't supported yet, so set to verbose --->
+	<cfset var mode = "verbose">
+
+	<cfset var colors = structNew() />	
+
+	<cfset colors.warning = "##f4cb9a" />
+	<cfset colors.trace = "##b5e1e1" />
+	
 	<!--- Shortcut to bypass.  Man, why did I ever do it like this? --->
 	<cfif structKeyExists(request, "modelGlueSuppressDebugging")>
 		<cfreturn "" />
@@ -19,12 +28,15 @@
 		<div clear="both">
 		<h1>Model-Glue Debugging</h1>
 		
-		<table width="100%" cellpadding="2" cellspacing="0" border="1">
-		<tr bgcolor="yellow">
-			<td>Time</td>
-			<td>Type</td>
-			<td>Message</td>
-		</tr>
+	  <table cellpadding="2" cellspacing="0" width="100%" style="border:1px Solid ##CCC;font-family:verdana;font-size:11pt;">
+		<thead>
+	    <tr style="background:##EAEAEA">
+	      <td style="border-bottom:1px Solid ##CCC;"><strong>Time</strong></td>
+	      <td style="border-bottom:1px Solid ##CCC;" nowrap="true"><strong>Category</strong></td>
+	      <td style="border-bottom:1px Solid ##CCC;"><strong>Message</strong></td>
+	    </tr>
+	    </thead>
+	    <tbody>
 		<cfloop from="1" to="#arrayLen(trace)#" index="i">
 			<cfif initialTime eq "">
 				<cfset eventTime = 0 />
@@ -32,15 +44,37 @@
 			<cfelse>
 				<cfset eventTime = trace[i].time - initialTime />
 			</cfif>
-			<tr>
-				<td>#eventTime#ms</td>
-				<td>#trace[i].type#</td>
-				<td>
-					#trace[i].message#<br />
-					#htmlEditFormat(trace[i].tag)#
-				</td>		
-			</tr>
+
+			<cfif mode eq "verbose" or (mode eq "trace" and trace[i].type eq "USER")>
+				<cfif trace[i].type eq "WARNING">
+				<tr style="background:#colors.warning#">
+				<cfelseif trace[i].type eq "USER">
+				<tr style="background:#colors.trace#">
+				<cfelseif not displayedRowCount mod 2>
+				<tr style="background:##F9F9F9">
+				<cfelse>
+				<tr>
+				</cfif>	
+					<td valign="top">#eventTime#ms</td>
+					<td valign="top" nowrap="true">#trace[i].type#</td>
+					<td valign="top">#trace[i].message#</td>
+				</tr>
+				<cfif trace[i].type eq "WARNING">
+				<tr style="background:#colors.warning#">
+				<cfelseif trace[i].type eq "USER">
+				<tr style="background:#colors.trace#">
+				<cfelseif not displayedRowCount mod 2>
+				<tr style="background:##F9F9F9">
+				<cfelse>
+				<tr>
+				</cfif>	
+				<td valign="top" colspan="2" style="border-bottom:1px Solid ##CCC;">&nbsp;</td>
+				<td valign="top" style="font-size:9pt;border-bottom:1px Solid ##CCC;color:##666">#htmlEditFormat(trace[i].tag)#&nbsp;</td>
+				</tr>
+				<cfset displayedRowCount = displayedRowCount + 1 />
+			</cfif>
 		</cfloop>
+		</tbody>
 		</table>
 		</div>
 	</cfsavecontent>
