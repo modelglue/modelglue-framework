@@ -327,6 +327,7 @@
 	
 	<!--- Queue explicit results: repetitive on purpose. --->
 	<cfloop from="1" to="#arrayLen(results)#" index="i">
+		<cfset trace("arguments.eventHandler.hasResult(results[i])", "#arguments.eventHandler.hasResult(results[i])# - #arguments.eventHandler.name#") />
 		<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i]) and isArray(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])>
 			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])#" index="j">
 				<cfset result = arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j] />
@@ -463,6 +464,7 @@
 <cffunction name="addResult" access="public" hint="Adds a result, by name, to the result queue.">
 	<cfargument name="result" type="string" hint="The name of the result (e.g., ""formInvalid"" or the like) to add." />
 	
+	<cfset trace("Message Listener", "A named result ""#arguments.result#"" has been added.") />
 	<cfset arrayAppend(variables._results, arguments.result) />
 </cffunction>
 
@@ -550,6 +552,8 @@
 </cffunction>
 
 <cffunction name="valueExists" access="public" returnType="boolean" output="false" hint="DEPRECATED:  Use exists().  Still supported for reverse compatibility.  I state if a value exists.">
+  <cfargument name="name" type="string" required="true" hint="I am the name of the value.">
+
 	<cfreturn exists(argumentCollection=arguments) />
 </cffunction>
 
