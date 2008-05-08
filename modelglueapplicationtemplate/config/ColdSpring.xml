@@ -7,6 +7,8 @@
 	<property name="reload"><value>true</value></property>
 	<property name="debug"><value>true</value></property>
 	
+	<!-- Name of the URL variable that states which event-handler to run -->
+	<property name="defaultEvent"><value>event</value></property>
 	<!-- Default event-handler -->
 	<property name="defaultEvent"><value>page.index</value></property>
 	<!-- Execute this event when the requested event is missing. Won't work if generationEnabled=true and in development mode! -->

@@ -1,41 +1,6 @@
 <modelglue>
 	
 <event-handlers>
-	<event-handler name="modelglue.onApplicationStart">
-		<broadcasts>
-			<message name="onApplicationStart" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onSessionStartPreRequest">
-		<broadcasts>
-			<message name="onSessionStartPreRequest" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onSessionStart">
-		<broadcasts>
-			<message name="onSessionStart" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onSessionEnd">
-		<broadcasts>
-			<message name="onSessionEnd" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onRequestStart">
-		<broadcasts>
-			<message name="onRequestStart" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onRequestEnd">
-		<broadcasts>
-			<message name="onRequestEnd" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.onQueueComplete">
-		<broadcasts>
-			<message name="onQueueComplete" />
-		</broadcasts>
-	</event-handler>
 </event-handlers>
 	
 </modelglue>
