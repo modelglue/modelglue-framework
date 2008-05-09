@@ -128,7 +128,6 @@
 				<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
 				<cfloop list="#settingXml.xmlAttributes.value#" index="j">
 						<cfset iocAdapter.loadBeanDefinitionsFromFile(j) />
-						<cflog text="XMLMODLOADER:  loaded from #j#" />
 				</cfloop>
 			</cfcase>
 			<cfcase value="viewMappings">
