@@ -24,7 +24,11 @@
 		<cfset arguments.event.setValue(mg.configuration.eventValue, mg.configuration.defaultEvent) />
 	</cfif>
 	
+	<!---
+	Not needed for any real use case, and causes issues with structClear().
+	
 	<cfset event.setValue("sessionId", beans.modelglueSessionFacade.getSessionIdentifier()) />
+	--->
 </cffunction>
 
 </cfcomponent>

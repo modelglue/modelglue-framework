@@ -55,6 +55,7 @@
 	<cfargument name="event" default="" hint="The event to which the url should link." />
 	<cfargument name="append" default="" hint="The list of values to append." />
 	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+	<cfargument name="eventContext" default="" hint="Required if using append." />
 	
 	<cfset var link = "#cgi.script_name#/" />
 	<cfset var i = "" />
