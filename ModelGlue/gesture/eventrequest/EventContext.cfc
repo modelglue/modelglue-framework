@@ -327,13 +327,10 @@
 	
 	<!--- Queue explicit results: repetitive on purpose. --->
 	<cfloop from="1" to="#arrayLen(results)#" index="i">
-		<cfset trace("arguments.eventHandler.hasResult(results[i])", "#arguments.eventHandler.hasResult(results[i])# - #arguments.eventHandler.name#") />
 		<cfif len(results[i]) and arguments.eventHandler.hasResult(results[i]) and isArray(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])>
 			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results.cfNullKeyWorkaround[results[i]])#" index="j">
 				<cfset result = arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j] />
 				
-				<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
-
 				<cfif result.redirect>
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
