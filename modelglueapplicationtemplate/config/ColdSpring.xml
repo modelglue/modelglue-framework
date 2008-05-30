@@ -24,7 +24,7 @@
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
 	<property name="applicationPath"><value>/modelglueapplicationtemplate</value></property>
 	<property name="viewMappings"><value>/modelglueapplicationtemplate/views</value></property>
-	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers,/ModelGlue/helpers</value></property>
+	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers</value></property>
 	
 	<!-- Generate unknown events when in development mode?  (reload=false) -->
 	<property name="generationEnabled"><value>false</value></property>
