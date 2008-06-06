@@ -10,7 +10,7 @@
 	<cfset var modelglue = arguments.eventContext.getModelGlue() />
 	<cfset var event = "" />
 	
-	<!--- Only do anything if this isn't an initialization request. --->
+	<!--- Only do anything if this is a initialization request. --->
 	<cfif request._modelglue.bootstrap.initializationRequest>
 		<!--- 
 			Before event queue runs, we need to load any configured modules.
