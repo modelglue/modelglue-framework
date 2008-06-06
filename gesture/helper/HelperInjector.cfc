@@ -5,7 +5,7 @@
 </cffunction>
 
 <cffunction name="injectPath" output="false" hint="Injects files (.cfm or .cfc) from a path into a target cfc.  Not recursive.">
-	<cfargument name="target" />
+	<cfargument name="target" hint="Structure into which helpers should be placed." />
 	<cfargument name="path" />
 	
 	<cfset var files = "" />
