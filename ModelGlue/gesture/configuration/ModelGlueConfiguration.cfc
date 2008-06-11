@@ -16,7 +16,8 @@
     <cfset variables._instance.defaultTemplate = "index.cfm" />
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = "5" />
-
+		<cfset variables._instance.requestFormatValue = "requestFormat" />
+		
 		<!--- Generation --->
 		<cfset variables._instance.generationEnabled = false />
 		<cfset variables._instance.generationModule = "" />
@@ -221,6 +222,15 @@
 <cffunction name="getEventValue" returntype="string" output="false">
 	<cfreturn variables._instance.EventValue />
 </cffunction>
+
+<cffunction name="setRequestFormatValue" returntype="void" output="false" access="public">
+	<cfargument name="RequestFormatValue" type="string" />
+	<cfset variables._instance.RequestFormatValue = arguments.RequestFormatValue />
+</cffunction>
+<cffunction name="getRequestFormatValue" returntype="string" output="false">
+	<cfreturn variables._instance.RequestFormatValue />
+</cffunction>
+
 
 <cffunction name="setDefaultTemplate" returntype="void" output="false" access="public">
 	<cfargument name="DefaultTemplate" type="string" />

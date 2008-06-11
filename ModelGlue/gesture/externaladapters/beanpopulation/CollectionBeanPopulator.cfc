@@ -15,7 +15,7 @@
 	<cfargument name="properties" type="string" hint="List to populate." />
 	
 	<!--- Create instance if simple target --->
-	<cfif not isObject(arguments.target)>
+	<cfif not isStruct(arguments.target)>
 		<cfset arguments.target = createObject("component", arguments.target) />
 		<cfif structKeyExists(arguments.target, "init")>
 			<cfinvoke component="#arguments.target#" method="init" />

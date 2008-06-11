@@ -11,6 +11,7 @@
 	<cfargument name="eventContext" output="false" hint="Event context from which state should be saved." />
 
 	<cfset variables.sessionFacade.put("_modelgluePreservedState", arguments.eventContext.getAll()) />
+	<cfset variables.sessionFacade.put("_modelgluePreservedLog", arguments.eventContext.log) />
 </cffunction>
 
 <cffunction name="load" output="false" hint="Loads state.  Fails silently if anything goes wrong.">
@@ -20,6 +21,12 @@
 		<cfset arguments.eventContext.merge(variables.sessionFacade.get("_modelgluePreservedState")) />
 		<cfset variables.sessionFacade.delete("_modelgluePreservedState") />
 	</cfif>
+
+	<cfif variables.sessionFacade.exists("_modelgluePreservedLog")>
+		<cfset arguments.eventContext.log = variables.sessionFacade.get("_modelgluePreservedLog") />
+		<cfset variables.sessionFacade.delete("_modelgluePreservedLog") />
+	</cfif>
+
 </cffunction>
 
 </cfcomponent>
