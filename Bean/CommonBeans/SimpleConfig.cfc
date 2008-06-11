@@ -8,7 +8,15 @@
   <cffunction name="SetConfig" access="public" return="void" output="false" hint="Set property: config">
     <cfargument name="value" type="struct"/>
 		
+		<cfset var i = "" />
+		
     <cfset variables.config=arguments.value />
+		
+		<cfloop collection="#arguments.value#" item="i">
+			<cfif not structKeyExists(this, i)>
+				<cfset this[i] = arguments.value[i] />
+			</cfif>
+		</cfloop>
   </cffunction>
   
   <cffunction name="GetConfig" access="public" return="struct" output="false" hint="Get property: config">

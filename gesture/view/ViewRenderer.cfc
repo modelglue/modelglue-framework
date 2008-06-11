@@ -5,6 +5,17 @@
   <cfreturn this />
 </cffunction>
 
+<cffunction name="setModelGlueConfiguration" output="false" hint="Sets the MG Configuration bean instance to use.">
+	<cfargument name="modelGlueConfiguration" required="true" type="ModelGlue.gesture.configuration.ModelGlueConfiguration" />
+	
+	<cfset var mappings = arguments.modelGlueConfiguration.getViewMappings() />
+	<cfset var i = "" />
+	
+	<cfloop from="1" to="#arrayLen(mappings)#" index="i">
+		<cfset addViewMapping(mappings[i]) />
+	</cfloop>
+</cffunction>
+
 <cffunction name="getViewMappings" output="false" hint="Gets the current list of view mappings.">
 	<cfreturn variables._viewMappings />
 </cffunction>

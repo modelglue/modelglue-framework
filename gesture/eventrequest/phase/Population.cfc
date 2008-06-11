@@ -15,12 +15,6 @@
 	--->
 	<cfset loadModules(modelglue) />
 	
-	<!---
-	<cfif not arguments.eventContext.exists("requestFormat")>
-		<cfset arguments.eventContext.setValue("requestFormat", "HTML") />
-	</cfif>
-	--->
-	
 	<!--- Add the newly loaded event to the queue. --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onEventContextCreation") />
 	<cfset arguments.eventContext.addEventHandler(event) />

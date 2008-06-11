@@ -1,8 +1,6 @@
 <cfcomponent output="false" hint="A lo-fi ColdFusion code generator that uses content with ""<cg"" tags and ""<=--"" comments instead of XML or templating.">
 
 <cffunction name="init" output="false">
-	<cfset variables.format = createObject("java", "org.jdom.output.Format") />
-	<cfset variables.xmlOutputter = createObject("java", "org.jdom.output.XMLOutputter").init(variables.format.getPrettyFormat()) />
 </cffunction>
 
 <cffunction name="clean" output="false">
@@ -45,24 +43,30 @@
 
 	<!--- Write it, read it to a jdom doc rather than ColdFusion node list, then pretty it --->
 	<cfset write(filename, content) />
-	
-	<cfset builder = createObject("java", "org.jdom.input.SAXBuilder").init() />
-	<cfset format = createObject("java", "org.jdom.output.Format").getPrettyFormat() />
-	<cfset out = createObject("java", "org.jdom.output.XMLOutputter").init(format) />
-	<cfset fileObj = createObject("java", "java.io.File").init(filename) />
-	<cfset fileInStream = createObject("java", "java.io.FileInputStream").init(fileObj) />
-	
-	<cfset system = createObject("java", "java.lang.System") />
-	
-	<cfset document = builder.build(fileInStream) />
-	
-	<cfset fileInStream.close() />
-	
-	<cfset fileOutStream = createObject("java", "java.io.FileOutputStream").init(fileObj) />
-	
-	<cfset out.output(document, fileOutStream) />
 
-	<cfset fileOutStream.close() />
+	<!--- Only do the formatting if capable. --->
+	<cftry>	
+		<cfset builder = createObject("java", "org.jdom.input.SAXBuilder").init() />
+		<cfset format = createObject("java", "org.jdom.output.Format").getPrettyFormat() />
+		<cfset out = createObject("java", "org.jdom.output.XMLOutputter").init(format) />
+		<cfset fileObj = createObject("java", "java.io.File").init(filename) />
+		<cfset fileInStream = createObject("java", "java.io.FileInputStream").init(fileObj) />
+		
+		<cfset system = createObject("java", "java.lang.System") />
+		
+		<cfset document = builder.build(fileInStream) />
+		
+		<cfset fileInStream.close() />
+		
+		<cfset fileOutStream = createObject("java", "java.io.FileOutputStream").init(fileObj) />
+		
+		<cfset out.output(document, fileOutStream) />
+	
+		<cfset fileOutStream.close() />
+		<cfcatch>
+			<!--- Fail siliently. --->
+		</cfcatch>
+	</cftry>
 </cffunction>
 
 

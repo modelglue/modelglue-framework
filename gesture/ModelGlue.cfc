@@ -100,14 +100,7 @@
 <cffunction name="setViewRenderer" output="false" hint="Sets the view renderer to use to render output.">
 	<cfargument name="viewRenderer" output="false" />
 
-	<cfset var i = "" />
-	<cfset var mappings = getConfigSetting("viewMappings") />
-	
 	<cfset variables._viewRenderer = arguments.viewRenderer />
-	
-	<cfloop from="1" to="#arrayLen(mappings)#" index="i">
-		<cfset variables._viewRenderer.addViewMapping(mappings[i]) />
-	</cfloop>
 </cffunction>
 
 <cffunction name="setCacheAdapter" output="false" hint="Sets the caching adapter to use for content caching.">

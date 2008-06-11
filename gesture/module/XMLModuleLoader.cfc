@@ -1,6 +1,8 @@
 <cfcomponent output="false" hint="I load an XML-based module into an instance of Model-Glue.">
 
 <cffunction name="init" output="false">
+	<cfset variables.eventTypes = structNew() />
+	
 	<cfreturn this />
 </cffunction>
 
@@ -12,6 +14,7 @@
 	<cfset var xml = "" />
 	<cfset var settingBlocks = "" />
 	<cfset var controllerBlocks = "" />
+	<cfset var etBlocks = "" />
 	<cfset var ehBlocks = "" />
 	<cfset var modules = "" />
 	<cfset var includes = "" />
@@ -44,6 +47,14 @@
 		figuring out what is wrong.
 	--->
 	<cfset xml = xmlParse(xml)>
+	
+	<!--- Load event types --->
+	<cfset etBlocks = xmlSearch(xml, "/modelglue/event-types") />
+
+	<cfloop from="1" to="#arrayLen(etBlocks)#" index="i">
+		<cfset loadEventTypes(arguments.modelglue, etBlocks[i]) />
+	</cfloop>
+	
 	
 	<!--- We load "down the chain" first so that higher-level event handlers override lower-level. --->
 	<cfset modules = xmlSearch(xml, "/modelglue/module") />
@@ -210,12 +221,46 @@
 	</cfloop>
 </cffunction>	
 
-<cffunction name="loadEventHandlers" output="false" hint="Loads controllers from <controllers> block.">
+<cffunction name="loadEventTypes" output="false" hint="Loads event types from <event-types> block.">
+	<cfargument name="modelglue" />
+	<cfargument name="typesXML" />
+	
+	<cfset var etXml = "" />
+	<cfset var et = "" />
+	<cfset var i = "" />
+	<cfset var nodeName = "" />
+	<cfset var blockType = "" />
+	
+	<cfloop from="1" to="#arrayLen(arguments.typesXML.xmlChildren)#" index="i">
+		<cfset etXml = arguments.typesXML.xmlChildren[i] /> 
+		<cfset et = structNew() />
+		<cfset et.name = etXml.xmlAttributes.name />
+		
+		
+		<cfloop list="before,after" index="blockType">
+			<cfset et[blockType] = structNew() />
+			<cfloop list="broadcasts,results,views" index="nodeName">
+				<cfif structKeyExists(etXml, blockType) and structKeyExists(etXml[blockType], nodeName)>
+					<cfset et[blockType][nodeName] = etXml[blockType][nodeName] />
+				</cfif>
+			</cfloop>
+		</cfloop>
+			
+		<!--- Don't allow overriding --->
+		<cfif not structKeyExists(variables.eventTypes, et.name)>
+			<cfset variables.eventTypes[et.name] = et />
+		</cfif>	
+	</cfloop>
+</cffunction>
+
+<cffunction name="loadEventHandlers" output="false" hint="Loads event-handlers from <event-handlers> block.">
 	<cfargument name="modelglue" />
 	<cfargument name="handlersXML" />
 	
 	<cfset var ehInst = "" />
 	<cfset var ehXml = "" />
+	<cfset var isXmlTypeList = false />
+	<cfset var xmlTypeName = "" />
 	<cfset var childXml = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
@@ -232,11 +277,29 @@
 			<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
-					
-			<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
-	
+
+			<!--- existence of a single type key or a list causes this to be xml-defined typed event --->
+			<cfif structKeyExists(variables.eventTypes, ehXml.xmlAttributes.type)
+						or find(",", ehXml.xmlAttributes.type)
+			>
+				<cfset isXmlTypeList = "true" />
+			</cfif>
+
+			<!--- If we have an XML type list, force base EH. --->
+			<cfif isXmlTypeList>
+				<!--- If it's an XML defined type, force a base EventHandler to be created --->
+				<cfset ehInst = ehFactory.create("EventHandler") >
+			<cfelse>
+				<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
+			</cfif>
+			
 			<cfset ehInst.beforeConfiguration() />
 			
+			<!--- If an XML-defined type is defined, load its "before" elements --->
+			<cfif isXmlTypeList>
+				<cfset addTypedElementsToEventHandler("before", ehInst, ehXml.xmlAttributes.type) />
+			</cfif>
+						
 			<cfset ehInst.name = ehXml.xmlAttributes.name />
 			<cfset ehInst.access = ehXml.xmlAttributes.access />
 			
@@ -274,12 +337,39 @@
 			</cfloop>
 			
 			<cfset ehInst.afterConfiguration() />
-			
+
+			<!--- If an XML-defined type is defined, load its "after" elements --->
+			<cfif isXmlTypeList>
+				<cfset addTypedElementsToEventHandler("after", ehInst, ehXml.xmlAttributes.type) />
+			</cfif>
+						
 			<cfset modelglue.addEventHandler(ehInst) />
 		</cfif>
 
 	</cfloop>
 </cffunction>	
+
+<cffunction name="addTypedElementsToEventHandler" output="false" hint="Loads a block (before/after) from an XML event type into an event handler">
+	<cfargument name="block" hint="Before/after" />
+	<cfargument name="eh" hint="Event handler instance" />
+	<cfargument name="types" hint="List of types" />
+	
+	<cfset var typename = "" />
+	
+	<cfloop list="#arguments.types#" index="typename">
+		<cfif structKeyExists(variables.eventTypes, typeName)>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "broadcasts")>
+				<cfset loadMessages(eh, variables.eventTypes[typeName][block].broadcasts) />
+			</cfif>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "results")>
+				<cfset loadResults(eh, variables.eventTypes[typeName][block].results) />
+			</cfif>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "views")>
+				<cfset loadViews(eh, variables.eventTypes[typeName][block].views) />
+			</cfif>
+		</cfif>
+	</cfloop>
+</cffunction>
 
 <cffunction name="loadMessages" output="false" hint="Loads messages from a <broadcasts> block into an event handler.">
 	<cfargument name="eventHandler" />

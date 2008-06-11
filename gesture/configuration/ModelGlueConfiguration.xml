@@ -223,7 +223,11 @@
 <!--
 	View renderer
 -->
-<bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer" />
+<bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer">
+	<property name="modelGlueConfiguration">
+		<ref bean="modelGlue.ModelGlueConfiguration" />
+	</property>
+</bean>
 
 <!--
 	State persister

@@ -193,7 +193,7 @@
 	<cfset var cacheKey = 0 />
 	<cfset var cacheReq = "" />
 	<cfset var i = 0 />
-	<cfset var requestFormat = getValue("requestFormat", "html") />
+	<cfset var requestFormat = getValue(variables._modelGlue.getConfigSetting("requestFormatValue"), "html") />
 	<cfset var view = "" />
 	
 	<cfif not isStruct(variables._nextEventHandler)>
@@ -201,11 +201,6 @@
 		<cfreturn />
 	</cfif>
 
-	<!---
-	<!--- First handler in queue is the cache point. --->
-	<cfset initialEh = variables._nextEventHandler.eventHandler />
-	--->
-	
 	<cfif isObject(variables._initialEvent) and initialEh.cache>
 		<cfset cacheKey = initialEh.cacheKey />
 		<cfloop list="#initialEh.cacheKeyValues#" index="i">
@@ -234,7 +229,7 @@
 	<cfif structKeyExists(arguments, "signalCompletion")
 				and structKeyExists(variables._eventHandlers, "modelGlue.onQueueComplete")		
 	>
-		<cfset executeEventHandler(variables._eventHandlers.modelglue.onQueueComplete) />
+		<cfset executeEventHandler(variables._eventHandlers["modelglue.onQueueComplete"]) />
 	</cfif>	
 	
 	<!--- Render all views queued - moved inline after tooling heavy load situations.
@@ -332,8 +327,10 @@
 				<cfset result = arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j] />
 				
 				<cfif result.redirect>
+					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
+					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queueing event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j].event]) />
 				</cfif>
 			</cfloop>
@@ -346,11 +343,11 @@
 				<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[requestFormat][results[i]])#" index="j">
 					<cfset result = arguments.eventHandler.results[requestFormat][results[i]][j] />
 					
-					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
-	
 					<cfif result.redirect>
+						<cfset this.trace("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
+						<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 						<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[requestFormat][results[i]][j].event]) />
 					</cfif>
 				</cfloop>
@@ -365,11 +362,11 @@
 		<cfloop from="1" to="#arrayLen(results)#" index="i">
 				<cfset result = results[i] />
 
-				<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
-
 				<cfif result.redirect>
+					<cfset this.trace("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
+					<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 					<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 				</cfif>
 		</cfloop>
@@ -382,11 +379,11 @@
 			<cfloop from="1" to="#arrayLen(results)#" index="i">
 					<cfset result = results[i] />
 	
-					<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
-	
 					<cfif result.redirect>
+						<cfset this.trace("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
+						<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 						<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 					</cfif>
 			</cfloop>
@@ -680,7 +677,7 @@
 	<cfset var source = "" />
 	<cfset var i = "" />
 	
-	<cfreturn variables._beanPopulator.populate(arguments.target, variables._state) />
+	<cfreturn variables._beanPopulator.populate(arguments.target, variables._state, fields) />
 </cffunction>
 
 </cfcomponent>
