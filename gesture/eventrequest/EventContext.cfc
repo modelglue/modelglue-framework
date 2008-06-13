@@ -456,10 +456,31 @@
 </cffunction>
 
 <cffunction name="addResult" access="public" hint="Adds a result, by name, to the result queue.">
-	<cfargument name="result" type="string" hint="The name of the result (e.g., ""formInvalid"" or the like) to add." />
+	<cfargument name="resultName" type="string" hint="The name of the result (e.g., ""formInvalid"" or the like) to add." />
 	
-	<cfset trace("Message Listener", "A named result ""#arguments.result#"" has been added.") />
-	<cfset arrayAppend(variables._results, arguments.result) />
+	<cfset var results = getResults() />
+	<cfset var format = "" />
+	<cfset var i = "" />
+	<cfset var eh = getCurrentEventHandler() />
+	<cfset var result = "" />
+	
+	
+	<cfset trace("Message Listener", "A named result ""#arguments.resultName#"" has been added.") />
+	
+	<cfloop collection="#eh.results#" item="format">
+		<cfif structKeyExists(eh.results[format], arguments.resultName)>
+			<cfloop from="1" to="#arrayLen(eh.results[format][arguments.resultName])#" index="i">
+				<cfset result = eh.results[format][arguments.resultName][i] />
+				
+				<cfif result.redirect>
+					<cfset this.trace("Result", "Explicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
+					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
+				</cfif>
+			</cfloop>
+		</cfif>
+	</cfloop>
+	
+	<cfset arrayAppend(variables._results, arguments.resultName) />
 </cffunction>
 
 <!--- LOCATION MANAGEMENT --->
