@@ -28,7 +28,7 @@
 		<div clear="both">
 		<h1>Model-Glue Debugging</h1>
 		
-	  <table cellpadding="2" cellspacing="0" width="100%" style="border:1px Solid ##CCC;font-family:verdana;font-size:11pt;">
+	  <table cellpadding="2" cellspacing="2" width="100%" style="border:1px Solid ##CCC;font-family:verdana;font-size:11pt;">
 		<thead>
 	    <tr style="background:##EAEAEA">
 	      <td style="border-bottom:1px Solid ##CCC;"><strong>Time</strong></td>
@@ -47,11 +47,11 @@
 
 			<cfif mode eq "verbose" or (mode eq "trace" and trace[i].type eq "USER")>
 				<cfif trace[i].type eq "WARNING">
-				<tr style="background:#colors.warning#">
+				<tr style="background:#colors.warning#" valign="top">
 				<cfelseif trace[i].type eq "USER">
-				<tr style="background:#colors.trace#">
+				<tr style="background:#colors.trace#" valign="top">
 				<cfelseif not displayedRowCount mod 2>
-				<tr style="background:##F9F9F9">
+				<tr style="background:##F9F9F9" valign="top">
 				<cfelse>
 				<tr>
 				</cfif>	
@@ -60,13 +60,13 @@
 					<td valign="top">#trace[i].message#</td>
 				</tr>
 				<cfif trace[i].type eq "WARNING">
-				<tr style="background:#colors.warning#">
+				<tr style="background:#colors.warning#" valign="top">
 				<cfelseif trace[i].type eq "USER">
-				<tr style="background:#colors.trace#">
+				<tr style="background:#colors.trace#" valign="top">
 				<cfelseif not displayedRowCount mod 2>
-				<tr style="background:##F9F9F9">
+				<tr style="background:##F9F9F9" valign="top">
 				<cfelse>
-				<tr>
+				<tr valign="top">
 				</cfif>	
 				<td valign="top" colspan="2" style="border-bottom:1px Solid ##CCC;">&nbsp;</td>
 				<td valign="top" style="font-size:9pt;border-bottom:1px Solid ##CCC;color:##666">#htmlEditFormat(trace[i].tag)#&nbsp;</td>
