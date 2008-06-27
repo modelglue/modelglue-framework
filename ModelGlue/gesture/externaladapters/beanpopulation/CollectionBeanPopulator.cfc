@@ -23,7 +23,7 @@
 	</cfif>
 	
 	<!--- Populate --->
-	<cfif structKeyExists(arguments, "properties")>
+	<cfif structKeyExists(arguments, "properties") AND len(trim( arguments.properties ) )>
 		<cfset variables._bu.makeBean(arguments.source, arguments.target, arguments.properties) />
 	<cfelse>
 		<cfset variables._bu.makeBean(arguments.source, arguments.target) />
