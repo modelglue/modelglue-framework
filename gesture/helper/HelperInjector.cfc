@@ -18,13 +18,18 @@
 				<cfset injectComponent(arguments.target, arguments.path & "/" & files.name) />
 			<cfelseif listLast(files.name, ".") eq "cfm">
 				<cfset injectInclude(arguments.target, arguments.path & "/" & files.name) />
+			<cfelse>
+				<cfdump var="#arguments#">
 			</cfif>
+			<cfcatch type="coldfusion.runtime.TemplateNotFoundException">
+				<cfthrow message="Couldn't add helper: #arguments.path#/#files.name#. It doesn't look like that file exists made sure the file exists? " />
+			</cfcatch>
 			<cfcatch>
-				<cfthrow message="Couldn't add helper: #arguments.path#/#files.name#.  Have you tested it and made sure the file exists?" />
+				<cfthrow message="Couldn't add helper: #arguments.path#/#files.name# because of this: [#CFCatch.Detail#] I'm sorry it didn't work out. " />
 			</cfcatch>
 		</cftry>
 	</cfloop>
-</cffunction>
+</cffunction> 
 
 <cffunction name="injectInclude" output="false" hint="Injects a file (""IncludeFile.cfm"")'s UDFs into a target cfc.">
 	<cfargument name="target" />
