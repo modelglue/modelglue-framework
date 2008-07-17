@@ -333,7 +333,7 @@
 		<cfset rNode = xmlElemNew(xml, "results") />
 
 		<cfset vNode = xmlElemNew(xml, "views") />
-		<cfset iNode = xmlElemNew(xml, "name") />
+		<cfset iNode = xmlElemNew(xml, "include") />
 		<cfset iNode.xmlAttributes["name"] = "body" />
 		<cfset iNode.xmlAttributes["template"] = viewIncludeFor(eventName) />
 
