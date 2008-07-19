@@ -41,7 +41,14 @@
 	<cfset arguments.eventContext.prepareForInvocation() />
 
 	<cfif structKeyExists(modelglue.eventHandlers, initialEventHandlerName)>
-		<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(initialEventHandlerName)) />
+		<cfset initialEventHandler = modelglue.getEventHandler(initialEventHandlerName) />
+
+		<!--- Initial user-requested event must be marked public. --->
+		<cfif not initialEventHandler.access eq "public">
+				<cfthrow message="This event-handler is private." />
+		</cfif>		
+
+		<cfset arguments.eventContext.addEventHandler(initialEventHandler) />
 	<cfelseif structKeyExists(modelglue.eventHandlers, modelglue.configuration.missingEvent)>
 		<cfset arguments.eventContext.setValue("missingEvent", initialEventHandlerName) />
 		<cfset arguments.eventContext.addEventHandler(modelglue.eventHandlers[modelglue.configuration.missingEvent]) />
