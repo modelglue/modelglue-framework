@@ -532,9 +532,9 @@
 		
 	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
 	
-	<cfset var url = urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
+	<cfset var targeturl  = urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
 	
-	<cfset forwardToUrl(url, arguments.preserveState, arguments.addToken) /> 
+	<cfset forwardToUrl(targeturl, arguments.preserveState, arguments.addToken) /> 
 </cffunction>
 
 <!--- STATE (DATA BUS) MANAGEMENT --->
@@ -593,6 +593,40 @@
 		<cfset variables._statePersister.load(this) />
 		<cfcatch></cfcatch>
 	</cftry>
+</cffunction>
+
+
+<cffunction name="copyToScope" output="false" access="public" returntype="void" hint="I copy values from the event into the desired scope">
+	<cfargument name="scope" type="struct" required="true"/>
+	<cfargument name="ListOfEventKeys" type="string" default="true"/>
+	<cfargument name="ArrayOfDefaults" type="array" default="#arrayNew(1)#"/>
+	<cfset var EventKeyArray =  listToArray( arguments.ListOfEventKeys ) />
+	<cfset var thisEventKeyArray = "" />
+	<cfset var ScopeContext = "" />
+	<cfset var i = "" />
+	<cfset var j = "" />
+	<cfloop from="1" to="#arrayLen( EventKeyArray )#" index="i">
+		<cfset thisEventKeyArray = listToArray( EventKeyArray[ i ], ".") />
+		<!--- make sure the scope context is set so we can dot-walk up the variable --->
+		<cfset ScopeContext = arguments.Scope />
+		
+		<cfloop from="1" to="#arrayLen( thisEventKeyArray)#" index="j">
+			<cfif structKeyExists( ScopeContext, thisEventKeyArray[j]) IS false OR isStruct( ScopeContext[ thisEventKeyArray[j] ]  ) IS false >
+				<!--- so we don't have something we can attach keys to, lets make something--->
+				<cfset ScopeContext[ thisEventKeyArray[j] ] = structNew() />
+			</cfif>
+			<cfif j IS arrayLen( thisEventKeyArray ) AND i LTE arrayLen( arguments.ArrayOfDefaults )>
+				<!--- if we are done dot-walking, and have a default, lets use it. We should be done in the inner loop after this---->
+				<cfset ScopeContext[ thisEventKeyArray[j] ] = arguments.ArrayOfDefaults[i] />
+			<cfelseif j IS arrayLen( thisEventKeyArray )>
+				<!--- ok, done dot-walking, grab something from the event. We should be done in the inner loop after this--->
+				<cfset ScopeContext[ thisEventKeyArray[j] ] = variables._state.getValue( EventKeyArray[i] ) />
+			<cfelse>
+				<!--- walk down the dot path another level and go around the merry go round again --->
+				<cfset ScopeContext = ScopeContext[ thisEventKeyArray[j] ] />
+			</cfif>
+		</cfloop>	
+	</cfloop>
 </cffunction>
 
 <!--- VIEW MANAGEMENT --->
