@@ -193,7 +193,7 @@
 	<cfset var cacheKey = 0 />
 	<cfset var cacheReq = "" />
 	<cfset var i = 0 />
-	<cfset var requestFormat = getValue(variables._modelGlue.getConfigSetting("requestFormatValue"), "html") />
+	<cfset var requestFormat = getValue(variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var view = "" />
 	
 	<cfif not isStruct(variables._nextEventHandler)>
