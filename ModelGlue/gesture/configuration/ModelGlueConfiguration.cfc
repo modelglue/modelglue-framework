@@ -16,7 +16,7 @@
     <cfset variables._instance.defaultTemplate = "index.cfm" />
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = "5" />
-		<cfset variables._instance.requestFormatValue = "requestFormat" />
+	<cfset variables._instance.requestFormatValue = "html" />
 		
 		<!--- Generation --->
 		<cfset variables._instance.generationEnabled = false />
