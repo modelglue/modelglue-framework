@@ -2,11 +2,13 @@
 	
 <cffunction name="init" output="false" hint="Includes a .cfm's functions into this CFC.">
 	<cfargument name="template" type="string" />
-
+	<cfset var key = "" />
 	<cfinclude template="#arguments.template#" />
 	
-	<!--- Put your underwear on the outside. --->
-	<cfset this = variables />
+	<!--- add all helpers to the Shell --->	
+	<cfloop collection="#variables#" item="key">
+        <cfset this[key]=variables[key]>
+      </cfloop>
 	
 	<cfreturn this />
 </cffunction>
