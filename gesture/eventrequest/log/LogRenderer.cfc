@@ -19,7 +19,7 @@
 	<cfset colors.trace = "##b5e1e1" />
 	
 	<!--- Shortcut to bypass.  Man, why did I ever do it like this? --->
-	<cfif structKeyExists(request, "modelGlueSuppressDebugging")>
+	<cfif structKeyExists(request, "modelGlueSuppressDebugging") AND request.modelGlueSuppressDebugging IS true>
 		<cfreturn "" />
 	</cfif>
 		
