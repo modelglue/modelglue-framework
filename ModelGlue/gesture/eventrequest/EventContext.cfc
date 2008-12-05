@@ -446,6 +446,10 @@
 	<cfreturn variables._currentMessage.arguments.exists(arguments.argumentName) />
 </cffunction>
 
+<cffunction name="getAllArguments" access="public" returnType="struct" output="false" hint="I get all arguments by reference.">
+  <cfreturn variables._currentMessage.arguments.getAll() />
+</cffunction>
+
 <!--- RESULT MANAGEMENT --->
 <cffunction name="resetResults" access="public" hint="Resets results to an empty array.">
 	<cfset variables._results = arrayNew(1) />
