@@ -621,7 +621,7 @@
 			</cfif>
 			<cfif j IS arrayLen( thisEventKeyArray ) AND i LTE arrayLen( arguments.ArrayOfDefaults )>
 				<!--- if we are done dot-walking, and have a default, lets use it. We should be done in the inner loop after this---->
-				<cfset ScopeContext[ thisEventKeyArray[j] ] = arguments.ArrayOfDefaults[i] />
+				<cfset ScopeContext[ thisEventKeyArray[j] ] = variables._state.getValue( EventKeyArray[i], arguments.ArrayOfDefaults[i] ) />
 			<cfelseif j IS arrayLen( thisEventKeyArray )>
 				<!--- ok, done dot-walking, grab something from the event. We should be done in the inner loop after this--->
 				<cfset ScopeContext[ thisEventKeyArray[j] ] = variables._state.getValue( EventKeyArray[i] ) />
