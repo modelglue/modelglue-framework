@@ -31,11 +31,9 @@
 			<cfinvoke component="#instance#" method="Set#i#">
 				<cfinvokeargument name="#i#" value="#arguments.collection.getValue(i)#" />
 			</cfinvoke>
-		<cfelse>
-			<cfset instance[i] = arguments.collection.getValue(i) />
 		</cfif>
 	</cfloop>
-	
+
 	<cfreturn instance />
 </cffunction>	
 
