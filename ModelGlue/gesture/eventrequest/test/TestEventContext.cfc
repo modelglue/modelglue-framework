@@ -1,9 +1,17 @@
 <cfcomponent extends="ModelGlue.gesture.collections.test.TestMapCollectionImplementation">
 
+<cfset this.coldspringPath = "/ModelGlue/gesture/eventrequest/test/ColdSpring.xml">
+
+<cffunction name="setUp" output="false" access="public" returntype="any" hint="">
+	<cfset request._modelglue.bootstrap.initializationRequest = false />
+	<cfset createModelGlueIfNotDefined(this.coldspringPath) />
+</cffunction>
+
 <cfset variables.mockHelpersScope = structNew() />
 <cffunction name="mockHelperFunction">
 	<cfreturn "I am a helper function." />
 </cffunction>
+
 <cfset variables.mockHelpersScope.helperFunction = this.mockHelperFunction />
 
 <cffunction name="createMapCollectionNoInit" access="private" hint="Creates a basic MapCollection to test without running init().">
@@ -21,7 +29,7 @@
 	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
 	<cfset vr.addViewMapping("/ModelGlue/gesture/view/test/views") />	
 		
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(viewRenderer=vr,helpers=variables.mockHelpersScope) />
+	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(viewRenderer=vr,helpers=variables.mockHelpersScope,modelglue=mg) />
 	<cfreturn ec />
 </cffunction>
 

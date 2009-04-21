@@ -1,76 +1,48 @@
-<cfcomponent extends="mxunit.framework.TestCase">
+<cfcomponent extends="modelglue.gesture.test.ModelGlueAbstractTestCase">
 	
-<cffunction name="createBootstrapper" access="private">
-	<cfreturn createObject("component", "ModelGlue.gesture.loading.XMLColdSpringBootstrapper") />
-</cffunction>
+	<cfset this.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml">
+
+	<cffunction name="setUp" output="false" access="public" returntype="any" hint="">
+		<cfset createModelGlueIfNotDefined(this.coldspringPath) />
+		<cfset urlManager = createObject("component", "ModelGlue.gesture.eventrequest.url.UrlManager").init() />
+		<cfset urlManager.setModelGlue(mg) />			
+		<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+	</cffunction>
 
 <cffunction name="testPopulateLocation" returntype="void" access="public">
-	<cfset var boot = createBootstrapper() />
-	<cfset var urlManager = "" />
-	<cfset var mg = "" />
-	<cfset var ec = "" />
-	
-	<cfset boot.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml" />
-	
-	<cfset mg = boot.createModelGlue() />
-	<cfset urlManager = mg.getInternalBean("modelglue.UrlManager") />
-	
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
 	
 	<cfset urlManager.populateLocation(ec) />
-	
 	<cfset assertTrue(ec.getValue("eventValue") eq "eventValue", "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
 	<cfset assertTrue(ec.getValue("self") eq "defaultTemplateValue", "Default template value from config file not set! (was : '#ec.getValue("self")#')") />
 	<cfset assertTrue(ec.getValue("myself") eq "defaultTemplateValue?eventValue=", "Myself from config file not set! (was : '#ec.getValue("myself")#')") />
 </cffunction>
 
 <cffunction name="testExtractValues" returntype="void" access="public">
-	<cfset var boot = createBootstrapper() />
-	<cfset var urlManager = "" />
-	<cfset var mg = "" />
 	<cfset var vals = "" />
-	
-	<cfset boot.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml" />
-	
-	<cfset mg = boot.createModelGlue() />
-	
-	<cfset urlManager = mg.getInternalBean("modelglue.UrlManager") />
-
+	<cfset urlManager.populateLocation(ec) />
 	<cfset vals = urlManager.extractValues() />
 	
 	<cfset assertFalse(structKeyExists(vals, "urlValueName"), "urlValueName found before definition!") />
 	
 	<cfset url.urlValueName = "urlValue" />
 	
-	<cfset vals = urlManager.extractValues() />
+	<cfset vals = urlManager.extractValues(url) />
 	
 	<cfset assertTrue(structKeyExists(vals, "urlValueName"), "urlValueName not found after definition!") />
 	<cfset assertTrue(vals.urlValueName eq "urlValue", "urlValueName value incorrect!") />
 </cffunction>
 
 <cffunction name="testLinkTo" returntype="void" access="public">
-	<cfset var boot = createBootstrapper() />
-	<cfset var urlManager = "" />
-	<cfset var mg = "" />
 	<cfset var resultUrl = "" />
-	<cfset var ec = "" />
-	
-	<cfset boot.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml" />
-	
-	<cfset mg = boot.createModelGlue() />
-	
-	<cfset urlManager = mg.getInternalBean("modelglue.UrlManager") />
-	
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
-
+	<cfset urlManager.populateLocation(ec) />
 	<cfset ec.setValue("urlValueName", "urlValue") />
 	<cfset ec.setValue("urlValueName2", "urlValue2") />
-
-	<cfset resultUrl = urlManager.linkTo(ec, "someEvent") />
 	
-	<cfset assertTrue(resultUrl eq "#ec.getValue("myself")#someEvent", "Simple url not built.  Was ('#resultUrl#').") />	
+	<cfset resultUrl = urlManager.linkTo("someEvent","","",ec) />
+	
+	<cfset assertTrue(resultUrl eq "#ec.getValue("myself")#someEvent", "Simple url not built.  Was ('#resultUrl#') not (#ec.getValue("myself")#someEvent)") />	
 
-	<cfset resultUrl = urlManager.linkTo(ec, "someEvent", "urlValueName,urlValueName2", "anchorPosition") />
+	<cfset resultUrl = urlManager.linkTo("someEvent", "urlValueName,urlValueName2", "anchorPosition",ec) />
 	
 	<cfset assertTrue(resultUrl eq "#ec.getValue("myself")#someEvent&urlValueName=urlValue&urlValueName2=urlValue2##anchorPosition", "Complex url not built.  Was ('#resultUrl#').") />	
 </cffunction>

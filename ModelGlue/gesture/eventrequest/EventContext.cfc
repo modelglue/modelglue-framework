@@ -7,7 +7,7 @@
 	<cfargument name="modelglue" required="false" hint="The framework itself." />
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
-	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.BeanUtilsPopulator").init()#" hint="Populator used by makeEventBean()." />
+	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator").init()#" hint="Populator used by makeEventBean()." />
 	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by trace()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
 	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." default="#structNew()#" />
@@ -598,7 +598,6 @@
 		<cfcatch></cfcatch>
 	</cftry>
 </cffunction>
-
 
 <cffunction name="copyToScope" output="false" access="public" returntype="void" hint="I copy values from the event into the desired scope">
 	<cfargument name="scope" type="struct" required="true"/>

@@ -55,6 +55,12 @@
 		<cfset loadEventTypes(arguments.modelglue, etBlocks[i]) />
 	</cfloop>
 	
+		<!--- todo: Load scaffolding before the developer event generation so we respect customization --->
+	<cfset scaffoldBlocks = xmlSearch(xml, "/modelglue/scaffold") />
+	<cfloop from="1" to="#arrayLen(scaffoldBlocks)#" index="i">
+		<cfset loadScaffolds(arguments.modelglue, scaffoldBlocks[i]) />
+	</cfloop>
+	
 	
 	<!--- We load "down the chain" first so that higher-level event handlers override lower-level. --->
 	<cfset modules = xmlSearch(xml, "/modelglue/module") />
@@ -89,6 +95,7 @@
 	<cfloop from="1" to="#arrayLen(ehBlocks)#" index="i">
 		<cfset loadEventHandlers(arguments.modelglue, ehBlocks[i]) />
 	</cfloop>
+
 </cffunction>
 
 <!--- PRIVATE --->
@@ -440,6 +447,27 @@
 			<cfset arguments.eventHandler.addResult(resInst) />
 		</cfif>
 	</cfloop>
+</cffunction>
+
+<cffunction name="loadScaffolds" output="false" hint="I load the scaffold tags">
+	<cfargument name="modelglue" />
+	<cfargument name="scaffoldsXML" />
+	<cfdump var="#scaffoldsXML#"><cfabort>
+	<cfloop list="#arguments.types#" index="typename">
+		<cfif structKeyExists(variables.eventTypes, typeName)>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "broadcasts")>
+				<cfset loadMessages(eh, variables.eventTypes[typeName][block].broadcasts) />
+			</cfif>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "results")>
+				<cfset loadResults(eh, variables.eventTypes[typeName][block].results) />
+			</cfif>
+			<cfif structKeyExists(variables.eventTypes[typeName][block], "views")>
+				<cfset loadViews(eh, variables.eventTypes[typeName][block].views) />
+			</cfif>
+		</cfif>
+	</cfloop>
+	
+	
 </cffunction>
 
 <cffunction name="loadViews" output="false" hint="Loads views from a <views> block into an event handler.">
