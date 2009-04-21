@@ -1,4 +1,4 @@
-<cfcomponent extends="org.cfcunit.framework.TestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
+<cfcomponent extends="modelglue.gesture.test.ModelGlueAbstractTestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
 
 <cffunction name="createModelGlueNoInit" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.ModelGlue") />
@@ -13,8 +13,8 @@
 </cffunction>
 
 <cffunction name="createBootstrappedModelGlue" access="private">
-	<cfset var boot = createObject("component", "ModelGlue.gesture.loading.XMLColdSpringBootstrapper") />
-	<cfset boot.coldspringPath = "/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
+	<cfset var coldspringPath = "/ModelGlue/gesture/test/ColdSpring.xml" />
+	<cfset var boot = createBootstrapper( coldspringPath ) />
 	<cfset boot.initialModulePath = "/ModelGlue/gesture/test/primaryModule.xml" />
 	<cfset boot.storeModelGlue() />
 	
@@ -62,8 +62,10 @@
 
 <!--- PHASED INVOCATION TESTS --->
 <cffunction name="testPhase_Initialization" returntype="void" access="public">
-	<cfset var mg = createBootstrappedModelGlue() />
 	
+	<cfset var mg =  "" />
+	<cfset request._modelglue.bootstrap.initializationRequest = 1 />
+	<cfset mg = createBootstrappedModelGlue() />
 	<cfset mg.handleRequest() />
 	
 	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue not in app scope!") />

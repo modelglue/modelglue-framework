@@ -17,8 +17,8 @@
 </cffunction>
 
 <cffunction name="setImplicitProp">
-	<cfargument name="value" />
-	<cfset variables._implicitProp = value />
+	<cfargument name="ImplicitProp" />
+	<cfset variables._implicitProp = arguments.ImplicitProp />
 </cffunction>
 
 </cfcomponent>

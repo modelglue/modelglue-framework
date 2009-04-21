@@ -9,7 +9,7 @@
 	<cfargument name="type" hint="I am either the CFC type to create or an instance of a CFC to populate." />
 	<cfargument name="fields" hint="I am the [optional] list of fields to populate." />
 	
-	<cfset var instance = "" />
+	<cfset var instance = arguments.type  />
 	<cfset var i = "" />
 	
 	<cfif isSimpleValue(arguments.type)>
@@ -17,20 +17,21 @@
 		<cfif structKeyExists(instance, "init")>
 			<cfset instance.init() />
 		</cfif>
-	<cfelse>
-		<cfset instance = arguments.type />
 	</cfif>
 	
 	
 	<cfif not structKeyExists(arguments, "fields")>
 		<cfset arguments.fields = structKeyList(arguments.collection.getAll()) />
 	</cfif>
-	
+
 	<cfloop list="#arguments.fields#" index="i">
-		<cfif structKeyExists(instance, "Set" & i) and arguments.collection.Exists(i)>
+		<cfdump var="#arguments.collection.getValue(i)#">
+		<cfif structKeyExists(instance, "Set#i#") and arguments.collection.Exists(i)>
 			<cfinvoke component="#instance#" method="Set#i#">
 				<cfinvokeargument name="#i#" value="#arguments.collection.getValue(i)#" />
 			</cfinvoke>
+		<cfelseif structKeyExists( instance, i)>
+			<cfset instance[i] = arguments.collection.getValue(i) />
 		</cfif>
 	</cfloop>
 

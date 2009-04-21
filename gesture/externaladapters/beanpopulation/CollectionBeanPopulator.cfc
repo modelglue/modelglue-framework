@@ -11,7 +11,7 @@
 
 <cffunction name="populate" output="false">
 	<cfargument name="target" type="any" hint="Either an instance of a CFC or the name of a CFC (e.g., ""com.mydomain.mymodel.MyBean"") to populate." />
-	<cfargument name="source" type="any" hint="A structure to use as source for population." />
+	<cfargument name="source" type="any" hint="A collection to use as source for population." />
 	<cfargument name="properties" type="string" hint="List to populate." />
 	
 	<!--- Create instance if simple target --->
@@ -21,7 +21,6 @@
 			<cfinvoke component="#arguments.target#" method="init" />
 		</cfif>
 	</cfif>
-	
 	<!--- Populate --->
 	<cfif structKeyExists(arguments, "properties") AND len(trim( arguments.properties ) )>
 		<cfset variables._bu.makeBean(arguments.source, arguments.target, arguments.properties) />

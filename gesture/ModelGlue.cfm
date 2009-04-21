@@ -1,5 +1,5 @@
 <cfsilent>
-	
+	<cfapplication name="mg">
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_APP_KEY" default="_modelglue" />
 <cfparam name="ModelGlue_CONFIG_PATH" default="" />

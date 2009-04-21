@@ -3,7 +3,7 @@
 <cffunction name="init" access="public" returnType="MapCollection" output="false" hint="I build a new MapCollection.">
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structure to merge into this collection." />
 
-  <cfset var i = "" />
+  	<cfset var i = "" />
 	<cfset var tmp = "" />
 	
 	<cfif isStruct(values)>
