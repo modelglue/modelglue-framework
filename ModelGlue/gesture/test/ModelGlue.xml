@@ -1,5 +1,5 @@
 <modelglue>
-
+<include template="ModelGlueWithHomeEvent.xml" />
 <config>
 	<setting name="arbitrarySetting" value="arbitrarySettingValue" />
 	<setting name="viewMappings" value="viewMappingsValue" />
@@ -31,6 +31,12 @@
 	</event-handler>
 
 	<event-handler name="cacheKeyConventions">
+		<views>
+			<include name="viewName" template="templateName" cache="true" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="home">
 		<views>
 			<include name="viewName" template="templateName" cache="true" />
 		</views>
