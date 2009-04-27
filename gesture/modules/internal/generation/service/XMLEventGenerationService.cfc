@@ -61,7 +61,11 @@
 <!--- CONTENT GENERATORS --->
 <cffunction name="generateView" outut="false" hint="Writes default view for a given event.">
 	<cfargument name="eventName">
-	<cfset write(viewFileFor(eventName), generateViewContent(eventName)) />
+	<cfset var viewFile = viewFileFor(eventName) />
+	<!--- Let's not overwrite existing stuff, ok? --->
+	<cfif not fileExists(viewFile)>
+		<cfset write(viewFile, generateViewContent(eventName)) />
+	</cfif>
 </cffunction>
 
 <cffunction name="generateViewContent" output="false" hint="Generates default view content for a given event.">
