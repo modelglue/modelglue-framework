@@ -48,6 +48,7 @@
 	<cftry>	
 		<cfset builder = createObject("java", "org.jdom.input.SAXBuilder").init() />
 		<cfset format = createObject("java", "org.jdom.output.Format").getPrettyFormat() />
+		<cfset format.setIndent("	") />
 		<cfset out = createObject("java", "org.jdom.output.XMLOutputter").init(format) />
 		<cfset fileObj = createObject("java", "java.io.File").init(filename) />
 		<cfset fileInStream = createObject("java", "java.io.FileInputStream").init(fileObj) />
