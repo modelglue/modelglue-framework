@@ -5,8 +5,8 @@
 	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
 	<cfargument name="requestPhases" hint="Request phases." />
 	<cfargument name="modelglue" required="false" hint="The framework itself." />
-	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister")#" hint="StatePersister to use during stateful redirects." />
-	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer")#" hint="ViewRenderer to use to render included views to HTML." />
+	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister").init()#" hint="StatePersister to use during stateful redirects." />
+	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer").init()#" hint="ViewRenderer to use to render included views to HTML." />
 	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator").init()#" hint="Populator used by makeEventBean()." />
 	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by trace()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />

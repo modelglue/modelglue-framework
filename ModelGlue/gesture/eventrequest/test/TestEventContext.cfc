@@ -28,8 +28,19 @@
 	
 	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
 	<cfset vr.addViewMapping("/ModelGlue/gesture/view/test/views") />	
-		
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(viewRenderer=vr,helpers=variables.mockHelpersScope,modelglue=mg) />
+
+	<!--- Simulating a bootstrapping request --->
+	<cfset request._modelglue.bootstrap.initializationRequest = true />
+	<cfset request._modelglue.bootstrap.framework = mg />
+	
+	<!--- Event context has many dependencies that are configured into the framework:  we list them explicitly here --->	
+	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
+			viewRenderer=vr,
+			helpers=variables.mockHelpersScope,
+			modelglue=mg,
+			statePersister=mg.getStatePersister()
+		) 
+	/>
 	<cfreturn ec />
 </cffunction>
 
@@ -106,7 +117,7 @@
 	
 	<cfset eh1.name = "eh1" />
 	<cfset eh2.name = "eh2" />
-	
+		
 	<cfset assertFalse(er.hasNextEventHandler(), "queue should be empty before add!") />
 
 	<cfset er.addEventHandler(eh1) />
@@ -339,9 +350,14 @@
 
 <cffunction name="listener1_testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
 	<cfargument name="event" />
-	<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = true />
-
-	<cfset event.addResult("result1") />
+	
+	<!--- We need this method as a listener function.  However, mxunit picks it up as a test case.  
+	Indicator of context is whether or not arguments.event is defined. --->
+	<cfif structKeyExists(arguments, "event")>
+		<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = true />
+	
+		<cfset event.addResult("result1") />
+	</cfif>
 </cffunction>
 
 <cffunction name="listener2_testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
@@ -450,10 +466,10 @@
 	<cfset var cfhttp = "" />
 	
 	<cfset var msg = createUUID() />
+
+	<cfhttp url="http://#cgi.server_name#:#cgi.server_port#/ModelGlue/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://#cgi.server_name#:#cgi.server_port#/ModelGlue/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
 	
-	<cfhttp url="http://localhost:8080/cfusion/gesture/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://localhost:8080/cfusion/gesture/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
-	
-	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#', got '#cfhttp.filecontent#'") />
+	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#'") />
 </cffunction>
 
 <cffunction name="testSaveState" access="public" returntype="void">
