@@ -4,7 +4,7 @@
 	<cfreturn createObject("component", "ModelGlue.gesture.ModelGlue") />
 </cffunction>
 
-<cffunction name="createModelGlue" access="private">
+<cffunction name="createUnconfiguredModelGlue" access="private">
 	<cfreturn createModelGlueNoInit().init() />
 </cffunction>
 
@@ -12,18 +12,10 @@
 	<cfreturn createObject("component", "ModelGlue.gesture.eventhandler.EventHandler") />
 </cffunction>
 
-<cffunction name="createBootstrappedModelGlue" access="private">
-	<cfset var coldspringPath = "/ModelGlue/gesture/test/ColdSpring.xml" />
-	<cfset var boot = createBootstrapper( coldspringPath ) />
-	<cfset boot.initialModulePath = "/ModelGlue/gesture/test/primaryModule.xml" />
-	<cfset boot.storeModelGlue() />
-	
-	<cfreturn boot.createModelGlue() />
-</cffunction>
 
 <!--- LISTENER REGISTRATION TESTS --->
 <cffunction name="testAddEventListener" returntype="void" access="public">
-	<cfset var mg = createModelGlue() />
+	<cfset var mg = createUnconfiguredModelGlue() />
 	<cfset var listeners = "" />
 	
 	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
@@ -48,7 +40,7 @@
 
 <!--- EVENT HANDLER REGISTRATION TESTS --->
 <cffunction name="testAddEventHandler" returntype="void" access="public">
-	<cfset var mg = createModelGlue() />
+	<cfset var mg = createUnconfiguredModelGlue() />
 	<cfset var eh = createEventHandler() />
 	
 	<cfset eh.name = "eventHandler" />
@@ -65,14 +57,14 @@
 	
 	<cfset var mg =  "" />
 	<cfset request._modelglue.bootstrap.initializationRequest = 1 />
-	<cfset mg = createBootstrappedModelGlue() />
+	<cfset mg = createModelGlue() />
 	<cfset mg.handleRequest() />
 	
 	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue not in app scope!") />
 </cffunction>
 
 <cffunction name="testPhase_Population" returntype="void" access="public">
-	<cfset var mg = createBootstrappedModelGlue() />
+	<cfset var mg = createModelGlue() />
 	<cfset var context = "" />
 
 	<cfset structClear(form) />
@@ -92,7 +84,7 @@
 </cffunction>
 
 <cffunction name="testPhase_StatefulRedirectPopulation" returntype="void" access="public">
-	<cfset var mg = createBootstrappedModelGlue() />
+	<cfset var mg = createModelGlue() />
 	<cfset var context = "" />
 
 	<cfset structClear(form) />

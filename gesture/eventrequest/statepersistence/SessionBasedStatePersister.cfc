@@ -1,7 +1,8 @@
 <cfcomponent output="false" hint="Saves and loads event context state from session._modelGluePreservedState.">
 
 <cffunction name="init" output="false">
-	<cfargument name="sessionFacade" />
+	<cfargument name="sessionFacade" default="#createObject("component", "ModelGlue.gesture.externaladapters.session.AdobeColdFusionSessionFacade").init()#" />
+
 	<cfset variables.sessionFacade = arguments.sessionFacade />
 
 	<cfreturn this />
@@ -14,7 +15,7 @@
 	<cfset variables.sessionFacade.put("_modelgluePreservedLog", arguments.eventContext.log) />
 </cffunction>
 
-<cffunction name="load" output="false" hint="Loads state.  Fails silently if anything goes wrong.">
+<cffunction name="load" output="false" hint="Loads state.">
 	<cfargument name="eventContext" output="false" hint="Event context into which state should be loaded" />
 
 	<cfif variables.sessionFacade.exists("_modelgluePreservedState")>

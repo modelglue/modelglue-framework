@@ -117,6 +117,9 @@
 	<cfargument name="statePersister" output="false" />
 	<cfset variables._statePersister = arguments.statePersister />
 </cffunction>
+<cffunction name="getStatePersister" output="false" hint="Gets the state persister to use to maintain state during redirects.">
+	<cfreturn variables._statePersister />
+</cffunction>
 
 <cffunction name="setLogRenderer" output="false" hint="Sets the log renderer to use to render the request log.">
 	<cfargument name="logRenderer" output="false" />

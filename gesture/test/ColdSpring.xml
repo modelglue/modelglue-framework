@@ -19,7 +19,7 @@
 		<value>defaultTemplateValue</value>
 	</property>
 	<property name="eventValue">
-		<value>eventValue</value>
+		<value>event</value>
 	</property>
 </bean>
 	

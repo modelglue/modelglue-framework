@@ -13,7 +13,7 @@
 		<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
 		<cfset urlManager.populateLocation(ec) />
 		<cfset debug(urlManager.extractValues())>
-		<cfset assertEquals( "eventValue", ec.getValue("eventValue"), "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
+		<cfset assertEquals( "event", ec.getValue("eventValue"), "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
 		<cfset assertEquals(cgi.script_name, ec.getValue("self")) />
 		<cfset assertEquals("#cgi.script_name#/", ec.getValue("myself")) />
 	</cffunction>

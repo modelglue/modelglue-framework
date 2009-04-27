@@ -12,9 +12,9 @@
 <cffunction name="testPopulateLocation" returntype="void" access="public">
 	
 	<cfset urlManager.populateLocation(ec) />
-	<cfset assertTrue(ec.getValue("eventValue") eq "eventValue", "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
+	<cfset assertTrue(ec.getValue("eventValue") eq "event", "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
 	<cfset assertTrue(ec.getValue("self") eq "defaultTemplateValue", "Default template value from config file not set! (was : '#ec.getValue("self")#')") />
-	<cfset assertTrue(ec.getValue("myself") eq "defaultTemplateValue?eventValue=", "Myself from config file not set! (was : '#ec.getValue("myself")#')") />
+	<cfset assertTrue(ec.getValue("myself") eq "defaultTemplateValue?event=", "Myself from config file not set! (was : '#ec.getValue("myself")#')") />
 </cffunction>
 
 <cffunction name="testExtractValues" returntype="void" access="public">

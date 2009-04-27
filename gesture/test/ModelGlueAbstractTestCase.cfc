@@ -14,6 +14,10 @@
 		<cfset var bootstrapper = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper")>
 		<cfset bootstrapper.coldspringPath = arguments.coldspringPath>
 		<cfset bootstrapper.coreColdspringPath = arguments.coldspringPath>
+		
+		<cfset request._modelglue.bootstrap.bootstrapper = bootstrapper />
+		<cfset request._modelglue.bootstrap.initializationRequest = true />
+		
 		<cfreturn bootstrapper>
 	</cffunction>
 	
@@ -29,6 +33,12 @@
 		<cfargument name="coldspringPath" default="#this.coldspringPath#">
 		<cfset mg = createBootstrapper(coldspringPath).
 					createModelGlue()>
+					
+		<!--- load "test" application event definitions --->
+		<cfset mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML").load( mg, expandPath("/ModelGlue/gesture/test/primaryModule.xml") ) />
+
+		<cfset request._modelglue.bootstrap.framework = mg />
+		
 		<cfreturn  mg>	
 	</cffunction>
 
