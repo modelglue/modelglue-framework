@@ -56,12 +56,12 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfargument name="primaryKeys" type="struct" required="true" />
 </cffunction>
 
-<cffunction name="validate" returntype="ModelGlue.Util.ValidationErrorCollection" output="false" access="public">
+<cffunction name="validate" returntype="any" output="false" access="public">
 	<cfargument name="table" type="string" required="true" />
 	<cfargument name="record" type="string" required="true" />
 </cffunction>
 
-<cffunction name="assemble" returntype="void" output="false" access="public">
+<cffunction name="assemble" returntype="any" output="false" access="public">
 	<cfargument name="eventContext" type="ModelGlue.unity.eventrequest.EventContext" required="true" />
 	<cfargument name="target" type="any" required="true" />
 </cffunction>

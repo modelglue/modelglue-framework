@@ -8,14 +8,14 @@
   <cfargument name="debug" type="boolean" required="true" default="false" />
 	
 	<cfset super.init(arguments.ModelGlue, arguments.name) />
-	
+	<cfset variables.ValidationService = arguments.ModelGlue.getValidationService() />
   <cfreturn this />
 </cffunction>
 	
 <cffunction name="getOrmAdapter" access="private" returntype="any" output="false">
 	<cfreturn getModelGlue().getOrmAdapter() />
 </cffunction>
-
+	
 <cffunction name="loadORMAdapter" access="public" output="false">
 	<cfargument name="event" />
 	
@@ -135,7 +135,6 @@
 
 <cffunction name="genericCommit" access="public" returntype="void" output="false">
 	<cfargument name="event" />
-
 	<cfset var orm = getOrmAdapter() />
 	<cfset var values = arguments.event.getAllValues() />
 	<cfset var table = arguments.event.getArgument("object") />
@@ -146,9 +145,10 @@
 	<cfset var metadata = orm.getObjectMetadata(table) />
 	<cfset var i = "" />
 	<cfset var record = "" />
-	<cfset var validation = "" />
 	<cfset var tmp = "" />
-	
+	<cfset var assembleErrors = "" />
+	<cfset var validationErrors = "" />
+		
 	<!--- Determine Criteria --->
 	<cfloop list="#criteriaList#" index="i">
 		<cfif arguments.event.valueExists(i)>
@@ -160,16 +160,19 @@
 	<cfset record = orm.read(table,criteria) />
 	
 	<cftransaction>
-		<!--- Assemble --->
-		<cfset orm.assemble(arguments.event, record) />
+		<!--- Assemble, which returns an error collection if any setters failed --->
+		<cfset assembleErrors = orm.assemble(arguments.event, record) />
 	
 		<!--- Validate --->
-		<cfset validation = orm.validate(table, record) />
+		<cfset validationErrors = ValidationService.validate(table, record) />
+		
+		<!--- Merge error collections --->
+		<cfset validationErrors.merge(assembleErrors) />
 		
 		<!--- Place into state --->
 		<cfset arguments.event.setValue(recordName, record) />
 		
-		<cfif not validation.hasErrors()>
+		<cfif not validationErrors.hasErrors()>
 			<cfset orm.commit(table, record, false) />
 	
 			<!--- Place keys into state, handling common "appends" situations --->
@@ -185,7 +188,7 @@
 
 			<cfset arguments.event.addResult("commit") />
 		<cfelse>
-			<cfset arguments.event.setValue(validationName, validation.getErrors()) />
+			<cfset arguments.event.setValue(validationName, validationErrors.getErrors()) />
 			<cfset arguments.event.setValue(table & "Committed", false) />
 
 			<cftransaction action="rollback" />

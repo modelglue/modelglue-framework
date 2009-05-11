@@ -1,6 +1,6 @@
 <cfcomponent extends="mxunit.framework.TestCase">
 
-	<cfset this.coldspringPath = "/ModelGlue/gesture/eventrequest/url/test/ColdSpring.xml" />
+	<cfset this.coldspringPath = "/ModelGlue/gesture/test/ColdSpring.xml" />
 	<cfset mg = "">
 
 	<cffunction name="setUp" returntype="void" access="public" hint="put things here that you want to run before each test">

@@ -411,7 +411,7 @@
 	<cfreturn errorCollection />
 </cffunction>
 
-<cffunction name="assemble" returntype="void" output="false" access="public">
+<cffunction name="assemble" returntype="any" output="false" access="public">
 	<cfargument name="event" type="any" required="true" />
 	<cfargument name="target" type="any" required="true" />
 
@@ -436,33 +436,47 @@
 	<cfset var j = "" />
 	<cfset var tmp = "" />
 	<cfset var deletionQueue = arrayNew(1) />
-	
-	<!--- Update all direct properties --->
-	
-	<!--- This _will_ blindly call setters that take complex values, so we silently fail --->
-	<cftry>
-		<cfif arguments.event.argumentExists("properties")>
-			<cfset arguments.event.makeEventBean(record, arguments.event.getArgument("properties", "")) />
-		<cfelse>
-			<cfset arguments.event.makeEventBean(record) />
-		</cfif>
-		<cfcatch></cfcatch>
-	</cftry>
-		
-	<!--- Update manyToOne properties --->
+	<cfset var propertyList = arguments.event.getArgument("properties", "") />
+	<cfset var dict = createObject("component","ModelGlue.unity.orm.transfer.TransferDictionary").init(getTransfer(),table) />
+	<cfset var errorCollection = createObject("component", "ModelGlue.Util.ValidationErrorCollection").init() />
+
+	<!--- Update manyToOne properties - note: can also do direct properties in the same loop, so that's been added --->
 	<cfloop collection="#metadata.properties#" item="i">
 		<cfset property = metadata.properties[i] />
-
-		<cfif property.relationship and not property.pluralRelationship>
+		
+		<!--- Update properties --->		
+		<cfif not property.relationship and not property.primarykey>
+			<cfif NOT ListLen(propertyList) OR ListFindNoCase(propertyList,i)>
+				<cfset newValue = arguments.event.getValue(i,"") />
+				<cfif len(newValue)>
+					<!--- Check for an empty value that needs to be passed as a null --->
+					<cfif property.nullable AND NOT Len(newValue)>
+						<!--- Set the property to NULL --->
+						<cfinvoke component="#record#" method="set#i#Null" />
+					<cfelse>
+						<!--- Try to set the property --->
+						<cftry>
+							<cfinvoke component="#record#" method="set#i#">
+								<cfinvokeargument name="#i#" value="#newValue#" />
+							</cfinvoke>
+							<cfcatch type="any">
+								<cfset errorCollection.addError(i, dict.getValue(table & "." & i & ".type")) />
+							</cfcatch>
+						</cftry>
+					</cfif>
+				</cfif>
+			</cfif>
+		<cfelseif property.relationship and not property.pluralRelationship>
 			<cfset criteria = structNew() />
 			<cfset sourceObject = listLast(property.sourceObject, ".") />
 
 			<cfset newValue = arguments.event.getValue(sourceObject) />
-			
+		
 			<cfif len(newValue)>
 				<cfset criteria[property.sourceKey] = arguments.event.getValue(sourceObject) />
 				
 				<cfset targetObject = read(property.sourceObject, criteria) />
+
 				
 				<!--- If it's a natural relationship --->
 				<cfif structKeyExists(record, "set#sourceObject#")>
@@ -478,7 +492,16 @@
 					<cfthrow type="modelglue.unity.orm.TransferAdapter.NoManyToOneSetter" message="TransferAdapter can't find a valid method to set the #sourceObject# property on #table#!" />
 				</cfif>
 			<cfelse>
-				<cfinvoke component="#record#" method="remove#sourceObject#" />
+				<!--- If it's a natural relationship --->
+				<cfif structKeyExists(record, "remove#sourceObject#")>
+					<cfinvoke component="#record#" method="remove#sourceObject#" />
+				<!--- If it's the artificially added reflexive relationship --->
+				<cfelseif structKeyExists(record, "removeParent#sourceObject#")>
+					<cfinvoke component="#record#" method="removeParent#sourceObject#" />
+				<cfelse>
+					<cfthrow type="modelglue.unity.orm.TransferAdapter.NoManyToOneSetter" message="TransferAdapter can't find a valid method to remove the #sourceObject# property on #table#!" />
+				</cfif>
+
 			</cfif>
 		</cfif>
 	</cfloop>
@@ -561,6 +584,7 @@
 		</cfif>
 	</cfloop>	
 
+	<cfreturn errorCollection />
 
 </cffunction>
 

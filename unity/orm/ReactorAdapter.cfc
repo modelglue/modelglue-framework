@@ -1,6 +1,6 @@
-<cfcomponent displayname="ReactorAdapter" hint="I am a conrete implementation of a Model-Glue ORM adapter." extends="ModelGlue.unity.orm.AbstractORMAdapter">
+<cfcomponent output="false" displayname="ReactorAdapter" hint="I am a conrete implementation of a Model-Glue ORM adapter." extends="ModelGlue.unity.orm.AbstractORMAdapter">
 
-<cffunction name="init" returntype="ModelGlue.unity.orm.ReactorAdapter" output="true" access="public">
+<cffunction name="init" returntype="ModelGlue.unity.orm.ReactorAdapter" output="false" access="public">
 	<cfargument name="framework" type="any" required="true" />
 	<cfargument name="reactor" type="any" required="true" />
 
@@ -26,7 +26,7 @@
 	<cfreturn valueList(fields.alias) />
 </cffunction>
 
-<cffunction name="getObjectMetadata" returntype="struct" output="true" access="public">
+<cffunction name="getObjectMetadata" returntype="struct" output="false" access="public">
 	<cfargument name="table" type="string" required="true" />
 
 	<cfset var result = structNew() />
@@ -192,7 +192,7 @@
 	
 	<cfset result.label = label />
 	<cfset result.alias = rmd.getAlias() />
-	
+	<cfoutput>
 	<cfxml variable="result.xml">
 		<object>
 			<alias>#rmd.getAlias()#</alias>
@@ -209,7 +209,7 @@
 			</properties>
 		</object>
 	</cfxml>
-	
+	</cfoutput>
 	<cfset result.properties = md />
 	
 	<cfset variables._mdCache[arguments.table] = result />
@@ -405,7 +405,7 @@
 	<cfreturn errorCollection />
 </cffunction>
 
-<cffunction name="assemble" returntype="void" output="false" access="public">
+<cffunction name="assemble" returntype="any" output="false" access="public">
 	<cfargument name="event" type="any" required="true" />
 	<cfargument name="target" type="any" required="true" />
 
@@ -424,12 +424,13 @@
 	<cfset var currentChild = "" />
 	<cfset var currentChildId = "" />
 	<cfset var currentChildIds = "" />
-	<cfset var testedChildId = "" />
+	<cfset var testedChildId = "" /> 
 	<cfset var childRecord = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
 	<cfset var tmp = "" />
 	<cfset var deletionQueue = arrayNew(1) />
+	<cfset var errorCollection = createObject("component", "ModelGlue.Util.ValidationErrorCollection").init() />
 	
 	<!--- Update all direct properties --->	
 	<cfif arguments.event.argumentExists("properties")>
@@ -491,7 +492,9 @@
 			</cfloop>
 		</cfif>
 	</cfloop>	
-
+	
+	<cfreturn errorCollection />
+	
 </cffunction>
 
 <cffunction name="commit" returntype="any" output="false" access="public">

@@ -28,8 +28,8 @@
 	
 	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
 	<cfset vr.addViewMapping("/ModelGlue/gesture/view/test/views") />	
-
-	<!--- Simulating a bootstrapping request --->
+		
+		<!--- Simulating a bootstrapping request --->
 	<cfset request._modelglue.bootstrap.initializationRequest = true />
 	<cfset request._modelglue.bootstrap.framework = mg />
 	
@@ -117,7 +117,7 @@
 	
 	<cfset eh1.name = "eh1" />
 	<cfset eh2.name = "eh2" />
-		
+	
 	<cfset assertFalse(er.hasNextEventHandler(), "queue should be empty before add!") />
 
 	<cfset er.addEventHandler(eh1) />
@@ -201,14 +201,17 @@
 	<cfset listener1.target = this />
 	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg1.name = "message1" />
+	<cfset makePublic(this,"listener1_testExecuteEventHandler_ResultQueueing") />
 
 	<cfset listener2.target = this />
 	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg2.name = "message2" />
+	<cfset makePublic(this,"listener2_testExecuteEventHandler_ResultQueueing") />
 
 	<cfset listener3.target = this />
 	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg3.name = "message3" />
+	<cfset makePublic(this,"listener3_testExecuteEventHandler_ResultQueueing") />
 	
 	<cfset listeners[msg1.name] = arrayNew(1) />
 	<cfset listeners[msg2.name] = arrayNew(1) />
@@ -276,15 +279,17 @@
 	<cfset listener1.target = this />
 	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg1.name = "message1" />
-
+	<cfset makePublic(this,"listener1_testExecuteEventHandler_ResultQueueing") />
+	
 	<cfset listener2.target = this />
 	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg2.name = "message2" />
-
+	<cfset makePublic(this,"listener2_testExecuteEventHandler_ResultQueueing") />
+	
 	<cfset listener3.target = this />
 	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg3.name = "message3" />
-	
+		<cfset makePublic(this,"listener3_testExecuteEventHandler_ResultQueueing") />
 	<cfset listeners[msg1.name] = arrayNew(1) />
 	<cfset listeners[msg2.name] = arrayNew(1) />
 	<cfset listeners[msg3.name] = arrayNew(1) />
@@ -348,24 +353,19 @@
 	<cfset assertTrue(variables.testExecuteEventHandler_ResultQueueing_order eq "explicitimplicit", "Results not fired in correct order.") />
 </cffunction>
 
-<cffunction name="listener1_testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
+<cffunction name="listener1_testExecuteEventHandler_ResultQueueing" access="private" returntype="void">
 	<cfargument name="event" />
-	
-	<!--- We need this method as a listener function.  However, mxunit picks it up as a test case.  
-	Indicator of context is whether or not arguments.event is defined. --->
-	<cfif structKeyExists(arguments, "event")>
-		<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = true />
-	
-		<cfset event.addResult("result1") />
-	</cfif>
+	<cfset variables.listener1_testExecuteEventHandler_ResultQueueing_value = true />
+
+	<cfset event.addResult("result1") />
 </cffunction>
 
-<cffunction name="listener2_testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
+<cffunction name="listener2_testExecuteEventHandler_ResultQueueing" access="private" returntype="void">
 	<cfset variables.listener2_testExecuteEventHandler_ResultQueueing_value = true />
 	<cfset variables.testExecuteEventHandler_ResultQueueing_order = variables.testExecuteEventHandler_ResultQueueing_order & "explicit" />
 </cffunction>
 
-<cffunction name="listener3_testExecuteEventHandler_ResultQueueing" access="public" returntype="void">
+<cffunction name="listener3_testExecuteEventHandler_ResultQueueing" access="private" returntype="void">
 	<cfset variables.testExecuteEventHandler_ResultQueueing_order = variables.testExecuteEventHandler_ResultQueueing_order & "implicit" />
 </cffunction>
 
@@ -466,10 +466,10 @@
 	<cfset var cfhttp = "" />
 	
 	<cfset var msg = createUUID() />
-
-	<cfhttp url="http://#cgi.server_name#:#cgi.server_port#/ModelGlue/gesture/eventrequest/test/ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('http://#cgi.server_name#:#cgi.server_port#/ModelGlue/gesture/eventrequest/test/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
+	<cfset var path = "http://localhost/ModelGlue/gesture/eventrequest/test/" />
+	<cfhttp url="#path#ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('#path#/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
 	
-	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#'") />
+	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#', got '#cfhttp.filecontent#'") />
 </cffunction>
 
 <cffunction name="testSaveState" access="public" returntype="void">
