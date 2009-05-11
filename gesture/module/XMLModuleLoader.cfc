@@ -55,7 +55,7 @@
 		<cfset loadEventTypes(arguments.modelglue, etBlocks[i]) />
 	</cfloop>
 
-	<!--- todo: Load scaffolding before the developer event generation so we respect customization --->
+	<!--- Load scaffolding before the developer event generation so we respect customization --->
 	<!--- Don't bother to take any hit at all unless indicated by the developer --->	
 	<!--- I think I want to load this after the event types, because the event types might be useful somehow. Undecided. --->
 	<cfif arguments.modelglue.getConfigSetting("rescaffold") IS true >	
@@ -71,8 +71,6 @@
 	
 	<!--- We load "down the chain" first so that higher-level event handlers override lower-level. --->
 	<cfset modules = xmlSearch(xml, "/modelglue/module") />
-	<!--- todo: unbreak this --->
-<!--- 	<cfdump var="#modules#"><cfabort> --->
 	<cfloop from="1" to="#arrayLen(modules)#" index="i">
 		<cfparam name="modules[i].xmlAttributes.type" default="XML" />
 		<cfset loader = moduleLoaderFactory.create(modules[i].xmlAttributes.type) />
@@ -489,7 +487,6 @@
 		</cfloop>
 	</cfloop>
 	<cfset arguments.modelglue.getScaffoldManager().generate( scaffoldsArray ) />
-	<!--- <cfdump var="#scaffoldsArray#"><cfabort> --->
 	
 </cffunction>
 
