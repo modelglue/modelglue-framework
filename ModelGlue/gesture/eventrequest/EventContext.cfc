@@ -270,7 +270,7 @@
 	
 	<cfset var i = "" />
 	<cfset var j = "" />
-	<cfset var requestFormat = getValue("requestFormat", "") />
+	<cfset var requestFormat = getValue("requestFormat", variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var cacheKey = "" />
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
@@ -602,12 +602,15 @@
 <cffunction name="copyToScope" output="false" access="public" returntype="void" hint="I copy values from the event into the desired scope">
 	<cfargument name="scope" type="struct" required="true"/>
 	<cfargument name="ListOfEventKeys" type="string" default="true"/>
-	<cfargument name="ArrayOfDefaults" type="array" default="#arrayNew(1)#"/>
+	<cfargument name="ArrayOfDefaults" type="any" default="#arrayNew(1)#"/>
 	<cfset var EventKeyArray =  listToArray( arguments.ListOfEventKeys ) />
 	<cfset var thisEventKeyArray = "" />
 	<cfset var ScopeContext = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
+	<cfif isSimpleValue( arguments.ArrayOfDefaults ) IS true>
+		<cfset arguments.ArrayOfDefaults = listToArray( arguments.ArrayOfDefaults ) />
+	</cfif>
 	<cfloop from="1" to="#arrayLen( EventKeyArray )#" index="i">
 		<cfset thisEventKeyArray = listToArray( EventKeyArray[ i ], ".") />
 		<!--- make sure the scope context is set so we can dot-walk up the variable --->

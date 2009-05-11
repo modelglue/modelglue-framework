@@ -24,6 +24,12 @@
 		<cfset variables._instance.generationControllerPath = "" />
 		<cfset variables._instance.generationViewPath = "" />
 		
+		<!--- Scaffolding --->
+		<cfset variables._instance.rescaffold = false />
+		<cfset variables._instance.generatedViewMapping = "views" />		
+		<cfset variables._instance.scaffoldPath = "config/scaffolds/Scaffolds.xml" />		
+		<cfset variables._instance.defaultScaffolds = "list,edit,view,commit,delete" />		
+		
     <cfreturn this />
 </cffunction>
 
@@ -60,7 +66,11 @@
 	<cfset variables._instance.Rescaffold = arguments.Rescaffold />
 </cffunction>
 <cffunction name="getRescaffold" returntype="boolean" output="false">
-	<cfreturn variables._instance.Rescaffold />
+	<!--- DW 5/4/2009
+			We are making the rescaffold key work ONLY if the reload key is set to true also.
+			This prevents developers from shooting themselves in the foot by missing this critical, Heavy I/O generation operation
+	 --->
+	<cfreturn variables._instance.Rescaffold IS true AND getReload() IS true />
 </cffunction>
 
 <cffunction name="setRescaffoldKey" returntype="void" output="false" access="public">
@@ -71,15 +81,15 @@
 	<cfreturn variables._instance.RescaffoldKey />
 </cffunction>
 
-<cffunction name="setApplicationPath" returntype="void" output="false" access="public">
-	<cfargument name="ApplicationPath"  type="string" />
-	<cfset variables._instance.ApplicationPath = arguments.ApplicationPath />
+<cffunction name="setApplicationMapping" returntype="void" output="false" access="public">
+	<cfargument name="ApplicationMapping"  type="string" />
+	<cfset variables._instance.ApplicationMapping = arguments.ApplicationMapping />
 	<cfif not len(getGenerationControllerPath())>
-		<cfset setGenerationControllerPath(arguments.applicationPath & "/controller") />
+		<cfset setGenerationControllerPath(arguments.ApplicationMapping & "/controller") />
 	</cfif>
 </cffunction>
-<cffunction name="getApplicationPath" returntype="string" output="false">
-	<cfreturn variables._instance.ApplicationPath />
+<cffunction name="getApplicationMapping" returntype="string" output="false">
+	<cfreturn variables._instance.ApplicationMapping />
 </cffunction>
 
 <cffunction name="setRescaffoldPassword" returntype="void" output="false" access="public">
@@ -145,6 +155,9 @@
 </cffunction>
 <cffunction name="getGeneratedViewMapping" returntype="string" output="false">
 	<cfreturn variables._instance.GeneratedViewMapping />
+</cffunction>
+<cffunction name="getFullGeneratedViewMapping" returntype="string" output="false">
+	<cfreturn "#getApplicationMapping()#/#getGeneratedViewMapping()#" />
 </cffunction>
 
 <cffunction name="setConfigurationPath" returntype="void" output="false" access="public" hint="Deprecated in favor of setPrimaryModule.  Included for Unity reverse compatibility.">

@@ -14,10 +14,12 @@
 
 <cffunction name="create" output="false" hint="Creates and returns a desired implementation of an interface.">
 	<cfargument name="name" type="string" required="true" hint="Name of type to create.  If not in registeredClasses (constructor arg), a CFC of the given type will be created." />
-
+	<cfargument name="constructorArgs" type="struct" default="#structNew()#" required="false" hint="A struct of arguments to pass to the instance. This will override any defaults passed in the init function of TypeDefaultingMapBasedFactory">
 	<cfset var inst = 0 />
-	
+	<cfset var constArgs = variables._constructorArgs />
+	<cfset structAppend( constArgs, arguments.constructorArgs ) />
 	<cfif not variables._createSingletons>
+	
 		<!--- Create and cache --->
 		<cfif structKeyExists(variables._typeMap, arguments.name)>
 			<cfset inst = createObject("component", variables._typeMap[arguments.name].class) />
@@ -27,7 +29,7 @@
 
 		<!--- Call constructor --->
 		<cfif structKeyExists(inst, "init")>
-			<cfinvoke component="#inst#" argumentCollection="#variables._constructorArgs#" method="init" />
+			<cfinvoke component="#inst#" argumentCollection="#constArgs#" method="init" />
 		</cfif>
 		
 		<cfreturn inst />

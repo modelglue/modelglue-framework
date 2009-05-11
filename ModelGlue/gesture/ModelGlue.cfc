@@ -113,6 +113,14 @@
 	<cfset variables._beanPopulator = arguments.beanPopulator />
 </cffunction>
 
+<cffunction name="setScaffoldManager" output="false" hint="Sets the scaffold manager to use to generate base events.">
+	<cfargument name="ScaffoldManager" output="false" />
+	<cfset variables._ScaffoldManager = arguments.ScaffoldManager />
+</cffunction>
+<cffunction name="getScaffoldManager" output="false" hint="Gets the state persister to use to generate base events.">
+	<cfreturn variables._ScaffoldManager />
+</cffunction>
+
 <cffunction name="setStatePersister" output="false" hint="Sets the state persister to use to maintain state during redirects.">
 	<cfargument name="statePersister" output="false" />
 	<cfset variables._statePersister = arguments.statePersister />
@@ -137,6 +145,15 @@
 </cffunction>
 <cffunction name="getOrmAdapter" returntype="any" access="public" hint="I return the ORM Adapter (abstracts multiple ORM implementations)." output="false">
 	<cfreturn variables._ormAdapter />
+</cffunction>
+
+<cffunction name="getValidationService" access="public" output="false" returntype="any">
+	<cfreturn variables._validationService />
+</cffunction>
+
+<cffunction name="setValidationService" access="public" output="false" returntype="void">
+	<cfargument name="ValidationService" type="any" required="true" />
+	<cfset variables._validationService = arguments.ValidationService />
 </cffunction>
 
 <cffunction name="setOrmService" returntype="any" access="public" hint="I set the ORM service." output="false">

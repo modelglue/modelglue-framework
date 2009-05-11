@@ -26,6 +26,10 @@
 		</list>
 	</property>
 	
+	<property name="scaffoldManager">
+		<ref bean="modelglue.scaffoldManager" />
+	</property>
+	
 	<!--
 		Array of EventRequestPhase implementations.
 		
@@ -122,6 +126,13 @@
 	-->
 	<property name="logRenderer">
 		<bean class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
+	</property>
+	
+		<!-- 
+		Validation Service to use
+	-->
+	<property name="validationService">
+		<ref bean="modelglue.validationService" />
 	</property>
 </bean>
 
@@ -247,7 +258,70 @@
 <bean id="modelglue.eventGenerator" class="ModelGlue.gesture.modules.internal.generation.service.XMLEventGenerationService">
 	<constructor-arg name="modelglue"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 </bean>
+<!--
+	Validation Service used by ORMAdapter. Can be overridden
+-->
+<bean id="modelglue.ValidationService" class="ModelGlue.gesture.modules.orm.ValidationService">
+	<property name="framework"><ref bean="modelglue.ModelGlue" /></property>
+</bean>
+
 	
+<!--
+	ScaffoldManager (does the creation of scaffold bits)
+--> 
+<bean id="modelglue.scaffoldManager" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
+	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
+	<constructor-arg name="scaffoldBeanRegistry">
+		<map>
+			<entry key="Commit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Commit</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Delete">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Delete</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Edit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Edit</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Form.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="List">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.List</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>List.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="View">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.View</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Display.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+		</map>
+	</constructor-arg>
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+	
+
 <!-- Reactor adapter/service -->
 <bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">
 	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>

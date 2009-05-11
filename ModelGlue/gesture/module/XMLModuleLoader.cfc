@@ -12,6 +12,7 @@
 	<cfargument name="loadedModules" type="struct" default="#structNew()#" hint="Location-keyed collection of modules loaded _during this loading request_ (prevents infinitely recursive loading)." />
 	
 	<cfset var xml = "" />
+	<cfset var scaffoldBlocks = "" />
 	<cfset var settingBlocks = "" />
 	<cfset var controllerBlocks = "" />
 	<cfset var etBlocks = "" />
@@ -50,20 +51,28 @@
 	
 	<!--- Load event types --->
 	<cfset etBlocks = xmlSearch(xml, "/modelglue/event-types") />
-
 	<cfloop from="1" to="#arrayLen(etBlocks)#" index="i">
 		<cfset loadEventTypes(arguments.modelglue, etBlocks[i]) />
 	</cfloop>
-	
-		<!--- todo: Load scaffolding before the developer event generation so we respect customization --->
-	<cfset scaffoldBlocks = xmlSearch(xml, "/modelglue/scaffold") />
-	<cfloop from="1" to="#arrayLen(scaffoldBlocks)#" index="i">
-		<cfset loadScaffolds(arguments.modelglue, scaffoldBlocks[i]) />
-	</cfloop>
-	
+
+	<!--- todo: Load scaffolding before the developer event generation so we respect customization --->
+	<!--- Don't bother to take any hit at all unless indicated by the developer --->	
+	<!--- I think I want to load this after the event types, because the event types might be useful somehow. Undecided. --->
+	<cfif arguments.modelglue.getConfigSetting("rescaffold") IS true >	
+		<cfset scaffoldBlocks = xmlSearch(xml, "/modelglue/scaffold") />
+		<cfif arrayLen( scaffoldBlocks ) GT 0 >
+			<cfset loadScaffolds( arguments.modelglue, scaffoldBlocks ) />
+		</cfif>
+	</cfif>
+	<cfif fileExists( expandPath( arguments.modelglue.getConfigSetting('scaffoldPath') ) ) IS true>
+		<!--- This is recursive, but we are using the scaffold path as infiniteloop insurance. --->
+		<cfset load( arguments.modelglue, expandPath( arguments.modelglue.getConfigSetting('scaffoldPath') ) , arguments.loadedModules) />
+	</cfif>
 	
 	<!--- We load "down the chain" first so that higher-level event handlers override lower-level. --->
 	<cfset modules = xmlSearch(xml, "/modelglue/module") />
+	<!--- todo: unbreak this --->
+<!--- 	<cfdump var="#modules#"><cfabort> --->
 	<cfloop from="1" to="#arrayLen(modules)#" index="i">
 		<cfparam name="modules[i].xmlAttributes.type" default="XML" />
 		<cfset loader = moduleLoaderFactory.create(modules[i].xmlAttributes.type) />
@@ -450,23 +459,37 @@
 </cffunction>
 
 <cffunction name="loadScaffolds" output="false" hint="I load the scaffold tags">
-	<cfargument name="modelglue" />
+	<cfargument name="modelGlue" />
 	<cfargument name="scaffoldsXML" />
-	<cfdump var="#scaffoldsXML#"><cfabort>
-	<cfloop list="#arguments.types#" index="typename">
-		<cfif structKeyExists(variables.eventTypes, typeName)>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "broadcasts")>
-				<cfset loadMessages(eh, variables.eventTypes[typeName][block].broadcasts) />
-			</cfif>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "results")>
-				<cfset loadResults(eh, variables.eventTypes[typeName][block].results) />
-			</cfif>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "views")>
-				<cfset loadViews(eh, variables.eventTypes[typeName][block].views) />
-			</cfif>
-		</cfif>
+	<cfset var scaffoldsArray = arrayNew(1) />
+	<cfset var objectMetadata = "" />
+	<cfset var i = 0 />
+	<cfset var iType = "" />
+	<cfset var S = "" />
+	<!--- As the great Bob Marley said, no scaffolds, no problem mon --->
+	<cfif arrayLen( scaffoldsXML ) IS 0>
+		<cfreturn >
+	</cfif>
+	<!---OK, we have scaffolds, so rip over them--->
+	<cfloop from="1" to="#arrayLen( arguments.scaffoldsXML )#" index="i">
+		<!---  we'll store metadata in a struct for now --->
+		<cfset objectMetadata = structNew() />
+		<cfset objectMetadata = arguments.scaffoldsXML[i].XmlAttributes />
+		<!--- default the types to the configured defaultscaffolds --->
+		<cfparam name="objectmetadata.type" default="#arguments.modelglue.getConfigSetting('defaultScaffolds')#" />
+		<cfparam name="objectmetadata.propertylist" default="" />
+		<cfloop list="#objectmetadata.type#" index="iType">
+			<cfset S =createObject("component", "ModelGlue.gesture.eventhandler.Scaffold") /> 
+			<!--- now make a seperate object for each type --->
+			<cfset S.object = objectMetadata.object />
+			<cfset S.type = iType />
+			<cfset S.propertylist = objectmetadata.propertylist />
+			<!--- then store the metadata in the scaffolds array --->
+			<cfset arrayAppend( scaffoldsArray, S) />
+		</cfloop>
 	</cfloop>
-	
+	<cfset arguments.modelglue.getScaffoldManager().generate( scaffoldsArray ) />
+	<!--- <cfdump var="#scaffoldsArray#"><cfabort> --->
 	
 </cffunction>
 
