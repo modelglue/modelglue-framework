@@ -22,13 +22,23 @@
 
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
-	<property name="applicationPath"><value>/modelglueapplicationtemplate</value></property>
+	<property name="applicationMapping"><value>/modelglueapplicationtemplate</value></property>
 	<property name="viewMappings"><value>/modelglueapplicationtemplate/views</value></property>
 	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers</value></property>
 	
 	<!-- Generate unknown events when in development mode?  (reload=false) -->
 	<property name="generationEnabled"><value>false</value></property>
-
+	
+	<!-- Scaffolding config -->
+	<!-- Turning this off will disable any scaffold generation. Turning this on requires the reload setting above to also be on.-->	
+	<property name="rescaffold"><value>true</value></property>
+	<!-- Where do you want generated views to be saved to? -->
+	<property name="generatedViewMapping"><value>views</value></property>
+	<!--This directory structure should already exists. ModelGlue will create the Scaffolds.xml file and overwrite as needed.-->
+	<property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
+	<!-- What scaffold generation patterns should ModelGlue use if you do not specify in the <scaffold type=""> attribute? .-->
+	<property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
+	
 	<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
 </bean>
 	

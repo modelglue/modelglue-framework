@@ -31,13 +31,25 @@ It expects you to run an event that includes a view named "body".
 			<a href="http://www.d-ross.org">Dave Ross</a>,
 			<a href="http://cdscott.blogspot.com/">Chris Scott</a>,
 			<a href="http://www.boyzoid.com">Scott Stroz</a>,
+			<a href="http://www.nodans.com">Dan Wilson</a>,
 			<a href="http://www.firemoss.com">Firemoss</a>,
 			<a href="http://www.alagad.com">Alagad</a>,
 			<a href="http://www.aboutweb.com">AboutWeb</a>,
+			<a href="http://www.datacurl.com">DataCurl</a>,			
 			and most of all
 			Dale and Ava Rinehart.
 		</p>
 	</div>
+	<table>
+		<tr>
+			<td><strong>Documentation Team</strong></td>
+			<td><a href="http://cfgrok.com">Ezra Parker</a></td>
+		</tr>
+		<tr>
+			<td><strong>Integration/Deployment Team</strong></td>
+			<td><a href="http://thecrumb.com">Jim Priest</a></td>
+		</tr>
+	</table>
 	</cfoutput>
 </body>
 

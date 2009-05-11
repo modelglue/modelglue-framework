@@ -1,40 +1,52 @@
-<!--
-	Ant script to create new Model-Glue 3.0 applications
-	
-	If you're using CFEclipse, or you know how to use Ant (http://ant.apache.org), 
-	just run this file to create a ready-to-go Model-Glue application.
-	
-	To run it in CFEclipse, it's Alt-Shift-X -> Q
-	
-	Instructions:
-	
-	Set the "newApplicationName" property's value to the datasource name of
-	your new application directory.  The script will name the application 
-	(via <cfapplication>) the same thing - feel free to change it later.
-	
-	Set the "newApplicationDirectory" to the directory where you'd like your
-	new application to go.
-	
-	Run the script.
--->	
-<project name="New Model-Glue Application" default="build" basedir="..">
-	<property name="newApplicationName" value="myApplication" />
-	<property name="newApplicationDirectory" value="/Library/WebServer/Documents/${newApplicationName}" />
+<?xml version="1.0"?>
+<project name="Model-Glue" default="CREATE-NEW-PROJECT" basedir=".">
+<description>
+Ant script to create new Model-Glue 3.0 application
 
-	<!--
-	For the Windows/IIS crowd   
-	<property name="newApplicationDirectory" value="c:/inetpub/wwwroot/${newApplicationName}" />
-	-->
-	
-	<!-- Where is the MG app template? -->
-	<property name="templateDirectory" value="./modelglueapplicationtemplate"/>
-		
-	<target name="build">
-		<copy todir="${newApplicationDirectory}">
+Before running you should define (see build.properties file)
+	* source and destination paths for webroot
+    
+This script assumes you are running it from the same directory
+where the Model-Glue Template files are located.
+			 
+To create new Model-Glue project - run the default target CREATE-NEW-PROJECT:
+	1) run 'build' you will be prompted for a project 
+       name and destination path
+</description>
+
+    <target name="HELP" description="Displays a list of help to the user.">
+        <java fork="no" classname="org.apache.tools.ant.Main">
+            <classpath>
+                <fileset dir="${ant.home}\lib">
+                    <include name="**/*.jar" />
+                </fileset>
+            </classpath>
+        <arg line="-projecthelp" />
+        </java>
+    </target>
+
+	<target name="-init" depends="HELP">
+		<property file="build.properties" />
+		<input message="Project name? This will be your project directory: ${newApplicationDirectory}yourprojectname" addproperty="newApplicationName" />
+		<echo message="Preparing to deploy Model-Glue!" />
+		<echo message="Copying MG template files to ${newApplicationDirectory}${newApplicationName}" />
+	</target>
+
+	<target name="CREATE-NEW-PROJECT" depends="-init, DirectoryExistsError" description="Copy Model-Glue files to new project directory.">
+		<copy todir="${newApplicationDirectory}${newApplicationName}">
 			<fileset dir="${templateDirectory}">
 				<exclude name="**/build.xml" />
 			</fileset>
 		</copy>
-		<replace dir="${newApplicationDirectory}" token="modelglueapplicationtemplate" value="${newApplicationName}" />
+		<replace dir="${newApplicationDirectory}${newApplicationName}" token="modelglueapplicationtemplate" value="${newApplicationName}" />
 	</target>
-</project> 
+
+	<target name="CheckDirectory">
+		<echo message="Testing for existing project directory..." />
+		<available file="${newApplicationDirectory}${newApplicationName}" type="dir" property="projectdir.exists" />
+	</target>
+
+	<target name="DirectoryExistsError" depends="CheckDirectory" if="projectdir.exists">
+		<fail message="Project directory ${newApplicationDirectory}${newApplicationName} already exists!"/>  
+	</target>
+</project>
