@@ -9,6 +9,24 @@
 	</controller>
 </controllers>
 	
+	<event-types>
+	<!-- Sample Event Type:
+		You can use before, after or both.
+		<event-type name="templatedPage">
+			<before>
+				<results>
+					<result do="SomethingThatShouldRunBefore"/>
+				</results>
+			</before>
+			<after>
+				<results>
+					<result do="SomethingThatShouldRunAfter"/>
+				</results>
+			</after>		
+		</event-type>
+	-->
+	</event-types>
+		
 <event-handlers>
 	<!-- 
 	Sample Event Handler:
