@@ -185,6 +185,10 @@
 <cffunction name="getIocAdapter" output="false" hint="Gets the IoC adapter in use (wraps the IoC bean factory used by getBean() (and getConfigBean())).">
 	<cfreturn variables._iocAdapter />
 </cffunction>
+<cffunction name="getBeanFactory" returntype="any" access="public" hint="backwards compatibility for MG:Unity" output="false">
+	<cfreturn getIocAdapter() />
+</cffunction>
+
 <cffunction name="getBean" output="false" hint="Gets a bean from the IoC adapter.  Replaces the deprecated getConfigBean().">
 	<cfargument name="name" output="false" hint="The name / id of the bean to retrieve." />
 	
