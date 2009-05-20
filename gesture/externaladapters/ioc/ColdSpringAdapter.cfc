@@ -25,6 +25,6 @@
 <cffunction name="beanDefinitionExists" access="public" returntype="boolean" output="false"
 			hint="searches all known factories (parents) to see if bean definition for the specified bean exists">
 	<cfargument name="beanName" type="string" required="true" />
-	<cfreturn variables._beanFactory..beanDefinitionExists( arguments.beanName ) />
+	<cfreturn variables._beanFactory.beanDefinitionExists( arguments.beanName ) />
 </cffunction>
 </cfcomponent>
