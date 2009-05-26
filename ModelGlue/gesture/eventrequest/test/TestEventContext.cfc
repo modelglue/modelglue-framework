@@ -468,7 +468,7 @@
 	<cfset var msg = createUUID() />
 	<cfset var path = "http://localhost/ModelGlue/gesture/eventrequest/test/" />
 	<cfhttp url="#path#ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat('#path#/ForwardToUrlDestination.cfm?msg=#msg#')#"  />
-	
+	<!--- todo: Find a better way to test this because this method is fragile and sucks --->
 	<cfset assertTrue(cfhttp.fileContent eq msg, "File content not message! Expected '#msg#', got '#cfhttp.filecontent#'") />
 </cffunction>
 
