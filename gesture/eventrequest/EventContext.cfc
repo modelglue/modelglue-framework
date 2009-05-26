@@ -421,8 +421,8 @@
 	<cfreturn getInitialEventHandler().name />
 </cffunction>
 
-<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
-	<cfreturn getInitialEventHandler().name />
+<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler. Here for backwards compatibility.">
+	<cfreturn getInitialEventHandlerName() />
 </cffunction>
 
 <cffunction name="getMessage" access="public" hint="Returns the name of the currently broadcast message.">
