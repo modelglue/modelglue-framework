@@ -40,7 +40,7 @@
 						 type="ModelGlue.gesture.module.xmlModuleLoader.fileNotFound"
 		/>
 	</cfif>
-	
+
 	<cffile action="read" file="#arguments.path#" variable="xml" />
 
 	<!--- 
@@ -160,9 +160,10 @@
 				<cfset val = arguments.modelGlue.getConfigSetting("viewMappings") />
 				<cfset arrayAppend(val, settingXml.xmlAttributes.value) />
 				--->
-				<cfloop list="#settingXml.xmlAttributes.value#" index="j">
-					<cfset arguments.modelglue.configuration.viewMappings  = listAppend(arguments.modelglue.configuration.viewMappings , j ) />
-					<cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping( j ) />
+				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
+				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
+					<cfset arrayAppend(arguments.modelglue.configuration.viewMappings, tmpArray[j]) />
+					<!--- <cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(tmpArray[j]) /> --->
 				</cfloop>
 				<!---
 				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />

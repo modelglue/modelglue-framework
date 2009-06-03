@@ -70,13 +70,8 @@
 <cffunction name="setConfigSetting" output="false" hint="Sets a configuration setting.">
 	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
 	<cfargument name="settingValue" type="any" hint="The value to set." />
-	<cfif hasConfigSetting( arguments.settingName ) IS true AND isStruct( this.configuration[arguments.settingName] ) IS true >
-		<cfset structAppend(this.configuration[arguments.settingName],  arguments.settingValue ) />
-	<cfelseif hasConfigSetting( arguments.settingName ) IS true AND isArray( this.configuration[arguments.settingName] )>	
-		<cfset arrayAppend(this.configuration[arguments.settingName],  arguments.settingValue ) />
-	<cfelse>	
-		<cfset this.configuration[arguments.settingName] = arguments.settingValue />
-	</cfif>
+
+	<cfset this.configuration[arguments.settingName] = arguments.settingValue />
 </cffunction>
 
 <cffunction name="getConfigSetting" output="false" hint="Gets a configuration setting by name.">
