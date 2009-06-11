@@ -3,7 +3,7 @@
 <cfset this.coldspringPath = "/ModelGlue/gesture/test/ColdSpring.xml">
 
 <cffunction name="testSimpleXMLModule" returntype="void" access="public">
-	<cfset var mg = createModelGlueIfNotDefined(this.coldspringPath) />
+	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
 	<cfset var controllerVars = "" />
@@ -116,6 +116,40 @@
 	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/recursiveXmlModule.xml") />
 	
 	<!--- Not going into an infinite loop = passing. --->	
+</cffunction>
+
+<cffunction name="testDefaultEventType" returntype="void">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/eventTypes.xml") />
+	
+	<!--- Before Typed Messages --->
+	<cfset obj = mg.getEventHandler("beforeEvent") />
+	<cfset assertTrue(isObject(obj), "beforeEvent event handler not object!") />
+
+	<cfset assertTrue(arraylen(obj.messages.CFNULLKEYWORKAROUND) eq 2, "message not added") />
+	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[1].name IS "I_run_before", "message not added in first position") />
+	
+	<!--- After Typed Messages --->
+	<cfset obj = mg.getEventHandler("afterEvent") />
+	<cfset assertTrue(isObject(obj), "afterEvent event handler not object!") />
+	
+	<cfset assertTrue(arraylen(obj.messages.CFNULLKEYWORKAROUND) eq 2, "message not added") />
+	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[2].name IS "I_run_after", "message not added in last position") />
+	
+	<!--- Before Typed Messages --->
+	<cfset obj = mg.getEventHandler("bothEvent") />
+	<cfset assertTrue(isObject(obj), "bothEvent event handler not object!") />
+	
+	<cfset assertTrue(arraylen(obj.messages.CFNULLKEYWORKAROUND) eq 3, "message not added") />
+	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[1].name IS "I_run_before", "message not added in first position") />
+	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[2].name IS "BaselineMessage", "BaselineMessage not  in center position") />
+	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[3].name IS "I_run_after", "message not added in last position") />
+	
+	
 </cffunction>
 
 <cffunction name="testSettingParsing_arbitrary" returntype="void" access="public">
