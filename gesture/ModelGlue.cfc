@@ -70,7 +70,7 @@
 <cffunction name="setConfigSetting" output="false" hint="Sets a configuration setting.">
 	<cfargument name="settingName" type="string" hint="The setting name to retrieve." />
 	<cfargument name="settingValue" type="any" hint="The value to set." />
-	
+
 	<cfset this.configuration[arguments.settingName] = arguments.settingValue />
 </cffunction>
 

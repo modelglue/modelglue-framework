@@ -235,8 +235,8 @@
 	View renderer
 -->
 <bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer">
-	<property name="modelGlueConfiguration">
-		<ref bean="modelGlue.ModelGlueConfiguration" />
+	<property name="modelGlue">
+		<ref bean="modelGlue.ModelGlue" />
 	</property>
 </bean>
 

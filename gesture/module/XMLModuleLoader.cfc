@@ -40,7 +40,7 @@
 						 type="ModelGlue.gesture.module.xmlModuleLoader.fileNotFound"
 		/>
 	</cfif>
-	
+
 	<cffile action="read" file="#arguments.path#" variable="xml" />
 
 	<!--- 
@@ -163,7 +163,7 @@
 				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
 				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
 					<cfset arrayAppend(arguments.modelglue.configuration.viewMappings, tmpArray[j]) />
-					<cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(tmpArray[j]) />
+					<!--- <cfset arguments.modelglue.getInternalBean("modelglue.viewRenderer").addViewMapping(tmpArray[j]) /> --->
 				</cfloop>
 				<!---
 				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />
@@ -229,6 +229,11 @@
 		<!--- Add event listeners --->
 		<cfloop from="1" to="#arrayLen(ctrlXml.xmlChildren)#" index="j">
 			<cfset listXml = ctrlXml.xmlChildren[j] />
+			<cfparam name="listXml.xmlAttributes.function" default="" />
+			<!--- Function is optional and will be the message, unless explicitly provided --->
+			<cfif  len( trim( listXml.xmlAttributes.function ) ) IS 0>
+				<cfset listXml.xmlAttributes.function = listXml.xmlAttributes.message >
+			</cfif>
 			<cfset modelglue.addEventListener(listXml.xmlAttributes.message, ctrlInst, listXml.xmlAttributes.function) />
 			<cfset modelglue.addController(ctrlXml.xmlAttributes.id, ctrlInst) />
 		</cfloop>
