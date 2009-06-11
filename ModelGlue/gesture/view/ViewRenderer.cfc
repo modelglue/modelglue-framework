@@ -1,27 +1,24 @@
 <cfcomponent displayName="ViewRenderer" output="false" hint="I am responsible for rendering views.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new view renderer.">
-	<cfset variables._viewMappings = arrayNew(1) />
   <cfreturn this />
 </cffunction>
 
-<cffunction name="setModelGlueConfiguration" output="false" hint="Sets the MG Configuration bean instance to use.">
-	<cfargument name="modelGlueConfiguration" required="true" type="ModelGlue.gesture.configuration.ModelGlueConfiguration" />
+<cffunction name="setModelGlue" output="false" hint="Sets the MG  instance to use.">
+	<cfargument name="modelGlue" required="true" type="ModelGlue.gesture.ModelGlue" />
 	
-	<cfset var mappings = arguments.modelGlueConfiguration.getViewMappings() />
-	<cfset var i = "" />
-	
-	<cfloop from="1" to="#arrayLen(mappings)#" index="i">
-		<cfset addViewMapping(mappings[i]) />
-	</cfloop>
+	<cfset variables._modelGlue = arguments.modelGlue />	
+
 </cffunction>
 
 <cffunction name="getViewMappings" output="false" hint="Gets the current list of view mappings.">
-	<cfreturn variables._viewMappings />
+	<cfreturn variables._modelGlue.configuration.viewMappings  />
 </cffunction>
 <cffunction name="addViewMapping" output="false" hint="Adds a new view mapping.">
 	<cfargument name="viewMapping" type="string" />
-	<cfset arrayAppend(variables._viewMappings, arguments.viewMapping) />
+	<cfset var newViewMappingArray = arrayNew( 1 ) />
+	<cfset arrayAppend( newViewMappingArray , arguments.viewMapping ) /> 
+	<cfset variables._modelGlue.setConfigSetting( "viewMappings", newViewMappingArray ) >
 </cffunction>
 
 <cffunction name="renderView" output="false" hint="I render a view and return the resultant HTML.">
@@ -34,6 +31,7 @@
 	<cfset var includeFound = false />
 	<cfset var template = "" />
 	<cfset var result = "" />
+	<cfset var _viewMappings = getViewMappings() />
 	
 	<cfloop collection="#arguments.view.values#" item="i">
 	  <cfif arguments.view.values[i].overwrite or not arguments.eventContext.exists(i)>
@@ -42,8 +40,8 @@
 	</cfloop>
 
 	<cfset includeFound = false />
-	<cfloop from="1" to="#arrayLen(variables._viewMappings)#" index="i">
-		<cfset template = variables._viewMappings[i] & "/" & arguments.view.template />
+	<cfloop from="1" to="#arrayLen(_viewMappings)#" index="i">
+		<cfset template = _viewMappings[i] & "/" & arguments.view.template />
 		<cfif fileExists(expandPath(template))>
 			<cfset includeFound = true />
 			<cfbreak />
@@ -52,7 +50,7 @@
 
 	<cfif not includeFound>
 		<cfthrow type="ViewRenderer.includeNotFound"
-						 message="The template (#arguments.view.template#) was not found in any registered view mappings (#arrayToList(variables._viewMappings)#)." />
+						 message="The template (#arguments.view.template#) was not found in any registered view mappings (#arrayToList(_viewMappings)#)." />
 	</cfif>
 	
 	<cfsavecontent variable="result"><cfmodule template="/ModelGlue/gesture/view/ViewRenderer.cfm" includepath="#template#" viewstate="#arguments.eventContext#" viewcollection="#arguments.eventContext.getViewCollection()#" helpers="#arguments.helpers#"></cfsavecontent>

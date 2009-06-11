@@ -27,6 +27,7 @@
 	<cfset var vr = "" />
 	
 	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
+	<cfset vr.setModelGlue( mg ) />
 	<cfset vr.addViewMapping("/ModelGlue/gesture/view/test/views") />	
 		
 		<!--- Simulating a bootstrapping request --->
