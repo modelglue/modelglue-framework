@@ -20,7 +20,7 @@
 
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
-	<property name="applicationPath"><value>/modelgluesamples/richwidgets</value></property>
+	<property name="applicationMapping"><value>/modelgluesamples/richwidgets</value></property>
 	<property name="viewMappings"><value>/modelgluesamples/richwidgets/views</value></property>
 	<property name="helperMappings"><value>/modelgluesamples/richwidgets/helpers,/ModelGlue/helpers</value></property>
 	

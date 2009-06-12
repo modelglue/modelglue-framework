@@ -20,7 +20,7 @@
 
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
-	<property name="applicationPath"><value>/modelgluesamples/formvalidation</value></property>
+	<property name="applicationMapping"><value>/modelgluesamples/formvalidation</value></property>
 	<property name="viewMappings"><value>/modelgluesamples/formvalidation/views</value></property>
 	<property name="helperMappings"><value>/modelgluesamples/formvalidation/helpers,/ModelGlue/helpers</value></property>
 	

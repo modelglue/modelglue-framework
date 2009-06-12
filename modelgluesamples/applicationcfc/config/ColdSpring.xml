@@ -16,7 +16,7 @@
 
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
-	<property name="applicationPath"><value>/modelgluesamples/applicationcfc</value></property>
+	<property name="applicationMapping"><value>/modelgluesamples/applicationcfc</value></property>
 	<property name="viewMappings"><value>/modelgluesamples/applicationcfc/views</value></property>
 	<property name="helperMappings"><value>/modelgluesamples/applicationcfc/helpers,/ModelGlue/helpers/cflib</value></property>
 	
