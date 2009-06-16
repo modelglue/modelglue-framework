@@ -118,14 +118,14 @@
 		Log Writer to use
 	-->
 	<property name="logWriter">
-		<bean class="ModelGlue.gesture.eventrequest.log.LogWriter" />
+		<ref bean="modelglue.logWriter" />
 	</property>
 	
 	<!-- 
 		Log Renderer to use
 	-->
 	<property name="logRenderer">
-		<bean class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
+		<ref bean="modelglue.logRenderer" />
 	</property>
 	
 		<!-- 
@@ -140,7 +140,7 @@
 	Injector that performs "beans"-scope injection and autowiring for controllers.
 -->
 <bean id="modelglue.controllerBeanInjector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
-	
+
 <!--
 	Factory responsible for creating ModuleLoader implementations.
 	
@@ -265,6 +265,15 @@
 	<property name="framework"><ref bean="modelglue.ModelGlue" /></property>
 </bean>
 
+<!-- 
+	Renderer that renders the ModelGlue Log.
+-->
+<bean id="modelglue.logRenderer" class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
+
+<!-- 
+	Writer that writes the that renders the ModelGlue Log.
+-->
+<bean id="modelglue.logWriter" class="ModelGlue.gesture.eventrequest.log.LogWriter" />		
 	
 <!--
 	ScaffoldManager (does the creation of scaffold bits)
