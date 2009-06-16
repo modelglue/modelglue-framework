@@ -464,6 +464,7 @@
 	
 	<cfset var results = getResults() />
 	<cfset var format = "" />
+	<cfset var formatList = listappend(getValue("requestFormat", ""),  "cfNullKeyWorkaround") />
 	<cfset var i = "" />
 	<cfset var eh = getCurrentEventHandler() />
 	<cfset var result = "" />
@@ -471,8 +472,8 @@
 	
 	<cfset trace("Message Listener", "A named result ""#arguments.resultName#"" has been added.") />
 	
-	<cfloop collection="#eh.results#" item="format">
-		<cfif structKeyExists(eh.results[format], arguments.resultName)>
+	<cfloop list="#formatList#" index="format">
+		<cfif structkeyexists(eh.results, format) AND structKeyExists(eh.results[format], arguments.resultName)>	
 			<cfloop from="1" to="#arrayLen(eh.results[format][arguments.resultName])#" index="i">
 				<cfset result = eh.results[format][arguments.resultName][i] />
 				
