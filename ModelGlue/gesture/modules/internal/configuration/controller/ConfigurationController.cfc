@@ -12,7 +12,7 @@
 	<cfset loadedModules[""] = true >
 	
 	<cfif arguments.event.getValue("modelglueReloaded")>	
-		<cfset arguments.event.trace("Configuration", "Loading Initial XML Module") />
+		<cfset arguments.event.addTraceStatement("Configuration", "Loading Initial XML Module") />
 		<cfset mg = getModelGlue() />
 		<cfset cfg = mg.getBean("modelglue.ModelGlueConfiguration") />
 		

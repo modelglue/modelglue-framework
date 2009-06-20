@@ -8,7 +8,7 @@
 	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister").init()#" hint="StatePersister to use during stateful redirects." />
 	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer").init()#" hint="ViewRenderer to use to render included views to HTML." />
 	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator").init()#" hint="Populator used by makeEventBean()." />
-	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by trace()." />
+	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by addTraceStatement()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
 	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." default="#structNew()#" />
 	
@@ -61,7 +61,7 @@
 
 	<cfset resetResults() />
 
-	<cfset trace("Creation", "Event Context Created") />
+	<cfset addTraceStatement("Creation", "Event Context Created") />
 	 
 	<cfreturn this />
 </cffunction>
@@ -111,7 +111,7 @@
 	<cfset link.eventHandler = arguments.eventHandler />
 	<cfset link.next = "" />
 
-	<cfset trace("Event Queue", "Queueing event handler: #arguments.eventHandler.name#") />
+	<cfset addTraceStatement("Event Queue", "Queueing event handler: #arguments.eventHandler.name#") />
 	
 	<cfif variables._readyForExecution and not isObject(variables._initialEvent)>
 		<cfset variables._initialEvent = arguments.eventHandler />
@@ -150,11 +150,11 @@
 	<cftry>
 		<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
 			<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
-				<cfset this.trace(variables._requestPhases[i].name, "Beginning request phase.") /> 
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Beginning request phase.") /> 
 				
 				<cfset variables._requestPhases[i].execute(this) />
 				
-				<cfset this.trace(variables._requestPhases[i].name, "Request phase complete.") /> 
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Request phase complete.") /> 
 			</cfloop>
 		<cfelse>
 			<cfset executeEventQueue() />
@@ -164,7 +164,7 @@
 			<cfset setValue("exception", cfcatch) />
 			
 			<!--- Trace the exception.  Maybe people will like this ;) --->
-			<cfset trace("Exception", cfcatch) />
+			<cfset addTraceStatement("Exception", cfcatch) />
 			
 			<cfif structKeyExists(variables, "_modelGlue")>
 				<!--- If we're not running the exception handler, queue the exception handler. --->
@@ -210,7 +210,7 @@
 		<cfset cacheReq = variables._modelglue.cacheAdapter.get(cacheKey) />
 
 		<cfif cacheReq.success>
-			<cfset this.trace("Event Handler Cache", "Cached initial event handler used.", "Key: #cacheKey#") /> 
+			<cfset this.addTraceStatement("Event Handler Cache", "Cached initial event handler used.", "Key: #cacheKey#") /> 
 			<cfset this.addView(cacheReq.content.key, cacheReq.content.output) />
 		
 			<!--- Reset the queue --->
@@ -241,7 +241,7 @@
 	<cfloop condition="not isSimpleValue(variables._nextView)">
 		<cfset view = getNextView() />
 
-		<cfset this.trace("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
+		<cfset this.addTraceStatement("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
 
 		<cfset renderView(view) />
 	</cfloop>
@@ -257,7 +257,7 @@
 			<cfset variables._modelglue.cacheAdapter.put(cacheKey, cacheReq) />
 		</cfif>
 
-		<cfset this.trace("Event Handler Cache", "Caching initial event handler", "Key: #cacheKey#") /> 
+		<cfset this.addTraceStatement("Event Handler Cache", "Caching initial event handler", "Key: #cacheKey#") /> 
 	</cfif>
 </cffunction>
 
@@ -275,7 +275,7 @@
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
-	<cfset this.trace("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHAndler.name#"">") /> 
+	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHAndler.name#"">") /> 
 	
 	<!--- 
 		Invoke "" message broadcasts.  Code repeated for format, if necessary, to 
@@ -286,11 +286,11 @@
 		
 		<cfset variables._currentMessage = message />
 
-		<cfset this.trace("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
+		<cfset this.addTraceStatement("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
 
 		<cfif structKeyExists(variables._listeners, message.name)>
 			<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
-				<cfset this.trace("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
+				<cfset this.addTraceStatement("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
 				<!---
 				<cfset variables._listeners[message.name][j].invokeListener(this) />
 				--->
@@ -306,11 +306,11 @@
 			
 			<cfset variables._currentMessage = message />
 	
-			<cfset this.trace("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
+			<cfset this.addTraceStatement("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
 	
 			<cfif structKeyExists(variables._listeners, message.name)>
 				<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
-					<cfset this.trace("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
+					<cfset this.addTraceStatement("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
 					<cfset variables._listeners[message.name][j].invokeListener(this) />
 				</cfloop>
 			</cfif>
@@ -327,10 +327,10 @@
 				<cfset result = arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j] />
 				
 				<cfif result.redirect>
-					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
+					<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
-					<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queueing event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
+					<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, queueing event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 					<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results.cfNullKeyWorkaround[results[i]][j].event]) />
 				</cfif>
 			</cfloop>
@@ -344,10 +344,10 @@
 					<cfset result = arguments.eventHandler.results[requestFormat][results[i]][j] />
 					
 					<cfif result.redirect>
-						<cfset this.trace("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
+						<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
-						<cfset this.trace("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
+						<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, queing event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
 						<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[requestFormat][results[i]][j].event]) />
 					</cfif>
 				</cfloop>
@@ -363,10 +363,10 @@
 				<cfset result = results[i] />
 
 				<cfif result.redirect>
-					<cfset this.trace("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
+					<cfset this.addTraceStatement("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				<cfelse>
-					<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
+					<cfset this.addTraceStatement("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 					<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 				</cfif>
 		</cfloop>
@@ -380,10 +380,10 @@
 					<cfset result = results[i] />
 	
 					<cfif result.redirect>
-						<cfset this.trace("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
+						<cfset this.addTraceStatement("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
-						<cfset this.trace("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
+						<cfset this.addTraceStatement("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
 						<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
 					</cfif>
 			</cfloop>
@@ -470,7 +470,7 @@
 	<cfset var result = "" />
 	
 	
-	<cfset trace("Message Listener", "A named result ""#arguments.resultName#"" has been added.") />
+	<cfset addTraceStatement("Message Listener", "A named result ""#arguments.resultName#"" has been added.") />
 	
 	<cfloop list="#formatList#" index="format">
 		<cfif structkeyexists(eh.results, format) AND structKeyExists(eh.results[format], arguments.resultName)>	
@@ -478,7 +478,7 @@
 				<cfset result = eh.results[format][arguments.resultName][i] />
 				
 				<cfif result.redirect>
-					<cfset this.trace("Result", "Explicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
+					<cfset this.addTraceStatement("Result", "Explicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
 					<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 				</cfif>
 			</cfloop>
@@ -671,7 +671,7 @@
 	<cfset link.view = arguments.view />
 	<cfset link.next = "" />
 
-	<cfset trace("View Queue", "View queued: #view.template#") />
+	<cfset addTraceStatement("View Queue", "View queued: #view.template#") />
 	
 	<cfif not isStruct(variables._nextView)>
 		<cfset variables._nextView = link />
@@ -696,7 +696,7 @@
 	<cfloop condition="isStruct(variables._nextView)">
 		<cfset view = getNextView() />
 
-		<cfset this.trace("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
+		<cfset this.addTraceStatement("Views", "Rendering view ""#view.name#"" (#view.template#)", "<include name=""#view.name#"" template=""#view.template#"" />") /> 
 
 		<cfset renderView(view) />
 	</cfloop>
@@ -715,7 +715,7 @@
 	<cfreturn this.created />
 </cffunction>
 
-<cffunction name="trace" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
+<cffunction name="addTraceStatement" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
   <cfargument name="type" type="string" />
   <cfargument name="message" type="any" />
   <cfargument name="tag" type="string" default="" />

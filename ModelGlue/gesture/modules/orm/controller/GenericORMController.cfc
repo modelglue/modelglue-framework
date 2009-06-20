@@ -36,14 +36,14 @@
 	</cftry>
 	
 	<cfif not isObject(getOrmAdapter())>
-		<cfset arguments.event.trace("ORM", "No ORM adapter is configured.  You will not be able to scaffold or use generic database messages.") />
+		<cfset arguments.event.addTraceStatement("ORM", "No ORM adapter is configured.  You will not be able to scaffold or use generic database messages.") />
 	</cfif>
 </cffunction>
 
 <cffunction name="onRequestStart" access="public" output="false">
 	<cfargument name="event" />
 	<cfif not isObject(getOrmAdapter())>
-		<cfset arguments.event.trace("ORM", "No ORM adapter is configured.  You will not be able to scaffold or use generic database messages.") />
+		<cfset arguments.event.addTraceStatement("ORM", "No ORM adapter is configured.  You will not be able to scaffold or use generic database messages.") />
 	</cfif>
 </cffunction>
 
@@ -87,8 +87,6 @@
 			<cfset result = getOrmAdapter().list(table=table,criteria=criteria,gatewaymethod=arguments.event.getArgument("gatewayMethod"),gatewayBean=arguments.event.getArgument("gatewayBean")) />
 		</cfif>
 	</cfif>
-	
-	<cfset arguments.event.trace("genericList", result) />
 	
 	<cfset arguments.event.setValue(queryName, result) />
 </cffunction>
