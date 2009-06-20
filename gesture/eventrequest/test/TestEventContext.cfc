@@ -514,7 +514,7 @@
 
 	<cfset thread.sleep(100)>	
 
-	<cfset ec.trace("typeVal", "messageVal", "tagVal", "traceTypeVal") />
+	<cfset ec.addTraceStatement("typeVal", "messageVal", "tagVal", "traceTypeVal") />
 	
 	<cfset trace = ec.getTrace() />
 	
