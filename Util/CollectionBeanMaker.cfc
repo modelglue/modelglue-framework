@@ -25,7 +25,6 @@
 	</cfif>
 
 	<cfloop list="#arguments.fields#" index="i">
-		<cfdump var="#arguments.collection.getValue(i)#">
 		<cfif structKeyExists(instance, "Set#i#") and arguments.collection.Exists(i)>
 			<cfinvoke component="#instance#" method="Set#i#">
 				<cfinvokeargument name="#i#" value="#arguments.collection.getValue(i)#" />
