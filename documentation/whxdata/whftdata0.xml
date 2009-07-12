@@ -57,7 +57,7 @@
 <topic name="GetValue(name:string, [default:any])" url="Reference_Materials/Event_API/GetValue(name_string,__default_any_).htm" />
 <topic name="GetView(name:string)" url="Reference_Materials/Event_API/GetView(name_string).htm" />
 <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
-<topic name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+<topic name="addTraceStatement(name:string, value:any)" url="Reference_Materials/Event_API/addTraceStatement(name_string,_value_any).htm" />
 <topic name="ValueExists(string:name)" url="Reference_Materials/Event_API/ValueExists(string_name).htm" />
 <topic name="GetBean()" url="Reference_Materials/Model-Glue_API/GetBean().htm" />
 <topic name="GetConfigBean()" url="Reference_Materials/Model-Glue_API/GetConfigBean().htm" />

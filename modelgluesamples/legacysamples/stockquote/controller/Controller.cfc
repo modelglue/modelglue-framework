@@ -63,11 +63,11 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	
 	<cftry>
 		<cfset result = getFromCache("stockQuoteResult_" & symbol) />
-		<cfset arguments.event.trace("GetQuote()", "Retrieved quote for #symbol# from cache!") />
+		<cfset arguments.event.addTraceStatement("GetQuote()", "Retrieved quote for #symbol# from cache!") />
 		<cfcatch>
 			<cfset result = QuoteGetter.GetQuote(symbol) />
 			<cfset addToCache("stockQuoteResult_" & symbol, result) />
-			<cfset arguments.event.trace("GetQuote()", "Added quote for #symbol# to cache!") />
+			<cfset arguments.event.addTraceStatement("GetQuote()", "Added quote for #symbol# to cache!") />
 		</cfcatch>
 	</cftry>
 	

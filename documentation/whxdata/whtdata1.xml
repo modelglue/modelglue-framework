@@ -75,7 +75,7 @@
   <item name="GetValue(name:string, [default:any])" url="Reference_Materials/Event_API/GetValue(name_string,__default_any_).htm" />
   <item name="GetView(name:string)" url="Reference_Materials/Event_API/GetView(name_string).htm" />
   <item name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
-  <item name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+  <item name="addTraceStatement(name:string, value:any)" url="Reference_Materials/Event_API/addTraceStatement(name_string,_value_any).htm" />
   <item name="ValueExists(string:name)" url="Reference_Materials/Event_API/ValueExists(string_name).htm" />
 </book>
 <book name="View API" >

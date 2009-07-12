@@ -295,7 +295,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	      <cfset stateContainer.setValue("exception", cfcatch) />
 	      <cfset exceptionRequest = createObject("component", "ModelGlue.unity.eventrequest.EventRequest").init(getStateBuilder(), stateContainer, arguments.eventRequest.getLog()) />
 	      <cfset exceptionRequest.addEventHandler(getEventHandler(getConfigSetting("defaultExceptionHandler"))) />
-				<cfset arguments.eventRequest.trace("<font color=""red""><strong>Exception</strong></font>", "An exception has been thrown and is being handled by the default exception handler.") />
+				<cfset arguments.eventRequest.addTraceStatement("<font color=""red""><strong>Exception</strong></font>", "An exception has been thrown and is being handled by the default exception handler.") />
 	      <cfset result = runEventRequest(exceptionRequest) />
 	    </cfif>
 	  </cfcatch>
@@ -377,12 +377,12 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var k = "" />
 	<cfset var l = "" />
 	
-  <cfset arguments.eventRequest.trace("Event Handler", "Running Event Handler: ""#arguments.eventHandler.getName()#""", "&lt;event-handler name=""#arguments.eventHandler.getName()#""&gt;") />
+  <cfset arguments.eventRequest.addTraceStatement("Event Handler", "Running Event Handler: ""#arguments.eventHandler.getName()#""", "&lt;event-handler name=""#arguments.eventHandler.getName()#""&gt;") />
 	<!--- Broadcast messages --->	
 	<cfloop from="1" to="#arrayLen(messageNames)#" index="i">
 		<cfset messages = arguments.eventHandler.getMessage(messageNames[i]) />
 		<cfloop from="1" to="#arrayLen(messages)#" index="j">
-	    <cfset arguments.eventRequest.trace("Message Broadcast", "Broadcasting message: #messages[j].getName()#", "&lt;message name=""#messages[j].getName()#"" /&gt;") />
+	    <cfset arguments.eventRequest.addTraceStatement("Message Broadcast", "Broadcasting message: #messages[j].getName()#", "&lt;message name=""#messages[j].getName()#"" /&gt;") />
 			<cfset eventContext = arguments.eventRequest.createEventContext(messages[j], arguments.eventHandler, this, variables._beanMaker) />
 			<cfset variables._messageBroadcaster.broadcast(eventContext) />
 			<cfset eventResults = eventContext.getResults() />
@@ -391,7 +391,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	        <cfset mapping = resultMappings[eventResults[k]]>
 	        <cfloop from="1" to="#arrayLen(mapping)#" index="l">
 	 	        <cfset arguments.eventRequest.addEventHandler(getEventHandler(mapping[l].event)) />
-	   	      <cfset arguments.eventRequest.trace("Result", "Event ""#eventName#""'s result of ""#eventResults[k]#"" has queued the ""#mapping[l].event#"" event-handler", "&lt;result name=""#eventResults[k]#"" do=""#mapping[l].event#"" /&gt;") />
+	   	      <cfset arguments.eventRequest.addTraceStatement("Result", "Event ""#eventName#""'s result of ""#eventResults[k]#"" has queued the ""#mapping[l].event#"" event-handler", "&lt;result name=""#eventResults[k]#"" do=""#mapping[l].event#"" /&gt;") />
 	 	      </cfloop>
 	 	    <cfelse>
 	 	      <cfthrow message="Model-Glue: Result has no mapping" detail="The result ""#eventResults[k]#"" from the event ""#eventName#"" has no matching &lt;result&gt; tag." />
@@ -420,7 +420,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	
   <!--- Queue views --->
   <cfloop to="1" from="#arrayLen(views)#" index="i" step="-1">
-    <cfset arguments.eventRequest.trace("View Include", "Adding view ""#views[i].getName()#"" to the view queue.", "&lt;include name=""#views[i].getName()#"" template=""#views[i].getTemplate()#"" /&gt;") />
+    <cfset arguments.eventRequest.addTraceStatement("View Include", "Adding view ""#views[i].getName()#"" to the view queue.", "&lt;include name=""#views[i].getName()#"" template=""#views[i].getTemplate()#"" /&gt;") />
     <cfset arguments.eventRequest.addView(views[i]) />
   </cfloop>
 
@@ -446,7 +446,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
     <cfset templateExists = false />
     <cfloop list="#viewMappings#" index="i">
       <cfif fileExists(expandPath(i) & "/" & thisView.getTemplate())>
-        <cfset arguments.eventRequest.trace("View Queue", "Rendering view ""#thisView.getName()#"" (#i & "/" & thisView.getTemplate()#)", "&lt;include name=""#thisView.getName()#"" template=""#thisView.getTemplate()#"" /&gt;") />
+        <cfset arguments.eventRequest.addTraceStatement("View Queue", "Rendering view ""#thisView.getName()#"" (#i & "/" & thisView.getTemplate()#)", "&lt;include name=""#thisView.getName()#"" template=""#thisView.getTemplate()#"" /&gt;") />
         <cfset content = viewRenderer.renderView(arguments.eventRequest.getStateContainer(), viewCollection, i & "/" & thisView.getTemplate(), thisView.getValues()) />
         <cfset viewCollection.addRenderedView(thisView.getName(), content, thisView.getAppend()) />
         <cfset templateExists = true />

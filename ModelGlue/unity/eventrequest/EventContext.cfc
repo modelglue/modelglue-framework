@@ -150,7 +150,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
     <cfreturn structKeyExists(variables._arguments, arguments.name) />
   </cffunction>
 
-  <cffunction name="Trace" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
+  <cffunction name="addTraceStatement" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
     <cfargument name="name" type="string" required="true" />
     <cfargument name="value" type="any" required="true" />
     <cfargument name="tag" type="string" required="false" default="" />
@@ -163,7 +163,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 			<cfsavecontent variable="message"><cfdump var="#arguments.value#"></cfsavecontent>
 		</cfif>
 
-		<cfset variables._eventRequest.trace(arguments.name, message, arguments.tag, arguments.type) />
+		<cfset variables._eventRequest.addTraceStatement(arguments.name, message, arguments.tag, arguments.type) />
   </cffunction>
 
   <cffunction name="GetTrace" access="private" returnType="array" output="false" hint="I return the tracelog.">
@@ -228,7 +228,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 			</cfif>
 		</cfloop>
 
-		<cfset variables._eventRequest.trace("Forward", "The request is being forwarded/redirected to the ""#arguments.event#"" event-handler.") />
+		<cfset variables._eventRequest.addTraceStatement("Forward", "The request is being forwarded/redirected to the ""#arguments.event#"" event-handler.") />
 
 		<cflocation url="#stateContainer.getValue("myself")##arguments.event##appendedState##anchor#" addToken="false" />
 	</cffunction>

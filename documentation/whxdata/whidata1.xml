@@ -10,7 +10,7 @@
   <topic name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
 </key>
 <key name="Cfdump" >
-  <topic name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+  <topic name="addTraceStatement(name:string, value:any)" url="Reference_Materials/Event_API/addTraceStatement(name_string,_value_any).htm" />
   <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
   <topic name="Using modelglue.GenericList" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericList.htm" />
   <topic name="Using modelglue.GenericRead" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericRead.htm" />
@@ -114,7 +114,7 @@
   <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
   <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
 </key>
-<key name="Cfset arguments.event.trace" >
+<key name="Cfset arguments.event.addTraceStatement" >
   <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
   <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
 </key>

@@ -98,7 +98,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
     <cfreturn variables.output />
   </cffunction>
 
-  <cffunction name="Trace" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
+  <cffunction name="addTraceStatement" access="public" returnType="Void" output="false" hint="I add a message to the trace log.">
     <cfargument name="type" type="string" required="true" />
     <cfargument name="message" type="string" required="true" />
     <cfargument name="tag" type="string" required="false" default="" />

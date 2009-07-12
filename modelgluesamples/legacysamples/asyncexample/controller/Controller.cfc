@@ -73,7 +73,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var pos = arguments.event.getValue("pos")>
 	<cfset var req = getModelGlue().getAsyncRequests("CountToNumber") />
 
-	<cfset arguments.event.trace("RemoveCount", "Removing count #pos# of #arrayLen(req.getRequests())#") />
+	<cfset arguments.event.addTraceStatement("RemoveCount", "Removing count #pos# of #arrayLen(req.getRequests())#") />
 	<cfif isNumeric(pos)>
 		<cfset req.RemoveRequest(pos) />
 	</cfif>

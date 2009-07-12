@@ -50,7 +50,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfif not arrayLen(listeners)
 		and not listFindNoCase("onRequestStart,onRequestEnd,onQueueComplete", messageName)
 	>	
-		<cfset eventContext.trace("Message with No Listeners", "The message ""<strong>#messageName#</strong>"" is being broadcast, but has no listeners.", "<message name=""#messageName#"" />", "WARNING") />
+		<cfset eventContext.addTraceStatement("Message with No Listeners", "The message ""<strong>#messageName#</strong>"" is being broadcast, but has no listeners.", "<message name=""#messageName#"" />", "WARNING") />
 	</cfif>
 	
 	<cfloop from="1" to="#arrayLen(listeners)#" index="i">

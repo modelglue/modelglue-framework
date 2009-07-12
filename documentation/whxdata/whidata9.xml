@@ -165,8 +165,8 @@
 <key name="To Use Scaffolds" >
   <topic name="How To Use Scaffolds" url="How_To_s/How_To_Use_Scaffolds/How_To_Use_Scaffolds.htm" />
 </key>
-<key name="Trace" >
-  <topic name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+<key name="addTraceStatement" >
+  <topic name="addTraceStatement(name:string, value:any)" url="Reference_Materials/Event_API/addTraceStatement(name_string,_value_any).htm" />
 </key>
 <key name="TransationForm" >
   <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
