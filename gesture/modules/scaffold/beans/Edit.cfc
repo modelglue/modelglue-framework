@@ -49,17 +49,17 @@
 	<cfreturn  ('<cfsilent>
 <<cfoutput>>
 	<cfset event.copyToScope( variables, "#copyToScopeList#" )/>
-	<cfset commitEvent = "##myself####xe.commit##%makeBeanSourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%" />
-	<cfset editEvent = myself & xe.edit  />
-	<cfset listEvent = myself & xe.list  />
-	<cfset hasErrors = false />
-	<cfset validation = event.getValue("%Metadata.alias%Validation", structNew() ) />
-	<cfset isNew = true />
+	<cfset variables.commitEvent = "##myself####xe.commit##%makeBeanSourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%" />
+	<cfset variables.editEvent = myself & xe.edit  />
+	<cfset variables.listEvent = myself & xe.list  />
+	<cfset variables.hasErrors = false />
+	<cfset variables.validation = event.getValue("%Metadata.alias%Validation", structNew() ) />
+	<cfset variables.isNew = true />
 	<cfif NOT structIsEmpty( validation ) >
-		<cfset hasErrors = true />
+		<cfset variables.hasErrors = true />
 	</cfif>	
 	<cfif  %makePrimaryKeyCheckForIsNew( Metadata.alias, Metadata.primaryKeyList )% >
-		<cfset isNew = false />
+		<cfset variables.isNew = false />
 	</cfif>
 </cfsilent>
 	
@@ -70,7 +70,7 @@
 <cfif hasErrors IS true>
 <h2>Submission Errors</h2>
 <ul>
-	<cfloop collection="##validation##" item="field">
+	<cfloop collection="##validation##" item="variables.field">
 	<li>##arrayToList(validation["##field##"])##</li>
 	</cfloop>
 </ul>
@@ -79,7 +79,7 @@
 <table>
 <cfform action="##commitEvent##" class="edit">
 %makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
-    <<cfloop list="%Metadata.orderedPropertyList%"  index="thisProp">>
+    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 		<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false>>
 		<tr>	
         	<td>%spaceCap( thisProp )%</td><td><input type="text" name="%thisProp%" value="##%Metadata.alias%Record.get%thisProp%()##"></td>

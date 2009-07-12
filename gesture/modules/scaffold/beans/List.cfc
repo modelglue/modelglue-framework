@@ -56,17 +56,17 @@
 <<cfoutput>>
 <cfsilent>
 	<cfset event.copyToScope( variables, "#copyToScopeList#" )/>
-	<cfset deleteEvent = myself & xe.delete  />
-	<cfset editEvent = myself & xe.edit  />
-	<cfset listEvent = myself & xe.list  />
-	<cfset viewEvent = myself & xe.view  />
+	<cfset variables.deleteEvent = myself & xe.delete  />
+	<cfset variables.editEvent = myself & xe.edit  />
+	<cfset variables.listEvent = myself & xe.list  />
+	<cfset variables.viewEvent = myself & xe.view  />
 </cfsilent>
 <cfoutput>
 <div id="breadcrumb"><a href="##listEvent##">%spaceCap( Metadata.alias )%</a></div>
 <br />
 <table>
 	<tr>
-	 <<cfloop list="%Metadata.orderedPropertyList%"  index="thisProp">>
+	 <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 	 	<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false>>
  			<th>%spaceCap(thisProp)%</th>
 		<</cfif>>
@@ -76,7 +76,7 @@
 	</tr>
     <cfloop query="%Metadata.alias%Query">
 		<tr>	
-    <<cfloop list="%Metadata.orderedPropertyList%"  index="thisProp">>
+    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 		<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false>>
         	<td><a href="##viewEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%">##%Metadata.alias%Query.%thisProp%##</a></td>
 		<</cfif>>

@@ -49,14 +49,14 @@
 <<cfoutput>>
 <cfsilent>
 	<cfset event.copyToScope( variables, "myself,%Metadata.alias%record,xe.list") />
-	<cfset listEvent = myself & xe.list  />
+	<cfset variables.listEvent = myself & xe.list  />
 </cfsilent>
 <cfoutput>
 <div id="breadcrumb"><a href="##listEvent##">%spaceCap( Metadata.alias )%</a> / View %spaceCap( Metadata.alias )%</div>
 <br />
 <cfform class="edit"> 
 <fieldset>
-    <<cfloop collection="%Metadata.properties%" item="element">>
+    <<cfloop collection="%Metadata.properties%" item="variables.element">>
         <div class="formfield">
 	        <label for="%Metadata.properties[element].name%"><b>%Metadata.properties[element].label%:</b></label>
 	        <span class="input">##%Metadata.alias%Record.get%Metadata.properties[element].name%()##</span>
