@@ -1,0 +1,53 @@
+<modelglue>
+	<event-handlers>
+		<scaffold object="widget.Widget">
+			<results>
+				<result do="view.template" />
+			</results>
+		</scaffold>
+		
+		<scaffold object="widget.WidgetType">
+			<results>
+				<result do="view.template" />
+			</results>
+		</scaffold>
+
+		<scaffold object="widget.WidgetCategory">
+			<results>
+				<result do="view.template" />
+			</results>
+		</scaffold>
+
+		<event-handler name="page.index">
+			<broadcasts /> 
+			<results>
+				<result do="view.template" />
+			</results>
+			<views>
+				<include name="body" template="dspIndex.cfm" />
+			</views>
+		</event-handler>
+
+		<event-handler name="view.template">
+			<broadcasts>
+				<message name="modelGlue.genericList">
+					<argument name="object" value="widget.WidgetType" />
+					<argument name="gatewayBean" value="widgetTypeGateway" />
+					<argument name="gatewayMethod" value="listWidgetCount" />
+					<argument name="queryName" value="widgetCountsByType" />
+				</message>
+			</broadcasts>
+			<results />
+			<views>
+				<include name="template" template="dspTemplate.cfm" />
+			</views>
+		</event-handler>
+
+		<event-handler name="exception">
+			<broadcasts />
+			<views>
+				<include name="body" template="dspException.cfm" />
+			</views>
+		</event-handler>
+	</event-handlers>
+</modelglue>

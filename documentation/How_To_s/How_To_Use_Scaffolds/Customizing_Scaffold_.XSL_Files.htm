@@ -1,0 +1,178 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Customizing Scaffold .XSL Files</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+ol.whs1 { list-style:decimal; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("How To's\nHow To Use Scaffolds\nCustomizing Scaffold .XSL Files");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Customizing Scaffold .XSL Files</h1>
+
+<p>It's possible to entirely change the View CFML that scaffold tags generate. 
+ &nbsp;All involve 
+ editing .XSL files, which is way beyond the scope of this guide, but not 
+ altogether complicated.</p>
+
+<p>&nbsp;</p>
+
+<p>There are three ways to customize the .XSL:</p>
+
+<p>&nbsp;</p>
+
+<h2>Editing Default .XSL files</h2>
+
+<p>If you explore the /ModelGlue/unity/xsl directory, you'll see that there 
+ are .XSL files that define the CFML to be generated when a like-named 
+ scaffold is added to an application.</p>
+
+<p>&nbsp;</p>
+
+<p>Editing these directly changes the behavior of all of your Model-Glue 
+ applications.</p>
+
+<p>&nbsp;</p>
+
+<h2>Creating New .XSL files</h2>
+
+<p>By creating your own .XSL files, you can again change the behavior of 
+ all scaffolds in all Model-Glue applications. &nbsp;To 
+ &quot;tell&quot; a given scaffold to use your custom .XSL file, do the 
+ following:</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs1">
+	
+	<li class=kadov-p><p>Open /ModelGlue/unity/config/Configuration.xml</p></li>
+	
+	<li class=kadov-p><p>Find the &quot;eventHandlerFactory&quot; bean</p></li>
+	
+	<li class=kadov-p><p>In the map that defines the EventHandlerTypes 
+ constructor argument, change the .xsl files listed to point to your custom 
+ .XSL files</p></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>Editing these directly changes the behavior of all of your Model-Glue 
+ applications.</p>
+
+<p>&nbsp;</p>
+
+<h2>Application-specific .XSL files</h2>
+
+<p>To change the .XSL files used by a single Model-Glue applications, copy 
+ the entire EventHandlerFactory bean from /ModelGlue/unity/config/Configuration.xml 
+ into your application's ColdSpring.xml file.</p>
+
+<p>&nbsp;</p>
+
+<p>Then, follow the instructions in &quot;Creating New .XSL Files,&quot; 
+ editing your ColdSpring.xml's EventHandlerFactory settings instead of 
+ those found in /ModelGlue/unity/config/Configuration.xml.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C02000200004170706C69636174696F6E2D73706563696669630A43464D4C0A43464D4C09646566696E650A436F6C64537072696E672E786D6C2773204576656E7448616E646C6572466163746F72790A436F6C64537072696E672E786D6C2066696C650A4372656174696E670A4372656174696E67094E65770A4372656174696E67204E65770A437573746F6D697A696E670A437573746F6D697A696E670953636166666F6C640A44656661756C74730A44656661756C74730945646974696E670A446566696E65730A446566696E65730943464D4C0A446566696E6573094576656E7448616E646C657254797065730A45646974696E670A45646974696E670944656661756C740A4576656E7448616E646C6572466163746F72790A4576656E7448616E646C657254797065730A4576656E7448616E646C6572547970657309646566696E65730A4D6F64656C2D476C75650A4D6F64656C476C75652F756E6974792F636F6E6669672F436F6E66696775726174696F6E2E786D6C0A4D6F64656C476C75652F756E6974792F78736C0A4E65770A4E6577094372656174696E670A4F70656E202F4D6F64656C476C75652F756E6974792F636F6E6669672F436F6E66696775726174696F6E2E786D6C0A53636166666F6C640A53636166666F6C6409437573746F6D697A696E670A5573650A566965770A58534C0A58534C2046696C65730D021F000000437573746F6D697A696E672053636166666F6C64202E58534C2046696C6573110214000000486F7720546F205573652053636166666F6C647312021F000000437573746F6D697A696E672053636166666F6C64202E58534C2046696C657313020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

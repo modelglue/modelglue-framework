@@ -1,0 +1,59 @@
+<modelglue>
+  <config>
+    <setting name="defaultEvent" value="Home" />
+    <setting name="reload" value="false" />
+    <setting name="reloadKey" value="init" />
+    <setting name="reloadPassword" value="true" />
+    <setting name="statePrecedence" value="Form" />
+    <setting name="eventValue" value="event" />
+    <setting name="applicationMapping" value="/modelgluesamples/legacysamples/subapplications" />
+    <setting name="modelGlueMapping" value="/ModelGlue" />
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/subapplications/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/subapplications/views" />
+  	<setting name="defaultExceptionHandler" value="Exception" />
+    <setting name="debug" value="true" />
+    <setting name="defaultCacheTimeout" value="5" />
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.subapplications.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <!-- Event-Handler Template
+      <broadcasts>
+        <message name="DoSomething">
+          <argument name="SampleArg" value="iAmASampleArgument" />
+        </message>
+      </broadcasts>
+      <views>
+        <include name="body" template="page.cfm" append="false">
+					<value name="SomeValue" value="I am a value available in Viewstate" overwrite="false" />
+      </views>
+      <results>
+      	<result name="resultValue" do="EventHandlerName" />
+      	<result name="failure" do="Exception" />
+      </results>
+		--> 
+    
+    <event-handler name="Home">
+      <broadcasts />
+      <views>
+      	<include name="body" template="dsp.body.cfm" />
+				<include name="main" template="layout.main.cfm" />
+      </views>
+      <results />
+    </event-handler>
+    
+    <event-handler name="Exception">
+      <broadcasts />
+			<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+      <results />
+		</event-handler>
+  </event-handlers>
+</modelglue>

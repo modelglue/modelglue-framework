@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<indexdata>
+<key name="SELECT" >
+  <topic name="How To Use Generic Database Messages" url="How_To_s/How_To_Use_Generic_Database_Messages/How_To_Use_Generic_Database_Messages.htm" />
+</key>
+<key name="Self-explanatory" >
+  <topic name="Upgrader's Guide" url="Upgrading_From_Model-Glue_1/Upgrader_s_Guide.htm" />
+</key>
+<key name="SendEmail" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Servername" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  <key name="store" >
+    <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  </key>
+</key>
+<key name="Set" >
+  <topic name="Debug" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Debug.htm" />
+  <topic name="Quickstart" url="Quickstart/Quickstart.htm" />
+  <topic name="Reload" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Reload.htm" />
+  <topic name="Rescaffold" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Rescaffold.htm" />
+  <topic name="StatePrecedence" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/StatePrecedence.htm" />
+  <key name="documetnation" >
+    <topic name="Quickstart" url="Quickstart/Quickstart.htm" />
+  </key>
+  <key name="FALSE" >
+    <topic name="Reload" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Reload.htm" />
+  </key>
+  <key name="FORM" >
+    <topic name="StatePrecedence" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/StatePrecedence.htm" />
+  </key>
+  <key name="RESCAFFOLD" >
+    <topic name="Rescaffold" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Rescaffold.htm" />
+  </key>
+  <key name="TRUE" >
+    <topic name="Debug" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Debug.htm" />
+    <topic name="Reload" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Reload.htm" />
+    <topic name="Rescaffold" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Rescaffold.htm" />
+  </key>
+  <key name="URL" >
+    <topic name="StatePrecedence" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/StatePrecedence.htm" />
+  </key>
+</key>
+<key name="Set.”  For" >
+  <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+</key>
+<key name="SetConfig" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Setter”" >
+  <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+</key>
+<key name="SetValue" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="Site-Wide Template" >
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+  <key name="Adding" >
+    <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+  </key>
+</key>
+<key name="Sitewide" >
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+  <topic name="Using Broadcasts, Results and Views in Scaffolds" url="How_To_s/How_To_Use_Scaffolds/Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm" />
+</key>
+<key name="SomeArgument" >
+  <topic name="GetArgument(name:string, [default:any])" url="Reference_Materials/Event_API/GetArgument(name_string,__default_any_).htm" />
+</key>
+<key name="SomePage" >
+  <topic name="EventValue" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/EventValue.htm" />
+</key>
+<key name="SomeValue" >
+  <topic name="GetArgument(name:string, [default:any])" url="Reference_Materials/Event_API/GetArgument(name_string,__default_any_).htm" />
+</key>
+<key name="Special Behavior" >
+  <topic name="&lt;setting&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_setting_.htm" />
+</key>
+<key name="Specific Event Handlers" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+  <key name="Adding" >
+    <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+  </key>
+</key>
+<key name="Specific Properties" >
+  <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+  <key name="Committing" >
+    <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+  </key>
+</key>
+<key name="Specific Record" >
+  <topic name="Using modelglue.GenericRead" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericRead.htm" />
+  <key name="Reading" >
+    <topic name="Using modelglue.GenericRead" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericRead.htm" />
+  </key>
+</key>
+<key name="StatePrecedence" >
+  <topic name="StatePrecedence" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/StatePrecedence.htm" />
+</key>
+<key name="Store" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  <key name="servername" >
+    <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  </key>
+</key>
+<key name="Struct" >
+  <topic name="GetAllArguments()" url="Reference_Materials/Event_API/GetAllArguments.htm" />
+  <topic name="GetAllValues()" url="Reference_Materials/Event_API/GetAllValues().htm" />
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  <topic name="Viewstate.GetAll()" url="Reference_Materials/View_API/Viewstate.GetAll().htm" />
+  <key name="represents" >
+    <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  </key>
+</key>
+<key name="Subdirectory" >
+  <topic name="Project" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/Project.htm" />
+  <key name="name" >
+    <topic name="Project" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/Project.htm" />
+  </key>
+</key>
+<key name="Subj" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Table.commit" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+</key>
+<key name="Table.delete" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+</key>
+<key name="Table.edit" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+</key>
+<key name="Table.list" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+</key>
+<key name="Table.view" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+</key>
+<key name="TEMPLATE" >
+  <topic name="&lt;include&gt; (child tag of &lt;views&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include__(child_tag_of__modelglue_).htm" />
+  <topic name="&lt;result&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_result_.htm" />
+</key>
+<key name="That's" >
+  <topic name="Quickstart 1: Creating a New Application" url="Quickstart/Quickstart_1__Creating_a_New_Application.htm" />
+</key>
+<key name="That's OK" >
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+</key>
+<key name="Timeout" >
+  <topic name="AddToCache(name:string, value:any, [timeout:numeric])" url="Reference_Materials/Controller_API/AddToCache(name_string,_value_any,__timeout_numeric_).htm" />
+  <topic name="DefaultCacheTimeout" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultCacheTimeout.htm" />
+</key>
+<key name="To Add" >
+  <topic name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+  <key name="Scaffold" >
+    <topic name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+  </key>
+</key>
+<key name="To Add Custom Configuration" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="To Use Generic Database Messages" >
+  <topic name="How To Use Generic Database Messages" url="How_To_s/How_To_Use_Generic_Database_Messages/How_To_Use_Generic_Database_Messages.htm" />
+</key>
+<key name="To Use Scaffolds" >
+  <topic name="How To Use Scaffolds" url="How_To_s/How_To_Use_Scaffolds/How_To_Use_Scaffolds.htm" />
+</key>
+<key name="Trace" >
+  <topic name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+</key>
+<key name="TransationForm" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="Translated Phrase" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="TranslatedPhrase" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+</key>
+<key name="TranslateForm" >
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+</key>
+<key name="TranslatePhrase" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+  <key name="write" >
+    <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  </key>
+</key>
+<key name="TranslatePhrase Results" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+</key>
+<key name="TranslationForm" >
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+</key>
+<key name="TranslationForm#&quot;&gt;Translate Again.&lt;/a" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="TranslationFormAction" >
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+</key>
+
+</indexdata>

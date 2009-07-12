@@ -1,0 +1,6 @@
+<?xml version='1.0'?>
+<SkinInstructions xmlns="http://www.ehelp.com/mrs/xml/skin/instruction/">
+ <Templates>
+  <Template Moniker="startpage" URL="whskin_ep_start.htm" Type="file"/>
+ </Templates>
+</SkinInstructions>

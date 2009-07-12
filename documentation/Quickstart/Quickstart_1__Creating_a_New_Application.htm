@@ -1,0 +1,156 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Quickstart 1: Creating a New Application</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+ol.whs1 { list-style:decimal; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Quickstart\nQuickstart 1: Creating a New Application");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Quickstart 1: Creating a New Application</h1>
+
+<p>All Model-Glue applications start by creating a new copy of the &quot;application 
+ template.&quot; &nbsp;That's 
+ the directory named &quot;modelglueapplicationtemplate&quot; that came 
+ in your Model-Glue .zip.</p>
+
+<p>&nbsp;</p>
+
+<p>To deploy a new copy of the template, follow these steps:</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs1">
+	
+	<li class=kadov-p><p>Create a new directory called &quot;translator&quot; 
+ under your Web root.</p></li>
+	
+	<li class=kadov-p><p>Copy the contents of the /modelglueapplicationtemplate 
+ directory to the /translator directory.</p></li>
+	
+	<li class=kadov-p><p>Open /translator/config/ColdSpring.xml</p></li>
+	
+	<li class=kadov-p><p>Do a find and replace, changing &quot;modelglueapplicationtemplate&quot; 
+ to &quot;translator&quot;</p></li>
+	
+	<li class=kadov-p><p>Open /translator/config/ModelGlue.xml</p></li>
+	
+	<li class=kadov-p><p>Do a find and replace, changing &quot;modelglueapplicationtemplate&quot; 
+ to &quot;translator&quot;</p></li>
+	
+	<li class=kadov-p><p>Open /translator/Application.cfm</p></li>
+	
+	<li class=kadov-p><p>Do a find and replace, changing &quot;modelglueapplicationtemplate&quot; 
+ to &quot;translator&quot;</p></li>
+	
+	<li class=kadov-p><p>Open http://localhost/translator. &nbsp;You'll 
+ get a message saying that &quot;Model-Glue is up and running!&quot; &nbsp;If 
+ you don't, and you can't figure out why, now's a good time to sign up 
+ for the <a href="http://lists.topica.com/lists/modelglue">Model-Glue listserv</a> 
+ and post a question.</p></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C020B0100004372656174696E670A4372656174696E67094E6577204170706C69636174696F6E0A4C6F63616C686F73742F7472616E736C61746F720A4D6F64656C2D476C75650A4D6F64656C676C75656170706C69636174696F6E74656D706C6174650A4E6577204170706C69636174696F6E0A4E6577204170706C69636174696F6E094372656174696E670A4F70656E202F7472616E736C61746F722F4170706C69636174696F6E2E63666D0A4F70656E202F7472616E736C61746F722F636F6E6669672F436F6C64537072696E672E786D6C0A4F70656E202F7472616E736C61746F722F636F6E6669672F4D6F64656C476C75652E786D6C0A517569636B73746172740A5468617427730A5765620D0228000000517569636B737461727420313A204372656174696E672061204E6577204170706C69636174696F6E11020A000000517569636B7374617274120228000000517569636B737461727420313A204372656174696E672061204E6577204170706C69636174696F6E13020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

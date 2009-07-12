@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<tocdata>
+<item name="Reference Materials" url="Reference_Materials/Reference_Materials.htm" />
+<book name="Model-Glue XML Reference" >
+  <item name="ModelGlue XML Reference" url="Reference_Materials/Model-Glue_XML_Reference/ModelGlue_XML_References.htm" />
+  <book name="Tags" >
+    <item name="&lt;argument&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_argument_.htm" />
+    <item name="&lt;broadcasts&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_broadcasts_.htm" />
+    <item name="&lt;config&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_config_.htm" />
+    <item name="&lt;controller&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_controller_.htm" />
+    <item name="&lt;controllers&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_message-listener_.htm" />
+    <item name="&lt;event-handler&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_event-handler_.htm" />
+    <item name="&lt;event-handlers&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_event-handlers_.htm" />
+    <item name="&lt;include&gt; (child tag of &lt;modelglue&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include_.htm" />
+    <item name="&lt;include&gt; (child tag of &lt;views&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include__(child_tag_of__modelglue_).htm" />
+    <item name="&lt;message-listener&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_controllers_.htm" />
+    <item name="&lt;message&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_message_.htm" />
+    <item name="&lt;modelglue&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_modelglue_.htm" />
+    <item name="&lt;result&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_result_.htm" />
+    <item name="&lt;results&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_results_.htm" />
+    <item name="&lt;scaffold&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_scaffold_.htm" />
+    <item name="&lt;setting&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_setting_.htm" />
+    <item name="&lt;value&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_value_.htm" />
+    <item name="&lt;views&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_views_.htm" />
+  </book>
+</book>
+<book name="ColdSpring XML Reference" >
+  <item name="ColdSpring XML Reference" url="Reference_Materials/ColdSpring_XML_Reference/ColdSpring_XML_Reference.htm" />
+  <book name="Model-Glue Configuration Setting Definitions" >
+    <item name="Model-Glue Configuration Setting Definitions" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Configuration_Setting_Definitions.htm" />
+    <item name="Debug" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Debug.htm" />
+    <item name="DefaultCacheTimeout" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultCacheTimeout.htm" />
+    <item name="DefaultExceptionHandler" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultExceptionHandler.htm" />
+    <item name="DefaultScaffolds" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultScaffolds.htm" />
+    <item name="DefaultTemplate" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultTemplate.htm" />
+    <item name="EventValue" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/EventValue.htm" />
+    <item name="GeneratedViewMapping" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/GeneratedViewMapping.htm" />
+    <item name="Reload" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Reload.htm" />
+    <item name="ReloadKey" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadKey.htm" />
+    <item name="ReloadPassword" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadPassword.htm" />
+    <item name="Rescaffold" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/Rescaffold.htm" />
+    <item name="StatePrecedence" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/StatePrecedence.htm" />
+    <item name="ViewMappings" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ViewMappings.htm" />
+  </book>
+  <book name="Reactor Configuration Setting Definitions" >
+    <item name="DSN" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/DSN.htm" />
+    <item name="Mapping" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/Mapping.htm" />
+    <item name="New Topic" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/New_Topic.htm" />
+    <item name="PathToConfigXML" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/PathToConfigXML.htm" />
+    <item name="Project" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/Project.htm" />
+    <item name="Type" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/Type.htm" />
+  </book>
+</book>
+<book name="Controller API" >
+  <item name="Controller API" url="Reference_Materials/Controller_API/Controller_API.htm" />
+  <item name="Adding a Message Listener Function" url="Reference_Materials/Controller_API/Adding_a_Message_Listener_Function.htm" />
+  <item name="AddToCache(name:string, value:any, [timeout:numeric])" url="Reference_Materials/Controller_API/AddToCache(name_string,_value_any,__timeout_numeric_).htm" />
+  <item name="GetFromCache(name:string)" url="Reference_Materials/Controller_API/GetFromCache(name_string).htm" />
+  <item name="GetModelGlue()" url="Reference_Materials/Controller_API/GetModelGlue().htm" />
+</book>
+<book name="Model-Glue API" >
+  <item name="Model-Glue API" url="Reference_Materials/Model-Glue_API/Model-Glue_API.htm" />
+  <item name="GetBean()" url="Reference_Materials/Model-Glue_API/GetBean().htm" />
+  <item name="GetConfigBean()" url="Reference_Materials/Model-Glue_API/GetConfigBean().htm" />
+  <item name="GetOrmService()" url="Reference_Materials/Model-Glue_API/GetOrmService().htm" />
+</book>
+<book name="Event API" >
+  <item name="Event API" url="Reference_Materials/Event_API/Event_API.htm" />
+  <item name="AddResult(name:string)" url="Reference_Materials/Event_API/AddResult(name_string).htm" />
+  <item name="ArgumentExists(string:name)" url="Reference_Materials/Event_API/ArgumentExists.htm" />
+  <item name="Forward(eventhandler:string [, append:list])" url="Reference_Materials/Event_API/Forward(eventhandler_string__,_append_list_).htm" />
+  <item name="GetAllArguments()" url="Reference_Materials/Event_API/GetAllArguments.htm" />
+  <item name="GetAllValues()" url="Reference_Materials/Event_API/GetAllValues().htm" />
+  <item name="GetArgument(name:string, [default:any])" url="Reference_Materials/Event_API/GetArgument(name_string,__default_any_).htm" />
+  <item name="GetValue(name:string, [default:any])" url="Reference_Materials/Event_API/GetValue(name_string,__default_any_).htm" />
+  <item name="GetView(name:string)" url="Reference_Materials/Event_API/GetView(name_string).htm" />
+  <item name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+  <item name="Trace(name:string, value:any)" url="Reference_Materials/Event_API/Trace(name_string,_value_any).htm" />
+  <item name="ValueExists(string:name)" url="Reference_Materials/Event_API/ValueExists(string_name).htm" />
+</book>
+<book name="View API" >
+  <item name="View API" url="Reference_Materials/View_API/View_API.htm" />
+  <item name="ViewCollection" url="Reference_Materials/View_API/ViewCollection.htm" />
+  <item name="ViewCollection.Exists(name:string)" url="Reference_Materials/View_API/ViewCollection.Exists(name_string).htm" />
+  <item name="ViewCollection.GetView(name:string)" url="Reference_Materials/View_API/ViewCollection.GetView(name_string).htm" />
+  <item name="Viewstate" url="Reference_Materials/View_API/Viewstate.htm" />
+  <item name="Viewstate.Exists(name:string)" url="Reference_Materials/View_API/Viewstate.Exists().htm" />
+  <item name="Viewstate.GetAll()" url="Reference_Materials/View_API/Viewstate.GetAll().htm" />
+  <item name="Viewstate.GetValue(name:string [, default:any])" url="Reference_Materials/View_API/Viewstate.GetValue().htm" />
+</book>
+
+</tocdata>

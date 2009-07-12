@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Widget>
+		<widgetId>
+			<label>widgetId</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The widgetId field is required but was not provided.</notProvided>
+			<invalidType>The widgetId field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</widgetId>
+		<name>
+			<label>name</label>
+			<comment/>
+			<maxlength>50</maxlength>
+			<notProvided>The name field is required but was not provided.</notProvided>
+			<invalidType>The name field does not contain valid data.  This field must be a string value.</invalidType>
+			<invalidLength>The name field is too long.  This field must be no more than 50 bytes long.</invalidLength>
+		</name>
+		<widgetTypeId>
+			<label>widgetTypeId</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The widgetTypeId field is required but was not provided.</notProvided>
+			<invalidType>The widgetTypeId field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</widgetTypeId>
+		<isActive>
+			<label>isActive</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The isActive field is required but was not provided.</notProvided>
+			<invalidType>The isActive field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</isActive>
+	</Widget>

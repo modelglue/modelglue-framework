@@ -1,0 +1,34 @@
+<reactor>
+	<objects>
+		<object name="Widget">
+			<hasOne name="WidgetType">
+				<relate from="WidgetTypeId" to="WidgetTypeId" />
+			</hasOne>
+			<hasMany name="WidgetCategory">
+				<link name="Widget_WidgetCategory" />
+			</hasMany>
+		</object>
+
+		<object name="WidgetType">
+			<hasMany name="Widget">
+				<relate from="WidgetTypeId" to="WidgetTypeId" />
+			</hasMany>
+		</object>
+
+		<object name="WidgetCategory">
+			<hasMany name="Widget">
+				<link name="Widget_WidgetCategory" />
+			</hasMany>
+		</object>
+		
+		<object name="Widget_WidgetCategory">
+			<hasOne name="Widget">
+				<relate from="WidgetId" to="WidgetId" />
+			</hasOne>
+			<hasOne name="WidgetCategory">
+				<relate from="WidgetCategoryId" to="WidgetCategoryId" />
+			</hasOne>
+		</object>
+
+	</objects>
+</reactor>

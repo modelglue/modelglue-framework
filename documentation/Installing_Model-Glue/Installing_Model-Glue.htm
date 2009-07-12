@@ -1,0 +1,214 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Installing Model-Glue</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+h1.whs1 { font-style:normal; }
+p.whs2 { font-style:normal; }
+h2.whs3 { color:#ff0000; }
+p.whs4 { font-style:italic; }
+ol.whs5 { list-style:decimal; }
+h2.whs6 { font-style:normal; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Installing Model-Glue\nInstalling Model-Glue");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1 class="whs1">Installing Model-Glue</h1>
+
+<p class="whs2">To install Model-Glue, all you need to do 
+ is copy a few files and possibly make a few mappings.</p>
+
+<h2 class="whs3">Prerequisites</h2>
+
+<p class="whs4">Model-Glue 2.0 requires a few other bits 
+ to run. &nbsp;Installation 
+ is painless, and should take about five minutes.</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs5">
+	
+	<li class=kadov-p><p>The ColdSpring Framework must be downloaded and 
+ installed. &nbsp;It's 
+ available at <a title="The ColdSpring Framework"
+				href="http://www.coldspringframework.org">www.coldspringframework.org</a>. 
+ <span style="font-style: italic;"><I>At present (Model-Glue 2.0 Public Beta 
+ 1), ColdSpring's current version is Release Candidate 1. &nbsp;<br>&nbsp;</I></span></p></li>
+	
+	<li class=kadov-p><p>&nbsp;If 
+ you want to do any of the automated database interaction, such as scaffolding, 
+ the Reactor Framework must be downloaded and installed. &nbsp;<span 
+ style="font-style: italic;"><I>At present (Model-Glue 
+ 2.0 Public Beta 1), Reactor is not available as a .ZIP. &nbsp;For 
+ your convenience, it is included with the Model-Glue distribution .ZIP 
+ in the /Reactor directory. &nbsp;For 
+ the latest version, see http://trac.reactorframework.com.</I></span></p></li>
+</ol>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2"><span style="font-style: italic;"><I>Note: 
+ &nbsp;If you 
+ want to use asynchronrous abilities inside of Model-Glue, you'll also 
+ need own ColdFusion Enterprise as well as download/install the Concurrency 
+ Library from </I></span><a href="http://www.corfield.org"
+						style="font-style: italic;">http://www.corfield.org</a>. 
+ &nbsp;<span style="font-style: italic;"><I>You 
+ know who you are, and you're pretty advanced.</I></span></p>
+
+<h2 class="whs6">To Install Model-Glue on a Default Installation 
+ of ColdFusion (No mappings required!):</h2>
+
+<p class="whs4">A default installation of ColdFusion is 
+ what you've got if you've simply installed ColdFusion and used your existing 
+ Web root, like &quot;c:\inetpub\wwwroot&quot; as the location of your 
+ documents. &nbsp;In 
+ a default installation with a Web root of &quot;c:\inetpub\wwwroot,&quot; 
+ a ColdFusion component named &quot;ModelGlue.Util.GenericCollection&quot; 
+ would be in the &quot;c:\inetpub\wwwroot\ModelGlue\Util&quot; directory.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">&nbsp;</p>
+
+<ol type="1" class="whs5">
+	
+	<li style="font-style: normal; /*begin!kadov{{*/ font-style: normal; /*}}end!kadov*/ "
+		class=kadov-p><p class="whs2">Unzip the Model-Glue 
+ distribution .zip</p></li>
+	
+	<li style="font-style: normal; /*begin!kadov{{*/ font-style: normal; /*}}end!kadov*/ "
+		class=kadov-p><p class="whs2">Copy the ModelGlue 
+ folder into your Web root</p></li>
+</ol>
+
+<p class="whs2">&nbsp;</p>
+
+<p class="whs2">That's it.</p>
+
+<p class="whs2">&nbsp;</p>
+
+<h2>To Install Model-Glue using ColdFusion mappings:</h2>
+
+<ol type="1" class="whs5">
+	
+	<li style="font-style: normal; /*begin!kadov{{*/ font-style: normal; /*}}end!kadov*/ "
+		class=kadov-p><p class="whs2">Unzip the Model-Glue 
+ distribution .zip</p></li>
+	
+	<li style="font-style: normal; /*begin!kadov{{*/ font-style: normal; /*}}end!kadov*/ "
+		class=kadov-p><p class="whs2">Put the ModelGlue 
+ folder somewhere permanent.</p></li>
+	
+	<li style="font-style: normal;"
+		class=kadov-p><p>Map /ModelGlue to wherever you've moved the ModelGlue 
+ folder.</p></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>That's it.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C020D0200004173796E6368726F6E726F75730A436F6C64467573696F6E0A436F6C64467573696F6E0944656661756C7420496E7374616C6C6174696F6E0A436F6C64467573696F6E20456E74657270726973650A436F6C64537072696E67204672616D65776F726B0A436F6E63757272656E6379204C6962726172790A436F70790A436F7079094D6F64656C476C75650A44656661756C7420496E7374616C6C6174696F6E0A44656661756C7420496E7374616C6C6174696F6E09436F6C64467573696F6E0A446F776E6C6F61642F696E7374616C6C0A446F776E6C6F61642F696E7374616C6C09436F6E63757272656E6379204C6962726172790A4578697374696E670A4578697374696E67095765620A496E65747075622F777777726F6F740A496E65747075622F777777726F6F742F4D6F64656C476C75652F5574696C0A496E7374616C6C0A496E7374616C6C204D6F64656C2D476C75650A4D6170202F4D6F64656C476C75650A4D6F64656C2D476C75650A4D6F64656C2D476C756509496E7374616C6C696E670A4D6F64656C676C75650A4D6F64656C676C756509436F70790A4D6F64656C676C7565096D6F7665640A4D6F64656C476C75652E5574696C2E47656E65726963436F6C6C656374696F6E0A4D6F7665640A4D6F766564094D6F64656C476C75650A52656163746F72204672616D65776F726B0A5573650A5765620A576562096578697374696E670D0215000000496E7374616C6C696E67204D6F64656C2D476C7565110215000000496E7374616C6C696E67204D6F64656C2D476C7565120215000000496E7374616C6C696E67204D6F64656C2D476C756513020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

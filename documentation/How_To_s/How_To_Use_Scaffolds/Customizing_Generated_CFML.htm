@@ -1,0 +1,162 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Customizing Generated CFML</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+p.whs1 { font-style:italic; }
+ol.whs2 { list-style:decimal; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("How To's\nHow To Use Scaffolds\nCustomizing Generated CFML");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Customizing Generated CFML</h1>
+
+<p>Scaffold tags cause certain files to be generated, such as lists, views, 
+ and edit forms. &nbsp;This 
+ generated code is placed into a directory governed by the ScaffoldPath 
+ property of the ModelGlueConfigurationBean in ColdSpring.xml. &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p class="whs1">Advanced note: The value of this setting 
+ is appended to the ViewMappings setting, making this directory the last-searched 
+ directory when an include tag is encountered.</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p>By default, the following .CFM templates are generated for each scaffolded 
+ table:</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs2">
+	
+	<li class=kadov-P><p>dsp<span style="font-style: italic;"><I>Table</I></span>List.cfm 
+ - Displays a list of records from the table</p></li>
+	
+	<li class=kadov-P><p>dsp<span style="font-style: italic;"><I>Table</I></span>.cfm 
+ - Displays a single record from the table</p></li>
+	
+	<li class=kadov-P><p>frm<span style="font-style: italic;"><I>Table</I></span>.cfm 
+ - Displays an edit form for a single record from the table</p></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>To customize the generated CFML, you cannot edit these files directly. 
+ &nbsp;This would 
+ cause them to be overwritten the next time the framework is reloaded.</p>
+
+<p>&nbsp;</p>
+
+<p>To edit a view, simply copy it into the /views directory of your application. 
+ &nbsp;At that 
+ point, your copy will not be overwritten. &nbsp;If 
+ additional database columns are added, you'll be able to use the generated 
+ code as a source from which you can copy and paste the new column's CFML.</p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-style: italic;"><I>Advanced note: &nbsp;They 
+ can alternatively be copied into any directory listed in the ViewMappings 
+ setting</I></span></p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C020601000043464D0A43464D4C0A436F6C64537072696E672E786D6C0A437573746F6D697A696E670A437573746F6D697A696E670947656E6572617465642043464D4C0A446973706C6179730A446973706C617973096C6973740A4473705461626C652E63666D0A4473705461626C654C6973742E63666D0A46726D5461626C652E63666D0A47656E6572617465642043464D4C0A47656E6572617465642043464D4C09437573746F6D697A696E670A4C697374730A4C6973747309446973706C6179730A4D6F64656C476C7565436F6E66696775726174696F6E4265616E0A53636166666F6C640A53636166666F6C64506174680A5573650A566965770A566965774D617070696E67730D021A000000437573746F6D697A696E672047656E6572617465642043464D4C110214000000486F7720546F205573652053636166666F6C647312021A000000437573746F6D697A696E672047656E6572617465642043464D4C13020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

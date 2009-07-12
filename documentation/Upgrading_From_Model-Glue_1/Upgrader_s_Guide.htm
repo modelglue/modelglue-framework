@@ -1,0 +1,159 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Upgrader's Guide</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+ol.whs1 { list-style:decimal; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Upgrading From Model-Glue 1\nUpgrader's Guide");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Upgrading_From_Model-Glue_1</h1>
+
+<p>This document is intended for developers already using Model-Glue 1.x. 
+ &nbsp;It's not 
+ an introduction to Model-Glue, and serves only to outline differences 
+ betweeen 1.x and 2.x.</p>
+
+<h2>Reverse Compatibility</h2>
+
+<p>Applications written for Model-Glue 1.x should be 100% reverse compatible 
+ when upgraded to the Model-Glue 2.x codebase. &nbsp;If, 
+ for some reason, your application is not, please post a ticket to <a href="http://trac.model-glue.com">http://trac.model-glue.com</a> 
+ immediately. &nbsp;Reverese 
+ compatibility issues are given the highest priority.</p>
+
+<h2>Creating New Applications</h2>
+
+<p>When you create a new application using the Model-Glue 2.x application 
+ template, you'll immediately notice that there is no longer a single ModelGlue.xml 
+ file in the /config directory. &nbsp;Instead, 
+ there are three files:</p>
+
+<p>&nbsp;</p>
+
+<ol type="1" class="whs1">
+	
+	<li class=kadov-p><p>ModelGlue.xml</p></li>
+	
+	<li class=kadov-p><p>ColdSpring.xml</p></li>
+	
+	<li class=kadov-p><p>Reactor.xml</p></li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>The largest different you'll notice is that the &lt;config&gt; block 
+ is no longer in ModelGlue.xml. &nbsp;Instead, 
+ the settings for the framework are in ColdSpring.xml. &nbsp;The 
+ XML format is a little different, but still self-explanatory. &nbsp;The 
+ settings are named the same, and still perform the same function. &nbsp;There 
+ are a few new settings, such as &quot;rescaffold.&quot; &nbsp;Explanation 
+ of each setting can be found in the ColdSpring XML Reference section of 
+ the Reference Materials documentation.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C0291010000322E782E0A426574776565656E20312E780A436F6C64537072696E6720584D4C205265666572656E63650A436F6C64537072696E672E786D6C0A436F6E6669670A4372656174696E670A4372656174696E67094E6577204170706C69636174696F6E730A4578706C616E6174696F6E0A4D6F64656C2D476C75650A4D6F64656C2D476C756520312E780A4D6F64656C2D476C756520312E782E0A4D6F64656C2D476C756520322E78206170706C69636174696F6E0A4D6F64656C2D476C756520322E7820636F6465626173650A4D6F64656C476C75652E786D6C0A4D6F64656C476C75652E786D6C2066696C650A4E6577204170706C69636174696F6E0A4E6577204170706C69636174696F6E094372656174696E670A52656163746F722E786D6C0A5265666572656E6365204D6174657269616C730A526573636166666F6C640A52657665726573650A5265766572736520436F6D7061746962696C6974790A53656C662D6578706C616E61746F72790A557067726164696E675F46726F6D5F4D6F64656C2D476C75655F310A584D4C0D02100000005570677261646572277320477569646511021B000000557067726164696E672046726F6D204D6F64656C2D476C756520311202100000005570677261646572277320477569646513020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<indexdata>
+<key name="GetValue" >
+  <topic name="GetValue(name:string, [default:any])" url="Reference_Materials/Event_API/GetValue(name_string,__default_any_).htm" />
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="GetView" >
+  <topic name="GetView(name:string)" url="Reference_Materials/Event_API/GetView(name_string).htm" />
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+</key>
+<key name="H1&gt;dspTemplate.cfm&lt;/h1" >
+  <topic name="ViewCollection" url="Reference_Materials/View_API/ViewCollection.htm" />
+</key>
+<key name="Handling" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <key name="Form" >
+    <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  </key>
+</key>
+<key name="HasMany" >
+  <topic name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+</key>
+<key name="HasOne" >
+  <topic name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+</key>
+<key name="Hi, I'm dspBody.cfm" >
+  <topic name="ViewCollection" url="Reference_Materials/View_API/ViewCollection.htm" />
+</key>
+<key name="How To Add" >
+  <topic name="Using Broadcasts, Results and Views in Scaffolds" url="How_To_s/How_To_Use_Scaffolds/Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm" />
+  <key name="Scaffold" >
+    <topic name="Using Broadcasts, Results and Views in Scaffolds" url="How_To_s/How_To_Use_Scaffolds/Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm" />
+  </key>
+</key>
+<key name="Href" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="HTML" >
+  <topic name="&lt;include&gt; (child tag of &lt;views&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include__(child_tag_of__modelglue_).htm" />
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+  <topic name="View API" url="Reference_Materials/View_API/View_API.htm" />
+</key>
+<key name="I'd" >
+  <topic name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+</key>
+<key name="ID" >
+  <topic name="GetBean()" url="Reference_Materials/Model-Glue_API/GetBean().htm" />
+</key>
+<key name="Implicit Invocation" >
+  <topic name="Quickstart" url="Quickstart/Quickstart.htm" />
+</key>
+<key name="Include" >
+  <topic name="&lt;include&gt; (child tag of &lt;modelglue&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include_.htm" />
+  <topic name="&lt;include&gt; (child tag of &lt;views&gt;)" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_include__(child_tag_of__modelglue_).htm" />
+</key>
+<key name="Index.cfm" >
+  <topic name="DefaultTemplate" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/DefaultTemplate.htm" />
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+</key>
+<key name="Index.cfm?do" >
+  <topic name="EventValue" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/EventValue.htm" />
+</key>
+<key name="Index.cfm?event" >
+  <topic name="&lt;event-handler&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_event-handler_.htm" />
+  <topic name="&lt;result&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_result_.htm" />
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+  <topic name="Using modelglue.GenericDelete" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericDelete.htm" />
+  <topic name="Using modelglue.GenericList" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericList.htm" />
+  <topic name="Using modelglue.GenericRead" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericRead.htm" />
+</key>
+<key name="Inetpub/wwwroot" >
+  <topic name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</key>
+<key name="Inetpub/wwwroot/ModelGlue/Util" >
+  <topic name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</key>
+<key name="Init" >
+  <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+  <topic name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+  <topic name="ReloadKey" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadKey.htm" />
+  <topic name="ReloadPassword" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadPassword.htm" />
+</key>
+<key name="Install" >
+  <topic name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</key>
+<key name="Install Model-Glue" >
+  <topic name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</key>
+<key name="Instantiate" >
+  <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+  <key name="CFC" >
+    <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+  </key>
+</key>
+<key name="IoC" >
+  <topic name="GetBean()" url="Reference_Materials/Model-Glue_API/GetBean().htm" />
+</key>
+<key name="Lastname" >
+  <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+  <topic name="Using modelglue.GenericList" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericList.htm" />
+  <key name="updating" >
+    <topic name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+  </key>
+</key>
+<key name="Latin" >
+  <topic name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
+</key>
+<key name="Len" >
+  <topic name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
+  <topic name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+</key>
+<key name="Lifespan" >
+  <topic name="AddToCache(name:string, value:any, [timeout:numeric])" url="Reference_Materials/Controller_API/AddToCache(name_string,_value_any,__timeout_numeric_).htm" />
+</key>
+<key name="List,view" >
+  <topic name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+  <topic name="Using Broadcasts, Results and Views in Scaffolds" url="How_To_s/How_To_Use_Scaffolds/Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm" />
+</key>
+<key name="List,view,edit,commit,delete" >
+  <topic name="&lt;scaffold&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_scaffold_.htm" />
+</key>
+<key name="Listen" >
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <key name="NeedTranslation" >
+    <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  </key>
+</key>
+<key name="Lists" >
+  <topic name="Customizing Generated CFML" url="How_To_s/How_To_Use_Scaffolds/Customizing_Generated_CFML.htm" />
+  <topic name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+  <key name="Displays" >
+    <topic name="Customizing Generated CFML" url="How_To_s/How_To_Use_Scaffolds/Customizing_Generated_CFML.htm" />
+  </key>
+</key>
+<key name="Localhost/translator" >
+  <topic name="Quickstart 1: Creating a New Application" url="Quickstart/Quickstart_1__Creating_a_New_Application.htm" />
+</key>
+<key name="Localhost/translator/index.cfm?event" >
+  <topic name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="MailCfg.getConfigSetting" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="MailConfiguration" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Mailserver" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Mailservers" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="MakeEventBean" >
+  <topic name="MakeEventBean(type:any, [fields:list])" url="Reference_Materials/Event_API/MakeEventBean(type_any,__fields_list_).htm" />
+</key>
+<key name="Map /ModelGlue" >
+  <topic name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</key>
+<key name="Matching" >
+  <topic name="ReloadKey" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadKey.htm" />
+  <topic name="ReloadPassword" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadPassword.htm" />
+  <key name="RELOADPASSWORD's" >
+    <topic name="ReloadKey" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadKey.htm" />
+    <topic name="ReloadPassword" url="Reference_Materials/ColdSpring_XML_Reference/Model-Glue_Configuration_Setting_Definitions/ReloadPassword.htm" />
+  </key>
+</key>
+<key name="MESSAGE" >
+  <topic name="&lt;message-listener&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_controllers_.htm" />
+  <topic name="&lt;message&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_message_.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="Message-listener" >
+  <topic name="&lt;message-listener&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_controllers_.htm" />
+  <topic name="&lt;message&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_message_.htm" />
+  <topic name="Adding a Message Listener Function" url="Reference_Materials/Controller_API/Adding_a_Message_Listener_Function.htm" />
+  <topic name="Event API" url="Reference_Materials/Event_API/Event_API.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+<key name="Message Listener Function" >
+  <topic name="Adding a Message Listener Function" url="Reference_Materials/Controller_API/Adding_a_Message_Listener_Function.htm" />
+  <key name="Adding" >
+    <topic name="Adding a Message Listener Function" url="Reference_Materials/Controller_API/Adding_a_Message_Listener_Function.htm" />
+  </key>
+</key>
+<key name="Message#&lt;/cfmail" >
+  <topic name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+</key>
+<key name="Mode" >
+  <topic name="New Topic" url="Reference_Materials/ColdSpring_XML_Reference/Reactor_Configuration_Setting_Definitions/New_Topic.htm" />
+</key>
+<key name="Model" >
+  <topic name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
+  <topic name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+</key>
+
+</indexdata>

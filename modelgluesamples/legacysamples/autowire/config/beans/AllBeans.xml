@@ -1,0 +1,7 @@
+<beans>
+  <bean id="StockQuoteService" class="modelgluesamples.legacysamples.autowire.model.StockQuoteServiceConfigurable">
+    <constructor-arg name="wsdl">
+      <value>http://services.xmethods.net/soap/urn:xmethods-delayed-quotes.wsdl</value>
+    </constructor-arg>
+  </bean>
+</beans>

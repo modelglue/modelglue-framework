@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Widget_WidgetCategory>
+		<WidgetWidgetCategoryId>
+			<label>WidgetWidgetCategoryId</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The WidgetWidgetCategoryId field is required but was not provided.</notProvided>
+			<invalidType>The WidgetWidgetCategoryId field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</WidgetWidgetCategoryId>
+		<WidgetId>
+			<label>WidgetId</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The WidgetId field is required but was not provided.</notProvided>
+			<invalidType>The WidgetId field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</WidgetId>
+		<WidgetCategoryId>
+			<label>WidgetCategoryId</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<notProvided>The WidgetCategoryId field is required but was not provided.</notProvided>
+			<invalidType>The WidgetCategoryId field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</WidgetCategoryId>
+	</Widget_WidgetCategory>

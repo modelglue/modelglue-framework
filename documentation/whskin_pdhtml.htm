@@ -1,0 +1,89 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<html>
+<head>
+<title> Navigation Pane </title>
+
+<meta name="generator" content="RoboHelp by eHelp Corporation   www.ehelp.com">
+<meta name="description" content="WebHelp 5.50">
+</head>
+<body border=0 topmargin=0 bottommargin=0 rightmargin=0 leftmargin=0 scroll=no>
+<script language="javascript" src="whver.js"></script>
+<script language="javascript1.2" src="whmozemu.js"></script>
+<script language="javascript1.2" src="whmsg.js"></script>
+<script language="javascript1.2" src="whproxy.js"></script>
+<script language="javascript1.2" src="whutils.js"></script>
+<script language="javascript1.2" src="whphost.js"></script>
+<script language="javascript1.2">
+<!--
+if (window.gbWhPHost)
+{
+	var gsNavReDirect="whskin_plist.htm";
+	var gbReDirectThis=true;
+	var oMsg = new whMessage(WH_MSG_GETPANES, this, 1, null);
+	if (SendMessage(oMsg))
+	{
+		if (oMsg.oParam)
+		{
+			for (var i=0;i<oMsg.oParam.aPanes.length;i++)
+			{
+				addPane(oMsg.oParam.aPanes[i].sPaneName, oMsg.oParam.aPanes[i].sPaneURL);
+			}
+			setShowPane(oMsg.oParam.sDefault);
+			setServerEnabled();
+		}
+		else
+			writeWebHelpPane();
+	}
+	else
+		writeWebHelpPane();
+}
+else
+	document.location.reload();
+
+if (window.gbNav6)
+{
+	var oMsg=new whMessage(WH_MSG_RELOADNS6,this, 1,null);
+	SendMessage(oMsg);
+}
+
+
+function writeWebHelpPane()
+{
+  var bPreferXML	      = false;
+  var strProjectFileXML =  "whproj.xml";
+  var strProjectFileHTM =  "whproj.htm";	
+  addProject(bPreferXML, strProjectFileXML, strProjectFileHTM);
+  addPane("toc","whtdhtml.htm");
+  addPane("idx","whidhtml.htm");
+  addPane("fts","whfdhtml.htm");
+  setShowPane("toc");
+
+}
+//-->
+</script>
+</body>
+</html>

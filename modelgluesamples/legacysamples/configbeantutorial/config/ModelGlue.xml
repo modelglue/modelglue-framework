@@ -1,0 +1,49 @@
+<modelglue>
+  <config>
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/configbeantutorial/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/configbeantutorial/views" />
+    <setting name="reload" value="true" />
+    <setting name="defaultEvent" value="Home" />
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.configbeantutorial.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <!-- Event-Handler Template
+      <broadcasts>
+        <message name="DoSomething">
+          <argument name="SampleArg" value="iAmASampleArgument" />
+        </message>
+      </broadcasts>
+      <views>
+        <include name="body" template="page.cfm" append="false" />
+      </views>
+      <results>
+      	<result name="resultValue" do="EventHandlerName" />
+      	<result name="failure" do="Exception" />
+      </results>
+		 --> 
+    
+    <event-handler name="Home">
+      <broadcasts />
+      <views>
+      	<include name="body" template="dsp.body.cfm" />
+      	<include name="main" template="layout.main.cfm" />
+      </views>
+      <results />
+    </event-handler>
+    
+    <event-handler name="Exception">
+      <broadcasts />
+			<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+      <results />
+		</event-handler>
+  </event-handlers>
+</modelglue>

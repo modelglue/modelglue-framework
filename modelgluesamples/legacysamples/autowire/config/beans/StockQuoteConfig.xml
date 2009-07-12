@@ -1,0 +1,7 @@
+<bean class="ModelGlue.Bean.CommonBeans.SimpleConfig" singleton="true">
+  <property name="config">
+    <struct>
+      <entry key="wsdl"><value>http://services.xmethods.net/soap/urn:xmethods-delayed-quotes.wsdl</value></entry>
+    </struct>
+  </property>
+</bean>

@@ -1,0 +1,307 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Quickstart 5: Validating a Form</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+p.whs1 { margin-left:40px; }
+p.whs2 { margin-left:80px; }
+p.whs3 { margin-left:120px; }
+-->
+</style><script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Quickstart\nQuickstart 5: Validating a Form");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Quickstart 5: Validating a Form</h1>
+
+<p>Our translation form doesn't require the user to enter a value. &nbsp;Our 
+ application doesn't fail, but it'd be nice to server-side validate the 
+ form.</p>
+
+<p>&nbsp;</p>
+
+<p>(Actually, it's not just nice, it's something you should do for every 
+ form, every time.)</p>
+
+<p>&nbsp;</p>
+
+<p>Using the translateForm function, it's easy to check if the form has 
+ been filled out. &nbsp;However, 
+ how do we alert the user? &nbsp;How 
+ do we take them back to the form, instead of showing the result?</p>
+
+<p>&nbsp;</p>
+
+<p>The &lt;event-handler&gt; tag has a third child tag, &lt;results&gt;, 
+ that's custom made for things like this.</p>
+
+<p>&nbsp;</p>
+
+<p>Adding a &lt;results&gt; and &lt;result&gt; tag to our translationFormAction 
+ event handler, we end up with the following xml:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;event-handler name=&quot;translationFormAction&quot;&gt;</p>
+
+<p class="whs1">&lt;broadcasts&gt;</p>
+
+<p class="whs2">&lt;message name=&quot;NeedTranslation&quot; 
+ /&gt;</p>
+
+<p class="whs1">&lt;/broadcasts&gt;</p>
+
+<p class="whs1">&lt;views&gt;</p>
+
+<p class="whs2">&lt;include name=&quot;body&quot; template=&quot;dspPhrase.cfm&quot;&gt;</p>
+
+<p class="whs3">&lt;value name=&quot;xe.translationForm&quot; 
+ value=&quot;translationForm&quot; /&gt;</p>
+
+<p class="whs2">&lt;/include&gt;</p>
+
+<p class="whs1">&lt;/views&gt;<br>
+&lt;results&gt;</p>
+
+<p class="whs2">&lt;result name=&quot;ValidationError&quot; 
+ do=&quot;translationForm&quot; redirect=&quot;true&quot; /&gt;</p>
+
+<p class="whs1">&lt;/results&gt;</p>
+
+<p>&lt;/event-handler&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>What does that &lt;result&gt; tag mean? &nbsp;It 
+ means that if I somehow state that the event has a validation error, immediately 
+ stop processing the event and redirect to the translationForm event.</p>
+
+<p>&nbsp;</p>
+
+<p>So how do we indicate that there's a validation error? &nbsp;We 
+ test a condition in our controller, and if necessary, add the result to 
+ arguments.event:</p>
+
+<p>&nbsp;</p>
+
+<p>Doing this, the TranslatePhrase function now reads:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cffunction name=&quot;TranslatePhrase&quot; access=&quot;public&quot; 
+ returntype=&quot;void&quot; output=&quot;false&quot;&gt;</p>
+
+<p class="whs1">&lt;cfargument name=&quot;event&quot; type=&quot;any&quot;&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset var translator = createObject(&quot;component&quot;, 
+ &quot;translator.model.PigLatinTranslator&quot;).init(&quot;aeiou&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var phrase = arguments.event.getValue(&quot;phrase&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var result = translator.translate(phrase) 
+ /&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfif not len(trim(phrase))&gt;</p>
+
+<p class="whs2">&lt;cfset arguments.event.addResult(&quot;ValidationError&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;/cfif&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset arguments.event.trace(&quot;TranslatePhrase 
+ Results&quot;, result) /&gt;</p>
+
+<p class="whs1">&lt;cfset arguments.event.setValue(&quot;translatedPhrase&quot;, 
+ result) /&gt;</p>
+
+<p>&lt;/cffunction&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Try the submitting the form without filling in a phrase. &nbsp;You'll 
+ wind up right back at the form. &nbsp;That's 
+ OK, but we need to provide an error message. &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Remember, we can use controller functions to add values to the viewstate 
+ that view templates can display. &nbsp;Let's 
+ first add an error message to TranslatePhrase:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cffunction name=&quot;TranslatePhrase&quot; access=&quot;public&quot; 
+ returntype=&quot;void&quot; output=&quot;false&quot;&gt;</p>
+
+<p class="whs1">&lt;cfargument name=&quot;event&quot; type=&quot;any&quot;&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset var translator = createObject(&quot;component&quot;, 
+ &quot;translator.model.PigLatinTranslator&quot;).init(&quot;aeiou&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var phrase = arguments.event.getValue(&quot;phrase&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var result = translator.translate(phrase) 
+ /&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfif not len(trim(phrase))&gt;</p>
+
+<p class="whs2">&lt;cfset arguments.event.setValue(&quot;phraseError&quot;, 
+ &quot;Please enter a phrase to translate.&quot;) /&gt;</p>
+
+<p class="whs2">&lt;cfset arguments.event.addResult(&quot;ValidationError&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;/cfif&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset arguments.event.trace(&quot;TranslatePhrase 
+ Results&quot;, result) /&gt;</p>
+
+<p class="whs1">&lt;cfset arguments.event.setValue(&quot;translatedPhrase&quot;, 
+ result) /&gt;</p>
+
+<p>&lt;/cffunction&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Then, change frmPhrase.cfm to display the phrase error, if one has been 
+ set:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cfset submit = viewstate.getValue(&quot;myself&quot;) &amp; viewstate.getValue(&quot;xe.translate&quot;) 
+ /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cfform action=&quot;#submit#&quot;&gt;</p>
+
+<p class="whs1">&lt;cfinput type=&quot;text&quot; name=&quot;phrase&quot; 
+ required=&quot;false&quot; value=&quot;#viewstate.getValue(&quot;phrase&quot;)#&quot; 
+ /&gt;</p>
+
+<p class="whs1">&lt;input type=&quot;submit&quot; value=&quot;Ok&quot; 
+ /&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfif viewstate.exists(&quot;phraseError&quot;)&gt;</p>
+
+<p class="whs2">&lt;cfoutput&gt;&lt;p&gt;&lt;font color=&quot;red&quot;&gt;#viewstate.getValue(&quot;phraseError&quot;)#&lt;/font&gt;&lt;/p&gt;&lt;/cfoutput&gt;</p>
+
+<p class="whs1">&lt;/cfif&gt;</p>
+
+<p>&lt;/cfform&gt;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C020A0300004165696F750A417267756D656E74732E6576656E740A417267756D656E74732E6576656E742E67657456616C75650A4366617267756D656E740A4366666F726D0A436666756E6374696F6E0A436669660A43666966207669657773746174652E6578697374730A4366696E7075740A43666F75747075743E3C703E3C666F6E740A43667365740A436673657420617267756D656E74732E6576656E742E616464526573756C740A436673657420617267756D656E74732E6576656E742E73657456616C75650A436673657420617267756D656E74732E6576656E742E74726163650A4366736574207661720A436F6E74726F6C6C65720A436F6E74726F6C6C65722066756E6374696F6E730A4372656174654F626A6563740A4473705068726173652E63666D0A466F6C6C6F77696E670A466F6C6C6F77696E6709786D6C0A466F6E743E3C2F703E3C2F63666F75747075740A464F524D0A464F524D0956616C69646174696E670A46726D5068726173652E63666D0A496E69740A4C656E0A4E6565645472616E736C6174696F6E0A5068726173654572726F720A506C656173650A517569636B73746172740A526564223E237669657773746174652E67657456616C75650A52657475726E547970650A546861742773204F4B0A5472616E736C617465645068726173650A5472616E736C617465466F726D0A5472616E736C6174655068726173650A5472616E736C61746550687261736520526573756C74730A5472616E736C6174696F6E466F726D0A5472616E736C6174696F6E466F726D416374696F6E0A5472616E736C61746F722E6D6F64656C2E5069674C6174696E5472616E736C61746F720A5472616E736C61746F722E7472616E736C6174650A5573650A56616C69646174650A56616C696461746509466F726D0A56616C69646174696F6E0A56616C69646174696F6E4572726F720A566965770A5669657773746174650A5669657773746174652E67657456616C75650A58652E7472616E736C6174650A58652E7472616E736C6174696F6E466F726D0A584D4C0A584D4C09666F6C6C6F77696E670D021F000000517569636B737461727420353A2056616C69646174696E67206120466F726D11020A000000517569636B737461727412021F000000517569636B737461727420353A2056616C69646174696E67206120466F726D13020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

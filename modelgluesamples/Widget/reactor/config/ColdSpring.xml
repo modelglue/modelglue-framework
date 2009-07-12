@@ -1,0 +1,39 @@
+<beans>
+  <!-- This is your Model-Glue configuration -->
+	<bean id="modelGlueConfiguration" class="modelglue.unity.framework.ModelGlueConfiguration">
+    <!-- Be sure to change reload to false when you go to production! -->
+    <property name="reload"><value>false</value></property>
+		<!-- Rescaffold is overridden by reload - if reload is false, rescaffold's setting doesn't matter -->
+    <property name="rescaffold"><value>false</value></property>
+    <!-- Be sure to change debug to false when you go to production! -->
+    <property name="debug"><value>false</value></property>
+    <property name="defaultEvent"><value>page.index</value></property>
+    <property name="reloadPassword"><value>true</value></property>
+    <property name="viewMappings"><value>/modelgluesamples/widget/reactor/views</value></property>
+    <property name="generatedViewMapping"><value>/modelgluesamples/widget/reactor/views/generated</value></property>
+    <property name="configurationPath"><value>config/ModelGlue.xml</value></property>
+    <property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
+    <property name="statePrecedence"><value>form</value></property>
+    <property name="reloadKey"><value>init</value></property>
+    <property name="eventValue"><value>event</value></property>
+    <property name="defaultTemplate"><value>index.cfm</value></property>
+    <property name="defaultExceptionHandler"><value>exception</value></property>
+    <property name="defaultCacheTimeout"><value>5</value></property>
+    <property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
+  </bean>
+  
+	<!-- Put definitions for your own beans and services here -->
+  <!-- 
+		To use Reactor as an ORM framework, uncomment the following:
+	-->
+		<alias alias="ormAdapter" name="ormAdapter.Reactor" />
+		<alias alias="ormService" name="ormService.Reactor" />
+		<bean id="reactorConfiguration" class="reactor.config.config">
+			<constructor-arg name="pathToConfigXml"><value>/modelgluesamples/widget/reactor/config/reactor/Reactor.xml</value></constructor-arg>
+			<property name="project"><value>widget/reactor</value></property>
+			<property name="dsn"><value>widget</value></property>
+			<property name="type"><value>mysql</value></property>
+			<property name="mapping"><value>/modelgluesamples/widget/reactor/model/data/reactor</value></property>
+			<property name="mode"><value>production</value></property>
+		</bean>
+</beans>

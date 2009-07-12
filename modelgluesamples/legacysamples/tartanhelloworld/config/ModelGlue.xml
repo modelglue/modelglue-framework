@@ -1,0 +1,60 @@
+<modelglue>
+  <config>
+    <setting name="defaultEvent" value="Home" />
+    <setting name="reload" value="true" />
+    <setting name="reloadKey" value="init" />
+    <setting name="reloadPassword" value="true" />
+    <setting name="statePrecedence" value="Form" />
+    <setting name="eventValue" value="event" />
+    <setting name="applicationMapping" value="/modelgluesamples/legacysamples/tartanhelloworld" />
+    <setting name="modelGlueMapping" value="/ModelGlue" />
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/tartanhelloworld/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/tartanhelloworld/views" />
+	<setting name="defaultExceptionHandler" value="Exception" />
+    <setting name="debug" value="true" />
+    <setting name="defaultCacheTimeout" value="5" />
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.tartanhelloworld.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <message-listener message="GetGreeting" function="GetGreeting" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <!-- Event-Handler Template
+      <broadcasts>
+        <message name="DoSomething">
+          <argument name="SampleArg" value="iAmASampleArgument" />
+        </message>
+      </broadcasts>
+      <views>
+        <include name="body" template="page.cfm" append="false" />
+      </views>
+      <results>
+      	<result name="resultValue" do="EventHandlerName" />
+      	<result name="failure" do="Exception" />
+      </results>
+		 --> 
+    
+    <event-handler name="Home">
+      <broadcasts>
+      	<message name="GetGreeting">
+      		<argument name="DefaultLanguage" value="English" />
+        </message>
+      </broadcasts>
+      <views>
+      	<include name="main" template="layout.main.cfm" />
+      </views>
+			<results />
+    </event-handler>
+		
+    <event-handler name="Exception">
+    	<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+    </event-handler>
+  </event-handlers>
+</modelglue>

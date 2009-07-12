@@ -1,0 +1,74 @@
+<modelglue>
+  <config>
+	<setting name="defaultEvent" value="home" />
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/asyncexample/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/asyncexample/views" />
+    <setting name="reload" value="false" />
+  </config>
+
+  <controllers>
+    <controller name="asyncexampleController" type="modelgluesamples.legacysamples.asyncexample.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <message-listener message="CountToNumber" function="CountToNumber" async="true" />
+      <message-listener message="RemoveCount" function="RemoveCount" />
+      <message-listener message="NeedCountRequests" function="GetCountRequests" />
+    </controller>
+  </controllers>
+ 
+  <event-handlers>
+    <!-- Commands -->
+    <event-handler name="StartCount" access="public">
+      <broadcasts>
+        <message name="CountToNumber" />
+      </broadcasts>
+      <views />
+      <results>
+      	<result do="Counts" />
+      </results>
+    </event-handler>
+        
+    <event-handler name="RemoveCount" access="public">
+      <broadcasts>
+        <message name="RemoveCount" />
+      </broadcasts>
+      <views />
+      <results>
+      	<result do="Counts" />
+      </results>
+    </event-handler>
+    
+    <!-- Pages -->
+    <event-handler name="Home" access="public">
+      <broadcasts />
+      <views>
+        <include name="body" template="dsp.home.cfm" />
+      </views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+
+    <event-handler name="Counts" access="public">
+      <broadcasts>
+        <message name="NeedCountRequests" />
+      </broadcasts>
+      <views>
+        <include name="body" template="dsp.counts.cfm" />
+      </views>
+      <results />
+    </event-handler>
+    
+    <event-handler name="Layout" access="private">
+      <views>
+        <include name="main" template="layout.main.cfm" />
+      </views>
+    </event-handler>
+		
+    <event-handler name="Exception">
+      <views>
+   			<include name="body" template="exception.cfm" />
+    	</views>
+    </event-handler>
+  </event-handlers>
+</modelglue>

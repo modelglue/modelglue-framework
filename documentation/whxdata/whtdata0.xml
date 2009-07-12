@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<tocdata>
+<book name="Read me first!" >
+  <item name="Don't Panic!" url="Read_me_first!/Don_t_Panic!.htm" />
+</book>
+<book name="Installing Model-Glue" >
+  <item name="Installing Model-Glue" url="Installing_Model-Glue/Installing_Model-Glue.htm" />
+</book>
+<book name="Quickstart" >
+  <item name="Quickstart" url="Quickstart/Quickstart.htm" />
+  <item name="Quickstart 1: Creating a New Application" url="Quickstart/Quickstart_1__Creating_a_New_Application.htm" />
+  <item name="Quickstart 2: Modelling our Application" url="Quickstart/Quickstart_@__Modelling_our_Application.htm" />
+  <item name="Quickstart 3: Building a Form" url="Quickstart/Quickstart_3__Building_a_Form.htm" />
+  <item name="Quickstart 4: Handling a Form" url="Quickstart/Quickstart_4__Handling_a_Form.htm" />
+  <item name="Quickstart 5: Validating a Form" url="Quickstart/Quickstart_5__Validating_a_Form.htm" />
+  <item name="Quickstart 6: Adding a Site-Wide Template" url="Quickstart/Quickstart_6__Adding_a_Site-Wide_Template.htm" />
+</book>
+<book name="How To's" >
+  <book name="How To Add Custom Configuration" >
+    <item name="How To Add Custom Configration" url="How_To_s/How_To_Add_Custom_Configuration/How_To_Add_Custom_Configration.htm" />
+  </book>
+  <book name="How To Use Generic Database Messages" >
+    <item name="How To Use Generic Database Messages" url="How_To_s/How_To_Use_Generic_Database_Messages/How_To_Use_Generic_Database_Messages.htm" />
+    <item name="Using modelglue.GenericCommit" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericCommit.htm" />
+    <item name="Using modelglue.GenericDelete" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericDelete.htm" />
+    <item name="Using modelglue.GenericList" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericList.htm" />
+    <item name="Using modelglue.GenericRead" url="How_To_s/How_To_Use_Generic_Database_Messages/Using_modelglue.GenericRead.htm" />
+  </book>
+  <book name="How To Use Scaffolds" >
+    <item name="How To Use Scaffolds" url="How_To_s/How_To_Use_Scaffolds/How_To_Use_Scaffolds.htm" />
+    <item name="How To Add A Scaffold" url="How_To_s/How_To_Use_Scaffolds/How_To_Add_A_Scaffodl.htm" />
+    <item name="Adding Specific Event Handlers" url="How_To_s/How_To_Use_Scaffolds/Adding_Specific_Event_Handlers.htm" />
+    <item name="Using Broadcasts, Results and Views in Scaffolds" url="How_To_s/How_To_Use_Scaffolds/Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm" />
+    <item name="Customizing Generated CFML" url="How_To_s/How_To_Use_Scaffolds/Customizing_Generated_CFML.htm" />
+    <item name="Customizing Scaffold .XSL Files" url="How_To_s/How_To_Use_Scaffolds/Customizing_Scaffold_.XSL_Files.htm" />
+  </book>
+</book>
+<book name="Reference Materials" >
+<chunk name="Reference Materials" ref="whtdata1.xml" />
+</book>
+<book name="Upgrading From Model-Glue 1" >
+  <item name="Upgrader's Guide" url="Upgrading_From_Model-Glue_1/Upgrader_s_Guide.htm" />
+</book>
+
+</tocdata>

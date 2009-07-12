@@ -1,0 +1,56 @@
+<modelglue>
+  <config>
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/nameuppercaser/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/nameuppercaser/views" />
+    <setting name="reload" value="true" />
+    <setting name="defaultEvent" value="Home" />
+  </config>
+
+  <controllers>
+    <controller name="NameUpperCaserController" type="modelgluesamples.legacysamples.nameuppercaser.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <message-listener message="DoHomepage" function="DoHomepage" />
+      <message-listener message="DoUpper" function="DoUpper" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <!-- Pages -->
+    <event-handler name="Home" access="public">
+      <broadcasts>
+        <message name="DoHomepage">
+          <argument name="SampleArg" value="iAmASampleArgument" />
+        </message>
+      </broadcasts>
+      <views>
+        <include name="body" template="form.name.cfm" />
+        <include name="body" template="display.name.cfm" append="true" />
+      </views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+
+		<event-handler name="UpperCaseTheName" access="public">
+      <broadcasts>
+        <message name="DoUpper" />
+      </broadcasts>
+      <results>
+      	<result do="Home" />
+      </results>
+		</event-handler>
+		
+		<event-handler name="Layout" access="private">
+      <views>
+        <include name="main" template="layout.main.cfm" />
+      </views>
+		</event-handler>
+		
+    <event-handler name="Exception">
+    	<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+    </event-handler>
+  </event-handlers>
+</modelglue>

@@ -1,0 +1,67 @@
+<modelglue>
+  <config>
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/eventforwarding/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/eventforwarding/views" />
+    <setting name="reload" value="true" />
+    <setting name="defaultEvent" value="Home" />
+    <!-- These are all optional as of 1.0	
+      <setting name="statebuilder" value="ModelGlue.Util.GenericCollection" />
+      <setting name="defaultEvent" value="Home" />
+      <setting name="reloadKey" value="init" />
+      <setting name="reloadPassword" value="true" />
+      <setting name="statePrecedence" value="Form" />
+      <setting name="eventValue" value="event" />
+      <setting name="defaultTemplate" value="index.cfm" />
+      <setting name="defaultExceptionHandler" value="Exception" />
+      <setting name="debug" value="true" />
+      <setting name="defaultCacheTimeout" value="5" />
+    -->
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.eventforwarding.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <message-listener message="NeedForward" function="ForwardEvent" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <event-handler name="Home">
+      <broadcasts />
+      <views>
+      	<include name="body" template="dsp.body.cfm" />
+				<include name="main" template="layout.main.cfm" />
+      </views>
+      <results />
+    </event-handler>
+    
+    <event-handler name="ForwardRequest">
+      <broadcasts>
+        <message name="NeedForward" />
+      </broadcasts>
+    </event-handler>
+
+    <event-handler name="RedPage">
+      <views>
+        <include name="body" template="dspRedPage.cfm" />
+				<include name="main" template="layout.main.cfm" />
+      </views> 
+    </event-handler>
+        
+    <event-handler name="BluePage">
+      <views>
+        <include name="body" template="dspBluePage.cfm" />
+				<include name="main" template="layout.main.cfm" />
+      </views> 
+    </event-handler>
+        
+    <event-handler name="Exception">
+      <broadcasts />
+			<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+      <results />
+		</event-handler>
+  </event-handlers>
+</modelglue>

@@ -1,0 +1,216 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Using Broadcasts, Results and Views in Scaffolds</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+p.whs1 { font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs2 { margin-left:40px; font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs3 { margin-left:80px; font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs4 { margin-left:0px; font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs5 { margin-left:0px; }
+p.whs6 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:40px; }
+p.whs7 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:80px; }
+p.whs8 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:0px; }
+-->
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "p.whs4 {margin-left:1pt; }";
+  strNSS += "p.whs5 {margin-left:1pt; }";
+  strNSS += "p.whs8 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("How To's\nHow To Use Scaffolds\nUsing Broadcasts, Results and Views in Scaffolds");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Using Broadcasts, Results and Views in Scaffolds</h1>
+
+<p>As we've seen in &quot;How To Add A Scaffold,&quot; a single scaffold 
+ tag simply serves to define multiple event handlers. &nbsp;In 
+ order to keep the Model-Glue XML format easy to learn, the scaffold tag 
+ supports the same child tags (broadcasts, views, and results) as an event 
+ handler tag.</p>
+
+<p>&nbsp;</p>
+
+<p>Any broadcasts, views, or results tags added beneath a scaffold tag 
+ are applied to all event handlers a given scaffold creates. &nbsp;(To 
+ learn more about creating broadcasts, views, and results see the Quickstart 
+ guide).</p>
+
+<p>&nbsp;</p>
+
+<p>This allows us to extend the functionality of scaffolds in powerful 
+ ways. &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>For example, to apply the sitewide template from the Model-Glue Application 
+ Template to all of the event handlers created by a given scaffold, we 
+ can simply add a result tag:</p>
+
+<p>&nbsp;</p>
+
+<p class="whs1">&lt;scaffold 
+ object=&quot;Contact&quot;&gt;</p>
+
+<p class="whs2">&lt;results&gt;</p>
+
+<p class="whs3">&lt;result do=&quot;view.template&quot; /&gt;</p>
+
+<p class="whs2">&lt;/results&gt;</p>
+
+<p class="whs4">&lt;/scaffold&gt;</p>
+
+<p class="whs5">&nbsp;</p>
+
+<p class="whs5">By splitting the types of scaffolds created 
+ amongst multiple scaffold tags for the same object, we can even apply 
+ message broadcasts to specific scaffold-generated event handlers. &nbsp;</p>
+
+<p class="whs5">&nbsp;</p>
+
+<p class="whs5">In a given application where anyone can view 
+ contacts but only administrators can update contacts, we could use the 
+ following XML in ModelGlue.xml to protect the edit, commit, and delete 
+ event handlers from unauthorized access (assuming a message listener for 
+ &quot;UserMustBeAdministrator&quot; performs security functionality and 
+ adds a result named &quot;SecurityViolation&quot; in the event of bad 
+ access):</p>
+
+<p>&nbsp;</p>
+
+<p class="whs1">&lt;scaffold 
+ object=&quot;contact&quot; type=&quot;list,view&quot; /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p class="whs1">&lt;scaffold 
+ object=&quot;contact&quot; type=&quot;edit,commit,delete&quot;&gt;</p>
+
+<p class="whs6">&lt;broadcasts&gt;</p>
+
+<p class="whs3">&lt;message name=&quot;UserMustBeAdministrator&quot; 
+ /&gt;</p>
+
+<p class="whs6">&lt;/broadcasts&gt;</p>
+
+<p class="whs6">&lt;results&gt;</p>
+
+<p class="whs7">&lt;result name=&quot;SecurityViolation&quot; 
+ do=&quot;SecurityViolation&quot; redirect=&quot;true&quot; /&gt;</p>
+
+<p class="whs6">&lt;/results&gt;</p>
+
+<p class="whs8">&lt;/scaffold&gt;</p>
+
+<p class="whs5">&nbsp;</p>
+
+<p class="whs5">&nbsp;</p>
+
+<p>&nbsp;&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C021D010000456469742C636F6D6D69742C64656C6574650A457874656E64730A486F7720546F204164640A486F7720546F204164640953636166666F6C640A4C6973742C766965770A4D6F64656C2D476C75650A4D6F64656C2D476C7565204170706C69636174696F6E2054656D706C6174650A4D6F64656C476C75652E786D6C0A517569636B73746172740A526573756C740A53636166666F6C640A53636166666F6C6409486F7720546F204164640A53636166666F6C642D67656E6572617465640A536563757269747956696F6C6174696F6E0A53697465776964650A5573650A557365724D757374426541646D696E6973747261746F720A5573696E672042726F616463617374730A566965770A566965772E74656D706C6174650A584D4C0D02300000005573696E672042726F616463617374732C20526573756C747320616E6420566965777320696E2053636166666F6C6473110214000000486F7720546F205573652053636166666F6C64731202300000005573696E672042726F616463617374732C20526573756C747320616E6420566965777320696E2053636166666F6C647313020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

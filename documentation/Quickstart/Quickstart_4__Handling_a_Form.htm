@@ -1,0 +1,428 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Quickstart 4: Handling a Form</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+p.whs1 { margin-left:40px; }
+p.whs2 { margin-left:80px; }
+p.whs3 { margin-left:0px; }
+p.whs4 { margin-left:120px; }
+-->
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "p.whs3 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("Quickstart\nQuickstart 4: Handling a Form");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Quickstart 4: Handling a Form</h1>
+
+<p>Ok, we've built a form. &nbsp;It 
+ submits to an event handler named &quot;translationFormAction.&quot; &nbsp;Now, 
+ we need to create that event.</p>
+
+<p>&nbsp;</p>
+
+<p>Let's do it now. &nbsp;Add 
+ the following new event handler XML to /translator/config/ModelGlue.xml:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;event-handler name=&quot;translationFormAction&quot;&gt;</p>
+
+<p>&lt;/event-handler&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Ok, fire up a browser, go to http://localhost/translator/index.cfm?event=transationForm, 
+ fill in a phrase, and click Ok.</p>
+
+<p>&nbsp;</p>
+
+<p>Not much happened, eh? &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>Obviously, we need to tell the application to translate the phrase that's 
+ been entered. &nbsp;Our 
+ first step is to add a message to the translationFormAction. &nbsp;A 
+ message is like a town crier: &nbsp;it's 
+ the event handler's way of saying &quot;I need the phrase to be translated!&quot; 
+ &nbsp;The event 
+ handler itself doesn't care who does the translation.</p>
+
+<p>&nbsp;</p>
+
+<p>Let's add the message:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;event-handler name=&quot;translationFormAction&quot;&gt;</p>
+
+<p class="whs1">&lt;broadcasts&gt;</p>
+
+<p class="whs2">&lt;message name=&quot;NeedTranslation&quot; 
+ /&gt;</p>
+
+<p class="whs1">&lt;/broadcasts&gt;</p>
+
+<p>&lt;/event-handler&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Try the form again if you like. &nbsp;Still 
+ nothing. &nbsp;That's 
+ because the event handler can ask for translations until it's blue in 
+ the face (or view), but nothing's going to happen unless something <span 
+ style="font-style: italic;"><I>listens</I></span> to the message.</p>
+
+<p>&nbsp;</p>
+
+<p>At the top of ModelGlue.xml, there's a &lt;controllers&gt; block we 
+ haven't talked about yet. &nbsp;It 
+ declares a list of &lt;controllers&gt;, which in turn contain a list of 
+ &lt;message-listeners&gt;.</p>
+
+<p>&nbsp;</p>
+
+<p>It sounds complicated, but it isn't. &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>You'll see that each &lt;controller&gt; tag has a TYPE attribute. &nbsp;That 
+ attribute points to a CFC known as a &quot;Controller CFC&quot;. &nbsp;When 
+ Model-Glue starts, it creates an instance of each Controller CFC listed.</p>
+
+<p>&nbsp;</p>
+
+<p>The &lt;message-listener&gt; tags simply tell the controller &quot;Whenever 
+ an event handler broadcasts a message named MESSAGE, execute your function 
+ named FUNCTION.&quot; &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>So, to get something to translate, we need to tell our Controller to 
+ listen for the NeedTranslation message. &nbsp;Add 
+ a new &lt;message-listener&gt; tag to the default &lt;controller&gt; block, 
+ making it look like this:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;controller name=&quot;MyController&quot; type=&quot;modelglueapplicationtemplate.controller.Controller&quot;&gt;</p>
+
+<p class="whs1">&lt;message-listener message=&quot;OnRequestStart&quot; 
+ function=&quot;OnRequestStart&quot; /&gt;</p>
+
+<p class="whs1">&lt;message-listener message=&quot;OnRequestEnd&quot; 
+ function=&quot;OnRequestEnd&quot; /&gt;</p>
+
+<p class="whs1">&lt;message-listener message=&quot;NeedTranslation&quot; 
+ function=&quot;TranslatePhrase&quot; /&gt;</p>
+
+<p>&lt;/controller&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Ok, now try the form. &nbsp;Again.</p>
+
+<p>&nbsp;</p>
+
+<p>Still nothing? &nbsp;There's 
+ one last piece to the puzzle: &nbsp;write 
+ a TranslatePhrase function in the Controller that asks our Model to translate 
+ a phrase! &nbsp;That's 
+ easy enough - just open /translator/controller/Controller.cfc and add 
+ the following &lt;cffunction&gt;:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cffunction name=&quot;TranslatePhrase&quot; access=&quot;public&quot; 
+ returntype=&quot;void&quot; output=&quot;false&quot;&gt;</p>
+
+<p class="whs1">&lt;cfargument name=&quot;event&quot; type=&quot;any&quot;&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset var translator = createObject(&quot;component&quot;, 
+ &quot;translator.model.PigLatinTranslator&quot;).init(&quot;aeiou&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var phrase = arguments.event.getValue(&quot;phrase&quot;) 
+ /&gt;</p>
+
+<p class="whs1">&lt;cfset var result = translator.translate(phrase) 
+ /&gt;</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs1">&lt;cfset arguments.event.trace(&quot;TranslatePhrase 
+ Results&quot;, result) /&gt;</p>
+
+<p class="whs1">&lt;cfset arguments.event.setValue(&quot;translatedPhrase&quot;, 
+ result) /&gt;</p>
+
+<p>&lt;/cffunction&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>So what does all that do?</p>
+
+<p>&nbsp;</p>
+
+<p>First, arguments.event is like the twin sibling of the viewstate variable 
+ in a view. &nbsp;It 
+ has a getValue() method to get variables from the FORM and URL scopes. 
+ &nbsp;However, 
+ it also has a setValue() method that can set values into the viewstate, 
+ readable in views or later message listener functions.</p>
+
+<p>&nbsp;</p>
+
+<p>Second, it creates an instance of our application's Model CFC:</p>
+
+<p class="whs1">&nbsp;</p>
+
+<p class="whs3">&lt;cfset var translator = createObject(&quot;component&quot;, 
+ &quot;translator.model.PigLatinTranslator&quot;).init(&quot;aeiou&quot;) 
+ /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Third, it gets the value of FORM.phrase </p>
+
+<p>&nbsp;</p>
+
+<p class="whs3">&lt;cfset var phrase = arguments.event.getValue(&quot;phrase&quot;) 
+ /&gt;</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">Fourth, it asks the model to translate the 
+ phrase:</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">&lt;cfset var result = translator.translate(phrase) 
+ /&gt;</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">Fifth, it adds the results of the translation 
+ to the Model-Glue debugging output, so that we can see that it's been 
+ translated properly:</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">&lt;cfset arguments.event.trace(&quot;TranslatePhrase 
+ Results&quot;, result) /&gt;</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">Last, it sets the results of the translation 
+ into the viewstate so that our view templates can display the data:</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p class="whs3">&lt;cfset arguments.event.setValue(&quot;translatedPhrase&quot;, 
+ result) /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Ok, finally, run the form! &nbsp;Seriously, 
+ something will happen this time! &nbsp;You 
+ won't get much, but you'll see a line in the Model-Glue debugging trace 
+ labelled &quot;TranslatePhrase Results&quot; that shows the translated 
+ phrase.</p>
+
+<p>&nbsp;</p>
+
+<p>As a last step, let's add a view that shows our translated phrase. &nbsp;That'd 
+ probably make users happy, because we'll turn the debugging trace off 
+ when we deploy this application.</p>
+
+<p>&nbsp;</p>
+
+<p>Following the same steps as we did when we built the form, first add 
+ a dspPhrase.cfm file to /translator/views. &nbsp;You'll 
+ notice that we again use an eXit Event, this time &nbsp;to 
+ build a link back to the translation form. &nbsp;To 
+ the link, we append the &quot;phrase&quot; value. &nbsp;If 
+ you look back at frmPhrase.cfm, the VALUE attribute of our &lt;cfinput&gt; 
+ tag was set to viewstate.getValue(&quot;phrase&quot;). &nbsp;getValue(), 
+ by default, returns an empty string if a value is not defined. &nbsp;By 
+ appending the phrase to the URL, we can set the default value of the input 
+ box.</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cfset translationForm = viewstate.getValue(&quot;myself&quot;) &amp; 
+ viewstate.getValue(&quot;xe.translationForm&quot;) &amp; &quot;&amp;phrase=&quot; 
+ &amp; viewstate.getValue(&quot;phrase&quot;) /&gt;</p>
+
+<p>&lt;cfset translatedPhrase = viewstate.getValue(&quot;translatedPhrase&quot;) 
+ /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;cfoutput&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Translated Phrase: #translatedPhrase#</p>
+
+<p>&lt;br /&gt;</p>
+
+<p>&lt;a href=&quot;#translationForm#&quot;&gt;Translate Again.&lt;/a&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;/cfoutput&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Second, tell the event handler to &lt;include&gt; the view:</p>
+
+<p>&nbsp;</p>
+
+<p>&lt;event-handler name=&quot;translationFormAction&quot;&gt;</p>
+
+<p class="whs1">&lt;broadcasts&gt;</p>
+
+<p class="whs2">&lt;message name=&quot;NeedTranslation&quot; 
+ /&gt;</p>
+
+<p class="whs1">&lt;/broadcasts&gt;</p>
+
+<p class="whs1">&lt;views&gt;</p>
+
+<p class="whs2">&lt;include name=&quot;body&quot; template=&quot;dspPhrase.cfm&quot;&gt;</p>
+
+<p class="whs4">&lt;value name=&quot;xe.translationForm&quot; 
+ value=&quot;translationForm&quot; /&gt;</p>
+
+<p class="whs2">&lt;/include&gt;</p>
+
+<p class="whs1"><span style="margin-left: 80px;">&lt;/views&gt;</span></p>
+
+<p>&lt;/event-handler&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Wow. &nbsp;You 
+ now know about half of Model-Glue. &nbsp;There's 
+ really only another quarter or so that's fundamental knowledge, and the 
+ remaining bit after that is just icing on the cake that you'll use every 
+ now and then.</p>
+
+<p class="whs3">&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C02DC040000416464696E670A416464696E67096473705068726173652E63666D2066696C650A4165696F750A417267756D656E74732E6576656E742E67657456616C75650A42720A4366617267756D656E740A4346430A43464309706F696E74730A436666756E6374696F6E0A4366696E7075740A43666F75747075740A436673657420617267756D656E74732E6576656E742E73657456616C75650A436673657420617267756D656E74732E6576656E742E74726163650A4366736574207472616E736C617465645068726173650A4366736574207472616E736C6174696F6E466F726D0A4366736574207661720A436F6E74726F6C6C65720A436F6E74726F6C6C6572204346430A4372656174654F626A6563740A4473705068726173652E63666D0A4473705068726173652E63666D2066696C650A4473705068726173652E63666D2066696C65096164640A45680A45586974204576656E740A46697273742C20617267756D656E74732E6576656E740A464F524D0A464F524D0948616E646C696E670A464F524D2E7068726173650A46726D5068726173652E63666D0A46554E4354494F4E0A47657456616C75650A48616E646C696E670A48616E646C696E6709466F726D0A487265660A496E69740A4C697374656E0A4C697374656E094E6565645472616E736C6174696F6E0A4C6F63616C686F73742F7472616E736C61746F722F696E6465782E63666D3F6576656E740A4D4553534147450A4D6573736167652D6C697374656E65720A4D6F64656C0A4D6F64656C2D476C75650A4D6F64656C2D476C756520646562756767696E670A4D6F64656C204346430A4D6F64656C476C75652E786D6C0A4D6F64656C676C75656170706C69636174696F6E74656D706C6174652E636F6E74726F6C6C65722E436F6E74726F6C6C65720A4D79436F6E74726F6C6C65720A4E6565645472616E736C6174696F6E0A4E6565645472616E736C6174696F6E096C697374656E0A4E6F770A4F6E52657175657374456E640A4F6E5265717565737453746172740A506F696E74730A506F696E7473094346430A517569636B73746172740A52657475726E547970650A53657456616C75650A5472616E736174696F6E466F726D0A5472616E736C61746564205068726173650A5472616E736C617465645068726173650A5472616E736C6174655068726173650A5472616E736C6174655068726173650977726974650A5472616E736C61746550687261736520526573756C74730A5472616E736C6174696F6E466F726D0A5472616E736C6174696F6E466F726D23223E5472616E736C61746520416761696E2E3C2F610A5472616E736C6174696F6E466F726D416374696F6E0A5472616E736C61746F722E6D6F64656C2E5069674C6174696E5472616E736C61746F720A5472616E736C61746F722E7472616E736C6174650A5472616E736C61746F722F636F6E6669672F4D6F64656C476C75652E786D6C0A5472616E736C61746F722F636F6E74726F6C6C65722F436F6E74726F6C6C65722E6366630A5472616E736C61746F722F76696577730A545950450A55524C0A5573650A56616C75650A566965770A5669657773746174650A5669657773746174652E67657456616C75650A5768656E657665720A57726974650A5772697465095472616E736C6174655068726173650A58652E7472616E736C6174696F6E466F726D0A584D4C0D021D000000517569636B737461727420343A2048616E646C696E67206120466F726D11020A000000517569636B737461727412021D000000517569636B737461727420343A2048616E646C696E67206120466F726D13020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

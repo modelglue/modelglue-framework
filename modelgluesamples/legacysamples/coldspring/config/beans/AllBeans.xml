@@ -1,0 +1,8 @@
+<beans>
+    <bean id="timeFormat"
+        class="modelgluesamples.legacysamples.coldspring.config.beans.TimeFormatBean">
+		<property name="TimeFormat">
+			<value>H:MM TT</value>
+		</property>
+    </bean>
+</beans>

@@ -1,0 +1,46 @@
+<beans>
+  <!-- This is your Model-Glue configuration -->
+	<bean id="modelGlueConfiguration" class="modelglue.unity.framework.ModelGlueConfiguration">
+    <!-- Be sure to change reload to false when you go to production! -->
+    <property name="reload"><value>true</value></property>
+		<!-- Rescaffold is overridden by reload - if reload is false, rescaffold's setting doesn't matter -->
+    <property name="rescaffold"><value>false</value></property>
+    <!-- Be sure to change debug to false when you go to production! -->
+    <property name="debug"><value>false</value></property>
+    <property name="defaultEvent"><value>page.index</value></property>
+    <property name="reloadPassword"><value>true</value></property>
+    <property name="viewMappings"><value>/modelgluesamples/widget/transfer/views</value></property>
+    <property name="generatedViewMapping"><value>/modelgluesamples/widget/transfer/views/generated</value></property>
+    <property name="configurationPath"><value>config/ModelGlue.xml</value></property>
+    <property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
+    <property name="statePrecedence"><value>form</value></property>
+    <property name="reloadKey"><value>init</value></property>
+    <property name="eventValue"><value>event</value></property>
+    <property name="defaultTemplate"><value>index.cfm</value></property>
+    <property name="defaultExceptionHandler"><value>exception</value></property>
+    <property name="defaultCacheTimeout"><value>5</value></property>
+    <property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
+  </bean>
+  
+	<!-- Put definitions for your own beans and services here -->
+	<bean id="datasource" class="ModelGlue.Bean.CommonBeans.Datasource">
+		<property name="DSN"><value>widget</value></property>
+	</bean>
+	
+	<bean id="WidgetTypeGateway" class="modelgluesamples.widget.transfer.model.widgettype.WidgetTypeGateway">
+		<constructor-arg name="datasource"><ref bean="datasource" /></constructor-arg>
+	</bean>
+	
+  <!-- 
+		To use Transfer as an ORM framework, uncomment the following:
+	-->	
+
+	<alias alias="ormAdapter" name="ormAdapter.Transfer" />
+	<alias alias="ormService" name="ormService.Transfer" />
+	<bean id="transferConfiguration" class="transfer.com.config.Configuration">
+	 <constructor-arg name="datasourcePath"><value>/modelgluesamples/widget/transfer/config/transfer/Datasource.xml</value></constructor-arg>
+	 <constructor-arg name="configPath"><value>/modelgluesamples/widget/transfer/config/transfer/Transfer.xml</value></constructor-arg>
+	 <constructor-arg name="definitionPath"><value>/modelgluesamples/widget/transfer/model/data/transfer</value></constructor-arg>
+	</bean>
+
+</beans>

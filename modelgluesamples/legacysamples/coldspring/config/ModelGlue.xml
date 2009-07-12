@@ -1,0 +1,72 @@
+<modelglue>
+  <config>
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/coldspring/config/beans/AllBeans.xml" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/coldspring/views" />
+    <setting name="reload" value="true" />
+    <setting name="defaultEvent" value="Home" />
+
+	<setting name="beanFactoryLoader" value="ModelGlue.Core.ColdSpringLoader" />
+
+    <!-- These are all optional as of 1.0	
+      <setting name="statebuilder" value="ModelGlue.Util.GenericCollection" />
+      <setting name="defaultEvent" value="Home" />
+      <setting name="reloadKey" value="init" />
+      <setting name="reloadPassword" value="true" />
+      <setting name="statePrecedence" value="Form" />
+      <setting name="eventValue" value="event" />
+      <setting name="defaultTemplate" value="index.cfm" />
+      <setting name="defaultExceptionHandler" value="Exception" />
+      <setting name="debug" value="true" />
+      <setting name="defaultCacheTimeout" value="5" />
+    -->
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.coldspring.controller.Controller">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <!-- Message-Listener Template
+      <message-listener message="BroadcastMessageName" function="ControllerFunctionToFire">
+        <argument name="AnEventArgument" value="aValue" />
+      </message-listener>
+      -->
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+    <!-- Event-Handler Template
+      <broadcasts>
+        <message name="DoSomething">
+          <argument name="SampleArg" value="iAmASampleArgument" />
+        </message>
+      </broadcasts>
+      <views>
+        <include name="body" template="page.cfm" append="false">
+					<value name="SomeValue" value="I am a value available in Viewstate" overwrite="false" />
+        </include>
+      </views>
+      <results>
+      	<result name="resultValue" do="EventHandlerName" />
+      	<result name="redirectingResultValue" do="EventHandlerName" redirect="true" />
+      	<result do="resultThatWillAlwaysRun" />
+      </results>
+		--> 
+    
+    <event-handler name="Home">
+      <broadcasts />
+      <views>
+      	<include name="body" template="dspBody.cfm" />
+				<include name="main" template="dspTemplate.cfm" />
+      </views>
+      <results />
+    </event-handler>
+    
+    <event-handler name="Exception">
+      <broadcasts />
+			<views>
+    		<include name="body" template="dspException.cfm" />
+    	</views>
+      <results />
+		</event-handler>
+  </event-handlers>
+</modelglue>

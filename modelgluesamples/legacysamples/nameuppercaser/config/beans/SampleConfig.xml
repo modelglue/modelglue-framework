@@ -1,0 +1,21 @@
+<bean class="ModelGlue.Bean.CommonBeans.SimpleConfig" singleton="true">
+  <property name="config">
+    <struct>
+      <entry key="DefaultName"><value>George</value></entry>
+      <entry key="complexConfigSetting">
+        <struct>
+          <entry key="An Array">
+		        <array>
+		          <value>Array Member 1</value>
+		          <value>Array Member 2</value>
+		          <value>Array Member 3</value>
+		        </array>
+		      </entry>
+		      <entry key="A Simple Value">
+		        <value>A nice, easy value.</value>
+		      </entry>
+		    </struct>
+      </entry>
+    </struct>
+  </property>
+</bean>

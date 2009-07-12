@@ -1,0 +1,88 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<html>
+<script language="javascript1.2" src="whutils.js"></script>
+<script language="javascript1.2">
+<!--
+var gsTopic="";
+
+if (location.hash.length > 1)
+{
+	var nPos = location.hash.indexOf(">>");
+	if (nPos>1)
+	{
+		gsTopic = location.hash.substring(1, nPos);
+		parseParam(location.hash.substring(nPos+2));
+	}
+	else
+		gsTopic = location.hash.substring(1);
+}
+
+
+	var strHtml="";
+	strHtml+="<frameset rows=\'100%,*\'>";
+	strHtml+="<frame name=\'topicwindow\' src=\'" + gsTopic +"\'></frame>";
+	strHtml+="<frame src=\'whskin_blank.htm\' noresize></frame>";
+	strHtml+="</frameset>";
+	document.write(strHtml);
+
+function parseParam(sParam)
+{
+	if (sParam)
+	{
+		var nBPos=0;
+		do 
+		{
+			var nPos=sParam.indexOf(">>", nBPos);
+			if (nPos!=-1)
+			{
+				if (nPos>0)
+				{
+					var sPart=sParam.substring(nBPos, nPos);
+					parsePart(sPart);
+				}
+				nBPos = nPos + 2;
+			}
+			else
+			{
+				var sPart=sParam.substring(nBPos);
+				parsePart(sPart);
+				break;
+			}
+		} while(nBPos < sParam.length);
+	}	
+}
+
+function parsePart(sPart)
+{
+	if(sPart.toLowerCase().indexOf("cap=")==0)
+	{
+		document.title=_browserStringToText(sPart.substring(4));
+	}
+}
+//-->
+</script>
+</html>

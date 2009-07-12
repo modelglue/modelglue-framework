@@ -1,0 +1,18 @@
+<bean class="modelgluesamples.legacysamples.configbeantutorial.config.beans.DateTimeFormatBean" singleton="true">
+  <!-- Time Format -->
+  <property name="TimeFormat">
+  	<value>H:MM TT</value>
+  </property>
+  
+  <!-- Date Format -->
+  <property name="DateFormat">
+	<struct>
+	  <element key="Long">
+	    <value>mmm d, yyyy</value>
+	  </element>
+	  <element key="Short">
+	    <value>m/d/yy</value>
+	  </element>
+	</struct>
+  </property>
+</bean>

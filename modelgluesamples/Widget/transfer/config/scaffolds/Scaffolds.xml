@@ -1,0 +1,622 @@
+
+<!-- Warning:  this file is generated.  It may be overwritten at any time. -->
+<modelglue>
+	<event-handlers>
+		
+		
+			
+			<event-handler name="widget.Widget.list" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+									<argument name="queryName" value="widget.WidgetQuery" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.WidgetList.cfm" append="true">
+							
+								<value name="xe.view" value="widget.Widget.view" overwrite="true" />
+							
+								<value name="xe.delete" value="widget.Widget.delete" overwrite="true" />
+							
+								<value name="xe.edit" value="widget.Widget.edit" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.Widget.edit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+									<argument name="queryName" value="widget.WidgetTypeList" />
+								
+							</message>
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+									<argument name="queryName" value="widget.WidgetCategoryList" />
+								
+							</message>
+						
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetRecord" />
+								
+									<argument name="criteria" value="widgetId" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="frmwidget.Widget.cfm" append="true">
+							
+								<value name="xe.commit" value="widget.Widget.commit" overwrite="true" />
+							
+								<value name="xe.list" value="widget.Widget.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.Widget.view" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetRecord" />
+								
+									<argument name="criteria" value="widgetId" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.Widget.cfm" append="true">
+							
+								<value name="xe.list" value="widget.Widget.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.Widget.Commit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericCommit">
+								
+									<argument name="recordName" value="widget.WidgetRecord" />
+								
+									<argument name="criteria" value="widgetId" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+									<argument name="validationName" value="widget.WidgetValidation" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+						
+							<result name="commit" do="widget.Widget.list" redirect="true" append="" preserveState="false" />
+						
+					
+						
+							<result name="validationError" do="widget.Widget.edit" redirect="false" append="widgetId" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.Widget.delete" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericDelete">
+								
+									<argument name="criteria" value="widgetId" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+							<result name="" do="widget.Widget.list" redirect="true" append="" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetType.list" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+									<argument name="queryName" value="widget.WidgetTypeQuery" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.WidgetTypeList.cfm" append="true">
+							
+								<value name="xe.view" value="widget.WidgetType.view" overwrite="true" />
+							
+								<value name="xe.delete" value="widget.WidgetType.delete" overwrite="true" />
+							
+								<value name="xe.edit" value="widget.WidgetType.edit" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetType.edit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+									<argument name="queryName" value="widget.WidgetList" />
+								
+							</message>
+						
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetTypeRecord" />
+								
+									<argument name="criteria" value="widgetTypeId" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="frmwidget.WidgetType.cfm" append="true">
+							
+								<value name="xe.commit" value="widget.WidgetType.commit" overwrite="true" />
+							
+								<value name="xe.list" value="widget.WidgetType.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetType.view" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetTypeRecord" />
+								
+									<argument name="criteria" value="widgetTypeId" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.WidgetType.cfm" append="true">
+							
+								<value name="xe.list" value="widget.WidgetType.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetType.Commit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericCommit">
+								
+									<argument name="recordName" value="widget.WidgetTypeRecord" />
+								
+									<argument name="criteria" value="widgetTypeId" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+									<argument name="validationName" value="widget.WidgetTypeValidation" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+						
+							<result name="commit" do="widget.WidgetType.list" redirect="true" append="" preserveState="false" />
+						
+					
+						
+							<result name="validationError" do="widget.WidgetType.edit" redirect="false" append="widgetTypeId" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetType.delete" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericDelete">
+								
+									<argument name="criteria" value="widgetTypeId" />
+								
+									<argument name="object" value="widget.WidgetType" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+							<result name="" do="widget.WidgetType.list" redirect="true" append="" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetCategory.list" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+									<argument name="queryName" value="widget.WidgetCategoryQuery" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.WidgetCategoryList.cfm" append="true">
+							
+								<value name="xe.view" value="widget.WidgetCategory.view" overwrite="true" />
+							
+								<value name="xe.delete" value="widget.WidgetCategory.delete" overwrite="true" />
+							
+								<value name="xe.edit" value="widget.WidgetCategory.edit" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetCategory.edit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericList">
+								
+									<argument name="criteria" value="" />
+								
+									<argument name="object" value="widget.Widget" />
+								
+									<argument name="queryName" value="widget.WidgetList" />
+								
+							</message>
+						
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetCategoryRecord" />
+								
+									<argument name="criteria" value="widgetCategoryId" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="frmwidget.WidgetCategory.cfm" append="true">
+							
+								<value name="xe.commit" value="widget.WidgetCategory.commit" overwrite="true" />
+							
+								<value name="xe.list" value="widget.WidgetCategory.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetCategory.view" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericRead">
+								
+									<argument name="recordName" value="widget.WidgetCategoryRecord" />
+								
+									<argument name="criteria" value="widgetCategoryId" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+						<view name="body" template="dspwidget.WidgetCategory.cfm" append="true">
+							
+								<value name="xe.list" value="widget.WidgetCategory.list" overwrite="true" />
+							
+						</view>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetCategory.Commit" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericCommit">
+								
+									<argument name="recordName" value="widget.WidgetCategoryRecord" />
+								
+									<argument name="criteria" value="widgetCategoryId" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+									<argument name="validationName" value="widget.WidgetCategoryValidation" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+					
+						
+							<result name="commit" do="widget.WidgetCategory.list" redirect="true" append="" preserveState="false" />
+						
+					
+						
+							<result name="validationError" do="widget.WidgetCategory.edit" redirect="false" append="widgetCategoryId" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+			
+			<event-handler name="widget.WidgetCategory.delete" access="public">
+				<broadcasts>
+					
+						
+							<message name="ModelGlue.genericDelete">
+								
+									<argument name="criteria" value="widgetCategoryId" />
+								
+									<argument name="object" value="widget.WidgetCategory" />
+								
+							</message>
+						
+					
+				</broadcasts>
+				<views>
+					
+				</views>
+				<results>
+					
+						
+							<result name="" do="view.template" redirect="false" append="" preserveState="true" />
+						
+							<result name="" do="widget.WidgetCategory.list" redirect="true" append="" preserveState="false" />
+						
+					
+				</results>
+			</event-handler>
+		
+		
+		
+	</event-handlers>
+</modelglue>
+	

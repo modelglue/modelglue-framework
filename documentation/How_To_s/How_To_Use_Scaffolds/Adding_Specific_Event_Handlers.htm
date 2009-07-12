@@ -1,0 +1,198 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<!doctype HTML public "-//W3C//DTD HTML 4.0 Frameset//EN">
+
+<html>
+
+<head>
+<title>Adding Specific Event Handlers</title>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta name="generator" content="RoboHelp by eHelp Corporation www.ehelp.com">
+<link rel="stylesheet" href="../../default_ns.css"><script type="text/javascript" language="JavaScript" title="WebHelpSplitCss">
+<!--
+if (navigator.appName !="Netscape")
+{   document.write("<link rel='stylesheet' href='../../default.css'>");}
+//-->
+</script>
+<style type="text/css">
+<!--
+p.whs1 { font-size:10pt; font-family:'Courier New' , monospace; }
+p.whs2 { font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs3 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:40px; }
+p.whs4 { margin-left:80px; font-family:'Courier New' , monospace; font-size:10pt; }
+p.whs5 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:80px; }
+p.whs6 { font-family:'Courier New' , monospace; font-size:10pt; margin-left:0px; }
+-->
+</style><script type="text/javascript" language="JavaScript">
+<!--
+if ((navigator.appName == "Netscape") && (parseInt(navigator.appVersion) == 4))
+{
+  var strNSS = "<style type='text/css'>";
+  strNSS += "p.whs6 {margin-left:1pt; }";
+  strNSS +="</style>";
+  document.write(strNSS);
+}
+//-->
+</script>
+<script type="text/javascript" language="JavaScript" title="WebHelpInlineScript">
+<!--
+function reDo() {
+  if (innerWidth != origWidth || innerHeight != origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion) == 4) && (navigator.appName == "Netscape")) {
+	origWidth = innerWidth;
+	origHeight = innerHeight;
+	onresize = reDo;
+}
+onerror = null; 
+//-->
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute; left:0px; top:0px; z-index:4; visibility:hidden; }
+-->
+</style><script type="text/javascript" language="javascript1.2" src="../../whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="../../whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="../../whtopic.js"></script>
+</head>
+<body><script type="text/javascript" language="javascript1.2">
+<!--
+if (window.gbWhTopic)
+{
+	if (window.addTocInfo)
+	{
+	addTocInfo("How To's\nHow To Use Scaffolds\nAdding Specific Event Handlers");
+addButton("show",BTN_TEXT,"Show","","","","",0,0,"","","");
+
+	}
+	if (window.writeBtnStyle)
+		writeBtnStyle();
+
+	if (window.writeIntopicBar)
+		writeIntopicBar(1);
+
+	if (window.setRelStartPage)
+	{
+	setRelStartPage("../../Model-Glue.htm");
+addSearchFormHref("javascript:document.ehelpform.submit()");
+
+		autoSync(1);
+		sendSyncInfo();
+		sendAveInfoOut();
+	}
+}
+else
+	if (window.gbIE4)
+		document.location.reload();
+//-->
+</script>
+<h1>Adding Specific Event Handlers</h1>
+
+<p>By default, the &lt;scaffold&gt; tag adds five event-handlers: &nbsp;<span 
+ style="font-style: italic;"><I>table</I></span>.list, 
+ <span style="font-style: italic;"><I>table</I></span>.view, <span style="font-style: italic;"><I>table</I></span>.edit, 
+ <span style="font-style: italic;"><I>table</I></span>.commit, <span style="font-style: italic;"><I>table</I></span>.delete.</p>
+
+<p>&nbsp;</p>
+
+<p>However, you may not want all of these added by default. &nbsp;To 
+ adjust the list of scaffolds to automatically create, change the value 
+ of the DefaultScaffolds property of the ModelGlueConfiguration bean in 
+ ColdSpring.xml. &nbsp;For 
+ example, to only automatically create view and list scaffolds, the tag 
+ would be changed to the following:</p>
+
+<p>&nbsp;</p>
+
+<p class="whs1">&lt;property 
+ name=&quot;defaultScaffolds&quot;&gt;&lt;value&gt;list,view&lt;/value&gt;&lt;/property&gt;</p>
+
+<p>&nbsp;</p>
+
+<p>Edit, commit, delete, and delete scaffolds are still available, but 
+ would need to be specified in the scaffold tag's TYPE attribute (see below).</p>
+
+<p>&nbsp;</p>
+
+<h2>Using the TYPE attribute</h2>
+
+<p>For a given scaffold tag, you may specify the list of event-handlers 
+ to create by using the TYPE attribute of the scaffold tag. &nbsp;This 
+ is especially useful for applying functionality such as security. &nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>For example, in a given application where anyone can view contacts but 
+ only administrators can update contacts, we could use the following XML 
+ in ModelGlue.xml to protect the edit, commit, and delete event handlers 
+ from unauthorized access (assuming a message listener for &quot;UserMustBeAdministrator&quot; 
+ performs security functionality and adds a result named &quot;SecurityViolation&quot; 
+ in the event of bad access):</p>
+
+<p>&nbsp;</p>
+
+<p class="whs2">&lt;scaffold 
+ object=&quot;contact&quot; type=&quot;list,view&quot; /&gt;</p>
+
+<p>&nbsp;</p>
+
+<p class="whs2">&lt;scaffold 
+ object=&quot;contact&quot; type=&quot;edit,commit,delete&quot;&gt;</p>
+
+<p class="whs3">&lt;broadcasts&gt;</p>
+
+<p class="whs4">&lt;message name=&quot;UserMustBeAdministrator&quot; 
+ /&gt;</p>
+
+<p class="whs3">&lt;/broadcasts&gt;</p>
+
+<p class="whs3">&lt;results&gt;</p>
+
+<p class="whs5">&lt;result name=&quot;SecurityViolation&quot; 
+ do=&quot;SecurityViolation&quot; redirect=&quot;true&quot; /&gt;</p>
+
+<p class="whs3">&lt;/results&gt;</p>
+
+<p class="whs6">&lt;/scaffold&gt;</p>
+
+<p class="whs6">&nbsp;</p>
+
+<p class="whs6">&nbsp;</p>
+
+<script type="text/javascript" language="javascript1.2">
+<!--
+if (window.writeIntopicBar)
+	writeIntopicBar(0);
+//-->
+</script>
+<form method="POST" action="http://www.helpcommunity.com/ehelpapi.asp?cmd=WebSave" name="ehelpform" target="_top" style="display:'none';">
+<input type="hidden" name="data" value="2A0C026A010000416464696E670A416464696E67095370656369666963204576656E742048616E646C6572730A436F6C64537072696E672E786D6C0A44656661756C7453636166666F6C64730A44656661756C7453636166666F6C6473223E3C76616C75653E6C6973742C766965773C2F76616C75653E3C2F70726F70657274790A456469742C636F6D6D69742C64656C6574650A4C6973742C766965770A4D6F64656C476C75652E786D6C0A4D6F64656C476C7565436F6E66696775726174696F6E0A536563757269747956696F6C6174696F6E0A5370656369666963204576656E742048616E646C6572730A5370656369666963204576656E742048616E646C65727309416464696E670A5461626C652E636F6D6D69740A5461626C652E64656C6574650A5461626C652E656469740A5461626C652E6C6973740A5461626C652E766965770A545950450A5573650A557365724D757374426541646D696E6973747261746F720A566965770A584D4C0D021E000000416464696E67205370656369666963204576656E742048616E646C657273110214000000486F7720546F205573652053636166666F6C647312021E000000416464696E67205370656369666963204576656E742048616E646C65727313020A0000004D6F64656C2D476C756515020E0000004D6F64656C2D476C75652E68746D1703740100003C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C21444F43545950452053595354454D20226568656C706F70742E647464223E0D0A3C46494C452D4F5054494F4E532046494C452D56455253494F4E3D2232222046494C452D4B45593D2263323632313233345F653033665F346132615F623330375F626338613265383665353464223E0D0A3C2F46494C452D4F5054494F4E533E0D0A3C4548454C502D4F5054494F4E5320464F524D41542D56455253494F4E3D22312E30223E0D0A203C4F5054494F4E5320454E41424C45443D225945532220454D4245444445443D2259455322204D41494E2D57494E444F572D4F4E4C593D224E4F2220434F4D4D554E4954592D4E4F544946593D224E4F222046495253542D504147453D224E4F542D534554223E0D0A203C2F4F5054494F4E533E0D0A203C425554544F4E2D4C4142454C3E5765625365617263680D0A203C2F425554544F4E2D4C4142454C3E0D0A3C2F4548454C502D4F5054494F4E533E18010400000002000000702A">
+</form>
+</body>
+</html>

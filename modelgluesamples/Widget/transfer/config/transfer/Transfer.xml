@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+It'd be a good idea to uncomment this, pointing the xsi:noNamespaceSchemaLocation attribute to transfer's .xsd 
+	
+<transfer xsi:noNamespaceSchemaLocation="../../../../transfer/resources/xsd/transfer.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+-->
+
+<transfer>
+  <objectDefinitions>
+		<package name="widget">
+			<object name="Widget" table="widget">
+				<id name="widgetId" type="numeric" />
+				<property name="name" type="string" nullable="false" />
+				<property name="isActive" type="boolean" nullable="false" />
+				<manytomany name="WidgetCategory" table="Widget_WidgetCategory" lazy="true">
+					<link column="widgetId" to="widget.Widget" />
+					<link column="widgetCategoryId" to="widget.WidgetCategory" />
+					<collection type="array">
+						<key property="widgetCategoryId"/>
+					</collection>
+				</manytomany>
+			</object>
+			<object name="WidgetType" table="widgetType">
+				<id name="widgetTypeId" type="numeric" />
+				<property name="name" type="string" nullable="false" />
+				<onetomany name="Widget">
+					<link column="widgetTypeId" to="widget.Widget" />
+					<collection type="struct">
+						<key property="widgetId"/>
+					</collection>
+				</onetomany>
+			</object>
+			<object name="WidgetCategory" table="widgetCategory">
+				<id name="widgetCategoryId" type="numeric" />
+				<property name="name" type="string" nullable="false" />
+				<manytomany name="Widget" table="Widget_WidgetCategory" lazy="true">
+					<link column="widgetCategoryId" to="widget.WidgetCategory" />
+					<link column="widgetId" to="widget.Widget" />
+					<collection type="array">
+						<key property="widgetId"/>
+					</collection>
+				</manytomany>
+			</object>
+		</package>
+  </objectDefinitions>
+</transfer>

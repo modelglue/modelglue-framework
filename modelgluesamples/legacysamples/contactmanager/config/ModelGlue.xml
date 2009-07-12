@@ -1,0 +1,114 @@
+<modelglue>
+  <config>
+    <setting name="beanMappings" value="/modelgluesamples/legacysamples/contactmanager/config/beans/" />
+    <setting name="viewMappings" value="/modelgluesamples/legacysamples/contactmanager/views" />
+	<setting name="reload" value="false" />
+	<setting name="defaultEvent" value="showHome" />
+  </config>
+
+  <controllers>
+    <controller name="myController" type="modelgluesamples.legacysamples.contactmanager.controller.ContactManagerController">
+      <message-listener message="OnRequestStart" function="OnRequestStart" />
+      <message-listener message="OnRequestEnd" function="OnRequestEnd" />
+      <message-listener message="ListContacts" function="ListContacts" />
+      <message-listener message="GetContact" function="GetContact" />
+      <message-listener message="PrepareContactForm" function="ShowContactForm" />
+      <message-listener message="CommitContact" function="CommitContact" />
+      <message-listener message="CommitContactAgainDammit" function="CommitContact" />
+      <message-listener message="CancelEditContact" function="CancelEditContact" />
+
+
+      <message-listener message="DoSomething" function="OnRequestEnd" />
+    </controller>
+  </controllers>
+  
+  <event-handlers>
+  	<!-- Public Events -->
+    <event-handler name="ShowHome" access="public">
+      <views>
+      	<include name="body" template="mainMenu.cfm" />
+      </views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+		
+    <event-handler name="ListContacts" access="public">
+      <broadcasts>
+      	<message name="ListContacts" />
+      </broadcasts>
+      <views>
+      	<include name="body" template="listContacts.cfm" />
+      </views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+    
+    <event-handler name="ViewContact" access="public">
+    	<broadcasts>
+    		<message name="GetContact" />
+    	</broadcasts>
+      <views>
+      	<include name="body" template="viewContact.cfm" />
+      </views>
+      <results>
+      	<result name="success" do="Layout" />
+      </results>
+    </event-handler>
+    
+    <event-handler name="EditContact" access="public">
+    	<broadcasts>
+    		<message name="GetContact" />
+    	</broadcasts>
+    	<results>
+    		<result name="success" do="ShowContactForm" />
+      </results>
+    </event-handler>
+    
+    <event-handler name="CommitContact" access="public">
+    	<broadcasts>
+    		<message name="CommitContact" />
+    		<message name="CommitContact" />
+    	</broadcasts>
+    	<results>
+    		<result name="success" do="ListContacts" redirect="true" />
+    		<result name="invalid" do="ShowContactForm" />
+    	</results>
+    </event-handler>
+
+    <event-handler name="CancelEditContact" access="public">
+    	<broadcasts>
+    		<message name="CancelEditContact" />
+      </broadcasts>
+    </event-handler>
+
+    <event-handler name="Exception" access="public">
+    	<views>
+    		<include name="body" template="exception.cfm" />
+    	</views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+
+		<!-- Private Events -->
+		<event-handler name="Layout" access="private">
+    	<views>
+    		<include name="main" template="mainTemplate.cfm" />
+    	</views>
+		</event-handler>
+		
+    <event-handler name="ShowContactForm" access="private">
+    	<broadcasts>
+    		<message name="PrepareContactForm" />
+      </broadcasts>
+    	<views>
+    		<include name="body" template="contactForm.cfm" />
+      </views>
+      <results>
+      	<result do="Layout" />
+      </results>
+    </event-handler>
+  </event-handlers>
+</modelglue>

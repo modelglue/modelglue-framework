@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='windows-1252' ?>
+<ftstdata>
+<topic name="&lt;views&gt;" url="Reference_Materials/Model-Glue_XML_Reference/Tags/_views_.htm" />
+<topic name="Reference Materials" url="Reference_Materials/Reference_Materials.htm" />
+<topic name="View API" url="Reference_Materials/View_API/View_API.htm" />
+<topic name="ViewCollection.Exists(name:string)" url="Reference_Materials/View_API/ViewCollection.Exists(name_string).htm" />
+<topic name="ViewCollection.GetView(name:string)" url="Reference_Materials/View_API/ViewCollection.GetView(name_string).htm" />
+<topic name="ViewCollection" url="Reference_Materials/View_API/ViewCollection.htm" />
+<topic name="Viewstate.Exists(name:string)" url="Reference_Materials/View_API/Viewstate.Exists().htm" />
+<topic name="Viewstate.GetAll()" url="Reference_Materials/View_API/Viewstate.GetAll().htm" />
+<topic name="Viewstate.GetValue(name:string [, default:any])" url="Reference_Materials/View_API/Viewstate.GetValue().htm" />
+<topic name="Viewstate" url="Reference_Materials/View_API/Viewstate.htm" />
+<topic name="Upgrader's Guide" url="Upgrading_From_Model-Glue_1/Upgrader_s_Guide.htm" />
+
+</ftstdata>  

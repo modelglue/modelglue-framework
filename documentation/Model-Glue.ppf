@@ -1,0 +1,273 @@
+<!---
+LICENSE INFORMATION:
+
+Copyright 2007, Joe Rinehart
+ 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+use this file except in compliance with the License. 
+
+You may obtain a copy of the License at 
+
+	http://www.apache.org/licenses/LICENSE-2.0 
+	
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+specific language governing permissions and limitations under the License.
+
+VERSION INFORMATION:
+
+This file is part of Model-Glue Model-Glue: ColdFusion (2.0.304).
+
+The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
+--->
+
+
+<?xml version="1.0" ?>
+<!DOCTYPE polprojfile>
+<ppfml version="2.00" project="Model-Glue">
+ <windowlist>
+  <window name="NewWindow" x="5%" y="5%" width="90%" height="90%" viewtype="doublepane" workspacestyle="DEFAULT" toolbar="off" locationbar="off" menu="off" resizable="yes" statusbar="off" usecurrentwindowsettings="yes" caption="NewWindow" skin="WebHelp_Skin_Files\XP_Silver\XP_Silver.skn">
+   <elements><element name="BrowseSequence" Present="yes" /><element name="SearchInput" Present="no" /><element name="SkinInstruction" value="whskin_ep_ins.xml" />
+   </elements>
+   <agents defaultagent="toc">
+    <agent>toc
+    </agent>
+    <agent>ndx
+    </agent>
+    <agent>nls
+    </agent>
+    <agent>gls
+    </agent>
+   </agents>
+  </window>
+ </windowlist>
+ <contextmap>
+ </contextmap>
+ <topiclist defaulttopic="Read_me_first!\Don_t_Panic!.htm">
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_event-handlers_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_event-handler_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\ModelGlue_XML_References.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_modelglue_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_controllers_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_controller_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_message-listener_.htm
+  </topic>
+  <topic>Reference_Materials\Reference_Materials.htm
+  </topic>
+  <topic>Installing_Model-Glue\Installing_Model-Glue.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_scaffold_.htm
+  </topic>
+  <topic>Read_me_first!\Don_t_Panic!.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_include_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_value_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_config_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_include__(child_tag_of__modelglue_).htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_result_.htm
+  </topic>
+  <topic>Reference_Materials\View_API\Viewstate.htm
+  </topic>
+  <topic>Reference_Materials\View_API\Viewstate.GetValue().htm
+  </topic>
+  <topic>Reference_Materials\View_API\View_API.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_API\Model-Glue_API.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_API\GetConfigBean().htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_setting_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_results_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_views_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_message_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_argument_.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_XML_Reference\Tags\_broadcasts_.htm
+  </topic>
+  <topic>Reference_Materials\View_API\Viewstate.GetAll().htm
+  </topic>
+  <topic>Reference_Materials\View_API\ViewCollection.GetView(name_string).htm
+  </topic>
+  <topic>Reference_Materials\View_API\Viewstate.Exists().htm
+  </topic>
+  <topic>Reference_Materials\View_API\ViewCollection.htm
+  </topic>
+  <topic>Reference_Materials\Controller_API\Adding_a_Message_Listener_Function.htm
+  </topic>
+  <topic>Reference_Materials\Controller_API\Controller_API.htm
+  </topic>
+  <topic>Reference_Materials\View_API\ViewCollection.Exists(name_string).htm
+  </topic>
+  <topic>Reference_Materials\Controller_API\GetModelGlue().htm
+  </topic>
+  <topic>Reference_Materials\Controller_API\GetFromCache(name_string).htm
+  </topic>
+  <topic>Reference_Materials\Controller_API\AddToCache(name_string,_value_any,__timeout_numeric_).htm
+  </topic>
+  <topic>Reference_Materials\Event_API\GetAllValues().htm
+  </topic>
+  <topic>Reference_Materials\Event_API\GetValue(name_string,__default_any_).htm
+  </topic>
+  <topic>Reference_Materials\Event_API\Event_API.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_API\GetBean().htm
+  </topic>
+  <topic>Reference_Materials\Event_API\Trace(name_string,_value_any).htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\GeneratedViewMapping.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\ViewMappings.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\ReloadPassword.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\Rescaffold.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\Debug.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\Configuration_Setting_Definitions.htm
+  </topic>
+  <topic>Reference_Materials\Model-Glue_API\GetOrmService().htm
+  </topic>
+  <topic>Reference_Materials\Event_API\ArgumentExists.htm
+  </topic>
+  <topic>Reference_Materials\Event_API\GetAllArguments.htm
+  </topic>
+  <topic>Reference_Materials\Event_API\GetArgument(name_string,__default_any_).htm
+  </topic>
+  <topic>Reference_Materials\Event_API\Forward(eventhandler_string__,_append_list_).htm
+  </topic>
+  <topic>Reference_Materials\Event_API\AddResult(name_string).htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\Reload.htm
+  </topic>
+  <topic>Reference_Materials\Event_API\MakeEventBean(type_any,__fields_list_).htm
+  </topic>
+  <topic>Reference_Materials\Event_API\ValueExists(string_name).htm
+  </topic>
+  <topic>Quickstart\Quickstart.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\PathToConfigXML.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\Type.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\Project.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\StatePrecedence.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\Mapping.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\New_Topic.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\ColdSpring_XML_Reference.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\DefaultScaffolds.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\DefaultCacheTimeout.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\DefaultTemplate.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\DefaultExceptionHandler.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\ReloadKey.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Reactor_Configuration_Setting_Definitions\DSN.htm
+  </topic>
+  <topic>Reference_Materials\ColdSpring_XML_Reference\Model-Glue_Configuration_Setting_Definitions\EventValue.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Generic_Database_Messages\Using_modelglue.GenericDelete.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Generic_Database_Messages\Using_modelglue.GenericCommit.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Generic_Database_Messages\Using_modelglue.GenericRead.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Generic_Database_Messages\Using_modelglue.GenericList.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Generic_Database_Messages\How_To_Use_Generic_Database_Messages.htm
+  </topic>
+  <topic>How_To_s\How_To_Add_Custom_Configuration\How_To_Add_Custom_Configration.htm
+  </topic>
+  <topic>Reference_Materials\Event_API\GetView(name_string).htm
+  </topic>
+  <topic>Upgrading_From_Model-Glue_1\Upgrader_s_Guide.htm
+  </topic>
+  <topic>Quickstart\Quickstart_6__Adding_a_Site-Wide_Template.htm
+  </topic>
+  <topic>Quickstart\Quickstart_5__Validating_a_Form.htm
+  </topic>
+  <topic>Quickstart\Quickstart_4__Handling_a_Form.htm
+  </topic>
+  <topic>Quickstart\Quickstart_3__Building_a_Form.htm
+  </topic>
+  <topic>Quickstart\Quickstart_@__Modelling_our_Application.htm
+  </topic>
+  <topic>Quickstart\Quickstart_1__Creating_a_New_Application.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\Customizing_Scaffold_.XSL_Files.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\Customizing_Generated_CFML.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\Using_Broadcasts,_Results_and_Views_in_Scaffolds.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\Adding_Specific_Event_Handlers.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\How_To_Add_A_Scaffodl.htm
+  </topic>
+  <topic>How_To_s\How_To_Use_Scaffolds\How_To_Use_Scaffolds.htm
+  </topic>
+ </topiclist>
+ <projectincludes>
+ </projectincludes>
+ <filenamemap>
+  <filenameentry moniker="wh_languagetype">
+   <filename>English
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="toc">
+   <filename>Model-Glue.hhc
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="ndx">
+   <filename>Model-Glue.hhk
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="nls">
+   <filename>Model-Glue.nla
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="gls">
+   <filename>Model-Glue.glo
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_websearch">
+   <filename>Model-Glue.ews
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_lngfile">
+   <filename>Model-Glue.lng
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="wh_stoplist">
+   <filename>Model-Glue.stp
+   </filename>
+  </filenameentry>
+  <filenameentry moniker="sym">
+   <filename>Model-Glue.syn
+   </filename>
+  </filenameentry>
+ </filenamemap>
+</ppfml>
