@@ -8,6 +8,7 @@
 	<cfset var obj = "" />
 	<cfset var controllerVars = "" />
 	<cfset var beanFactory = "" />
+	<cfset var ctrl = "" />
 	
 	<cfset mg.getInternalBeanFactory().loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
