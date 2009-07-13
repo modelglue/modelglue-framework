@@ -33,10 +33,11 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
   <cfargument name="RequestLog" required="true" type="ModelGlue.unity.eventrequest.RequestLog">
   <cfargument name="mode" required="true" type="string" />
 	
-  <cfset var result = "" />
-  <cfset var log = arguments.RequestLog.getLog() />
-  <cfset var displayedRowCount = 0 />
+	<cfset var result = "" />
+	<cfset var log = arguments.RequestLog.getLog() />
+	<cfset var displayedRowCount = 0 />
 	<cfset var colors = structNew() />
+	<cfset var i = "" />
 	
 	<cfset colors.warning = "##f4cb9a" />
 	<cfset colors.trace = "##b5e1e1" />

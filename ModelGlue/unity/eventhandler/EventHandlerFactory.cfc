@@ -54,6 +54,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var genViews = "" />
 	<cfset var views = arrayNew(1) />
 	<cfset var md = structNew() />
+	<cfset var i = "" />
 	
 	<cfif len(arguments.table) and variables._ormAdapterLoaded>
 		<cfset md = variables._ormAdapter.getObjectMetadata(arguments.table) />

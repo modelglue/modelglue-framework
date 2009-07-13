@@ -34,7 +34,8 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
   
   <cfset var result = "" />
   <cfset var log = arguments.RequestLog.getLog() />
-  
+  <cfset var i = "" />
+ 
   <cfsavecontent variable="result">
   <br />
   <div style="clear:both;padding-top:10px;border-bottom:1px Solid #CCC;font-family:verdana;font-size:16px;font-weight:bold">Model-Glue Debugging:</div>

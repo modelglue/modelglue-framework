@@ -37,6 +37,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
     <cfargument name="StateValues" type="struct" required="true" hint="I am the additional view state values.">
     <cfset var result = "" />
     <cfset var v = "" />
+    <cfset var i = "" />
     
     <cfloop collection="#arguments.StateValues#" item="i">
       <cfif arguments.StateValues[i].overwrite or not variables.viewState.exists(i)>

@@ -442,7 +442,8 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var errors = "" />
 	<cfset var dict = "" />
 	<cfset var errorCollection = createObject("component", "ModelGlue.Util.ValidationErrorCollection").init() />
-	
+	<cfset var i = "" />
+
 	<cfset arguments.record.validate() />
 	
 	<cfif arguments.record.hasErrors()>	

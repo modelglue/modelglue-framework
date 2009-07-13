@@ -372,6 +372,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var eventContext = "" />
 	<cfset var eventName = eventHandler.getName() />
 	<cfset var eventResults = "" />
+	<cfset var mapping = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
 	<cfset var k = "" />

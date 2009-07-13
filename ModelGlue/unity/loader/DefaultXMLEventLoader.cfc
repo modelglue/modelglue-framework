@@ -115,7 +115,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfset var i = "" />
 	<cfset var ioc = "" />
 	<cfset var beanMappings = "" />
-		
+	<cfset var tmp = "" />
 	<!--- Defaults from the MG 1.x codebase --->
 	<!--- My dog is snoring very loudly. --->
 	<cfif not arguments.include>
@@ -353,113 +353,113 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
    <cfset var i = "" />
    <cfset var j = "" />
 
-   <cfif not len(arguments.eventhandler.getName()) and not structKeyExists(configXml.xmlAttributes, "name")>
+   <cfif not len(arguments.eventhandler.getName()) and not structKeyExists(arguments.configXml.xmlAttributes, "name")>
      <cfthrow message="Model-Glue XML Problem: Bad &lt;event-handler&gt; tag." detail="Every &lt;event-handler&gt; must have a NAME attribute.">
    <cfelseif not len(arguments.eventhandler.getName())>
-     <cfset event.setName(configXml.xmlAttributes.name) />
+     <cfset event.setName(arguments.configXml.xmlAttributes.name) />
    </cfif>	
 
 		<!---
-   <cfif arguments.ModelGlue.EventHandlerExists(configXml.xmlAttributes.name)>
-   	<cfthrow message="Model-Glue XML Problem: Duplicate event-handler." detail="There's already an event handler named #configXml.xmlAttributes.name# - maybe you have duplicates in your ModelGlue.xml?" />
+   <cfif arguments.ModelGlue.EventHandlerExists(arguments.configXml.xmlAttributes.name)>
+   	<cfthrow message="Model-Glue XML Problem: Duplicate event-handler." detail="There's already an event handler named #arguments.configXml.xmlAttributes.name# - maybe you have duplicates in your ModelGlue.xml?" />
    </cfif>
 		--->
 		
-   <cfparam name="configXml.xmlAttributes.access" default="public" />
-   <cfset event.setAccess(configXml.xmlAttributes.access) />
+   <cfparam name="arguments.configXml.xmlAttributes.access" default="public" />
+   <cfset event.setAccess(arguments.configXml.xmlAttributes.access) />
 
-   <cfif structKeyExists(configXml, "broadcasts")>
-    <cfloop from="1" to="#arrayLen(configXml.broadcasts.xmlChildren)#" index="i">
-      <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlAttributes, "name")>
+   <cfif structKeyExists(arguments.configXml, "broadcasts")>
+    <cfloop from="1" to="#arrayLen(arguments.configXml.broadcasts.xmlChildren)#" index="i">
+      <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlAttributes, "name")>
         <cfthrow message="Model-Glue XML Problem: Bad &lt;message&gt; tag." detail="Every &lt;message&gt; must have a NAME attribute.">
       </cfif>
 
 			<cfset message = createObject("component", "ModelGlue.unity.eventhandler.Message").Init() />
 			
-			<cfset message.setName(configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
+			<cfset message.setName(arguments.configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
 			
-			<cfloop from="1" to="#arrayLen(configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
-			   <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
+			<cfloop from="1" to="#arrayLen(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
+			   <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
 			       <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a NAME attribute.">
 			   </cfif>
-			   <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
+			   <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
 			       <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a VALUE attribute.">
 			   </cfif>
-			  <cfset message.addArgument(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
+			  <cfset message.addArgument(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
 			</cfloop>
 			<cfset event.addMessage(message) />
 
 			<!---
-			<cfif not event.hasMessage(configXml.broadcasts.xmlChildren[i].xmlAttributes.name)>
+			<cfif not event.hasMessage(arguments.configXml.broadcasts.xmlChildren[i].xmlAttributes.name)>
 	      <cfset message = createObject("component", "ModelGlue.unity.eventhandler.Message").Init() />
 
-	      <cfset message.setName(configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
+	      <cfset message.setName(arguments.configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
 
-	      <cfloop from="1" to="#arrayLen(configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
-	         <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
+	      <cfloop from="1" to="#arrayLen(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
+	         <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
 	             <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a NAME attribute.">
 	         </cfif>
-	         <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
+	         <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
 	             <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a VALUE attribute.">
 	         </cfif>
-	        <cfset message.addArgument(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
+	        <cfset message.addArgument(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
 	      </cfloop>
 	      <cfset event.addMessage(message) />
 	     <cfelse>
-	     	<cfset message = event.getMessage(configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
-	      <cfloop from="1" to="#arrayLen(configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
-	         <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
+	     	<cfset message = event.getMessage(arguments.configXml.broadcasts.xmlChildren[i].xmlAttributes.name) />
+	      <cfloop from="1" to="#arrayLen(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren)#" index="j">
+	         <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
 	             <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a NAME attribute.">
 	         </cfif>
-	         <cfif not structKeyExists(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
+	         <cfif not structKeyExists(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
 	             <cfthrow message="Model-Glue XML Problem: Bad &lt;argument&gt; tag." detail="Every &lt;argument&gt; must have a VALUE attribute.">
 	         </cfif>
-	        <cfset message.addArgument(configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
+	        <cfset message.addArgument(arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.name, arguments.configXml.broadcasts.xmlChildren[i].xmlChildren[j].xmlAttributes.value) />
 	      </cfloop>
 			</cfif>
 			--->
     </cfloop>
    </cfif>
 
-   <cfif structKeyExists(configXml, "views")>
-    <cfloop from="1" to="#arrayLen(configXml.views.xmlChildren)#" index="i">
+   <cfif structKeyExists(arguments.configXml, "views")>
+    <cfloop from="1" to="#arrayLen(arguments.configXml.views.xmlChildren)#" index="i">
       <cfset view = createObject("component", "ModelGlue.unity.eventhandler.View").Init() />
       
-      <cfparam name="configXml.views.xmlChildren[i].xmlAttributes.append" default="false" type="boolean" />
-       <cfif not structKeyExists(configXml.views.xmlChildren[i].xmlAttributes, "name")>
+      <cfparam name="arguments.configXml.views.xmlChildren[i].xmlAttributes.append" default="false" type="boolean" />
+       <cfif not structKeyExists(arguments.configXml.views.xmlChildren[i].xmlAttributes, "name")>
            <cfthrow message="Model-Glue XML Problem: Bad &lt;include&gt; tag." detail="Every &lt;include&gt; must have a NAME attribute.">
        </cfif>
-      <cfset view.SetName(configXml.views.xmlChildren[i].xmlAttributes.name) />
-       <cfif not structKeyExists(configXml.views.xmlChildren[i].xmlAttributes, "template")>
+      <cfset view.SetName(arguments.configXml.views.xmlChildren[i].xmlAttributes.name) />
+       <cfif not structKeyExists(arguments.configXml.views.xmlChildren[i].xmlAttributes, "template")>
            <cfthrow message="Model-Glue XML Problem: Bad &lt;include&gt; tag." detail="Every &lt;include&gt; must have a TEMPLATE attribute.">
        </cfif>
-      <cfset view.SetTemplate(configXml.views.xmlChildren[i].xmlAttributes.template) />
-      <cfset view.SetAppend(configXml.views.xmlChildren[i].xmlAttributes.append) />
-      <cfloop from="1" to="#arrayLen(configXml.views.xmlChildren[i].xmlChildren)#" index="j">
-         <cfif not structKeyExists(configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
+      <cfset view.SetTemplate(arguments.configXml.views.xmlChildren[i].xmlAttributes.template) />
+      <cfset view.SetAppend(arguments.configXml.views.xmlChildren[i].xmlAttributes.append) />
+      <cfloop from="1" to="#arrayLen(arguments.configXml.views.xmlChildren[i].xmlChildren)#" index="j">
+         <cfif not structKeyExists(arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes, "name")>
              <cfthrow message="Model-Glue XML Problem: Bad &lt;value&gt; tag." detail="Every &lt;value&gt; must have a NAME attribute.">
          </cfif>
-         <cfif not structKeyExists(configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
+         <cfif not structKeyExists(arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes, "value")>
              <cfthrow message="Model-Glue XML Problem: Bad &lt;value&gt; tag." detail="Every &lt;value&gt; must have a VALUE attribute.">
          </cfif>
-         <cfparam name="configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.overwrite" default="false">
-        <cfset view.AddValue(configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.name, configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.value, configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.overwrite) />
+         <cfparam name="arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.overwrite" default="false">
+        <cfset view.AddValue(arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.name, arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.value, arguments.configXml.views.xmlChildren[i].xmlChildren[j].xmlAttributes.overwrite) />
 	      </cfloop>
       <cfset event.addView(view) />
     </cfloop>
    </cfif>
 
-   <cfif structKeyExists(configXml, "results")>
-    <cfloop from="1" to="#arrayLen(configXml.results.xmlChildren)#" index="i">
-      <cfparam name="configXml.results.xmlChildren[i].xmlAttributes.name" default="" />
-      <cfparam name="configXml.results.xmlChildren[i].xmlAttributes.redirect" default=false />
-      <cfparam name="configXml.results.xmlChildren[i].xmlAttributes.append" default="" />
-      <cfparam name="configXml.results.xmlChildren[i].xmlAttributes.reset" default=false/>
-      <cfparam name="configXml.results.xmlChildren[i].xmlAttributes.preserveState" default=true/>
-      <cfif not structKeyExists(configXml.results.xmlChildren[i].xmlAttributes, "do")>
+   <cfif structKeyExists(arguments.configXml, "results")>
+    <cfloop from="1" to="#arrayLen(arguments.configXml.results.xmlChildren)#" index="i">
+      <cfparam name="arguments.configXml.results.xmlChildren[i].xmlAttributes.name" default="" />
+      <cfparam name="arguments.configXml.results.xmlChildren[i].xmlAttributes.redirect" default=false />
+      <cfparam name="arguments.configXml.results.xmlChildren[i].xmlAttributes.append" default="" />
+      <cfparam name="arguments.configXml.results.xmlChildren[i].xmlAttributes.reset" default=false/>
+      <cfparam name="arguments.configXml.results.xmlChildren[i].xmlAttributes.preserveState" default=true/>
+      <cfif not structKeyExists(arguments.configXml.results.xmlChildren[i].xmlAttributes, "do")>
       	<cfthrow message="Model-Glue XML Problem: Bad &lt;result&gt; tag." detail="Every &lt;result&gt; must have a DO attribute.">
       </cfif>
-      <cfset event.addResultMapping(configXml.results.xmlChildren[i].xmlAttributes.name, configXml.results.xmlChildren[i].xmlAttributes.do, configXml.results.xmlChildren[i].xmlAttributes.redirect, configXml.results.xmlChildren[i].xmlAttributes.append, configXml.results.xmlChildren[i].xmlAttributes.reset, configXml.results.xmlChildren[i].xmlAttributes.preserveState) />
+      <cfset event.addResultMapping(arguments.configXml.results.xmlChildren[i].xmlAttributes.name, arguments.configXml.results.xmlChildren[i].xmlAttributes.do, arguments.configXml.results.xmlChildren[i].xmlAttributes.redirect, arguments.configXml.results.xmlChildren[i].xmlAttributes.append, arguments.configXml.results.xmlChildren[i].xmlAttributes.reset, arguments.configXml.results.xmlChildren[i].xmlAttributes.preserveState) />
     </cfloop>
    </cfif>
 	<cfreturn event />
