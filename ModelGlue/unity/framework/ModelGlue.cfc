@@ -412,7 +412,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
     <cfloop from="1" to="#arrayLen(mapping)#" index="j">
 		<cfif not mapping[j].redirect>
        <cfset arguments.eventRequest.addEventHandler(getEventHandler(mapping[j].event)) />
-	     <cfset arguments.eventRequest.trace("Result", "Event ""#eventName#"" has queued the ""#mapping[j].event#"" event-handler", "&lt;result do=""#mapping[j].event#"" /&gt;") />
+	     <cfset arguments.eventRequest.addTraceStatement("Result", "Event ""#eventName#"" has queued the ""#mapping[j].event#"" event-handler", "&lt;result do=""#mapping[j].event#"" /&gt;") />
 	    <cfelse>
 	    	<cfset eventContext.forward(mapping[j].event, mapping[j].append) />
 	    </cfif>

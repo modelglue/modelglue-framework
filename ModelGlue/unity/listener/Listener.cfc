@@ -47,10 +47,10 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	
 	<cfif structKeyExists(variables._target, variables._method)>
 		<cfif not variables._async>
-	    <cfset eventContext.trace("Message-Listener", "Invoking function ""#variables._method#"" in the controller named ""#variables._target.getName()#""" , "&lt;message-listener message=""#arguments.messageName#"" function=""#variables._method#"" /&gt;", "OK") />
+	    <cfset eventContext.addTraceStatement("Message-Listener", "Invoking function ""#variables._method#"" in the controller named ""#variables._target.getName()#""" , "&lt;message-listener message=""#arguments.messageName#"" function=""#variables._method#"" /&gt;", "OK") />
 			<cfinvoke component="#variables._target#" method="#variables._method#" argumentcollection="#arguments.parameters#" />
 		<cfelse>
-	    <cfset eventContext.trace("Message-Listener", "Asynchronously invoking function ""#variables._method#""", "", "OK") />
+	    <cfset eventContext.addTraceStatement("Message-Listener", "Asynchronously invoking function ""#variables._method#""", "", "OK") />
 	    <cfset eventContext.getEventRequest().setInvokedAsyncListeners(true) />
 			<cfset future = createObject("component","Concurrency.FutureTask").init(task=variables._target, method=variables._method, event=eventContext)>
 			<cfset async = createObject("component", "ModelGlue.unity.async.AsyncRequest").init(future, eventContext) />
@@ -58,7 +58,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 			<cfset future.run()>
 		</cfif>
 	<cfelse>
-		<cfset eventContext.trace("Listener Function Undefined", "The function ""<strong>#variables._method#</strong>"" can't be found in the controller #getMetaData(variables._target).name# (#getMetaData(variables._target).path#).  A common cause of this is mispelling the function name in the &lt;message-listener&gt; tag.", "&lt;message-listener message=""#arguments.messageName#"" function=""#variables._method#"" /&gt;", "WARNING") />
+		<cfset eventContext.addTraceStatement("Listener Function Undefined", "The function ""<strong>#variables._method#</strong>"" can't be found in the controller #getMetaData(variables._target).name# (#getMetaData(variables._target).path#).  A common cause of this is mispelling the function name in the &lt;message-listener&gt; tag.", "&lt;message-listener message=""#arguments.messageName#"" function=""#variables._method#"" /&gt;", "WARNING") />
 	</cfif>
 </cffunction>
 
