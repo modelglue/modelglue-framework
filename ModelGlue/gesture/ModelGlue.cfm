@@ -1,10 +1,12 @@
 <cfsilent>
-<cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_APP_KEY" default="_modelglue" />
 <cfparam name="ModelGlue_CONFIG_PATH" default="" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_PATH" default="./config/ColdSpring.xml" />
 <cfparam name="ModelGlue_CORE_COLDSPRING_PATH" default="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
+<cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
+<cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES" default="#structNew()#" />
+<cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES" default="#structNew()#" />
 <cfparam name="ModelGlue_VERSION_INDICATOR" default="GESTURE" />
 <cfparam name="request._modelglue.bootstrap" default="#structNew()#" />
 <cfparam name="request._modelglue.bootstrap.blockEvent" default="0" />
@@ -35,6 +37,8 @@
 
 			<cfset boot.applicationKey = ModelGlue_APP_KEY />
 			<cfset boot.coldspringPath = ModelGlue_LOCAL_COLDSPRING_PATH />
+			<cfset boot.defaultColdSpringAttributes = ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES />
+			<cfset boot.defaultColdSpringProperties = ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES />
 			<cfset boot.coreColdspringPath = ModelGlue_CORE_COLDSPRING_PATH />
 			<cfset boot.modelglueVersionIndicator = ModelGlue_VERSION_INDICATOR />
 			<cfset boot.primaryModulePath = ModelGlue_CONFIG_PATH />

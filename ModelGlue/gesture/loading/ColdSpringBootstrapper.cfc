@@ -3,6 +3,8 @@
 
 <cfproperty name="coldspringPath" type="string" hint="The logical path (mapping-based) to the ColdSpring .xml file containing bean definitions for the Model-Glue *application*." />
 <cfproperty name="coreColdspringPath" type="string" hint="The logical path (mapping-based) to the ColdSpring .xml file containing bean definitions for the Model-Glue *framework*.  It's hoped that a new release of ColdSpring will come about, allowing <import> to be used in the coldspringPath file, making this and ModelGlue_CORE_COLDSPRING_PATH things of the past." />
+<cfproperty name="defaultColdSpringAttributes" type="struct" hint="The struct containing any default attributes passed to the local coldspring instance (init function of the XMLBeanFactory)." />
+<cfproperty name="defaultColdSpringProperties" type="struct" hint="The struct containing any default properties passed to the local coldspring instance (init function of the XMLBeanFactory)." />
 <cfproperty name="parentBeanFactory" type="any" hint="A parent bean factory to join to." />
 <cfproperty name="modelGlueBeanName" type="string" default="modelglue.ModelGlue" hint="The name of the bean that is the instance of ModelGlue.cfc to use as the framework." />
 <cfproperty name="modelGlueConfigurationBeanName" type="string" default="modelglue.ModelGlueConfiguration" hint="The name of the bean that is the instance of ModelGlueConfiguration.cfc to use as the framework's configuration." />
@@ -13,7 +15,7 @@
 <cfset this.modelGlueConfigurationBeanName = "modelglue.ModelGlueConfiguration" />
 
 <cffunction name="createBeanFactory" output="false" hint="Configures and returns the bean factory for use.">
-	<cfset var bf = createObject("component", "coldspring.beans.DefaultXmlBeanFactory").init() />
+	<cfset var bf = createObject("component", "coldspring.beans.DefaultXmlBeanFactory").init( this.defaultColdSpringAttributes, this.defaultColdSpringProperties ) />
 	<cfset var csPath = this.coldspringPath />
 	<cfset var originalCsPath = csPath />
 	<cfset var cfg = "" />
