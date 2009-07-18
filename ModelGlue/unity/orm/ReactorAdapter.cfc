@@ -84,7 +84,7 @@
 		<cfset md[fields[i].alias].comment = dict.getValue("#arguments.table#.#fields[i].alias#.comment") />
 	
 		<cfif fields[i].primaryKey>
-			<cfset arrayAppend(result.primaryKeys, fields[i].name) />
+			<cfset arrayAppend(result.primaryKeys, fields[i].alias) />
 		</cfif>
 			
 			
