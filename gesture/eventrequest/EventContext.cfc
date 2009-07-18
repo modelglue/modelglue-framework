@@ -429,7 +429,7 @@
 	<cfreturn variables._currentMessage />
 </cffunction>
 
-<cffunction name="getArgument" access="public" hint="Gets a value of an argument from the currently broadcast message.">
+<cffunction name="getArgument" access="public" output="false" hint="Gets a value of an argument from the currently broadcast message.">
 	<cfargument name="name" type="string" required="true" />
 	<cfargument name="default" type="string" required="false" />
 	
