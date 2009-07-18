@@ -17,4 +17,13 @@
 	</property>
 </bean>
 
+
+	<bean id="DynamicPropertyContainer" class="coldspring.beans.factory.config.MapFactoryBean">
+		<property name="SourceMap">
+			<map>
+				<entry key="MyValueWillBeDynamic"><value>${AValueOriginatingOutside}</value></entry>
+			</map>
+		</property>
+	</bean>	
+	
 </beans> 

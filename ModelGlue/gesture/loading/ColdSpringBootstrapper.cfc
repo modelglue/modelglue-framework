@@ -13,6 +13,8 @@
 <cfset this.parentBeanFactory = "" />
 <cfset this.modelGlueBeanName = "modelglue.ModelGlue" />
 <cfset this.modelGlueConfigurationBeanName = "modelglue.ModelGlueConfiguration" />
+<cfparam name="this.defaultColdSpringAttributes" default="#structNew()#">
+<cfparam name="this.defaultColdSpringProperties" default="#structNew()#">
 
 <cffunction name="createBeanFactory" output="false" hint="Configures and returns the bean factory for use.">
 	<cfset var bf = createObject("component", "coldspring.beans.DefaultXmlBeanFactory").init( this.defaultColdSpringAttributes, this.defaultColdSpringProperties ) />
