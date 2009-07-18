@@ -29,5 +29,18 @@
 		<cfset var cfg = mg.getInternalBean("modelglue.ModelGlueConfiguration") />
 		<cfset assertEquals("ModelGlue.gesture.configuration.ModelGlueConfiguration",getMetadata(cfg).name, "Configuration instance not created from bean factory.") />
 	</cffunction>
+		
+	<cffunction name="testDefaultDynamicProperties" returntype="void" access="public">
+		<cfset var boot = createBootstrapper(this.coldspringPath) />
+		<cfset var bf = "" />
+		<cfset var bean = "" />
+		<cfset var dynProps = structNew() >
+		<cfset dynProps.AValueOriginatingOutside = "Dynamic">
+		<cfset boot.defaultColdSpringProperties = dynProps />
+		<cfset bf = boot.createBeanFactory() />
+		<cfset bean = bf.getBean("DynamicPropertyContainer") />
+		
+		<cfset assertEquals(bean.MyValueWillBeDynamic, "Dynamic", "Dynamic Property not set in bean") />
+	</cffunction>
 
 </cfcomponent>
