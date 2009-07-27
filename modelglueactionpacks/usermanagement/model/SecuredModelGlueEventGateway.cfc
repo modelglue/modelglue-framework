@@ -36,6 +36,7 @@
 	</cffunction>
 
 	<cffunction name="listEventsWithAllowedGroups" access="public" output="false" returntype="query">
+		<cfset var qList = "" />
 		<cfquery name="qList" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			select
 				e.eventId,

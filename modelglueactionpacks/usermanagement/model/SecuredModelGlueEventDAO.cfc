@@ -13,7 +13,7 @@
 	
 	<cffunction name="create" access="public" output="false">
 		<cfargument name="SecuredModelGlueEvent" type="modelglueactionpacks.usermanagement.model.SecuredModelGlueEvent" required="true" />
-
+		<cfset var qCreate = "" />
 		<cfquery name="qCreate" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			INSERT INTO securedModelGlueEvent
 				(
@@ -45,7 +45,7 @@
 
 	<cffunction name="update" access="public" output="false">
 		<cfargument name="SecuredModelGlueEvent" type="modelglueactionpacks.usermanagement.model.SecuredModelGlueEvent" required="true" />
-
+		<cfset var qUpdate = "" />
 		<cfquery name="qUpdate" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			UPDATE	securedModelGlueEvent
 			SET
@@ -58,7 +58,7 @@
 
 	<cffunction name="delete" access="public" output="false">
 		<cfargument name="SecuredModelGlueEvent" type="modelglueactionpacks.usermanagement.model.SecuredModelGlueEvent" required="true" />
-
+		<cfset var qDelete = "" />
 		<cfquery name="qDelete" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			DELETE FROM	securedModelGlueEvent 
 			WHERE	EventId = <cfqueryparam value="#arguments.SecuredModelGlueEvent.getEventId()#" CFSQLType="cf_sql_integer" />

@@ -66,7 +66,8 @@
 		<cfargument name="GroupId" type="numeric" required="true" />
 		<cfargument name="userIds" type="array" required="true" hint="List of UserId's to join to the group.">
 		
-		<Cfset var i = "" />
+		<cfset var i = "" />
+		<cfset var qList = "" />
 		
 		<cftransaction>
 			<cfquery name="qList" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
@@ -116,8 +117,9 @@
 		<cfargument name="GroupId" type="numeric" required="true" />
 		<cfargument name="eventIds" type="array" required="true" hint="List of eventId's to join to the group.">
 		
-		<Cfset var i = "" />
-		
+		<cfset var i = "" />
+		<cfset var qList = "" />
+
 		<cftransaction>
 			<cfquery name="qList" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 				DELETE FROM
@@ -144,7 +146,8 @@
 
 	<cffunction name="listGroupsForUser" access="public" output="false" returntype="query">
 		<cfargument name="userId" />
-		
+
+		<cfset var qList = "" />
 		<cfquery name="qList" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			select
 				ugr.groupId

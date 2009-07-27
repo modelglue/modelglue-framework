@@ -13,7 +13,7 @@
 	
 	<cffunction name="create" access="public" output="false">
 		<cfargument name="User" type="modelglueactionpacks.usermanagement.model.User" required="true" />
-
+		<cfset var qCreate  = "" />
 		<cfquery name="qCreate" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			INSERT INTO user
 				(
@@ -68,7 +68,7 @@
 
 	<cffunction name="update" access="public" output="false">
 		<cfargument name="User" type="modelglueactionpacks.usermanagement.model.User" required="true" />
-
+		<cfset var qUpdate  = "" />
 		<cfquery name="qUpdate" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			UPDATE	user
 			SET
@@ -83,7 +83,7 @@
 
 	<cffunction name="delete" access="public" output="false">
 		<cfargument name="User" type="modelglueactionpacks.usermanagement.model.User" required="true" />
-
+		<cfset var qDelete  = "" />
 		<cfquery name="qDelete" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			DELETE FROM	user 
 			WHERE	userId = <cfqueryparam value="#arguments.User.getuserId()#" CFSQLType="cf_sql_integer" />

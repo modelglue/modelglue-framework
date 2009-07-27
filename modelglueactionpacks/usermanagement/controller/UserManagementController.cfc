@@ -181,7 +181,7 @@
 
 		<cfset var user = arguments.event.getValue("user") />
 		<cfset var resetPassword = true />
-						
+		<cfset var validation = "" />
 		<cfset user.setUsername(arguments.event.getValue("username")) />
 		<cfset user.setEmailAddress(arguments.event.getValue("emailAddress")) />
 
@@ -256,7 +256,7 @@
 		<cfargument name="event" />
 
 		<cfset var group = arguments.event.getValue("group") />
-
+		<cfset var validation = "" />
 		<cfset arguments.event.makeEventBean(group) />				
 
 		<cfset validation = group.validate() />
@@ -303,7 +303,7 @@
 		<cfargument name="event" />
 
 		<cfset var securedModelGlueEvent = arguments.event.getValue("securedModelGlueEvent") />
-
+		<cfset var validation = "" />
 		<cfset arguments.event.makeEventBean(securedModelGlueEvent) />				
 
 		<cfset validation = securedModelGlueEvent.validate() />

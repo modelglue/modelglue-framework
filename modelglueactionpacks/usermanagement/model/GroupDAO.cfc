@@ -55,7 +55,7 @@
 
 	<cffunction name="update" access="public" output="false">
 		<cfargument name="Group" type="modelglueactionpacks.usermanagement.model.Group" required="true" />
-
+		<cfset var qUpdate = "" />
 		<cfquery name="qUpdate" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			UPDATE	`group`
 			SET
@@ -69,7 +69,7 @@
 
 	<cffunction name="delete" access="public" output="false">
 		<cfargument name="Group" type="modelglueactionpacks.usermanagement.model.Group" required="true" />
-
+		<cfset var qDelete = "" />
 		<cfquery name="qDelete" datasource="#variables.datasource.getDSN()#" username="#variables.datasource.getUsername()#" password="#variables.datasource.getPassword()#">
 			DELETE FROM	`group` 
 			WHERE	GroupId = <cfqueryparam value="#arguments.Group.getGroupId()#" CFSQLType="cf_sql_integer" />
