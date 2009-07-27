@@ -1,6 +1,6 @@
 <h3>Oops!</h3>
 
-<cfset exception = event.getValue("exception") />
+<cfset exception = viewstate.getValue("exception") />
 
 <cfoutput>
 <table>

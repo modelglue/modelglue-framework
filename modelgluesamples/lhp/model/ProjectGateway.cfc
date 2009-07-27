@@ -130,7 +130,6 @@
 	<cffunction name="saveProject" access="public" returnType="void" output="false">
 		<cfargument name="bean" type="any" required="true">
 		<cfset var newID = "">
-		<cfset var insRec = "" />
 		<cfset var id = "">
 		<cfset var i = "">
 		
@@ -151,7 +150,7 @@
 
 			<cfset newID = createUUID()>
 
-			<cfquery name="insRec" datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
+			<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
 				insert into lh_projects(id,name,mailserver,mailusername,mailpassword,mailemailaddress)
 				values(
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#newid#" maxlength="35">,

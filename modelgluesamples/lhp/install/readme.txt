@@ -21,6 +21,21 @@ This application was created by Raymond Camden (ray@camdenfamily.com).
 If you find this application worthy, I have a Amazon wish list set up (www.amazon.com/o/registry/2TCL1D08EZEYE ). 
 Gifts are always welcome. ;)
 
+Last Updated: 7/13/09 (2.6.003)
+/config/ColdSpring.xml - version
+/controller/IssueController.cfc, /helpers/json.cfc, /model/IssueTypeGateway.cfc + MilestoneGateway.cfc + ProjectAreaGateway.cfc + ProjectGateway.cfc + UserGateway.cfc -> Missing var scopes!
+
+Last Updated: 4/27/09 (2.6.002)
+/config/ColdSpring.xml - just the version
+/controller/IssueController.cfc - handle bug with issue editing from iPhone
+/views/projects.cfm - remove the ability for the admin go into the issues - causes a problem if they try to add an issue
+
+Last Updated: 4/27/09 (2.6.001)
+issueController.cfc - bad link for email - fix thanks to Mischa Sameli
+issueController.cfc - bad code when updating history 
+/config/ColdSpring.xml - just the version
+/views/pages/viewissues.cfm - link fix
+
 Last Updated: 4/27/09 (2.6)
 Every file has been updated. This is a complete (pretty much) rewrite for the Model-Glue 3 framework. Note the following new requirements:
 

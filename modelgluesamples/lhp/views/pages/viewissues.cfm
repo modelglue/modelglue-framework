@@ -275,7 +275,7 @@ $(document).ready(
 
 <p align="right">
 <!---<input type="submit" name="printAll" id="printAll" value="Print Issues" onClick="return checkprint()" class="button blue" />--->
-<input type="button" name="add" value="Add Issue" class="button blue" onClick="document.location.href='view.cfm?id=0&pid=#project.getID()#'">
+<input type="button" name="add" value="Add Issue" class="button blue" onClick="document.location.href='#root#page.viewissue&id=0&pid=#project.getID()#'">
 </p>
 	
 </cfoutput>

@@ -1,12 +1,12 @@
-<cfset issue = event.getValue("issue")>
-<cfset project = event.getValue("project")>
-<cfset issuetype = event.getValue("issuetype")>
-<cfset projectarea = event.getValue("projectarea")>
-<cfset severity = event.getValue("severity")>
-<cfset status = event.getValue("status")>
-<cfset milestone = event.getValue("milestone")>
-<cfset owner = event.getValue("owner")>
-<cfset creator = event.getValue("creator")>
+<cfset issue = viewState.getValue("issue")>
+<cfset project = viewState.getValue("project")>
+<cfset issuetype = viewState.getValue("issuetype")>
+<cfset projectarea = viewState.getValue("projectarea")>
+<cfset severity = viewState.getValue("severity")>
+<cfset status = viewState.getValue("status")>
+<cfset milestone = viewState.getValue("milestone")>
+<cfset owner = viewState.getValue("owner")>
+<cfset creator = viewState.getValue("creator")>
 	
 <cfsavecontent variable="output">
 <cfoutput>

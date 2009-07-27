@@ -83,7 +83,7 @@
 	<cffunction name="saveProjectArea" access="public" returnType="void" output="false">
 		<cfargument name="bean" type="any" required="true">
 		<cfset var newID = "">
-		<cfset var insRec= "" />
+
 		<cfif len(bean.getId()) and bean.getId() neq 0>
 
 			<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
@@ -96,7 +96,7 @@
 
 			<cfset newID = createUUID()>
 
-			<cfquery name="insRec" datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
+			<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
 				insert into lh_projectloci(id,name)
 				values(
 					<cfqueryparam cfsqltype="cf_sql_varchar" value="#newid#" maxlength="35">,

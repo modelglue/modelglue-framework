@@ -138,8 +138,7 @@
 		<cfset var roles = "">
 		<cfset var r = "">
 		<cfset var getrole = "">
-		<cfset var insRec = "" />
-		<cfset var data = "" />
+		
 		<cfif len(bean.getId()) and bean.getId() neq 0>
 
 			<cflock name="#variables.lockname#" type="exclusive" timeout="30">
@@ -189,7 +188,7 @@
 					<cfthrow type="UserDAO.DuplicateUser" message="Cannot insert two users with the same username.">
 				</cfif>
 				
-				<cfquery name="insRec" datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
+				<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
 					insert into lh_users(id,username,emailaddress,password,name)
 					values(
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#newid#" maxlength="35">,
@@ -215,7 +214,7 @@
 		where useridfk = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.bean.getId()#" maxlength="35">
 		</cfquery>
 		<cfloop index="i" list="#arguments.bean.getProjects()#">
-			<cfquery name="data" datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
+			<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
 			insert into lh_projects_users(projectidfk, useridfk)
 			values(<cfqueryparam cfsqltype="cf_sql_varchar" value="#i#" maxlength="35">,<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.bean.getId()#" maxlength="35">)
 			</cfquery>
