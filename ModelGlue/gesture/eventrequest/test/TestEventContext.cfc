@@ -467,7 +467,7 @@
 	<cfset var cfhttp = "" />
 	
 	<cfset var msg = createUUID() />
-	<cfset var path = "http://localhost/ModelGlue/gesture/eventrequest/test/" />
+	<cfset var path = "http://modelglue.local/gesture/eventrequest/test/" />
 	<cfset var urlpathdestination = "#path#/ForwardToUrlDestination.cfm?msg=#msg#" />
 	<cfhttp url="#path#ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat(urlpathdestination)#"  />
 	<!--- todo: Find a better way to test this because this method is fragile and sucks --->
@@ -510,8 +510,7 @@
 	
 	<cfset var trace = ec.getTrace() />
 	<cfset var thread = CreateObject("java", "java.lang.Thread")>
-
-	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq ec.getCreated(), "initial trace statement incorrect")>
+	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq ec.getCreated(), "initial trace statement incorrect: #trace[1].time# eq #ec.getCreated()#")>
 
 	<cfset thread.sleep(100)>	
 

@@ -1,0 +1,68 @@
+<modelglue>
+	
+<controllers>
+	<controller id="controller" type="ModelGlue.gesture.module.test.Controller">
+		<message-listener message="messageName" function="listener" />
+	</controller>
+</controllers>
+<event-types>
+	<event-type name="BeforeEvent">
+		<before>
+			<broadcasts>
+				<message name="I_run_before" />
+			</broadcasts>
+		</before>
+	</event-type>
+	<event-type name="AfterEvent">
+		<after>
+			<broadcasts>
+				<message name="I_run_after" />
+			</broadcasts>
+		</after>
+	</event-type>
+	<event-type name="BothEvent">
+		<before>
+			<broadcasts>
+				<message name="I_run_before" />
+			</broadcasts>
+		</before>			
+		<after>
+			<broadcasts>
+				<message name="I_run_after" />
+			</broadcasts>
+		</after>
+	</event-type>
+</event-types>
+	
+<event-handlers defaultType="DefaultType">
+
+	<event-handler name="beforeEvent" type="BeforeEvent">
+		<broadcasts>
+			<message name="BaselineMessage" />
+		</broadcasts>
+		<views>
+			<include name="viewName" template="templateName" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="afterEvent" type="AfterEvent">
+		<broadcasts>
+			<message name="BaselineMessage" />
+		</broadcasts>		
+		<views>
+			<include name="viewName" template="templateName" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="bothEvent" type="BothEvent">
+		<broadcasts>
+			<message name="BaselineMessage" />
+		</broadcasts>		
+		<views>
+			<include name="viewName" template="templateName" />
+		</views>
+	</event-handler>
+	
+</event-handlers>
+
+</modelglue>
