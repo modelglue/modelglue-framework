@@ -29,6 +29,9 @@
 	<!-- Generate unknown events when in development mode?  (reload=false) -->
 	<property name="generationEnabled"><value>false</value></property>
 	
+	<!-- Set the default cache timeout in seconds -->
+	<property name="defaultCacheTimeout"><value>60</value></property>  	
+	
 	<!-- Scaffolding config -->
 	<!-- Turning this off will disable any scaffold generation. Turning this on requires the reload setting above to also be on.-->	
 	<property name="rescaffold"><value>true</value></property>
