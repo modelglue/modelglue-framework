@@ -289,8 +289,8 @@
 		<cfset ehXml = arguments.handlersXML.xmlChildren[i] />
 		
 		<cfif ehXml.xmlName eq "event-handler">
-
-			<cfparam name="ehXml.xmlAttributes.type" default="EventHandler" />
+			<cfparam name="arguments.handlersXML.XmlAttributes.defaultType" default="EventHandler" />
+			<cfparam name="ehXml.xmlAttributes.type" default="#arguments.handlersXML.XmlAttributes.defaultType#" />
 			<cfparam name="ehXml.xmlAttributes.access" default="public" />
 			<cfparam name="ehXml.xmlAttributes.cache" default="false" />
 			<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
