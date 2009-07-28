@@ -12,7 +12,10 @@
 	</controller>
 </controllers>
 	
-<event-handlers>
+<scaffold object="SampleOuterScaffoldObject" propertylist="something,to,use" />	
+
+	<event-handlers>
+	<scaffold object="SampleInnerScaffoldObject" propertylist="something,else" />	
 	<event-handler name="eventHandlerName" cache="true" cacheKey="cacheKeyValue" cacheTimeout="42" access="accessValue" cacheKeyValues="eventKeyValue">
 		<broadcasts>
 			<message name="messageName">

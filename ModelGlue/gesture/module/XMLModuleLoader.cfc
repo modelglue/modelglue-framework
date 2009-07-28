@@ -48,7 +48,6 @@
 		figuring out what is wrong.
 	--->
 	<cfset xml = xmlParse(xml)>
-	
 	<!--- Load event types --->
 	<cfset etBlocks = xmlSearch(xml, "/modelglue/event-types") />
 	<cfloop from="1" to="#arrayLen(etBlocks)#" index="i">
@@ -59,7 +58,7 @@
 	<!--- Don't bother to take any hit at all unless indicated by the developer --->	
 	<!--- I think I want to load this after the event types, because the event types might be useful somehow. Undecided. --->
 	<cfif arguments.modelglue.getConfigSetting("rescaffold") IS true >	
-		<cfset scaffoldBlocks = xmlSearch(xml, "/modelglue/scaffold") />
+		<cfset scaffoldBlocks = xmlSearch(xml, "//scaffold") />
 		<cfif arrayLen( scaffoldBlocks ) GT 0 >
 			<cfset loadScaffolds( arguments.modelglue, scaffoldBlocks ) />
 		</cfif>
