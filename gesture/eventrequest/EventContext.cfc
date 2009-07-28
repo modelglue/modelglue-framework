@@ -440,7 +440,7 @@
 	</cfif>
 </cffunction>
 
-<cffunction name="argumentExists" access="public" hint="Does an argument of the given name exist in the currently broadcast message?">
+<cffunction name="argumentExists" access="public" output="false" hint="Does an argument of the given name exist in the currently broadcast message?">
 	<cfargument name="argumentName" type="string" />
 	
 	<cfreturn variables._currentMessage.arguments.exists(arguments.argumentName) />

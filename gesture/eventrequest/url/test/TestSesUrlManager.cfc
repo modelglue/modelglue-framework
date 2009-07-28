@@ -11,8 +11,11 @@
 
 	<cffunction name="testPopulateLocation" returntype="void" access="public">
 		<cfset var ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+		<cfset var mockCgi = structNew() />
+		<cfset mockCgi.SCRIPT_NAME = "index.cfm" />
+		<cfset mockCgi.PATH_INFO = "" />
 		<cfset variables.urlManager.populateLocation(ec) />
-		<cfset debug(urlManager.extractValues())>
+		<cfset debug(urlManager.extractValues(mockCgi))>
 		<cfset assertEquals( "event", ec.getValue("eventValue"), "Event value from config file not set! (was : '#ec.getValue("eventValue")#')") />
 		<cfset assertEquals(cgi.script_name, ec.getValue("self")) />
 		<cfset assertEquals("#cgi.script_name#/", ec.getValue("myself")) />
@@ -22,7 +25,9 @@
 		<cfset var vals = "" />
 		<cfset var mockCgi = structNew() />
 		<cfset var ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
-		<cfset vals = urlManager.extractValues() />
+		<cfset mockCgi.SCRIPT_NAME = "index.cfm" />
+		<cfset mockCgi.PATH_INFO = "" />
+		<cfset vals = urlManager.extractValues(mockCgi) />
 		<cfset assertFalse(structKeyExists(vals, "urlValueName"), "urlValueName found before definition!") />
 		<cfset mockCgi.PATH_INFO = "eventValue/urlKey/urlValue/urlKey2/urlValue2" />
 		<cfset vals = variables.urlManager.extractValues(mockCgi) />
