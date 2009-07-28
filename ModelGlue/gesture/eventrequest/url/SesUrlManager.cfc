@@ -28,12 +28,12 @@
 	<cfset var key = "" />
 	<cfset var i = "" />
 	<cfset var eventValue = variables._mg.configuration.eventValue />
-	<cfset var pathArray = "" />
+	<cfset var pathArray = arrayNew(1) />
 	
 	<cfif structKeyExists(arguments, "mockCgiScope")>
 		<cfset pathArray = listToArray(arguments.mockCgiScope.PATH_INFO, "/") />
-	<cfelse>
-		<cfset pathArray = listToArray(cgi.PATH_INFO, "/") />
+	<cfelseif arguments.mockCgiScope.PATH_INFO NEQ arguments.mockCgiScope.SCRIPT_NAME>
+		<cfset pathArray = listToArray(arguments.mockCgiScope.PATH_INFO, "/") />
 	</cfif>
 	
 	<cfif arrayLen(pathArray)>
