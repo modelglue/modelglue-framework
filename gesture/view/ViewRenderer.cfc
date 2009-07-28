@@ -31,7 +31,7 @@
 	<cfset var includeFound = false />
 	<cfset var template = "" />
 	<cfset var result = "" />
-	<cfset var _viewMappings = getViewMappings() />
+	<cfset var _viewMappings = adviseArray( getViewMappings() , eventContext.getValue("viewMappingAdvice") ) />
 	
 	<cfloop collection="#arguments.view.values#" item="i">
 	  <cfif arguments.view.values[i].overwrite or not arguments.eventContext.exists(i)>
@@ -73,6 +73,15 @@
 
   <cfreturn result />
 	--->
+</cffunction>
+
+<cffunction name="adviseArray" output="false" access="private" returntype="array" hint="I take any preferred values and put them at the beginning of the array">
+	<cfargument name="baseArray" type="array" required="true" />
+	<cfargument name="preferredValues" type="string" default="" />
+	<cfif len( trim( arguments.preferredValues ) ) IS 0>
+		<cfreturn arguments.baseArray />
+	</cfif>
+	<cfreturn listToArray( listPrepend( arrayToList( arguments.baseArray ), arguments.preferredValues ) ) />
 </cffunction>
 
 </cfcomponent>
