@@ -35,9 +35,13 @@
 	--->
 	
 	<!--- For now, we still have to load the core. --->
-	<cfset csPath = expandPath(this.coreColdSpringPath) />
-	
+	<cfset csPath = this.coreColdSpringPath />
 	<cfif not fileExists(csPath)>
+		<!--- Let's try to expand the path and see if that helps. --->
+		<cfset csPath = expandPath(this.coreColdSpringPath) />
+	</cfif>
+	<cfif not fileExists(csPath)>
+		<!--- OK, screw it. We can't help you, please hang up and try your path again --->
 		<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#csPath#) doesn't exist!" />
 	</cfif>
 	
