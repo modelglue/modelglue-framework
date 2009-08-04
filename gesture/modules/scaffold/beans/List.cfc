@@ -67,7 +67,7 @@
 <table>
 	<tr>
 	 <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
-	 	<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false>>
+	 	<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false AND Metadata.properties[thisProp].relationship IS false >>
  			<th>%spaceCap(thisProp)%</th>
 		<</cfif>>
 	<</cfloop>>
@@ -77,7 +77,7 @@
     <cfloop query="%Metadata.alias%Query">
 		<tr>	
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
-		<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false>>
+		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
         	<td><a href="##viewEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%">##%Metadata.alias%Query.%thisProp%##</a></td>
 		<</cfif>>
 	<</cfloop>>
