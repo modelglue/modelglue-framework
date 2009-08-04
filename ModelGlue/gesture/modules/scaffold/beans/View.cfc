@@ -56,12 +56,12 @@
 <br />
 <cfform class="edit"> 
 <fieldset>
-    <<cfloop collection="%Metadata.properties%" item="variables.element">>
-        <div class="formfield">
-	        <label for="%Metadata.properties[element].name%"><b>%Metadata.properties[element].label%:</b></label>
-	        <span class="input">##%Metadata.alias%Record.get%Metadata.properties[element].name%()##</span>
-        </div>
-	<</cfloop>>
+    <<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
+	        <div class="formfield">
+		        <label for="%Metadata.properties[thisProp].name%"><b>%Metadata.properties[thisProp].label%:</b></label>
+		        <span class="input">##%Metadata.alias%Record.get%Metadata.properties[thisProp].name%()##</span>
+	        </div>
+		<</cfif>><</cfloop>>
 </fieldset>
 </cfform>
 </div>
