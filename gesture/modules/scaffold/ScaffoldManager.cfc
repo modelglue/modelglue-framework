@@ -3,12 +3,12 @@
 	<cfset variables._scaffoldBeanRegistry = structNew() />
 	<cffunction name="init" access="public" returntype="ScaffoldManager">
 		<cfargument name="ModelGlueConfiguration" type="struct" required="true"/>
-		<cfargument name="scaffoldBeanRegistry" type="any" required="true"/>
+		<cfargument name="scaffoldBeanRegistry" type="struct" required="true"/>
 		<cfset  variables._MGConfig.scaffoldCFPath = arguments.ModelGlueConfiguration.getFullGeneratedViewMapping() />
 		<cfset  variables._MGConfig.expandedScaffoldFilePath= replace( expandPath( variables._MGConfig.scaffoldCFPath ), "\", "/", "all" )   />
 		<cfset  variables._MGConfig.scaffoldXMLFilePath= replace( expandPath( arguments.ModelGlueConfiguration.getScaffoldPath() ) , "\",  "/", "all")   />
 		<cfset  variables._MGConfig.shouldRescaffold= arguments.ModelGlueConfiguration.getRescaffold() />
-		<cfset structAppend( variables._scaffoldBeanRegistry, arguments.scaffoldBeanRegistry ) />
+		<cfset structAppend( variables._scaffoldBeanRegistry, unwind(arguments.scaffoldBeanRegistry) ) />
 		
 		<!--- Only bother hitting the disk if we are rescaffolding--->
 		<cfif variables._MGConfig.shouldRescaffold IS true>
@@ -18,13 +18,14 @@
 		<cfreturn this />
 	</cffunction>
 	
-	<cffunction name="addScaffoldTemplate" output="false" access="public" returntype="array" hint="I add a scaffolding bean configuration to the known scaffolding beans">
-		<cfargument name="configArray" type="array" required="true"/>
-		<cfset var i = "" />
-		<cfloop from="1" to="#arrayLen( arguments.configArray)#" index="i">
-			<cfset variables._scaffoldBeanRegistry[ arguments.configArray[i].type ] = arguments.configArray[i].data />
+	<cffunction name="addScaffoldTemplate" output="false" access="public" returntype="struct" hint="I add a scaffolding bean configuration to the known scaffolding beans">
+		<cfargument name="scaffoldBeanRegistry" type="struct" required="true"/>
+		<cfset var unpackedRegistry = unwind( arguments.scaffoldBeanRegistry )>
+		<cfset var thisTemplate= "" />
+		<cfloop collection="#unpackedRegistry#" item="thisTemplate">
+			<cfset variables._scaffoldBeanRegistry[ thisTemplate ] = unpackedRegistry[ thisTemplate ]  />
 		</cfloop>
-		<cfreturn arguments.configArray />
+		<cfreturn arguments.scaffoldBeanRegistry />
 	</cffunction>
 	
 	<cffunction name="generate" output="false" access="public" returntype="void" hint="I generate the scaffolds and load them into the model glue memory space">
@@ -120,6 +121,16 @@
 	<cffunction name="setModelGlue" access="public" output="false" returntype="void">
 		<cfargument name="ModelGlue" type="ModelGlue.gesture.ModelGlue" required="true" />
 		<cfset variables._modelGlue = arguments.ModelGlue />
+	</cffunction>
+	
+	<cffunction name="unwind" output="false" access="private" returntype="struct" hint="I unwind scaffold templates and convert them to a datastructure">
+		<cfargument name="scaffoldTemplateRegistry" type="any" required="true"/>
+		<cfset var datastructure = structNew() />
+		<cfset var thisTemplate = "" />
+		<cfloop collection="#arguments.scaffoldTemplateRegistry#" item="thisTemplate">
+			<cfset datastructure[ thisTemplate ] = arguments.scaffoldTemplateRegistry[ thisTemplate ].getObject() /> 
+		</cfloop>
+		<cfreturn datastructure />
 	</cffunction>
 	
 	<cffunction name="findAdvice" access="private" output="false" returntype="struct" hint="I am advice for the specific object. You can alter the behaviour of the scaffolding by configuring advice per object in coldspring.">
