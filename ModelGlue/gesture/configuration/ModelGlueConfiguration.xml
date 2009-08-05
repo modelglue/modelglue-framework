@@ -295,61 +295,61 @@
 </bean>
 	
 	
-	<bean id="modelglue.scaffoldType.Commit" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Commit</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>false</value></event>
-			</map>
-		</property>
-	</bean>	
+<bean id="modelglue.scaffoldType.Commit" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Commit</value></entry>
+			<event key="hasXMLGeneration"><value>true</value></event>
+			<event key="hasViewGeneration"><value>false</value></event>
+		</map>
+	</property>
+</bean>	
 	
-	<bean id="modelglue.scaffoldType.Delete" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Delete</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>false</value></event>
-			</map>
-		</property>
-	</bean>	
+<bean id="modelglue.scaffoldType.Delete" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Delete</value></entry>
+			<event key="hasXMLGeneration"><value>true</value></event>
+			<event key="hasViewGeneration"><value>false</value></event>
+		</map>
+	</property>
+</bean>	
 	
-	<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Edit</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>Form.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>	
+<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Edit</value></entry>
+			<event key="hasXMLGeneration"><value>true</value></event>
+			<event key="hasViewGeneration"><value>true</value></event>
+			<entry key="prefix"><value>Form.</value></entry>
+			<entry key="suffix"><value>.cfm</value></entry>
+		</map>
+	</property>
+</bean>	
 	
-	<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.List</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>List.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>
+<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.List</value></entry>
+			<event key="hasXMLGeneration"><value>true</value></event>
+			<event key="hasViewGeneration"><value>true</value></event>
+			<entry key="prefix"><value>List.</value></entry>
+			<entry key="suffix"><value>.cfm</value></entry>
+		</map>
+	</property>
+</bean>
 	
-	<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.View</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>Display.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>
+<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.View</value></entry>
+			<event key="hasXMLGeneration"><value>true</value></event>
+			<event key="hasViewGeneration"><value>true</value></event>
+			<entry key="prefix"><value>Display.</value></entry>
+			<entry key="suffix"><value>.cfm</value></entry>
+		</map>
+	</property>
+</bean>
 
 	
 	
