@@ -302,14 +302,15 @@
 			>
 				<cfset isXmlTypeList = "true" />
 			</cfif>
-
-			<!--- If we have an XML type list, force base EH. --->
-			<cfif isXmlTypeList>
-				<!--- If it's an XML defined type, force a base EventHandler to be created --->
-				<cfset ehInst = ehFactory.create("EventHandler") >
-			<cfelse>
+			
+			<!--- Try to instantiate the type. --->
+			<cftry>
 				<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
-			</cfif>
+				<!--- If the type is not found, force a base EventHandler to be created --->
+				<cfcatch type="expression">
+					<cfset ehInst = ehFactory.create("EventHandler") >
+				</cfcatch>
+			</cftry>
 			
 			<cfset ehInst.beforeConfiguration() />
 			
@@ -480,12 +481,15 @@
 		<!--- default the types to the configured defaultscaffolds --->
 		<cfparam name="objectmetadata.type" default="#arguments.modelglue.getConfigSetting('defaultScaffolds')#" />
 		<cfparam name="objectmetadata.propertylist" default="" />
+		<cfparam name="objectmetadata['event-type']" default="" />
 		<cfloop list="#objectmetadata.type#" index="iType">
 			<cfset S =createObject("component", "ModelGlue.gesture.eventhandler.Scaffold") /> 
 			<!--- now make a seperate object for each type --->
 			<cfset S.object = objectMetadata.object />
 			<cfset S.type = iType />
 			<cfset S.propertylist = objectmetadata.propertylist />
+			<cfset S.eventType = objectMetadata["event-type"] />
+			<cfset S.childXML = arguments.scaffoldsXML[i].XmlChildren />
 			<!--- then store the metadata in the scaffolds array --->
 			<cfset arrayAppend( scaffoldsArray, S) />
 		</cfloop>

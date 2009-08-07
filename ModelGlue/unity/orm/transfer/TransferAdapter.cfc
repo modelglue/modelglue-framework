@@ -244,7 +244,7 @@
 		<cfif fields[i].cfDataType eq "string"
 					and right(fields[i].name, 2) neq "id"
 					and fields[i].length lt 65535>
-			<cfset arguments.field.sourceColumn = fields[i].name />
+			<cfset arguments.field.sourceColumn = fields[i].alias />
 			<cfbreak />
 		</cfif>
 	</cfloop>

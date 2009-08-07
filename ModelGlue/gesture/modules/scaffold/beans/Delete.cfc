@@ -4,14 +4,22 @@
 	<cfargument name="advice" type="struct" required="true"/>
 	<cfargument name="alias" type="string" required="true"/>
 	<cfargument name="class" type="string" required="true"/>
+	<cfargument name="eventtype" type="string" required="true"/>
 	<cfargument name="orderedpropertylist" type="string" required="true"/>
 	<cfargument name="prefix" type="string" required="true"/>
 	<cfargument name="primarykeylist" type="string" required="true"/>
 	<cfargument name="properties" type="struct" required="true"/>
 	<cfargument name="propertylist" type="string" required="true"/>
-	<cfargument name="suffix" type="string" required="true"/> 
-	<cfreturn ('
-		<event-handler name="#arguments.alias#.Delete" access="public">
+	<cfargument name="suffix" type="string" required="true"/>
+	
+	<cfset var xml = '
+		<event-handler name="#arguments.alias#.Delete" access="public"' />
+	
+	<cfif len(arguments.eventtype)>
+		<cfset xml = xml & ' type="#arguments.eventtype#"' />
+	</cfif>
+	
+	<cfset xml = xml & '>
 			<broadcasts>
 				<message name="ModelGlue.genericDelete">
 					<argument name="criteria" value="#arguments.primaryKeyList#" />
@@ -21,10 +29,12 @@
 			<views>
 			</views>
 			<results>
-				<result name="" do="#arguments.alias#.List" redirect="true" append="" preserveState="false" />
+				<result do="#arguments.alias#.List" redirect="true" preserveState="false" />
 			</results>
-		</event-handler>					
-')>
+		</event-handler>
+'>
+	
+	<cfreturn xml />
 </cffunction>
 
 
