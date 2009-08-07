@@ -4,14 +4,22 @@
 	<cfargument name="advice" type="struct" required="true"/>
 	<cfargument name="alias" type="string" required="true"/>
 	<cfargument name="class" type="string" required="true"/>
+	<cfargument name="eventtype" type="string" required="true"/>
 	<cfargument name="orderedpropertylist" type="string" required="true"/>
 	<cfargument name="prefix" type="string" required="true"/>
 	<cfargument name="primarykeylist" type="string" required="true"/>
 	<cfargument name="properties" type="struct" required="true"/>
 	<cfargument name="propertylist" type="string" required="true"/>
-	<cfargument name="suffix" type="string" required="true"/> 
-	<cfreturn ('
-		<event-handler name="#arguments.alias#.View" access="public">
+	<cfargument name="suffix" type="string" required="true"/>
+	
+	<cfset var xml = '
+		<event-handler name="#arguments.alias#.View" access="public"' />
+	
+	<cfif len(arguments.eventtype)>
+		<cfset xml = xml & ' type="#arguments.eventtype#"' />
+	</cfif>
+	
+	<cfset xml = xml & '>
 			<broadcasts>
 				<message name="ModelGlue.genericRead">
 					<argument name="criteria" value="#arguments.primaryKeyList#" />
@@ -26,8 +34,10 @@
 			</views>
 			<results>
 			</results>
-		</event-handler>					
-')>
+		</event-handler>
+'>
+	
+	<cfreturn xml />
 </cffunction>
 
  	
@@ -56,11 +66,50 @@
 <br />
 <cfform class="edit"> 
 <fieldset>
-    <<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
-	        <div class="formfield">
-		        <label for="%Metadata.properties[thisProp].name%"><b>%Metadata.properties[thisProp].label%:</b></label>
-		        <span class="input">##%Metadata.alias%Record.get%Metadata.properties[thisProp].name%()##</span>
-	        </div>
+	<<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
+			<div class="formfield">
+				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
+				<span class="input">##%Metadata.alias%Record.get%Metadata.properties[thisProp].alias%()##</span>
+			</div>
+		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
+			<cfset variables.sourceValue = "" />
+			<cftry>
+				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%")>
+					<cfset variables.sourceValue = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
+				<cfelseif structKeyExists(%Metadata.alias%Record, "getParent%Metadata.properties[thisProp].alias%")>
+					<cfset variables.sourceValue = %Metadata.alias%Record.getParent%Metadata.properties[thisProp].alias%() />
+				</cfif>
+				<cfcatch>
+				</cfcatch>
+			</cftry>
+	
+			<cfif isObject(variables.sourceValue)>
+				<cfset variables.sourceValue = variables.sourceValue.get%Metadata.properties[thisProp].sourcecolumn%() />
+			</cfif>
+			<div class="formfield">
+				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
+				<span class="input">##variables.sourcevalue##</span>
+			</div>
+		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
+			<div class="formfield">
+				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
+				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
+					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
+					<cfloop collection="##variables.list##" item="rel">
+						<span class="input">##rel.get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+					</cfloop>
+				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
+					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
+					<cfloop from="1" to="##arrayLen(variables.list)##" index="idx">
+						<span class="input">##variables.list[idx].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+					</cfloop>
+				<cfelse>
+					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
+					<cfloop query="variables.list">
+						<span class="input">##%Metadata.properties[thisProp].sourcecolumn%##</span>
+					</cfloop>
+				</cfif>
+			</div>
 		<</cfif>><</cfloop>>
 </fieldset>
 </cfform>

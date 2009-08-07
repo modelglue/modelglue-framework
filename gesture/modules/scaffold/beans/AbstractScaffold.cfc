@@ -42,7 +42,8 @@
 	<cfargument name="suffix" required="false" default=""/>
 	<cfargument name="class" required="false" default=""/>
 	<cfargument name="properties" required="false" default="false"/>
-	<cfargument name="propertylist" required="false" default=""/>	
+	<cfargument name="propertylist" required="false" default=""/>
+	<cfargument name="eventType" required="false" default=""/>
 	<cfargument name="advice" required="false" default="#structNew()#"/>
 	<cfset var metadata = structNew() />
 	<cfset metadata.alias = arguments.alias />
@@ -57,6 +58,7 @@
 	</cfif>
 	<!--- This one should be in order for sure. Either alphabetical or userdefined --->
 	<cfset metadata.orderedPropertyList = metadata.propertylist />
+	<cfset metadata.eventType = arguments.eventType />
 	<cfset metadata.advice = arguments.advice />
 	<cfset beforeMetadataLoaded( metadata ) />
 	<cfset this.hasXMLGeneration = arguments.hasXMLGeneration />

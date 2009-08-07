@@ -34,14 +34,23 @@
 		<cfset var inflatedScaffoldArray = arrayNew( 1 ) />
 		<cfset var i = "" />
 		<cfset var _ormAdapter = findOrmAdapter()  />
+		
 		<!--- OK, so inflate the scaffolds using the beans configured (or overridden) in the ColdSpring bean factories --->
 		<cfloop from="1" to="#arrayLen( arguments.scaffolds )#" index="i">
-			<cfset arrayAppend( inflatedScaffoldArray, new( arguments.scaffolds[i].type, _ormAdapter.getObjectMetadata( arguments.scaffolds[i].object ), arguments.scaffolds[i].propertylist )) />
+			<cfset arrayAppend( inflatedScaffoldArray, new( arguments.scaffolds[i].type, _ormAdapter.getObjectMetadata( arguments.scaffolds[i].object ), arguments.scaffolds[i].propertylist, arguments.scaffolds[i].eventType )) />
 		</cfloop>
 		
 		<!--- Yes this line is rediculously long, but we want to control whitespace, don't we?' --->
 		<!--- Gen the XML --->
  		<cfsavecontent variable="scaffoldsXMLContent"><cfloop from="1" to="#arrayLen( inflatedScaffoldArray )#" index="i"><cfif inflatedScaffoldArray[i].hasXMLGeneration IS true ><cfoutput>#inflatedScaffoldArray[i].makeMGXMLWithMetadata()#</cfoutput></cfif></cfloop></cfsavecontent>
+		
+		<!--- For any scaffolds that contain XML content, inject the scaffold tag child nodes into the generated XML.  --->
+		<cfloop from="1" to="#arrayLen( arguments.scaffolds )#" index="i">
+			<cfif arrayLen(arguments.scaffolds[i].childXML)>
+				<cfset scaffoldsXMLContent = injectScaffoldXML(scaffoldsXMLContent, "#arguments.scaffolds[i].object#.#arguments.scaffolds[i].type#", arguments.scaffolds[i].childXML) />
+			</cfif>
+		</cfloop>
+		
 		<cfset writeToDisk( variables._MGConfig.scaffoldXMLFilePath, scaffoldsXMLContent ) /> 
 		
 		<!--- Gen the Views --->
@@ -58,6 +67,147 @@
 		<cfargument name="location" type="string" required="true" />
 		<cfargument name="scaffoldXMLString" type="string" required="true" />
 		<cffile action="write" file="#arguments.location#" output="#makeTopOuterNode() & arguments.scaffoldXMLString & makeBottomOuterNode()#" />
+	</cffunction>
+	
+	<cffunction name="injectScaffoldXML" access="private" output="false" returntype="string" hint="I inject XML nodes from the body of a scaffold tag into each generated event handler that matches an [object].[type] naming convention.">
+		<cfargument name="scaffoldsXMLContent" type="string" required="true" hint="I am the string of generated scaffold XML." />
+		<cfargument name="scaffoldNodeName" type="string" required="true" hint="I am the name of the event handler node that will be targeted for injection." />
+		<cfargument name="scaffoldXMLNodes" type="array" required="true" hint="I am the array of XML child nodes to inject." />
+		
+		<cfset var targetIndex = "" />
+		<cfset var targetNode = "" />
+		<cfset var targetChildren = "" />
+		<cfset var sourceIndex = "" />
+		<cfset var sourceNode = "" />
+		<cfset var sourceChildren = "" />
+		<cfset var childIndex = "" />
+		<cfset var childNode = "" />
+		<cfset var childNames = "" />
+		<cfset var childResults = "" />
+		<cfset var xmlString = "" />
+		
+		<!--- Create an XML document variable from the generated XML string concatenated with the outer nodes. --->
+		<cfset var scaffoldGeneratedContent = xmlParse(makeTopOuterNode() & arguments.scaffoldsXMLContent & makeBottomOuterNode()) />
+		<!--- Create an array of the event handler nodes in the document. --->
+		<cfset var eventHandlers = xmlSearch(scaffoldGeneratedContent, "//event-handlers/event-handler") />
+		
+		<!--- Iterate over the event handler array, performing a case-insensitive test for the match to the targeted event handler name, and creating a reference to it. --->
+		<cfloop from="1" to="#arrayLen(eventHandlers)#" index="targetIndex">
+			<cfif eventHandlers[targetIndex].XmlAttributes.name is arguments.scaffoldNodeName>
+				<cfset targetNode = eventHandlers[targetIndex] />
+				<cfbreak />
+			</cfif>
+		</cfloop>
+		
+		<!--- Iterate over the array of nodes to inject. --->
+		<cfloop from="1" to="#arrayLen(arguments.scaffoldXMLNodes)#" index="sourceIndex">
+			<!--- Create a reference to the current source node (broadcasts, results or views). --->
+			<cfset sourceNode = arguments.scaffoldXMLNodes[sourceIndex] />
+			
+			<!--- If the source node does not exist in the target node, create it. --->
+			<cfif not structKeyExists(targetNode, sourceNode.XmlName)>
+				<cfset targetNode.XmlChildren[arrayLen(targetNode.XmlChildren) + 1] = xmlElemNew(scaffoldGeneratedContent, sourceNode.XmlName) />
+			</cfif>
+			
+			<!--- Create a reference to the array of child nodes of the target (message, result, view or include). --->
+			<cfset targetChildren = targetNode[sourceNode.XmlName].XmlChildren />
+			
+			<!--- Iterate over the children of the target node, detecting existing nodes to avoid overwriting. --->
+			<cfloop from="1" to="#arrayLen(targetChildren)#" index="childIndex">
+				<!--- Create a reference to the current child node. --->
+				<cfset childNode = targetChildren[childIndex] />
+				
+				<!--- If the node has a name attribute, append it to the childNames list --->
+				<cfif structKeyExists(childNode.XmlAttributes, "name")>
+					<cfset childNames = listAppend(childNames, childNode.XmlAttributes.name) />
+				</cfif>
+				
+				<!--- If the node has a do attribute, append it to the childResults list --->
+				<cfif structKeyExists(childNode.XmlAttributes, "do")>
+					<cfset childResults = listAppend(childResults, childNode.XmlAttributes.do) />
+				</cfif>
+			</cfloop>
+			
+			<!--- Create a reference to the array of child nodes of the source (message, result, view or include). --->
+			<cfset sourceChildren = sourceNode.XmlChildren />
+			
+			<!--- Iterate over the children of the source node, appending them to the target node. --->
+			<cfloop from="1" to="#arrayLen(sourceChildren)#" index="childIndex">
+				<!--- Create a reference to the current child node. --->
+				<cfset childNode = sourceChildren[childIndex] />
+				
+				<!--- If the current child node does not already exist under the target node, copy the source child node to the target. --->
+				<cfif (structKeyExists(childNode.XmlAttributes, "name") and not listFindNoCase(childNames, childNode.XmlAttributes.name))
+					or (structKeyExists(childNode.XmlAttributes, "do") and not listFindNoCase(childResults, childNode.XmlAttributes.do))>
+					<cfset setChildNode(scaffoldGeneratedContent, targetChildren, childNode) />
+				</cfif>
+			</cfloop>
+		</cfloop>
+		
+		<!--- Create XML string. --->
+		<cfset xmlString = toString(scaffoldGeneratedContent["modelglue"]["event-handlers"]) />
+		
+		<!--- Clean up the XML. --->
+		<cfset xmlString = cleanXMLString(xmlString) />
+		
+		<cfreturn xmlString />
+	</cffunction>
+	
+	<cffunction name="setChildNode" access="private" output="false" returntype="void" hint="I make a deep copy of a message, result, view or include XML node and append it to an array of child nodes in another XML document.">
+		<cfargument name="xmlDocument" type="any" required="true" hint="I am the new XML document that will receive the copied node." />
+		<cfargument name="parentArray" type="array" required="true" hint="I am the XML child array of the parent node that will receive the copied node." />
+		<cfargument name="node" type="any" required="true" hint="I am the node to copy." />
+		
+		<cfset var attribute = "" />
+		<cfset var childIndex = "" />
+		<cfset var childNode = "" />
+		<cfset var childAttribute = "" />
+		
+		<!--- Append a new node to the parent's child node array. --->
+		<cfset arrayAppend(arguments.parentArray, xmlElemNew(arguments.xmlDocument, arguments.node.XmlName)) />
+		
+		<!--- Iterate over the attributes of the node to copy, setting each attribute into the new node. --->
+		<cfloop collection="#arguments.node.XmlAttributes#" item="attribute">
+			<cfset arguments.parentArray[arrayLen(arguments.parentArray)].XmlAttributes[attribute] = arguments.node.XmlAttributes[attribute] />
+		</cfloop>
+		
+		<!--- Iterate over the XML child nodes of the node to copy. --->
+		<cfloop from="1" to="#arrayLen(arguments.node.XmlChildren)#" index="childIndex">
+			<!--- Create a reference to the current child node. --->
+			<cfset childNode = arguments.node.XmlChildren[childIndex] />
+			
+			<!--- Append a new child node to the newly-copied node. --->
+			<cfset arrayAppend(arguments.parentArray[arrayLen(arguments.parentArray)].XmlChildren, xmlElemNew(arguments.xmlDocument, childNode.XmlName)) />
+			
+			<!--- Iterate over the attributes of the child node to copy, setting each attribute into the new child node. --->
+			<cfloop collection="#childNode.XmlAttributes#" item="childAttribute">
+				<cfset arguments.parentArray[arrayLen(arguments.parentArray)].XmlChildren[childIndex].XmlAttributes[childAttribute] = childNode.XmlAttributes[childAttribute] />
+			</cfloop>
+		</cfloop>
+	</cffunction>
+	
+	<cffunction name="cleanXMLString" output="false" access="private" returntype="string" hint="I format an XML string for legibility by humans.">
+		<cfargument name="xmlSource" type="string" required="true" />
+		
+		<cfset var br = chr(13) & chr(10) />
+		<cfset var tb = chr(9) />
+		
+		<!--- Break apart dynamically-inserted XML nodes. --->
+		<cfset var xmlString = reReplace(arguments.xmlSource, "><", ">#br##tb##tb#<", "all") />
+		
+		<!--- Ensure consistent whitespace after each event handler block. --->
+		<cfset xmlString = reReplaceNoCase(xmlString, "</event-handler>\s+[\r\n]+\s+", "</event-handler>#br##tb##tb##br##tb##tb#", "all") />
+		
+		<!--- Standardize indention levels for child tags of event handler. --->
+		<cfset xmlString = reReplaceNoCase(xmlString, "\t*<(/?(broadcasts|results|views))", "#tb##tb##tb#<\1", "all") />
+		<cfset xmlString = reReplaceNoCase(xmlString, "\t*<(/?(message|result|view|include)[^s])", "#tb##tb##tb##tb#<\1", "all") />
+		<cfset xmlString = reReplaceNoCase(xmlString, "\t*<(/?(argument|value))", "#tb##tb##tb##tb##tb#<\1", "all") />
+		
+		<!--- Extract only event handler nodes. --->
+		<cfset xmlString = reReplaceNoCase(xmlString, '<\?xml version="1\.0" encoding="UTF-8"\?>\s+<event-handlers>\s+', '') />
+		<cfset xmlString = reReplaceNoCase(xmlString, '\s*</event-handlers>', '') />
+		
+		<cfreturn xmlString />
 	</cffunction>
 	
 	<cffunction name="makeSureConfigFileExists" output="false" access="private" returntype="void" hint="I make sure the scaffold config file exists">
@@ -102,6 +252,7 @@
 		<cfargument name="name" type="string" required="true"/>
 		<cfargument name="constructorArgs" type="struct" default="#structNew()#"/>
 		<cfargument name="propertylist" type="string" default=""/>
+		<cfargument name="eventType" type="string" default="" />
 		<cfset var beanConstructor = structNew() />
 		<!--- mix in the arguments --->
 		<cfset structAppend( beanConstructor, arguments ) />

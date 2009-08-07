@@ -4,16 +4,19 @@
 	<cfargument name="advice" type="struct" required="true"/>
 	<cfargument name="alias" type="string" required="true"/>
 	<cfargument name="class" type="string" required="true"/>
+	<cfargument name="eventtype" type="string" required="true"/>
 	<cfargument name="orderedpropertylist" type="string" required="true"/>
 	<cfargument name="prefix" type="string" required="true"/>
 	<cfargument name="primarykeylist" type="string" required="true"/>
 	<cfargument name="properties" type="struct" required="true"/>
 	<cfargument name="propertylist" type="string" required="true"/>
-	<cfargument name="suffix" type="string" required="true"/> 
+	<cfargument name="suffix" type="string" required="true"/>
+	
 	<cfset var relationshipMessages = "" />
 	<cfset var thisProp = "" />
-	<cfset var knownRelationships= "
-" />
+	<cfset var knownRelationships = "" />
+	<cfset var xml = "" />
+	
 	<cfloop collection="#arguments.properties#" item="thisProp">
 		<cfif arguments.properties[thisProp].relationship IS true AND listfind( knownRelationships, thisProp ) IS false>
 			<cfset relationshipMessages = '#relationshipMessages#
@@ -22,11 +25,18 @@
 					<argument name="queryName" value="#arguments.properties[thisProp].sourceObject#List" />
 					<argument name="criteria" value="" />
 				</message>'>
-		<cfset knownRelationships = listAppend(knownRelationships, thisProp ) />
+		<cfset knownRelationships = listAppend(knownRelationships, thisProp) />
 		</cfif>
 	</cfloop>
-	<cfreturn ('
-		<event-handler name="#arguments.alias#.Edit" access="public">
+	
+	<cfset xml = '
+		<event-handler name="#arguments.alias#.Edit" access="public"' />
+	
+	<cfif len(arguments.eventtype)>
+		<cfset xml = xml & ' type="#arguments.eventtype#"' />
+	</cfif>
+	
+	<cfset xml = xml & '>
 			<broadcasts>
 				<message name="ModelGlue.genericRead">
 					<argument name="criteria" value="#arguments.primaryKeyList#" />
@@ -43,7 +53,9 @@
 			<results>
 			</results>
 		</event-handler>
-')>
+'>
+	
+	<cfreturn xml />
 </cffunction>	
 
 <cffunction name="loadViewTemplate" output="false" access="public" returntype="string" hint="I load the CFtemplate formatted representation for this view">
@@ -105,7 +117,7 @@
 	        		<input type="radio" id="%thisProp%_false" name="%thisProp%" value="false" <cfif isBoolean(%Metadata.alias%Record.get%thisProp%()) and %Metadata.alias%Record.get%thisProp%() IS false>checked</cfif>/>
 					<label for="%thisProp%_false"> No</label>		
 			<<cfelseif Metadata.properties[thisProp].length LTE 65535>>
-					<input type="text" class="input" id="%thisProp%" name="%thisProp%" maxLength="%Metadata.properties[thisProp].length%" value="<<cfif Metadata.properties[thisProp].cfdatatype IS  "date">>##dateFormat( %Metadata.alias%Record.get%thisProp%(), "m/d/yyyy")## ##timeFormat(%Metadata.alias%Record.get%thisProp%(), "h:mm TT")##<<cfelse>>##%Metadata.alias%Record.get%thisProp%()##<</cfif>>">
+					<input type="text" class="input" id="%thisProp%" name="%thisProp%" value="<<cfif Metadata.properties[thisProp].cfdatatype IS  "date">>##dateFormat( %Metadata.alias%Record.get%thisProp%(), "m/d/yyyy")## ##timeFormat(%Metadata.alias%Record.get%thisProp%(), "h:mm TT")##<<cfelse>>##%Metadata.alias%Record.get%thisProp%()##<</cfif>>">
 			<<cfelseif Metadata.properties[thisProp].length GT 65535>>
 					<textarea class="input" id="%thisProp%" name="%thisProp%">##%Metadata.alias%Record.get%thisProp%()##</textarea>
 			<</cfif>>
@@ -114,16 +126,16 @@
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
 			<tr>	
         		<td>
-	        		<label for="%Metadata.properties[thisProp].name%" <cfif structKeyExists(validation, "%Metadata.alias%")>class="error"</cfif><b>%Metadata.properties[thisProp].label%:</b></label>
+	        		<label for="%Metadata.properties[thisProp].name%" <cfif structKeyExists(validation, "%Metadata.properties[thisProp].alias%")>class="error"</cfif><b>%Metadata.properties[thisProp].label%:</b></label>
 	        	</td>
 	        	<td>
 	        <cfset variables.valueQuery = event.getValue("%Metadata.properties[thisProp].sourceobject%List") />
 			<cfset variables.sourceValue = "" />
 						<cftry>
-							<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.alias%")>
-								<cfset variables.sourceValue = %Metadata.alias%Record.get%Metadata.alias%() />
-							<cfelseif structKeyExists(%Metadata.alias%Record, "getParent%Metadata.alias%")>
-								<cfset variables.sourceValue = %Metadata.alias%Record.getParent%Metadata.alias%() />
+							<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%")>
+								<cfset variables.sourceValue = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
+							<cfelseif structKeyExists(%Metadata.alias%Record, "getParent%Metadata.properties[thisProp].alias%")>
+								<cfset variables.sourceValue = %Metadata.alias%Record.getParent%Metadata.properties[thisProp].alias%() />
 							</cfif>
 							<cfcatch>
 							</cfcatch>
@@ -149,21 +161,21 @@
 	<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
 		<tr>	
         	<td>
-	        	<label <cfif structKeyExists(validation, "%Metadata.alias%")>class="error"</cfif>><b>%Metadata.properties[thisProp].label%(s):</b></label>
+	        	<label <cfif structKeyExists(validation, "%Metadata.properties[thisProp].alias%")>class="error"</cfif>><b>%Metadata.properties[thisProp].label%(s):</b></label>
 	        </td>
 	        <td>  
 			<cfset variables.valueQuery = event.getValue("%Metadata.properties[thisProp].sourceobject%List") />
 			
-			<cfif event.exists("%Metadata.alias%|%Metadata.properties[thisProp].sourcekey%")>
-				<cfset variables.selectedList = event.getValue("%Metadata.alias%|%Metadata.properties[thisProp].sourcekey%")/>
+			<cfif event.exists("%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%")>
+				<cfset variables.selectedList = event.getValue("%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%")/>
 			<cfelse>
 				<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
-				<cfif structKeyExists(%Metadata.properties[thisProp].alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
-					<cfset variables.selected = %Metadata.properties[thisProp].alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
-				<cfelseif structKeyExists(%Metadata.properties[thisProp].alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
-					<cfset variables.selected = %Metadata.properties[thisProp].alias%Record.get%Metadata.properties[thisProp].alias%Array() />
+				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
+					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
+				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
+					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
 				<cfelse>
-					<cfset variables.selected = %Metadata.properties[thisProp].alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
+					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
 				</cfif>
 
 				<cfif isQuery(variables.selected)>
@@ -182,10 +194,10 @@
             hidden makes the field always defined.  if this was not here, and you deleted this whole field
             from the control, you would wind up deleting all child records during a genericCommit...
           --->
-          <input type="hidden" name="%Metadata.alias%|%Metadata.properties[thisProp].sourcekey%" value="" />
+          <input type="hidden" name="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" value="" />
 	        <div class="formfieldinputstack">
           <cfloop query="valueQuery">
-            <label for="%Metadata.alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##"><input type="checkbox" name="%Metadata.alias%|%Metadata.properties[thisProp].sourcekey%" id="%Metadata.alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##" value="##valueQuery.%Metadata.properties[thisProp].sourcekey%##"<cfif listFindNoCase(selectedList, "##valueQuery.%Metadata.properties[thisProp].sourcekey%##")> checked</cfif>/>##valueQuery.%Metadata.properties[thisProp].sourcecolumn%##</label><br />
+            <label for="%Metadata.properties[thisProp].alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##"><input type="checkbox" name="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" id="%Metadata.properties[thisProp].alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##" value="##valueQuery.%Metadata.properties[thisProp].sourcekey%##"<cfif listFindNoCase(selectedList, "##valueQuery.%Metadata.properties[thisProp].sourcekey%##")> checked</cfif>/>##valueQuery.%Metadata.properties[thisProp].sourcecolumn%##</label><br />
 		 </cfloop>
 	        </div>
         </div>
