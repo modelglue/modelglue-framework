@@ -95,13 +95,13 @@
 				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
 				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
-					<cfloop collection="##variables.list##" item="rel">
-						<span class="input">##rel.get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+					<cfloop collection="##variables.list##" item="variables.rel">
+						<span class="input">##variables.rel.get%Metadata.properties[thisProp].sourcecolumn%()##</span>
 					</cfloop>
 				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
-					<cfloop from="1" to="##arrayLen(variables.list)##" index="idx">
-						<span class="input">##variables.list[idx].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+					<cfloop from="1" to="##arrayLen(variables.list)##" index="variables.idx">
+						<span class="input">##variables.list[variables.idx].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
 					</cfloop>
 				<cfelse>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />

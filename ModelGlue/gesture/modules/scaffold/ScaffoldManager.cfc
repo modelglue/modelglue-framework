@@ -265,6 +265,12 @@
 		<cfreturn createobject("component", variables._scaffoldBeanRegistry[ arguments.name ].class ).init( argumentcollection:beanConstructor ) />
 	</cffunction>
 
+	<cffunction name="nukeConfigFile" output="false" access="public" returntype="void" hint="I get rid of the scaffold config file">
+		<cfif fileExists( variables._MGConfig.scaffoldXMLFilePath ) IS true>
+			<cffile action="delete" file="#variables._MGConfig.scaffoldXMLFilePath#" />
+		</cfif> 
+	</cffunction>
+
 	<cffunction name="getModelGlue" access="public" output="false" returntype="any">
 		<cfreturn variables._modelGlue />
 	</cffunction>
