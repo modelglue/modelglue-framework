@@ -6,7 +6,7 @@
 			<!--- <cfset getModelGlue().getScaffoldManager().nukeConfigFile() /> --->
 </cffunction>
 
-<cffunction name="generateScaffolds" output="false" hint="If specified by the config setting, I generate the scaffolds in the modelglue.xml files">
+<!--- <cffunction name="generateScaffolds" output="false" hint="If specified by the config setting, I generate the scaffolds in the modelglue.xml files">
 	<cfargument name="event" />
 	
 	<cfset var eventName = arguments.event.getValue(arguments.event.getValue("eventValue")) />
@@ -18,6 +18,6 @@
 		
 		<cfset arguments.event.addResult("configurationInvalidated") />
 	</cfif>
-</cffunction>
+</cffunction> --->
 
 </cfcomponent>
