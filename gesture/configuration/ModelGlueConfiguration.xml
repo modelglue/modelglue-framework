@@ -45,6 +45,7 @@
 					<list>
 						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
 						<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
+						<value>/ModelGlue/gesture/modules/scaffold/config/scaffolding.xml</value>
 					</list>
 				</constructor-arg>
 			</bean>
