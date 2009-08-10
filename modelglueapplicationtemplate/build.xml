@@ -18,8 +18,8 @@
 	Run the script.
 -->	
 <project name="New Model-Glue Application" default="build" basedir="..">
-	<property name="newApplicationName" value="myApplication" />
-	<property name="newApplicationDirectory" value="/Library/WebServer/Documents/${newApplicationName}" />
+	<property name="newApplicationName" value="myNewApplication" />
+	<property name="newApplicationDirectory" value="/webroot/newApplicationDirectory/" />
 
 	<!--
 	For the Windows/IIS crowd   
