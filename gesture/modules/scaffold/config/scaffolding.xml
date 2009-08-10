@@ -1,9 +1,8 @@
 <modelglue>
 
 <controllers>
-	<controller id="modelglue.scaffoldCntroller"
-				type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController"
-	>
+	<controller id="modelglue.scaffoldController"	type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController">
+		<message-listener message="modelglue.onApplicationStoredInScope" function="setUp" />
 		<message-listener message="modelglue.modulesLoaded" function="generateScaffolds" />
 	</controller>
 </controllers>
