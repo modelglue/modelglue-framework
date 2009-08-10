@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+
+<controllers>
+	<controller id="Controller" type="modelgluesamples/applicationcfc.controller.Controller">
+		<message-listener message="onApplicationStart" function="onApplicationStart" />
+		<message-listener message="onRequestStart" function="getSessionCount" />
+		<message-listener message="onSessionStart" function="incrementSessionCount" />
+		<message-listener message="onSessionEnd" function="decrementSessionCount" />
+	</controller>
+</controllers>
+	
+<event-handlers>
+	<!-- 
+	Sample Event Handler:
+	<event-handler name="eventname">
+		<broadcasts>
+			<message name="message" />
+		</broadcasts>
+		<results>
+			<result name="resultName" do="otherEvent" />
+		</results>
+		<views>
+			<include name="body" template="content.cfm" />
+		</views>
+	</event-handler> 
+	-->
+	<event-handler name="page.index">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+	
+	<!-- Private events:  can't be accessed through a URL -->
+	<event-handler access="private" name="template.main">
+		<views>
+			<include name="main" template="templates/main.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+

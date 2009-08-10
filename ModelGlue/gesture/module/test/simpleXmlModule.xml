@@ -1,0 +1,43 @@
+<modelglue>
+
+<config>
+	<setting name="arbitrarySetting" value="arbitrarySettingValue" />
+	<setting name="viewMappings" value="viewMappingsValue" />
+	<setting name="beanMappings" value="/ModelGlue/gesture/module/test/additionalColdSpringBeans.xml" />
+</config>
+	
+<controllers>
+	<controller id="controller" type="ModelGlue.gesture.module.test.Controller" beans="bean">
+		<message-listener message="messageName" function="listener" />
+	</controller>
+</controllers>
+	
+<scaffold object="SampleOuterScaffoldObject" propertylist="something,to,use" />	
+
+	<event-handlers>
+	<scaffold object="SampleInnerScaffoldObject" propertylist="something,else" />	
+	<event-handler name="eventHandlerName" cache="true" cacheKey="cacheKeyValue" cacheTimeout="42" access="accessValue" cacheKeyValues="eventKeyValue">
+		<broadcasts>
+			<message name="messageName">
+				<argument name="argumentName" value="argumentValue" />
+			</message>
+		</broadcasts>
+		<results>
+			<result name="resultName" do="eventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
+			<result do="implicitEventName" redirect="true" append="appendValue" anchor="anchorValue" preserveState="false" />
+		</results>
+		<views>
+			<include name="viewName" template="templateName" cache="true" cacheKey="cacheKeyValue" cacheTimeout="42" cacheKeyValues="viewKeyValue">
+				<value name="valueName" value="valueValue" overwrite="false" />
+			</include>
+		</views>
+	</event-handler>
+
+	<event-handler name="cacheKeyConventions">
+		<views>
+			<include name="viewName" template="templateName" cache="true" />
+		</views>
+	</event-handler>
+</event-handlers>
+
+</modelglue>

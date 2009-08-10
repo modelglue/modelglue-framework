@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transfer>
+<objectDefinitions>
+
+       <!-- Contact details -->
+      <object name="User" table="User" >
+         <id name="id"  type="UUID" generate="true" />
+         <property name="firstname" type="string" column="firstname"/>
+         <property name="lastname" type="string" column="lastname"/>
+         <property name="password" type="string" column="password"/>
+         <property name="email" type="string" column="email"/>
+      </object>
+   
+</objectDefinitions>
+</transfer>

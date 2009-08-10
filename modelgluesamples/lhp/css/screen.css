@@ -1,0 +1,135 @@
+/*
+*	Lighthouse Pro Stylesheet
+*	Justin Johnson | August 2008
+*	justinjohnson@system7designs.com
+*	www.systemsevendesigns.com
+*
+*	Lighthouse Pro property of and developed by Raymond Camden
+*	www.coldfusionjedi.com
+*/
+
+/* Global General Styles */
+body{background: url(../images/main_bg.jpg) repeat-x left top; color: #444;}
+
+/* Global Form Styles */
+label{font-weight: bold;}
+input{color: #555;}
+.bigInput{padding: 5px; font-size: 14px; font-weight: bold; border: 1px solid #c4c4c4; border-bottom-color: #ddd; border-top-color: #7c7c7c; background: #fff url(../images/bigInput_bg.gif) repeat-x left top;}
+.smallInput{width:100px;}
+
+
+/* Login Page */
+body#login{background: url(../images/login_bg.jpg) repeat-x left top;}
+#loginBox{width: 475px; margin: 100px auto 0 auto; text-align: right; font-size: 10px;}
+#loginForm{background: #f4f4f4;  border: 5px solid #DBEAF0; text-align: left; font-size: 12px;}
+#loginBox h1{width: 137px; height: 77px; background: url(../images/login_logo.jpg) no-repeat left top; margin: 15px auto 25px auto;}
+#loginForm .field{width: 350px; margin-left:75px;}
+#loginForm .field label{float: left; width: 90px;}
+#loginForm .field input{float: left; width: 200px;}
+.loginBtn{margin: 10px 10px 10px 240px;}
+
+/* App Pages */
+#wrapper{width: 960px; margin: 0 auto;}
+#hd{position: relative; height: 117px;}
+#hd h1{background: url(../images/web_logo.jpg) no-repeat left top; width: 150px; height: 84px; position: absolute; left: 5px; top: 10px;}
+.topNav{position: absolute; right: 6px; top:6px; font-size: 11px;}
+.topNav ul{margin: 0; padding: 0;}
+.topNav li{border-right: 1px solid #623536; display: inline; padding-right: 6px;}
+.topNav li.noborder{border: none;}
+.topNav a{color: #623536; font-weight: bold;}
+
+.mainNav{width: 320px; position: absolute; top: 76px; right: 0;}
+
+#contentArea{background: url(../images/contentAreaBg.gif) repeat-y left top;}
+.contentLeft{float: left; width: 160px;}
+.contentRight{float: right; width: 770px; margin-right: 10px;}
+
+#listing{font-size: 11px; width: 770px;}
+#listing .hdRow, #listing .hdRow a{background: #9B412B; color: #fff; font-weight: bold;}
+#listing .dark{background: #eee;}
+#listing .legendRow{background: #EBE3CF; font-weight: bold; color: #623536;}
+#listing a{color: #623536; font-weight: bold;}
+#listing td{padding: 4px;}
+#listing.blue .hdRow{background: #226988;}
+#listing.blue .dark{background: #DBEAF0;}
+h2{font-family: Georgia, sans-serif; letter-spacing: -1px; font-weight: normal; font-size: 20px; color: #226988;}
+h2.red{font-weight: normal;}
+
+.contentLeft h5{background: #EBE3CF; padding: 5px; color: #623536;}
+.contentLeft ul{margin: 5px 5px 10px 5px; padding: 0;}
+.contentLeft ul li{margin: 0; padding: 2px 0; font-weight: bold; color: #226988;}
+.contentLeft ul li a{color: #623536;}
+.contentLeft ul li a.blueLink{color: #226988;}
+
+p.count{font-weight: bold; font-size: 11px;}
+
+.addLeft{float: left; width: 510px;}
+.addRight{float: right; width: 200px;}
+
+#formTable .input, #formTable .bigInput{width: 400px;}
+#formTable select.input{width: 412px;}
+#formTable textarea.input{font-size: 11px;}
+#formTable textarea.input.historyTxt{width: 260px; color: #623536; background: #ffffeb;}
+
+/* nav button styles */
+
+#thome a  {
+	width: 100px;
+	background: url(../images/home.jpg) top left no-repeat;
+	}
+#treports a  {
+	width: 100px;
+	background: url(../images/reports.jpg) top left no-repeat;
+	}
+#tfeeds a  {
+	width: 100px;
+	background: url(../images/feeds.jpg) top left no-repeat;
+	}			
+
+#nav {
+	margin: 0;
+	padding: 0;
+	height: 26px;
+	list-style: none;
+	display: inline;
+	overflow: hidden;
+	}
+
+#nav li {
+	margin: 0; 
+	padding: 0;
+    list-style: none;
+	display: inline;
+	}
+
+#nav a {
+	float: left;
+	padding: 26px 0 0 0;
+	overflow: hidden;
+	height: 0px !important; 
+	height /**/:26px; /* for IE5/Win only */
+	margin-right: 5px;
+	}
+	
+#nav a:hover {
+	background-position: 0 -26px;
+	}
+
+#nav a:active, #nav a.selected {
+	background-position: 0 -26px;
+	}
+
+input.button{
+	border: 0; 
+	font-weight: bold;
+	color: #fff;
+	padding: 5px;
+	background: url(../images/btnGreyBg.jpg) repeat-x left top;
+	font-size: 11px;
+	margin-left: 2px; margin-right: 2px;
+}
+input.button.blue{
+	background: url(../images/btnBlueBg.jpg) repeat-x left top;
+}
+
+#dtable a{color: #623536; font-weight: bold;}

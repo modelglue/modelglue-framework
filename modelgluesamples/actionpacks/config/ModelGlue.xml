@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+	
+<!-- Bring in common and usermanagement actionpacks -->
+<include template="/modelglueactionpacks/common/config/ModelGlue.xml" />
+<include template="/modelglueactionpacks/usermanagement/config/ModelGlue.xml" />
+
+<controllers>
+	<controller id="Controller" type="modelgluesamples/actionpacks.controller.Controller">
+	<!-- 
+	<message-listener message="message" function="controllerFunction" />
+	-->
+	</controller>
+</controllers>
+	
+<event-handlers>
+	<!-- A homepage for your application: Uses the "common" actionpack's template event. -->
+	<event-handler name="page.index" type="modelglueactionpacks.common.event.MainTemplateEvent">
+		<views>
+			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- An error event to show when an error occurs, much like <cferror>. -->
+	<event-handler name="page.error" type="modelglueactionpacks.common.event.MainTemplateEvent">
+		<views>
+			<include name="body" template="pages/exception.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- A "404" event to show when the requested event isn't defined. -->
+	<event-handler name="page.missing" type="modelglueactionpacks.common.event.MainTemplateEvent">
+		<views>
+			<include name="body" template="pages/missingEvent.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+

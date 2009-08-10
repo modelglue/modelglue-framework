@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<project name="Build" default="CopyFilesLocally" basedir=".">
+
+            <!--
+
+            OVERVIEW
+
+            This build script allows you to deploy to development, staging or production. The
+
+            following activites will be performed on each deployment:
+
+           
+
+                        1. Copy application files to local deployment path
+
+                        2. Adjust ColdSpring settings: Reload=False, Debug=False
+
+                        3. Ducktype all CFCs: remove 'returntype' attribute from functions, remove 'required' attribute from arguments, remove 'type' attribute from arguments
+
+                        4. Copy files to remote folder (you may want to delete or backup the remote files before copying to avoid dangling files - but MAKE SURE THE DIRECTORY EXISTS ON THE REMOTE SERVER)
+
+                        5. ToDo: Create a TAG in SVN with the newly deployed files
+
+ 
+
+            REQUIREMENTS
+
+            This script requires that ANT FTP task be installed and configured correctly.
+
+            For more info visit: http://ant.apache.org/manual/OptionalTasks/ftp.html
+
+ 
+
+            DEVELOPED BY
+
+
+            -->
+
+ 
+
+            <!-- load properties -->
+
+            <property file="deploy.properties" />
+
+ 
+
+                       
+
+            <!-- copy files locally -->
+
+            <target name="CopyFilesLocally" description="Copy files to local deployment folder...">
+
+                        <sync todir="${path.localbuild}" includeEmptyDirs="true" overwrite="true" verbose="true">
+
+                                    <fileset dir="." casesensitive="no">
+
+                                                <exclude name="**/*.svn*" />                                               
+
+                                                <exclude name="**/*svn*" />
+
+                                                <exclude name="**/*.project*" />
+
+
+                                    </fileset>
+
+                        </sync>
+
+            </target>          
+
+ 
+
+
+
+</project>
+
+ 
+
+ 

@@ -1,0 +1,1 @@
+<cfsilent><cfapplication name="modelgluesamples/contentCaching" sessionmanagement="true"/></cfsilent>

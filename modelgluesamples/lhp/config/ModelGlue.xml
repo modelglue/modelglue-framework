@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+
+<controllers>
+	<controller id="Controller" type="lhp.controller.Controller">
+		<message-listener message="onRequestStart" />
+		<message-listener message="deleteAnnouncement" />
+		<message-listener message="getAnnouncement" />
+		<message-listener message="getAnnouncements" />
+		<message-listener message="getMyAnnouncements" />
+		<message-listener message="saveAnnouncement" />
+	</controller>
+	<controller id="IssueController" type="lhp.controller.IssueController">
+		<message-listener message="deleteAttachment" />	
+		<message-listener message="deleteIssueType" />		
+		<message-listener message="deleteSeverity" />		
+		<message-listener message="deleteStatus" />	
+		<message-listener message="doMailProcess" />
+		<message-listener message="gatherReportData" />
+		<message-listener message="getDashboardData" />		
+		<message-listener message="getIssue" />
+		<message-listener message="getIssues" />
+		<message-listener message="getIssueType" />
+		<message-listener message="getIssueTypes" />
+		<message-listener message="getRSSData" />
+		<message-listener message="getSeverity" />
+ 		<message-listener message="getSeverities" />	
+		<message-listener message="getStatus" />
+ 		<message-listener message="getStatuses" />	
+		<message-listener message="saveIssue" />		
+		<message-listener message="saveIssueType" />		
+		<message-listener message="saveSeverity" />		
+		<message-listener message="saveStatus" />		
+	</controller>
+	<controller id="ProjectController" type="lhp.controller.ProjectController">
+		<message-listener message="deleteMilestone" />		
+		<message-listener message="deleteProject" />	
+		<message-listener message="deleteProjectArea" />	
+		<message-listener message="getMilestone" />
+		<message-listener message="getMilestones" />
+		<message-listener message="getProject" />
+		<message-listener message="getMyProjects" />
+		<message-listener message="getProjectArea" />
+ 		<message-listener message="getProjectAreas" />	
+		<message-listener message="getProjects" />
+		<message-listener message="saveMilestone" />		
+		<message-listener message="saveProject" />		
+		<message-listener message="saveProjectArea" />		
+	</controller>
+	<controller id="UserController" type="lhp.controller.UserController">
+		<message-listener message="onRequestStart" />
+		<message-listener message="checkAdmin" />
+		<message-listener message="checkLogin" />
+		<message-listener message="deleteUser" />
+		<message-listener message="getUser" />		
+		<message-listener message="getUsers" />		
+		<message-listener message="processLogin" />
+		<message-listener message="processLogout" />
+		<message-listener message="savePrefs" />
+		<message-listener message="saveUser" />
+	</controller>	
+</controllers>
+	
+<event-types>
+	<event-type name="securedPage">
+`		<before>
+			<broadcasts>
+				<message name="checkLogin" />
+				<!-- used to lock down admin only page, provide a list of events to secure here. fuzy matching is used, so announcement matches action.announcementsave and page.announcements -->
+				<message name="checkAdmin">
+					<argument name="events" value="announcement,severities,severity,status,issuetype,projectarea,milestone,user,project" />
+				</message>
+				<message name="getMyProjects" />				
+			</broadcasts>
+			<results>
+				<result name="notAuthorized" do="page.index" redirect="true" />
+				<result name="needLogin" do="page.login" redirect="true" />
+			</results>
+		</before>
+	</event-type>
+</event-types>
+		
+<event-handlers>
+
+	<event-handler name="action.announcementdelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteAnnouncement" />
+		</broadcasts>
+		<results>
+			<result do="page.announcements" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.announcementsave" type="securedPage">
+		<broadcasts>
+			<message name="getAnnouncement" />			
+			<message name="saveAnnouncement" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.announcements" redirect="true" />
+			<result name="bad" do="page.announcement" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.attachmentdelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteAttachment" />
+		</broadcasts>
+		<results>
+			<result do="page.viewissue" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.issuesave" type="securedPage">
+		<broadcasts>
+			<message name="getIssue" />	
+			<message name="getProject" />	
+			<message name="saveIssue" />
+		</broadcasts>
+		<results>
+			<result name="print" do="page.printissue" redirect="true" />
+			<result name="good" do="page.viewissues" redirect="true" />
+			<result name="bad" do="page.viewissue" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.issuetypedelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteIssueType" />
+		</broadcasts>
+		<results>
+			<result do="page.issuetypes" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.issuetypesave" type="securedPage">
+		<broadcasts>
+			<message name="getIssueType" />			
+			<message name="saveIssueType" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.issuetypes" redirect="true" />
+			<result name="bad" do="page.issuetype" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+			
+	<event-handler name="action.login">
+		<broadcasts>
+			<message name="processLogin" />
+		</broadcasts>
+		<results>
+			<result name="loggedIn" do="page.index" redirect="true" />
+			<result name="notLoggedIn" do="page.login" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.logout">
+		<broadcasts>
+			<message name="processLogout" />
+		</broadcasts>
+		<results>
+			<result do="page.login" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.mailprocess">
+		<broadcasts>
+			<message name="doMailProcess" />
+		</broadcasts>
+		<results>
+		</results>
+		<views>
+		</views>
+	</event-handler>
+
+	<event-handler name="action.milestonedelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteMilestone" />
+		</broadcasts>
+		<results>
+			<result do="page.milestones" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+		
+	<event-handler name="action.milestonesave" type="securedPage">
+		<broadcasts>
+			<message name="getMilestone" />			
+			<message name="saveMilestone" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.milestones" redirect="true" />
+			<result name="bad" do="page.milestone" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.prefssave" type="securedPage">
+		<broadcasts>
+			<message name="savePrefs" />
+		</broadcasts>
+		<results>
+			<result do="page.prefs" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+			
+	<event-handler name="action.projectareadelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteProjectArea" />
+		</broadcasts>
+		<results>
+			<result do="page.projectareas" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.projectareasave" type="securedPage">
+		<broadcasts>
+			<message name="getProjectArea" />			
+			<message name="saveProjectArea" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.projectareas" redirect="true" />
+			<result name="bad" do="page.projectarea" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.projectdelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteProject" />
+		</broadcasts>
+		<results>
+			<result do="page.projects" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.projectsave" type="securedPage">
+		<broadcasts>
+			<message name="getProject" />			
+			<message name="saveProject" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.projects" redirect="true" />
+			<result name="bad" do="page.project" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+		
+	<event-handler name="action.severitydelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteSeverity" />
+		</broadcasts>
+		<results>
+			<result do="page.severities" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.severitysave" type="securedPage">
+		<broadcasts>
+			<message name="getSeverity" />			
+			<message name="saveSeverity" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.severities" redirect="true" />
+			<result name="bad" do="page.severity" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.statusdelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteStatus" />
+		</broadcasts>
+		<results>
+			<result do="page.statuses" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.statussave" type="securedPage">
+		<broadcasts>
+			<message name="getStatus" />			
+			<message name="saveStatus" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.statuses" redirect="true" />
+			<result name="bad" do="page.status" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+
+	<event-handler name="action.userdelete" type="securedPage">
+		<broadcasts>
+			<message name="deleteUser" />
+		</broadcasts>
+		<results>
+			<result do="page.users" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+	
+	<event-handler name="action.usersave" type="securedPage">
+		<broadcasts>
+			<message name="getUser" />			
+			<message name="saveUser" />
+		</broadcasts>
+		<results>
+			<result name="good" do="page.users" redirect="true" />
+			<result name="bad" do="page.user" redirect="true" />
+		</results>
+		<views />
+	</event-handler>
+			
+	<event-handler name="page.announcement" type="securedPage">
+		<broadcasts>
+			<message name="getAnnouncement" />
+			<message name="getProjects" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/announcement.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.announcements" type="securedPage">
+		<broadcasts>
+			<message name="getAnnouncements" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/announcements.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.feeds" type="securedPage">
+		<broadcasts>
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/feeds.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.gettingstarted" type="securedPage">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/gettingstarted.cfm" />
+		</views>
+	</event-handler>
+		
+	<event-handler name="page.index" type="securedPage">
+		<broadcasts>
+			<message name="getMyAnnouncements" />
+			<message name="getDashboardData" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.issuetype" type="securedPage">
+		<broadcasts>
+			<message name="getIssueType" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/issuetype.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.issuetypes" type="securedPage">
+		<broadcasts>
+			<message name="getIssueTypes" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/issuetypes.cfm" />
+		</views>
+	</event-handler>
+		
+	<event-handler name="page.login">
+		<views>
+			<include name="body" template="pages/login.cfm" />
+			<include name="template" template="templates/login.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.milestone" type="securedPage">
+		<broadcasts>
+			<message name="getProjects" />
+			<message name="getMilestone" />			
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/milestone.cfm" />
+		</views>
+	</event-handler>
+		
+	<event-handler name="page.milestonelist" type="securedPage">
+		<broadcasts>
+			<message name="getMilestones" />
+		</broadcasts>
+		<results />
+		<views>
+			<include name="body" template="pages/milestonelist.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.milestones" type="securedPage">
+		<broadcasts>
+			<message name="getProjects" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/milestones.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.prefs" type="securedPage">
+		<broadcasts>
+			<message name="getMyProjects" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/prefs.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.printissue" type="securedPage">
+		<broadcasts>
+		</broadcasts>
+		<results>
+		</results>
+		<views>
+			<include name="body" template="pages/printissue.cfm" />
+		</views>
+	</event-handler>
+		
+	<event-handler name="page.project" type="securedPage">
+		<broadcasts>
+			<message name="getProject" />
+			<message name="getProjectAreas" />
+			<message name="getUsers" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/project.cfm" />
+		</views>
+	</event-handler>	
+	
+	<event-handler name="page.projectarea" type="securedPage">
+		<broadcasts>
+			<message name="getProjectArea" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/projectarea.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.projectareas" type="securedPage">
+		<broadcasts>
+			<message name="getProjectAreas" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/projectareas.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.projects" type="securedPage">
+		<broadcasts>
+			<message name="getProjects" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/projects.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.reports" type="securedPage">
+		<broadcasts>
+			<message name="gatherReportData" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/reports.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.rss" type="securedPage">
+		<broadcasts>
+			<message name="getRSSData" />
+		</broadcasts>
+		<results>
+			<result name="NoRSS" do="page.index" />
+		</results>
+		<views>
+			<include name="body" template="pages/rss.cfm" />
+		</views>
+	</event-handler>
+			
+	<event-handler name="page.severity" type="securedPage">
+		<broadcasts>
+			<message name="getSeverity" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/severity.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.severities" type="securedPage">
+		<broadcasts>
+			<message name="getSeverities" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/severities.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.status" type="securedPage">
+		<broadcasts>
+			<message name="getStatus" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/status.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.statuses" type="securedPage">
+		<broadcasts>
+			<message name="getStatuses" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/statuses.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="page.user" type="securedPage">
+		<broadcasts>
+			<message name="getUser" />
+			<message name="getProjects" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/user.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.users" type="securedPage">
+		<broadcasts>
+			<message name="getUsers" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/users.cfm" />
+		</views>
+	</event-handler>				
+
+	<event-handler name="page.viewissue" type="securedPage">
+		<broadcasts>
+			<message name="getIssue" />
+			<message name="getProject" />
+			<message name="getIssueTypes" />
+			<message name="getProjectAreas" />
+			<message name="getSeverities" />
+			<message name="getStatuses" />
+			<message name="getMilestones" />
+		</broadcasts>
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/issue.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler name="page.viewissues" type="securedPage">
+		<broadcasts format="html">
+			<message name="getIssueTypes" />
+			<message name="getProject" />
+			<message name="getProjectAreas" />
+			<message name="getSeverities" />
+			<message name="getStatuses" />
+			<message name="getMilestones" />
+		</broadcasts>
+		<broadcasts format="json">
+			<message name="getProject" />
+			<message name="getIssues" />
+		</broadcasts>
+		<results format="html">
+			<result do="template.main" />
+		</results>
+		<results format="json">
+		</results>
+		<views format="html">
+			<include name="body" template="pages/viewissues.cfm" />
+		</views>
+		<views format="json">
+			<include name="body" template="pages/viewissuesjson.cfm" />
+		</views>
+	</event-handler>
+		
+	<!-- todo later, update these -->
+	<!-- An error event to show when an error occurs, much like <cferror>. -->
+	<event-handler name="page.error">
+		<broadcasts />
+		<results>
+		</results>
+		<views>
+			<include name="body" template="pages/exception.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- A "404" event to show when the requested event isn't defined. -->
+	<event-handler name="page.missing">
+		<broadcasts />
+		<results>
+		</results>
+		<views>
+			<include name="body" template="pages/missingEvent.cfm" />
+		</views>
+	</event-handler>
+	
+	<!-- Private events:  can't be accessed through a URL -->
+	<event-handler access="private" name="template.main">
+		<views>
+			<include name="main" template="templates/main.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+

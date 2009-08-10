@@ -1,0 +1,26 @@
+<beans>
+
+<import resource="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
+
+<bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
+	<property name="defaultEvent">
+		<value>home</value>
+	</property>
+	<property name="reload">
+		<value>true</value>
+	</property>
+	<property name="debug">
+		<value>true</value>
+	</property>
+	<property name="primaryModule">
+		<value></value>
+	</property>
+	<property name="defaultTemplate">
+		<value>defaultTemplateValue</value>
+	</property>
+	<property name="eventValue">
+		<value>event</value>
+	</property>
+</bean>
+
+</beans> 

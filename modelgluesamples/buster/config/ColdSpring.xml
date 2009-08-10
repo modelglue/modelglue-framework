@@ -1,0 +1,104 @@
+<beans>
+	
+<!-- This is your Model-Glue configuration -->
+<bean id="modelglue.modelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
+
+	<!-- Be sure to change these to false when you go to production! -->
+	<property name="reload"><value>true</value></property>
+	<property name="debug"><value>true</value></property>
+	
+	<!-- Name of the URL variable that states which event-handler to run -->
+	<property name="eventValue"><value>event</value></property>
+	<!-- Default event-handler -->
+	<property name="defaultEvent"><value>page.index</value></property>
+	<!-- Execute this event when the requested event is missing. Won't work if generationEnabled=true and in development mode! -->
+	<property name="missingEvent"><value>page.missing</value></property>
+	<!-- Execute this event when an error occurs. -->
+	<property name="defaultExceptionHandler"><value>page.error</value></property>
+	
+	<!-- Controls reloading -->
+	<property name="reloadPassword"><value>true</value></property>
+	<property name="reloadKey"><value>init</value></property>
+
+	<!-- Where to find necessary files -->
+	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
+	<property name="applicationMapping"><value>/buster</value></property>
+	<property name="viewMappings"><value>/buster/views</value></property>
+	<property name="helperMappings"><value>/buster/helpers</value></property>
+	
+	<!-- Generate unknown events when in development mode?  (reload=false) -->
+	<property name="generationEnabled"><value>false</value></property>
+
+	<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
+</bean>
+	
+
+<bean id="Users" class="buster.model.Users"/>
+	
+
+<!-- 
+	If you need your own configuration values (datasource names, etc), put them here.
+	
+	See modelgluesamples/simpleconfiguration/controller/Controller for an example of how to get to the values.
+	
+	Advanced users who are used to ColdSpring will probably delete this bean in favor of their own approach.
+-->
+<bean id="modelglue.applicationConfiguration" class="ModelGlue.Bean.CommonBeans.SimpleConfig">
+	<property name="config">
+		<map>
+			<entry key="myDatasource"><value>myDatasource</value></entry>
+		</map>
+	</property>
+</bean>
+  
+<!-- Put definitions for your own beans and services here -->
+
+<!-- ORM Framework Configuration -->
+		
+<!--
+		The following explains how to connect Model-Glue to either the
+		Transfer or Reactor ORM frameworks.
+	
+		If you've got the lastest (from CVS) version of ColdSpring, the commented-out
+		code below will work.
+	
+		Otherwise, do the following:
+		
+		1.  Choose whether to use Reactor or Transfer for this project
+		2.  Open up /ModelGlue/unity/config/Configuration.xml
+		3.  Uncomment the appropriate "To use xxxx as an ORM Framework..." block below
+		4.  Delete the <alias /> tags in the ORM block you uncommented
+		5.  If using Reactor, copy/paste the beans named "ormAdapter.Reactor" and
+				"ormService.Reactor" to this file (from Configuration.xml) and remove 
+				the ".Reactor" from their name attributes.
+		6.  If using Transfer, copy/paste the beans named "ormAdapter.Transfer" and
+				"ormService.Transfer" to this file (from Configuration.xml) and remove 
+				the ".Transfer" from their name attributes.
+-->
+	
+<!-- 
+	Transfer:
+
+	<alias alias="ormAdapter" name="ormAdapter.Transfer" />
+	<alias alias="ormService" name="ormService.Transfer" />
+	<bean id="transferConfiguration" class="transfer.com.config.Configuration">
+		<constructor-arg name="datasourcePath"><value>/buster/config/transfer/Datasource.xml</value></constructor-arg>
+		<constructor-arg name="configPath"><value>/buster/config/transfer/Transfer.xml</value></constructor-arg>
+		<constructor-arg name="definitionPath"><value>/buster/model/data/transfer</value></constructor-arg>
+	</bean>
+  
+	Reactor:
+		
+	<alias alias="ormAdapter" name="ormAdapter.Reactor" />
+	<alias alias="ormService" name="ormService.Reactor" />
+	<bean id="reactorConfiguration" class="reactor.config.config">
+		<constructor-arg name="pathToConfigXml"><value>/buster/config/reactor/Reactor.xml</value></constructor-arg>
+		<property name="project"><value>test</value></property>
+		<property name="dsn"><value>test</value></property>
+		<property name="type"><value>mysql</value></property>
+		<property name="mapping"><value>/buster/model/data/reactor</value></property>
+		<property name="mode"><value>development</value></property>
+	</bean>
+-->	
+
+</beans>

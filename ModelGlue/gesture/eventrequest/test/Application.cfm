@@ -1,0 +1,1 @@
+<cfapplication name="mg.gesture.test" sessionManagement="true" />

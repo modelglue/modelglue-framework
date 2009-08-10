@@ -1,0 +1,16 @@
+<modelglue>
+
+<controllers>
+	<controller id="modelglue.orm.ormController"
+				type="ModelGlue.gesture.modules.orm.controller.GenericORMController"
+	>
+		<message-listener message="onRequestStart" function="onRequestStart" />
+		<message-listener message="modelglue.onApplicationStoredInScope" function="loadORMAdapter" />
+		<message-listener message="modelglue.GenericCommit" function="genericCommit" />
+		<message-listener message="modelglue.GenericDelete" function="genericDelete" />
+		<message-listener message="modelglue.GenericList" function="genericList" />
+		<message-listener message="modelglue.GenericRead" function="genericRead" />
+	</controller>
+</controllers>
+
+</modelglue>

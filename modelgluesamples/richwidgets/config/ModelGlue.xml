@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+
+<controllers>
+	<controller id="Controller" type="modelgluesamples/richwidgets.controller.Controller">
+		<message-listener message="needTranslation" function="translate" />
+	</controller>
+</controllers>
+	
+<event-handlers>
+	<!-- 
+	Sample Event Handler:
+	<event-handler name="eventname">
+		<broadcasts>
+			<message name="message" />
+		</broadcasts>
+		<results>
+			<result name="resultName" do="otherEvent" />
+		</results>
+		<views>
+			<include name="body" template="content.cfm" />
+		</views>
+	</event-handler> 
+	-->
+	
+	<!-- A homepage for your application. -->
+	<event-handler name="page.index">
+		<broadcasts>
+			<message name="needTranslation" />
+		</broadcasts>
+		<results format="html">
+			<result do="template.main" />
+		</results>
+		<views format="htmlPartial">
+			<include name="translation" template="translation/translation.cfm" />
+		</views>
+		<views format="html">
+			<include name="translation" template="translation/translation.cfm" />
+			<include name="body" template="pages/index.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- An error event to show when an error occurs, much like <cferror>. -->
+	<event-handler name="page.error">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/exception.cfm" />
+		</views>
+	</event-handler>
+
+	<!-- A "404" event to show when the requested event isn't defined. -->
+	<event-handler name="page.missing">
+		<broadcasts />
+		<results>
+			<result do="template.main" />
+		</results>
+		<views>
+			<include name="body" template="pages/missingEvent.cfm" />
+		</views>
+	</event-handler>
+	
+	<!-- Private events:  can't be accessed through a URL -->
+	<event-handler access="private" name="template.main">
+		<views>
+			<include name="main" template="templates/main.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+

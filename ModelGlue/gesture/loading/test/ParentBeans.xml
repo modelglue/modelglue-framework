@@ -1,0 +1,6 @@
+<beans>
+
+<!-- Just some bean. -->
+<bean id="beanFromParentFactory" class="ModelGlue.gesture.collections.MapCollection" />
+
+</beans> 

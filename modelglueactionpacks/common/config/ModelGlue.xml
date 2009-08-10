@@ -1,0 +1,22 @@
+<modelglue>
+	
+<config>
+	<setting name="beanMappings" value="/modelglueactionpacks/common/config/ColdSpring.xml" />
+	<setting name="viewMappings" value="/modelglueactionpacks/common/views" />
+</config>
+
+<controllers>
+	<controller id="commonController" type="modelglueactionpacks.common.controller.CommonController">
+		<message-listener function="onRequestStart" message="onRequestStart" />
+	</controller>
+</controllers>
+	
+<event-handlers>
+	<event-handler access="private" name="template.main">
+      <views>
+        <include name="main" template="templates/main.cfm" />
+      </views>
+    </event-handler>
+</event-handlers>
+	
+</modelglue>

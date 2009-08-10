@@ -1,0 +1,16 @@
+<beans>
+	<bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
+		<property name="defaultEvent">
+			<value>home</value>
+		</property>
+		<property name="reload">
+			<value>false</value>
+		</property>
+		<property name="debug">
+			<value>none</value>
+		</property>
+		<property name="helperMappings">
+			<value>/ModelGlue/helpers/cflib</value>
+		</property>
+	</bean>
+</beans>
