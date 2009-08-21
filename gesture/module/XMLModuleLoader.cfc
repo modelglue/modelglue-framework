@@ -374,18 +374,32 @@
 	<cfargument name="types" hint="List of types" />
 	
 	<cfset var typename = "" />
+	<cfset var moduleBlock = "" />
+	<cfset var i = "" />
 	
 	<cfloop list="#arguments.types#" index="typename">
 		<cfif structKeyExists(variables.eventTypes, typeName)>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "broadcasts")>
-				<cfset loadMessages(eh, variables.eventTypes[typeName][block].broadcasts) />
+		
+			<cfset moduleBlock = variables.eventTypes[typeName][block] />
+			<!--- Load any broadcasts if we have any  and respect the possibility of multiple views blocks (like for requestformats ). --->
+			<cfif structKeyExists(moduleBlock, "broadcasts") IS true>
+				<cfloop from="1" to="#arrayLen(moduleBlock.broadcasts)#" index="i">
+					<cfset loadMessages(eh, moduleBlock.broadcasts[i]) />
+				</cfloop>
 			</cfif>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "results")>
-				<cfset loadResults(eh, variables.eventTypes[typeName][block].results) />
+			<!--- Load any results if we have any  and respect the possibility of multiple views blocks (like for requestformats ) --->
+			<cfif structKeyExists(moduleBlock, "results") IS true>
+				<cfloop from="1" to="#arrayLen(moduleBlock.results)#" index="i">
+					<cfset loadResults(eh, moduleBlock.results[i]) />
+				</cfloop>
 			</cfif>
-			<cfif structKeyExists(variables.eventTypes[typeName][block], "views")>
-				<cfset loadViews(eh, variables.eventTypes[typeName][block].views) />
+			<!--- Load any views if we have any and respect the possibility of multiple views blocks (like for requestformats ) --->
+			<cfif structKeyExists(moduleBlock, "views") IS true>
+				<cfloop from="1" to="#arrayLen(moduleBlock.views)#" index="i">
+					<cfset loadViews(eh, moduleBlock.views[i]) />
+				</cfloop>
 			</cfif>
+
 		</cfif>
 	</cfloop>
 </cffunction>
