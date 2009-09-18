@@ -31,10 +31,16 @@
 	<cfset arguments.loadedModules[arguments.path] = true />
 	
 	<!--- Expand path if needed. --->
-	<cfif not fileExists(arguments.path) and fileExists(expandPath(arguments.path))>
-		<cfset arguments.path = expandPath(arguments.path) />
-	</cfif>
-	
+	<!--- try/catch required to work in sandboxed environment --->
+	<cftry>
+		<cfif not fileExists(arguments.path) and fileExists(expandPath(arguments.path))>
+			<cfset arguments.path = expandPath(arguments.path) />
+		</cfif>
+	<cfcatch>
+			<cfset arguments.path = expandPath(arguments.path) />
+		</cfcatch>
+	</cftry>
+		
 	<cfif not fileExists(arguments.path)>
 		<cfthrow message="The XML module to be loaded from ""#arguments.path#"" can't be loaded because the file can't be found or read."
 						 type="ModelGlue.gesture.module.xmlModuleLoader.fileNotFound"

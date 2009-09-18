@@ -36,10 +36,16 @@
 	
 	<!--- For now, we still have to load the core. --->
 	<cfset csPath = this.coreColdSpringPath />
-	<cfif not fileExists(csPath)>
-		<!--- Let's try to expand the path and see if that helps. --->
-		<cfset csPath = expandPath(this.coreColdSpringPath) />
-	</cfif>
+	<!--- try/catch required to work in sandboxed environment --->
+	<cftry>
+		<cfif not fileExists(csPath)>
+			<!--- Let's try to expand the path and see if that helps. --->
+			<cfset csPath = expandPath(this.coreColdSpringPath) />
+		</cfif>
+	<cfcatch>
+			<cfset csPath = expandPath(this.coreColdSpringPath) />
+		</cfcatch>
+	</cftry>
 	<cfif not fileExists(csPath)>
 		<!--- OK, screw it. We can't help you, please hang up and try your path again --->
 		<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#csPath#) doesn't exist!" />
@@ -53,9 +59,15 @@
 				TODO:  Make this not happen in Gesture after <import> is released.
 	--->
 	<cfif this.modelglueVersionIndicator eq this.versionIndicators.gesture or this.modelglueVersionIndicator eq this.versionIndicators.unity>
+	<!--- try/catch required to work in sandboxed environment --->
+	<cftry>
 		<cfif not fileExists(originalCsPath)>
 			<cfset originalCsPath = expandPath(originalCsPath) />
 		</cfif>
+		<cfcatch>
+			<cfset originalCsPath = expandPath(originalCsPath) />
+		</cfcatch>
+	</cftry>	
 	
 		<cfif not fileExists(originalCsPath)>
 			<cfthrow message="Can't create beanfactory:  The ColdSpring path indicated (#originalCsPath#) doesn't exist!" />
