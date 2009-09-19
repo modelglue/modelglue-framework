@@ -32,10 +32,10 @@
 	
 	<cfif structKeyExists(arguments, "mockCgiScope")>
 		<cfset pathArray = listToArray(arguments.mockCgiScope.PATH_INFO, "/") />
-	<cfelseif arguments.mockCgiScope.PATH_INFO NEQ arguments.mockCgiScope.SCRIPT_NAME>
-		<cfset pathArray = listToArray(arguments.mockCgiScope.PATH_INFO, "/") />
+	<cfelseif cgi.PATH_INFO NEQ cgi.SCRIPT_NAME>
+			<cfset pathArray = listToArray(cgi.PATH_INFO, "/") />
 	</cfif>
-	
+		
 	<cfif arrayLen(pathArray)>
 		<cfset result[eventValue] = pathArray[1] />
 	</cfif>
