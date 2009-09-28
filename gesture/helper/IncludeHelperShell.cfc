@@ -7,7 +7,10 @@
 	
 	<!--- add all helpers to the Shell --->	
 	<cfloop collection="#variables#" item="key">
-        <cfset this[key]=variables[key]>
+		<!--- No unintentional recursion please --->
+		<cfif key IS NOT "this">
+        	<cfset this[key]=variables[key]>
+		</cfif>
       </cfloop>
 	
 	<cfreturn this />
