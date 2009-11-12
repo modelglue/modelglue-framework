@@ -313,7 +313,7 @@
 			<cftry>
 				<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
 				<!--- If the type is not found, force a base EventHandler to be created --->
-				<cfcatch type="expression">
+				<cfcatch>
 					<cfset ehInst = ehFactory.create("EventHandler") >
 				</cfcatch>
 			</cftry>
