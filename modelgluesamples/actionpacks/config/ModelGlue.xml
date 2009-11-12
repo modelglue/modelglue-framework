@@ -6,7 +6,7 @@
 <include template="/modelglueactionpacks/usermanagement/config/ModelGlue.xml" />
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/actionpacks.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.actionpacks.controller.Controller">
 	<!-- 
 	<message-listener message="message" function="controllerFunction" />
 	-->

@@ -2,7 +2,7 @@
 <modelglue>
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/richwidgets.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.richwidgets.controller.Controller">
 		<message-listener message="needTranslation" function="translate" />
 	</controller>
 </controllers>

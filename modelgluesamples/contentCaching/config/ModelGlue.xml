@@ -2,7 +2,7 @@
 <modelglue>
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/contentCaching.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.contentCaching.controller.Controller">
 	<!-- 
 	<message-listener message="message" function="controllerFunction" />
 	-->

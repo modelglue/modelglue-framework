@@ -2,7 +2,7 @@
 <modelglue>
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/applicationcfc.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.applicationcfc.controller.Controller">
 		<message-listener message="onApplicationStart" function="onApplicationStart" />
 		<message-listener message="onRequestStart" function="getSessionCount" />
 		<message-listener message="onSessionStart" function="incrementSessionCount" />

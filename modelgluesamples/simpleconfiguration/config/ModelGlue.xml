@@ -2,7 +2,7 @@
 <modelglue>
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/simpleconfiguration.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.simpleconfiguration.controller.Controller">
 		<message-listener message="onRequestStart" function="loadConfiguration" />
 	</controller>
 </controllers>

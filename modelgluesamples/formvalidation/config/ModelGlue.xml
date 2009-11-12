@@ -2,7 +2,7 @@
 <modelglue>
 
 <controllers>
-	<controller id="Controller" type="modelgluesamples/formvalidation.controller.Controller">
+	<controller id="Controller" type="modelgluesamples.formvalidation.controller.Controller">
 		<message-listener message="needFormValidation" function="validateForm" />
 	</controller>
 </controllers>

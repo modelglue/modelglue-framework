@@ -9,7 +9,7 @@ According to its controller, this app has <font color="green" size="+1"><strong>
 <p>To listen for any of these events, just add a message listener tag to any of your controllers:</p>
 
 <pre>
-&lt;controller id="Controller" type="modelgluesamples/applicationcfc.controller.Controller">
+&lt;controller id="Controller" type="modelgluesamples.applicationcfc.controller.Controller">
 	&lt;message-listener message="onApplicationStart" function="onApplicationStart" />
 	&lt;message-listener message="onRequestStart" function="getSessionCount" />
 	&lt;message-listener message="onSessionStart" function="onSessionStart" />

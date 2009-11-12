@@ -70,7 +70,7 @@ This application does this by:
 
 <pre>
 &lt;controllers>
-	&lt;controller id="Controller" type="modelgluesamples/simpleconfiguration.controller.Controller">
+	&lt;controller id="Controller" type="modelgluesamples.simpleconfiguration.controller.Controller">
 		&lt;message-listener message="onRequestStart" function="loadConfiguration" />
 	&lt;/controller>
 &lt;/controllers>
