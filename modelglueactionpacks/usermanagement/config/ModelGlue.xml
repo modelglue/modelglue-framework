@@ -72,7 +72,7 @@
       </results>
     </event-handler>
     <!-- USER -->
-    <event-handler name="userManagement.user.delete" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.user.delete" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.user.delete" />
       </broadcasts>
@@ -80,7 +80,7 @@
         <result do="userManagement.user.list" redirect="true" />
       </results>
     </event-handler>
-    <event-handler name="userManagement.user.edit" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.user.edit" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.user.get" />
       </broadcasts>
@@ -89,7 +89,7 @@
         <name name="body" template="userManagement/user/edit.cfm" />
       </views>
     </event-handler>
-    <event-handler name="usermanagement.user.list" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="usermanagement.user.list" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="usermanagement.user.list" />
       </broadcasts>
@@ -98,7 +98,7 @@
         <name name="body" template="usermanagement/user/list.cfm" />
       </views>
     </event-handler>
-    <event-handler name="userManagement.user.save" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.user.save" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.user.get" />
         <message name="userManagement.user.save" />
@@ -109,7 +109,7 @@
       </results>
     </event-handler>
     <!-- GROUP -->
-    <event-handler name="userManagement.group.delete" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.group.delete" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.group.delete" />
       </broadcasts>
@@ -117,7 +117,7 @@
         <result do="userManagement.group.list" redirect="true" />
       </results>
     </event-handler>
-    <event-handler name="userManagement.group.edit" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.group.edit" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.group.get" />
       </broadcasts>
@@ -126,7 +126,7 @@
         <name name="body" template="userManagement/group/edit.cfm" />
       </views>
     </event-handler>
-    <event-handler name="usermanagement.group.list" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="usermanagement.group.list" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="usermanagement.group.list" />
       </broadcasts>
@@ -135,7 +135,7 @@
         <name name="body" template="usermanagement/group/list.cfm" />
       </views>
     </event-handler>
-    <event-handler name="userManagement.group.save" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.group.save" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.group.get" />
         <message name="userManagement.group.save" />
@@ -146,7 +146,7 @@
       </results>
     </event-handler>
     <!-- EVENT SECURITY -->
-    <event-handler name="userManagement.securedModelGlueEvent.delete" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.securedModelGlueEvent.delete" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.securedModelGlueEvent.delete" />
       </broadcasts>
@@ -154,7 +154,7 @@
         <result do="userManagement.securedModelGlueEvent.list" redirect="true" />
       </results>
     </event-handler>
-    <event-handler name="userManagement.securedModelGlueEvent.edit" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.securedModelGlueEvent.edit" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.securedModelGlueEvent.get" />
       </broadcasts>
@@ -163,7 +163,7 @@
         <name name="body" template="userManagement/securedModelGlueEvent/edit.cfm" />
       </views>
     </event-handler>
-    <event-handler name="usermanagement.securedModelGlueEvent.list" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="usermanagement.securedModelGlueEvent.list" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="usermanagement.securedModelGlueEvent.list" />
       </broadcasts>
@@ -172,7 +172,7 @@
         <name name="body" template="usermanagement/securedModelGlueEvent/list.cfm" />
       </views>
     </event-handler>
-    <event-handler name="userManagement.securedModelGlueEvent.save" type="modelglueactionpacks.userManagement.event.SecuredMainTemplateEvent">
+    <event-handler name="userManagement.securedModelGlueEvent.save" type="modelglueactionpacks.usermanagement.event.SecuredMainTemplateEvent">
       <broadcasts>
         <message name="userManagement.securedModelGlueEvent.get" />
         <message name="userManagement.securedModelGlueEvent.save" />
