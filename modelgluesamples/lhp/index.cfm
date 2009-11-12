@@ -16,6 +16,7 @@
 	
 	<cfset ModelGlue_LOCAL_COLDSPRING_PATH = expandPath(".") & "/config/ColdSpring.xml" />
 --->
+	<cfset ModelGlue_LOCAL_COLDSPRING_PATH = expandPath("/lhp/config/ColdSpring.xml.cfm") />
 
 <!---
 	**SCAFFOLDING CONFIGURATION**

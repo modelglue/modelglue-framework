@@ -116,6 +116,9 @@
 	<cffunction name="savePrefs" access="public" output="false">
 		<cfargument name="event" type="any">
 		<cfset var me = arguments.event.getValue("currentuser")>
+		<!--- Why mydata? To ensure we work with the latest data. Specifically, projects may be out of date. --->
+		<cfset var mydata = beans.userService.getUser(me.getId())>
+		
 		<cfset var cancel = arguments.event.getValue("cancel")>
 		<cfset var errors = "">		
 
@@ -129,24 +132,24 @@
 			<cfset arguments.event.addResult("good")>
 		</cfif>
 
-		<cfset me.setName(left(name,50))>
-		<cfset me.setEmailAddress(emailaddress)>
-		<cfset me.setEmailProjects(selemailprojects)>
+		<cfset mydata.setName(left(name,50))>
+		<cfset mydata.setEmailAddress(emailaddress)>
+		<cfset mydata.setEmailProjects(selemailprojects)>
 				
-		<cfset errors = me.validate()>
+		<cfset errors = mydata.validate()>
 		
 		<cfif len(password)>
 			<cfif not password2 eq password>
 				<cfset arrayAppend(errors, "Your new password and the confirmation did not match.")>
 			<cfelse>
-				<cfset me.setPassword(password)>
+				<cfset mydata.setPassword(password)>
 			</cfif>
 		</cfif>
-				
+
 		<cfif not arrayLen(errors)>
 			<cftry>
-				<cfset beans.userService.saveUser(me)>
-				<cfset storeUser(me)>
+				<cfset beans.userService.saveUser(mydata)>
+				<cfset storeUser(mydata)>
 				<cfset arguments.event.setValue("message","Your preferences have been updated.")>
 				<cfcatch>
 					<cfset errors[1] = cfcatch.message>			

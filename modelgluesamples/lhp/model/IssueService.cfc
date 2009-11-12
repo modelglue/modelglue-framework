@@ -17,6 +17,11 @@
 		<cfreturn this>
 	</cffunction>	
 
+	<cffunction name="deleteIssue" access="public" returnType="void" output="false">
+		<cfargument name="id" type="any" required="false">
+		<cfset variables.gateway.deleteIssue(arguments.id)>
+	</cffunction>
+	
 	<cffunction name="getIssue" access="public" returnType="any" output="false">
 		<cfargument name="id" type="any" required="false">
 		<cfif structKeyExists(arguments,"id") and isValid("uuid",arguments.id)>

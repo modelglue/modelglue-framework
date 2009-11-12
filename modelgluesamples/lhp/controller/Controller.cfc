@@ -26,7 +26,7 @@
 		<cfset taskURL = taskURL & theServer & listDeleteAt(cgi.script_name, listlen(cgi.script_name,"/"), "/")>
 		<cfset taskURL = taskURL & "/index.cfm?event=action.mailprocess">
 		
-		<cfschedule action="update" task="#taskname#" operation="HTTPRequest" url="#taskurl#" startDate="1/1/99" startTime="12:00 AM" interval="600" requestTimeOut="600">
+		<cfschedule action="update" task="#taskname#" operation="HTTPRequest" url="#taskurl#" startDate="01/01/1999" startTime="12:00 AM" interval="600" requestTimeOut="600">
 		
 		<cfreturn this />
 	</cffunction>

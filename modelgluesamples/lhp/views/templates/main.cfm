@@ -5,10 +5,8 @@
 <cfset projects = event.getValue("myprojects", queryNew("id"))>
 <cfset me = event.getValue("currentuser")>
 
-<!---
 <cfparam name="url.id" default="" type="string">
 <cfparam name="url.pid" default="#url.id#" type="string">
---->
 
 <cfoutput>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -63,7 +61,7 @@
 					<h5>Your Projects</h5>
 						<ul>
 							<cfif projects.recordcount>
-								<cfif projects.recordcount gt 25>
+								<cfif projects.recordcount gt 20>
 									<script>
 										function goToProject(el){
 											var id = el.options[el.selectedIndex].value

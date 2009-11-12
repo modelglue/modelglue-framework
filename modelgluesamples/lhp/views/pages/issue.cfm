@@ -55,34 +55,6 @@
 
 <cfset event.setValue("title", title)>
 
-<!---
-
-<cfif isDefined("form.print")>
-	<cfset output = application.issueManager.printFormat(i)>
-
-	<cfheader name="Content-Disposition" value="inline; filename=issue.pdf">	
-	<cfcontent type="application/pdf" reset="true">
-
-	<cfdocument format="pdf">
-	<cfdocumentitem type="header">
-		<cfoutput><div style="font-family: Arial; font-size: 8px">STERIS Web Team</div></cfoutput>
-	</cfdocumentitem>
-	
-	<cfoutput>
-	<style>
-	TD { 
-		font-family: Arial;
-		font-size: 12px;
-	}
-	</style>
-	#output#
-	</cfoutput>
-	
-	</cfdocument>	
-
-</cfif>
---->
-
 <script>
 $(document).ready(function() {
 	$("#duedate").datepicker({showOn: 'button', buttonImage: 'images/calendar.gif', buttonImageOnly: true});
@@ -237,7 +209,10 @@ $(document).ready(function() {
 			<td>&nbsp;</td>
 			<td>
 			<input type="submit" name="Cancel" value="Cancel" class="button" />
-			<cfif issue.getID() is not 0><input type="submit" name="print" value="Print" class="button blue"></cfif>
+			<cfif issue.getID() is not 0>
+			<input type="submit" name="print" value="Print" class="button blue">
+			<input type="submit" name="delete" value="Delete" class="button blue">
+			</cfif>
 			<input type="submit" name="save" value="Save" class="button blue">
 			</td>
 		</tr>

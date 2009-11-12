@@ -8,6 +8,12 @@
 <cfset this.mappings["/lhp"] = getDirectoryFromPath(getCurrentTemplatePath())>
 <cfset this.customtagpaths = getDirectoryFromPath(getCurrentTemplatePath()) & "customtags/">
 
+<cffunction name="onRequestStart" output="false" returnType="boolean">
+	<cfargument name="thePage" type="string" required="true">
+	<cfsetting showdebugoutput="false">
+	<cfreturn true>
+</cffunction>
+
 <cffunction name="onSessionStart"  output="false">
 	<!--- Not sure anyone'll ever need this...
 	<cfset invokeSessionEvent("modelglue.onSessionStartPreRequest", session, application) />

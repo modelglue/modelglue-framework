@@ -15,6 +15,16 @@
 		<cfreturn this>
 	</cffunction>	
 
+	<cffunction name="deleteIssue" access="public" returnType="void" output="false">
+		<cfargument name="id" type="any" required="false">
+		
+		<cfquery datasource="#variables.dsn#" username="#variables.username#" password="#variables.password#">
+		delete from lh_issues
+		where	id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.id#" maxlength="35">		
+		</cfquery>
+		
+	</cffunction>
+	
 	<cffunction name="getIssue" access="public" returnType="IssueBean" output="false">
 		<cfargument name="id" type="uuid" required="true">
 		<cfset var iBean = createObject("component","IssueBean")>

@@ -21,6 +21,37 @@ This application was created by Raymond Camden (ray@camdenfamily.com).
 If you find this application worthy, I have a Amazon wish list set up (www.amazon.com/o/registry/2TCL1D08EZEYE ). 
 Gifts are always welcome. ;)
 
+Last Updated: 11/11/09 (2.6.1.003)
+/controller/Controller.cfc - fixed a compatibility issue with Open BlueDragon.
+/install - Docs updated with instructions for installing on Open BlueDragon.
+
+Last Updated: 10/28/09 (2.6.1.002)
+Ignore the 004 below. Brain fart. 
+/Application.cfc - added onRequestStart to disable debugging.
+/config/ColdSpring.xml.cfm - version
+/controller/UserController.cfc - Fixes a bug where updated your preferences could make you lose a project.
+/views/ages/rss.cfm - Fixes a bad link and updates to RSS 2.
+
+Last Updated: 10/28/09 (2.6.1.004)
+Note - the updates for 10/1/09 were for 2.6.1, I wrote the wrong version #.
+/config/ColdSpring.xml.cfm - version
+/customtags/renderErrors.cfm - fixed a CF8 array loop to be CF7 compat.
+/views/template/main.cfm - fixed a bug when a drop down is used for project display. Thank you Naafs-van Dijk for the find.
+
+Last Updated: 10/1/09 (2.6.004)
+/config/ColdSpring.xml.cfm - version
+/controller/IssueController.cfc - forgot to write method to handle deleting issue types
+/controller/IssueController.cfc - if you delete an attachment and the file doesn't exist, no error.
+/controller/IssueControlle.cfc, /model/IssueService.cfc, /model/IssueGateway.cfc, /view/pages/issue.cfm -> Support for deleting issues
+
+
+Last Updated: 8/20something/09 (2.6.004)
+NOTE! Renamed ColdSpring.xml to ColdSpring.xml.cfm.
+/config/Application.cfm - added to bounce folks
+/index.cfm - support new location of ColdSpring
+renamed model/mailService.cfc to MailService.cfc. Case sensitive file systems are a PITA.
+docs updated to be more clear about dependancies.
+
 Last Updated: 7/13/09 (2.6.003)
 /config/ColdSpring.xml - version
 /controller/IssueController.cfc, /helpers/json.cfc, /model/IssueTypeGateway.cfc + MilestoneGateway.cfc + ProjectAreaGateway.cfc + ProjectGateway.cfc + UserGateway.cfc -> Missing var scopes!

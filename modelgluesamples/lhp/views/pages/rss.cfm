@@ -14,45 +14,44 @@
 <cfset lighthouseProURL = lighthouseProURL & listDeleteAt(cgi.script_name, listlen(cgi.script_name,"/"), "/")>
 
 <cfset z = getTimeZoneInfo()>
+<cfif not find("-", z.utcHourOffset)>
+	<cfset utcPrefix = " -">
+<cfelse>
+	<cfset z.utcHourOffset = right(z.utcHourOffset, len(z.utcHourOffset) -1 )>
+	<cfset utcPrefix = " +">
+</cfif>
 
-<cfcontent type="text/xml"><cfoutput><?xml version="1.0" encoding="iso-8859-1"?>
-
-<rdf:RDF 
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns="http://purl.org/rss/1.0/"
->
-	<channel rdf:about="#lighthouseProURL#">
-	<title>#title#</title>
-	<description>Lighthouse Pro Bug Tracker</description>
-	<link>#lighthouseProURL#</link>
-	
-	<items>
-		<rdf:Seq>
-			<cfloop query="issues">
-			<rdf:li rdf:resource="#lighthouseProURL#/view.cfm?#xmlFormat("id=#id#")#" />
-			</cfloop>
-		</rdf:Seq>
-	</items>
-	
-	</channel>
-</cfoutput>
-
-		<cfloop query="issues">
-		<cfset dateStr = dateFormat(updated,"yyyy-mm-dd")>
-		<cfset dateStr = dateStr & "T" & timeFormat(updated,"HH:mm:ss") & "-" & numberFormat(z.utcHourOffset,"00") & ":00">
-		<cfoutput>
-  	<item rdf:about="#lighthouseProURL#/view.cfm?#xmlFormat("id=#id#")#">
-	<title>Project: #xmlFormat(projectname)# / Issue #publicid#: #xmlFormat(name)#</title>
-	<description><cfif len(description) gte 500>#xmlFormat(left(description,500))#...<cfelse>#xmlFormat(description)#</cfif></description>
-	<link>#lighthouseProURL#/view.cfm?#xmlFormat("id=#id#")#</link>
-	<dc:date>#dateStr#</dc:date>
-	<dc:subject></dc:subject>
-	</item>
-		</cfoutput>
-	 	</cfloop>
-
+<cfsavecontent variable="rss">
 <cfoutput>
-</rdf:RDF>
-</cfoutput>
+<rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##">
+<channel>
+<title>#title#</title>
+<link>#lighthouseProURL#</link>
+<description>Lighthouse Pro Bug Tracker</description>
+<language>en-us</language>
+<pubDate>#dateFormat(now(),"ddd, dd mmm yyyy") & " " & timeFormat(now(),"HH:mm:ss") & utcPrefix & numberFormat(z.utcHourOffset,"00") & "00"#</pubDate>
+<cfif issues.recordCount>
+<lastBuildDate>{LAST_BUILD_DATE}</lastBuildDate>
+</cfif>
+<generator>Lighthouse Pro</generator>
+<cfloop query="issues">
+<cfset dateStr = dateFormat(updated,"yyyy-mm-dd")>
+<cfset dateStr = dateStr & "T" & timeFormat(updated,"HH:mm:ss") & "-" & numberFormat(z.utcHourOffset,"00") & ":00">
+<item>
+<title>Project: #xmlFormat(projectname)# / Issue #publicid#: #xmlFormat(name)#</title>
+<link>#lighthouseProURL#/index.cfm?event=page.viewissue#xmlFormat("&id=#id#")#</link>
+<description><cfif len(description) gte 500>#xmlFormat(left(description,500))#...<cfelse>#xmlFormat(description)#</cfif></description>
+<pubDate>#dateStr#</pubDate>
+<guid>#lighthouseProURL#/index.cfm?event=page.viewissue#xmlFormat("&id=#id#")#</guid>
+</item>
+</cfloop>
+</channel></rss>
 
+</cfoutput>
+</cfsavecontent>
+
+<cfif issues.recordCount>
+	<cfset rss = replace(rss,'{LAST_BUILD_DATE}','#dateFormat(issues.updated[1],"ddd, dd mmm yyyy") & " " & timeFormat(issues.updated[1],"HH:mm:ss") & utcPrefix & numberFormat(z.utcHourOffset,"00") & "00"#','one')>
+</cfif>
+
+<cfcontent type="text/xml"><cfoutput><?xml version="1.0" encoding="iso-8859-1"?>#rss#</cfoutput>
