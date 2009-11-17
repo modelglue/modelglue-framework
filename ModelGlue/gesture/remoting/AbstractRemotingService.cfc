@@ -21,22 +21,26 @@
 
 
 <cffunction name="executeEvent" output="false" access="remote" returntype="struct">
-  <cfargument name="eventName" type="string" required="true" />
-  <cfargument name="values" type="struct" required="false" default="#StructNew()#"/>
-  <cfargument name="returnValues" type="string" required="false" default="" />
-  <cfset var local = StructNew()/>
+	<cfargument name="eventName" type="string" required="true" />
+	<cfargument name="values" type="struct" required="false" default="#StructNew()#"/>
+	<cfargument name="returnValues" type="string" required="false" default="" />
+	
+	<cfset var local = StructNew()/>
 	
 	<!--- For Javascript post calls to the service --->
-	<cfif cgi.request_method eq "post">
-		<cfset arguments.values = duplicate(form)/>
-	</cfif>		
+	<cfif structIsEmpty(form) is false>
+		<cfset arguments.values = duplicate(form) />
+	<!--- For Javascript get calls to the service --->
+	<cfelseif structIsEmpty(url) is false>
+		<cfset arguments.values = duplicate(url) />
+	</cfif>
 	
 	<cfset local.event = getModelGlue().executeEvent(argumentCollection=arguments) />
 	
 	<cfloop list="#arguments.returnValues#" index="local.i">
 		<cfset local.result[local.i] = local.event.getValue(local.i) />
 	</cfloop>
-
+	
 	<cfset resetCFHtmlHead() />
 	<cfreturn local.result />
 </cffunction>
