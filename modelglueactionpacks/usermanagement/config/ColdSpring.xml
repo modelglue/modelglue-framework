@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<!--
+		Edit this bean to set up user management.
+
+		If you'd like to set settings per-application, delete it from this file
+		and recreate it in each of your applications.
+		
+		Sorry, there's no good way to override, as this bean gets loaded after
+		your local beans...
+	-->
+	<bean id="UserManagementConfiguration" class="ModelGlue.Bean.CommonBeans.SimpleConfig">
+		<property name="config">
+			<map>
+				<entry key="requireLogin"><value>true</value></entry>
+				<entry key="allowUserSignup"><value>true</value></entry>
+				<entry key="loginEvent"><value>userManagement.loginScreen</value></entry>
+				<entry key="anonymousEvents">
+					<map>
+						<entry key="userManagement.loginScreen"><value>true</value></entry>
+						<entry key="userManagement.createAccount"><value>true</value></entry>
+						<entry key="userManagement.login"><value>true</value></entry>
+					</map>
+				</entry>
+				<entry key="userManagementNavigation">
+					<map>
+						<entry key="title"><value>Users and Groups</value></entry>
+						<entry key="items">
+							<list>
+								<map>
+									<entry key="label"><value>Users</value></entry>
+									<entry key="event"><value>userManagement.user.list</value></entry>
+								</map>
+								<map>
+									<entry key="label"><value>Groups</value></entry>
+									<entry key="event"><value>userManagement.group.list</value></entry>
+								</map>
+							</list>
+						</entry>
+					</map>
+				</entry>
+				<entry key="securityManagementNavigation">
+					<map>
+						<entry key="title"><value>Security</value></entry>
+						<entry key="items">
+							<list>
+								<map>
+									<entry key="label"><value>Secured Events</value></entry>
+									<entry key="event"><value>userManagement.securedModelGlueEvent.list</value></entry>
+								</map>
+							</list>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- Service layer -->
+	<bean id="UserService" class="modelglueactionpacks.usermanagement.model.UserService">
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="UserDAO">
+			<ref bean="UserDAO"/>
+		</constructor-arg>
+		<constructor-arg name="UserGateway">
+			<ref bean="UserGateway"/>
+		</constructor-arg>
+		<constructor-arg name="GroupDAO">
+			<ref bean="GroupDAO"/>
+		</constructor-arg>
+		<constructor-arg name="GroupGateway">
+			<ref bean="GroupGateway"/>
+		</constructor-arg>
+		<constructor-arg name="SecuredModelGlueEventDAO">
+			<ref bean="SecuredModelGlueEventDAO"/>
+		</constructor-arg>
+		<constructor-arg name="SecuredModelGlueEventGateway">
+			<ref bean="SecuredModelGlueEventGateway"/>
+		</constructor-arg>
+	</bean>
+
+	<!-- Data layer -->
+	<bean id="UserDAO" class="modelglueactionpacks.usermanagement.model.UserDAO">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="gateway">
+			<ref bean="UserGateway"/>
+		</constructor-arg>
+	</bean>
+	<bean id="UserGateway" class="modelglueactionpacks.usermanagement.model.UserGateway">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+	</bean>
+	<bean id="UserSessionFacade" class="modelglueactionpacks.usermanagement.model.UserSessionFacade">
+		<constructor-arg name="UserDAO">
+			<ref bean="UserDAO"/>
+		</constructor-arg>
+	</bean>
+
+
+	<bean id="GroupDAO" class="modelglueactionpacks.usermanagement.model.GroupDAO">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="gateway">
+			<ref bean="GroupGateway"/>
+		</constructor-arg>
+	</bean>
+	<bean id="GroupGateway" class="modelglueactionpacks.usermanagement.model.GroupGateway">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="SecuredModelGlueEventDAO" class="modelglueactionpacks.usermanagement.model.SecuredModelGlueEventDAO">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+		<constructor-arg name="objectFactory">
+			<ref bean="ObjectFactory"/>
+		</constructor-arg>
+		<constructor-arg name="gateway">
+			<ref bean="SecuredModelGlueEventGateway"/>
+		</constructor-arg>
+	</bean>
+	<bean id="SecuredModelGlueEventGateway" class="modelglueactionpacks.usermanagement.model.SecuredModelGlueEventGateway">
+		<constructor-arg name="datasource">
+			<ref bean="datasource" />
+		</constructor-arg>
+	</bean>
+</beans>

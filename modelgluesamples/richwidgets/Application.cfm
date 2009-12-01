@@ -1,0 +1,1 @@
+<cfsilent><cfapplication name="modelgluesamples/richwidgets" sessionmanagement="true"/></cfsilent>

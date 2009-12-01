@@ -1,0 +1,10 @@
+The actionpacks that ship with Model-Glue 3's Alpha release are intended
+to be starting points for creating your own applications.
+
+They're still quite rough, and we're more than happy to accept volunteers
+to help build them out!
+
+This directory is intended to be placed under your web root, and may need
+a /modelglueactionpacks mapping in order to be used.
+
+See the "actionpacks" sample to see how to get started with UserManagement.

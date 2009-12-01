@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+	<bean id="ObjectFactory" class="modelglueactionpacks.common.model.ObjectFactory">
+		<constructor-arg name="serviceLocator"><ref bean="ServiceLocator" /></constructor-arg>
+	</bean>
+	<bean id="ServiceLocator" class="modelglueactionpacks.common.model.ColdSpringServiceLocator" />
+</beans>
