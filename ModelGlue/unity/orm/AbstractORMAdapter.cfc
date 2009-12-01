@@ -78,4 +78,31 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfargument name="useTransaction" type="any" required="false" default="true" />
 </cffunction>
 
+<!--- Note: This determineLabel function is implemented in ReactorAdapter.cfc, TransferAdapter.cfc and TransferDictionary.cfc
+	all with the exact same implementation.
+	It really should be removed from the other adapters and simply inherited from here.
+--->
+
+<cffunction name="determineLabel" returntype="string" output="false" access="private">
+	<cfargument name="label" type="string" required="true" />
+	
+	<cfset var i = "" />
+	<cfset var char = "" />
+	<cfset var result = "" />
+	
+	<cfloop from="1" to="#len(arguments.label)#" index="i">
+		<cfset char = mid(arguments.label, i, 1) />
+		
+		<cfif i eq 1>
+			<cfset result = result & ucase(char) />
+		<cfelseif asc(lCase(char)) neq asc(char)>
+			<cfset result = result & " " & ucase(char) />
+		<cfelse>
+			<cfset result = result & char />
+		</cfif>
+	</cfloop>
+
+	<cfreturn result />	
+</cffunction>
+
 </cfcomponent>

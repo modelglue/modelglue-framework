@@ -374,4 +374,14 @@
 	 <constructor-arg name="configuration"><ref bean="transferConfiguration" /></constructor-arg>
 </bean>
 
+<!-- CF9/ORM adapter/service -->
+<bean id="ormAdapter.cfORM" class="ModelGlue.gesture.modules.orm.cform.cfORMAdapter">
+	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+	<constructor-arg name="cform"><ref bean="ormService.cfORM" /></constructor-arg>
+</bean>
+
+<bean id="ormService.cfORM" class="ModelGlue.gesture.modules.orm.cform.CFORMService">
+	 <!-- <constructor-arg name="configuration"><ref bean="cformConfiguration" /></constructor-arg> -->
+</bean>
+
 </beans>
