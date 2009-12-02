@@ -30,6 +30,16 @@ INSERT INTO parentobject(
             mainid, aParentProperty, parentmany2oneid)
     VALUES (1, 'aParentProperty', 1);
 
+INSERT INTO compositekeyobject(key1,key2,aproperty)
+VALUES (1,'a','b');
+INSERT INTO compositekeyobject(key1,key2,aproperty)
+VALUES (1,'b','c');
+INSERT INTO compositekeyobject(key1,key2,aproperty)
+VALUES (2,'a','d');
+INSERT INTO compositekeyobject(key1,key2,aproperty)
+VALUES (2,'b','e');
+
+
 INSERT INTO mainobject(
             mainid, ormtype_string, ormtype_character, ormtype_char, ormtype_short, 
             ormtype_integer, ormtype_int, ormtype_long, ormtype_big_decimal, 
@@ -102,4 +112,13 @@ INSERT INTO parentmain_many2many_array(
 INSERT INTO parentmain_many2many_array(
             parentmany2many_arrayid, mainid)
     VALUES (2, 1);
+
+INSERT INTO listObject(listId,firstName,lastName)
+VALUES (1,'Bob','Silverberg');
+INSERT INTO listObject(listId,firstName,lastName)
+VALUES (2,'Carol','Loffelmann');
+INSERT INTO listObject(listId,firstName,lastName)
+VALUES (3,'Daniel','Silverberg');
+INSERT INTO listObject(listId,firstName,lastName)
+VALUES (4,'Colin','Silverberg');
 

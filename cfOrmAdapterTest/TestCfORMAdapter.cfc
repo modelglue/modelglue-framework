@@ -16,26 +16,22 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		//debug(getMetaData(mg));
 	}
 	
-	function ormAdapterCanBeCreated() {
-		assertEquals(adapterPath,getMetaData(ormAdapter).name);
-	}
-	
 	function getORMServiceShouldReturnORMService() {
 		assertEquals(servicePath,getMetaData(ormAdapter.getORMService()).name);
 	}
 	
 	function listWithMissingGWBeanShouldThrow() mxunit_expectedException="coldspring.NoSuchBeanDefinitionException" {
 		mg.getBean("gwBean").throws("coldspring.NoSuchBeanDefinitionException");
-		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",entityName="MainObject");
+		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
 	
 	function listWithMissingGWMethodOnObjectShouldThrow() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" {
-		list = ormAdapter.list(gatewayMethod="customList",entityName="MainObject");
+		list = ormAdapter.list(gatewayMethod="customList",table="MainObject");
 	}
 
 	function listWithExistingGWBeanButMissingMethodShouldThrow() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" {
 		mg.getBean("gwBean").returns(mock());
-		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",entityName="MainObject");
+		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
 	
 
@@ -46,7 +42,7 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 			Could try injectMethod() instead */
 		injectMethod(gw, this, "returnsArray", "customList");
 		mg.getBean("gwBean").returns(gw);
-		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",entityName="MainObject");
+		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 		assertTrue(IsArray(list));
 	}
 
@@ -54,52 +50,50 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		mockObject = mock();
 		injectMethod(mockObject, this, "returnsArray", "customList");
 		ormService.new("MainObject").returns(mockObject);
-		list = ormAdapter.list(gatewayMethod="customList",entityName="MainObject");
-		debug(list);
+		list = ormAdapter.list(gatewayMethod="customList",table="MainObject");
 		assertTrue(IsArray(list));
 	}
 
 	function listWithNoCriteriaDefaultSortShouldReturnAllAscending() {
-		ormService.list(obj,{},col,true).returns(expected);
-		list = ormAdapter.list(entityName=obj,orderColumn=col);
+		ormService.list(obj,{},col & " asc").returns(expected);
+		list = ormAdapter.list(table=obj,orderColumn=col);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,{},col,true);
+		ormService.verify().list(obj,{},col & " asc");
 	}
 
 	function listWithNoCriteriaDescSortShouldReturnAllDescending() {
-		ormService.list(obj,{},col,false).returns(expected);
-		list = ormAdapter.list(entityName=obj,orderColumn=col,orderAscending=false);
+		ormService.list(obj,{},col & " desc").returns(expected);
+		list = ormAdapter.list(table=obj,orderColumn=col,orderAscending=false);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,{},col,false);
+		ormService.verify().list(obj,{},col & " desc");
 	}
 
 	function listWithNoCriteriaNoSortShouldReturnAllUnsorted() {
-		ormService.list(obj,{},"",true).returns(expected);
-		list = ormAdapter.list(entityName=obj);
+		ormService.list(obj,{}).returns(expected);
+		list = ormAdapter.list(table=obj);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,{},"",true);
+		ormService.verify().list(obj,{});
 	}
 
 	function listWithCriteriaDefaultSortShouldReturnSomeAscending() {
-		ormService.list(obj,crit,col,true).returns(expected);
-		list = ormAdapter.list(entityName=obj,orderColumn=col,criteria=crit);
-		debug(list);
+		ormService.list(obj,crit,col & " asc").returns(expected);
+		list = ormAdapter.list(table=obj,orderColumn=col,criteria=crit);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,crit,col,true);
+		ormService.verify().list(obj,crit,col & " asc");
 	}
 
 	function listWithCriteriaDescSortShouldReturnSomeDescending() {
-		ormService.list(obj,crit,col,false).returns(expected);
-		list = ormAdapter.list(entityName=obj,orderColumn=col,orderAscending=false,criteria=crit);
+		ormService.list(obj,crit,col & " desc").returns(expected);
+		list = ormAdapter.list(table=obj,orderColumn=col,orderAscending=false,criteria=crit);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,crit,col,false);
+		ormService.verify().list(obj,crit,col & " desc");
 	}
 
 	function listWithCriteriaNoSortShouldReturnSomeUnsorted() {
-		ormService.list(obj,crit,"",true).returns(expected);
-		list = ormAdapter.list(entityName=obj,criteria=crit);
+		ormService.list(obj,crit).returns(expected);
+		list = ormAdapter.list(table=obj,criteria=crit);
 		assertEquals(expected,list);
-		ormService.verify().list(obj,crit,"",true);
+		ormService.verify().list(obj,crit);
 	}
 
 	function newWithValidEntityNameReturnsObject() {
@@ -133,9 +127,9 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 	}
 
 	function commitCallsService() {
-		ormService.commit(theObject="").returns(expected);
-		ormAdapter.commit(theObject="");
-		ormService.verify().commit(theObject="");
+		ormService.commit(obj=1).returns(expected);
+		ormAdapter.commit(record=1);
+		ormService.verify().commit(obj=1);
 	}
 
 	function deleteWithValidKeysCallsServiceWithReturnedObject() {
@@ -143,12 +137,6 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		ormService.delete(expected).returns(expected);
 		ormAdapter.delete(obj,crit);
 		ormService.verify().delete(expected);
-	}
-
-	function deleteWithInvalidKeysThrows() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformAdapter.objectNotFound" {
-		injectMethod(ormService, this, "returnsNull", "read");
-		//ormService.read(obj,crit).returns(JavaCast("null", 0));
-		ormAdapter.delete(obj,crit);
 	}
 
 	// private methods for injectMethod and extra setup

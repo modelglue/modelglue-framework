@@ -1,6 +1,7 @@
 component output="false" {
-	this.name = "MGCFORMAdapterTest";
+	this.name = "cfOrmAdapterTest";
 	this.ormenabled = true;
-	this.datasource = "MGCFORMAdapterTest";
-	this.ormsettings = {flushAtRequestEnd=false,dbcreate="dropcreate",logSQL=true,sqlscript="loadScript.sql",cfclocation="model"};
+	this.datasource = "cfOrmAdapterTesting";
+	this.ormsettings = {flushAtRequestEnd=true,dbcreate="dropcreate",logSQL=true,sqlscript="loadScript.sql",cfclocation="model",dialect="MySQLwithInnoDB"};
+
 }

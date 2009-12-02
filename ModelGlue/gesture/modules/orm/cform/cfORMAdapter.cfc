@@ -27,12 +27,12 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		return variables._cpCache[arguments.table];
 	}
 
-	any function list(required string entityName, struct criteria=StructNew(), string orderColumn="", boolean orderAscending=true, string gatewayMethod, string gatewayBean) {
+	any function list(required string table, struct criteria=StructNew(), string orderColumn="", boolean orderAscending=true, string gatewayMethod, string gatewayBean) {
 		if (structKeyExists(arguments,"gatewayMethod")) {
 			if (not structKeyExists(arguments, "gatewayBean")) {
-				local.gw = variables._ormService.new(arguments.entityName);
+				local.gw = variables._ormService.new(arguments.table);
 				if (not structKeyExists(gw, arguments.gatewayMethod)) {
-					throw(type="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" message="The gateway method specified (#arguments.gatewayMethod#) does not exist on the Entity ""#arguments.entityName#"".");
+					throw(type="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" message="The gateway method specified (#arguments.gatewayMethod#) does not exist on the Entity ""#arguments.table#"".");
 				}
 			} else {
 				local.gw = variables._mg.getBean(arguments.gatewayBean);
@@ -45,39 +45,52 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			local.method = gw[arguments.gatewayMethod];
 			return local.method(argumentCollection=arguments.criteria);
 		} else {
-			return variables._ormService.list(arguments.entityName,arguments.criteria,arguments.orderColumn,arguments.orderAscending);
+			if (len(arguments.orderColumn)) {
+				if (arguments.orderAscending) {
+					arguments.orderColumn = arguments.orderColumn & " asc";
+				} else {
+					arguments.orderColumn = arguments.orderColumn & " desc";
+				}
+				return variables._ormService.list(arguments.table,arguments.criteria,arguments.orderColumn);
+			} else {
+				return variables._ormService.list(arguments.table,arguments.criteria);
+			}
 		}
 	}
 	
-	any function new(required string entityName) {
-		return variables._ormService.new(arguments.entityName);
+	any function new(required string table) {
+		// Dennis says: "You do need to make sure that read(table,criteria) returns a new entity when StructIsEmpty(criteria)"
+		return variables._ormService.new(arguments.table);
 	}
 	
-	any function read(required string entityName, required struct ids) {
-		return variables._ormService.read(arguments.entityName,arguments.ids);
+	any function read(required string table, required struct ids) {
+		return variables._ormService.read(arguments.table,arguments.ids);
 	}
 	
-	any function validate(required string entityName, required any theObject) {
+	any function validate(required string table, required any theObject) {
 		return createObject("component", "ModelGlue.Util.ValidationErrorCollection").init();
 	}
 	
 	any function assemble(required any event, required any target) {
 
 		var entityName = arguments.event.getArgument("object");
-		var md = getObjectMetadata(entityName);
+		var props = getObjectMetadata(entityName).properties;
+		var p = 0;
+		var property = 0;
 		var record = arguments.target;
 		var childIndex = 1;
 
 		// Update all direct properties	- this will capture inherited properties as well
 		if (arguments.event.argumentExists("properties")) {
-			arguments.event.makeEventBean(theObject, arguments.event.getArgument("properties", ""));
+			arguments.event.makeEventBean(arguments.target, arguments.event.getArgument("properties", ""));
 		} else {
-			arguments.event.makeEventBean(theObject);
+			arguments.event.makeEventBean(arguments.target);
 		}
 		
 		// Do relationships
-		for (i=1; i <= ArrayLen(md.properties); i++) {
-			var property = md.properties[i];
+		for (p in props) {
+			property = props[p];
+			request.debug(property);		
 			if (property.relationship) {
 				var sourceObject = listLast(property.sourceObject, ".");
 				if (property.pluralRelationship) {
@@ -122,24 +135,19 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 						method(JavaCast("null", 0));
 					}
 				}
-			
 			}
 			
 		}
 		
 	}
 
-	any function commit(string entityName, required any theObject) {
-		return variables._ormService.commit(theObject=arguments.theObject);
+	any function commit(string table, required any record) {
+		variables._ormService.commit(obj=arguments.record);
 	}
 	
-	any function delete(required string entityName, required struct ids) {
-		local.obj = read(arguments.entityName,arguments.ids);
-		if (IsNull(local.obj)) {
-			throw(type="ModelGlue.gesture.orm.cform.cformAdapter.objectNotFound" message="The object requested to be deleted was not found in the database.");
-		} else {
-			return variables._ormService.delete(local.obj);
-		}
+	any function delete(required string table, required struct primaryKeys) {
+		var obj = read(arguments.table,arguments.primaryKeys);
+		variables._ormService.delete(obj);
 	}
 
 	// private methods used to generate metadata

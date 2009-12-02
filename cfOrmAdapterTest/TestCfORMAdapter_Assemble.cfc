@@ -51,10 +51,24 @@ component extends="modelglue.gesture.eventrequest.test.TestEventContext" {
 	function assemblePopulatesInheritedProperties() {
 		
 		ec = setupEvent();
-		theObject = EntityNew("MainObject");
+		entityName = "MainObject";
+		theObject = EntityNew(entityName);
 		ec.setValue("aParentProperty", "Hello!");
 		ormAdapter.assemble(ec,theObject);
 		assertEquals("Hello!",theObject.getAParentProperty());
+	}
+
+	function assemblePopulatesManyToOne() {
+		
+		/* Need to implement read() first
+		ec = setupEvent();
+		theObject = EntityNew("MainObject");
+		ec.setValue("ormtype_string", "string");
+		ec.setValue("ormtype_integer", 2);
+		ormAdapter.assemble(ec,theObject);
+		assertEquals("string",theObject.getormtype_string());
+		assertEquals(2,theObject.getormtype_integer());
+		*/
 	}
 
 	// private methods for injectMethod and extra setup
@@ -75,10 +89,12 @@ component extends="modelglue.gesture.eventrequest.test.TestEventContext" {
 
 
 		// Bob's addition: This is to allow for arguments to be passed into the event
+		args = {object="MainObject"};
 		if (arguments.useProperties) {
-			mc = createObject("component", "ModelGlue.gesture.collections.MapCollection").init({properties="ormtype_string"});
-			msg.arguments = mc;
+			args.properties="ormtype_string";
 		}
+		mc = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(args);
+		msg.arguments = mc;
 
 
 		listeners[msg.name] = arrayNew(1);
