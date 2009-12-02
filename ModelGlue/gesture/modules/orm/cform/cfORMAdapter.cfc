@@ -30,20 +30,18 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	any function list(required string table, struct criteria=StructNew(), string orderColumn="", boolean orderAscending=true, string gatewayMethod, string gatewayBean) {
 		if (structKeyExists(arguments,"gatewayMethod")) {
 			if (not structKeyExists(arguments, "gatewayBean")) {
-				local.gw = variables._ormService.new(arguments.table);
+				var gw = variables._ormService.new(arguments.table);
 				if (not structKeyExists(gw, arguments.gatewayMethod)) {
 					throw(type="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" message="The gateway method specified (#arguments.gatewayMethod#) does not exist on the Entity ""#arguments.table#"".");
 				}
 			} else {
-				local.gw = variables._mg.getBean(arguments.gatewayBean);
+				var gw = variables._mg.getBean(arguments.gatewayBean);
 				if (not structKeyExists(gw, arguments.gatewayMethod)) {
 					throw(type="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" message="The gateway method specified (#arguments.gatewayMethod#) does not exist on the GatewayBean ""#arguments.gatewayBean#"".");
 				}
 			}
 			
-			//return Evaluate("gw.#arguments.gatewayMethod#(argumentCollection=arguments.criteria)");
-			local.method = gw[arguments.gatewayMethod];
-			return local.method(argumentCollection=arguments.criteria);
+			return Evaluate("gw.#arguments.gatewayMethod#(argumentCollection=arguments.criteria)");
 		} else {
 			if (len(arguments.orderColumn)) {
 				if (arguments.orderAscending) {
@@ -90,49 +88,37 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		// Do relationships
 		for (p in props) {
 			property = props[p];
-			request.debug(property);		
 			if (property.relationship) {
-				var sourceObject = listLast(property.sourceObject, ".");
 				if (property.pluralRelationship) {
 					// one-to-many and many-to-many
 					var eventKey = property.alias & "|" & property.sourceKey;
 					if (arguments.event.valueExists(eventKey)) {
-						var getMethod = record["get#property.alias#"];
-						var hasMethod = record["has#property.alias#"];
-						var removeMethod = record["remove#property.alias#"];
-						var addMethod = record["add#property.alias#"];
-						var children = getMethod();
+						var children = evaluate("record.get#property.alias#()");
 						// remove all existing
-						while (hasMethod()) {
-							removeMethod(children[1]);
+						while (evaluate("record.has#property._singularname#()")) {
+							evaluate("record.remove#property._singularname#(children[1])");
 						}
 						// add any requested
 						var selectedChildIds = ListToArray(arguments.event.getValue(eventKey));
 						for (childIndex=1; childIndex <= ArrayLen(selectedChildIds); childIndex++) { 
-						
 							criteria[property.sourceKey] = selectedChildIds[childIndex];
-							var targetObject = read(sourceObject, criteria);
-							// NOTE: Read could return an empty object - how to deal with that? No getIsPersisted() method
+							var targetObject = read(property.sourceObject, criteria);
 							if (not IsNull(targetObject)) {
-								addMethod(targetObject);
+								evaluate("record.add#property._singularname#(targetObject)");
 							}
 						}
 					}
 				} else {
 					// one-to-one and many-to-one
 					var criteria = {};
-					var newValue = arguments.event.getValue(sourceObject);
-					var method = record["set#sourceObject#"];
+					var newValue = arguments.event.getValue(property.sourceKey);
 					if (len(newValue)) {
-						criteria[property.sourceKey] = arguments.event.getValue(sourceObject);
-						var targetObject = read(sourceObject, criteria);
-						// NOTE: Read could return an empty object - how to deal with that? No getIsPersisted() method
-						if (not IsNull(targetObject)) {
-							method(targetObject);
-						}
+						criteria[property.sourceKey] = newValue;
+						var targetObject = read(property.sourceObject, criteria);
+						evaluate("record.set#property.alias#(targetObject)");
 					} else {
 						// Remove the source object - but does that make sense? This seems to be a built-in assumption of the scaffolding system
-						method(JavaCast("null", 0));
+						evaluate("record.set#property.alias#(JavaCast('null', 0))");
 					}
 				}
 			}
@@ -255,6 +241,11 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 				prop.pluralrelationship = true;
 			} else {
 				prop.pluralrelationship = false;
+			}
+			if (StructKeyExists(p,"singularname")) {
+				prop._singularname = p.singularname;
+			} else {
+				prop._singularname = p.name;
 			}
 			if (StructKeyExists(p,"cfc")) {
 				prop.sourceObject = p.cfc;

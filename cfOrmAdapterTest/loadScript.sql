@@ -122,3 +122,5 @@ VALUES (3,'Daniel','Silverberg');
 INSERT INTO listObject(listId,firstName,lastName)
 VALUES (4,'Colin','Silverberg');
 
+INSERT INTO somethingDifferent(somethingDifferentId,aProperty)
+VALUES (1,'Bob');

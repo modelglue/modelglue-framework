@@ -30,7 +30,7 @@ component persistent="true" extends="ParentObject" joincolumn="mainId" hint="The
 	property name="notNullable" notnull="true";
 
 	property name="many2one" fieldtype="many-to-one" cfc="many2one" fkcolumn="many2oneId";
-	property name="one2many_array" fieldtype="one-to-many" cfc="one2many_array" fkcolumn="mainId" type="array" inverse="true";
+	property name="one2many_array" fieldtype="one-to-many" cfc="one2many_array" fkcolumn="mainId" type="array" inverse="true" singularname="singleName";
 	property name="one2many_sruct" fieldtype="one-to-many" cfc="one2many_struct" fkcolumn="mainId" type="struct" structkeycolumn="one2many_structId" inverse="true";
 	property name="one2one" fieldtype="one-to-one" cfc="one2one";
 	property name="many2many_array" fieldtype="many-to-many" cfc="many2many_array" linktable="main_many2many_array" type="array" inverse="true" fkcolumn="mainId";

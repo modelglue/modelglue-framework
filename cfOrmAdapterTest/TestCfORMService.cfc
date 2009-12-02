@@ -10,10 +10,22 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		listName = "listObject";
 	}
 	
-	function readReturnsExistingObject() {
+	function readWithEntityNameReturnsExistingObject() {
 		obj = ormService.read(entityName,{mainId=1});
 		assertEquals("model.MainObject",getMetaData(obj).name);
 		assertEquals(1,obj.getMainId());
+	}
+	
+	function readWithComponentPathAndLastItemIsEntityNameReturnsExistingObject() {
+		obj = ormService.read("model.MainObject",{mainId=1});
+		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertEquals(1,obj.getMainId());
+	}
+	
+	function readWithComponentPathReturnsExistingObject() {
+		obj = ormService.read("model.entityName",{somethingDifferentId=1});
+		assertEquals("model.entityName",getMetaData(obj).name);
+		assertEquals(1,obj.getsomethingDifferentId());
 	}
 	
 	function readWithCompositeKeyReturnsExistingObject() {
@@ -30,8 +42,14 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		obj = ormService.read("compositeKeyObject",{key1=1});
 	}
 	
-	function newReturnsNewObject() {
+	function newWithEntityNameReturnsNewObject() {
 		obj = ormService.new(entityName);
+		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertTrue(IsNull(obj.getMainId()),"The mainId property should be NULL for a new object but isn't.");
+	}
+	
+	function newWithComponentPathNameReturnsNewObject() {
+		obj = ormService.new("model.MainObject");
 		assertEquals("model.MainObject",getMetaData(obj).name);
 		assertTrue(IsNull(obj.getMainId()),"The mainId property should be NULL for a new object but isn't.");
 	}
@@ -52,6 +70,7 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 
 	function listWithNoCriteriaShouldReturnAll() {
 		list = ormService.list(entityName=listName);
+		debug(list);
 		assertEquals(4,list.recordCount);
 	}
 
@@ -87,6 +106,7 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals("John",objSaved.getFirstName());
 		assertEquals("Doe",objSaved.getLastName());
 		ormService.delete(objSaved);
+		ormFlush();
 		objDeleted = entityLoadByPK(listName,pk);
 		assertEquals(true,isNull(objDeleted));
 	}
