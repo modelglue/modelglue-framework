@@ -54,7 +54,10 @@ component extends="modelglue.gesture.eventrequest.test.TestEventContext" {
 		assertEquals("Hello!",theObject.getAParentProperty());
 	}
 
-	function assembleWithInvalidFKThrows() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformService.entityNotFound" {
+	/**
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.entityNotFound"
+	*/
+	function assembleWithInvalidFKThrows() {
 		
 		ec = setupEvent();
 		theObject = EntityNew("MainObject");

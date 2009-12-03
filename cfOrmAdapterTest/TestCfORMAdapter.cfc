@@ -20,16 +20,25 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals(servicePath,getMetaData(ormAdapter.getORMService()).name);
 	}
 	
-	function listWithMissingGWBeanShouldThrow() mxunit_expectedException="coldspring.NoSuchBeanDefinitionException" {
+	/**
+	* @mxunit:expectedException "coldspring.NoSuchBeanDefinitionException" 
+	*/
+	function listWithMissingGWBeanShouldThrow() {
 		mg.getBean("gwBean").throws("coldspring.NoSuchBeanDefinitionException");
 		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
 	
-	function listWithMissingGWMethodOnObjectShouldThrow() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" {
+	/**
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" 
+	*/
+	function listWithMissingGWMethodOnObjectShouldThrow() {
 		list = ormAdapter.list(gatewayMethod="customList",table="MainObject");
 	}
 
-	function listWithExistingGWBeanButMissingMethodShouldThrow() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" {
+	/**
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" 
+	*/
+	function listWithExistingGWBeanButMissingMethodShouldThrow() {
 		mg.getBean("gwBean").returns(mock());
 		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
@@ -102,7 +111,10 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals(expected,newObj);
 	}
 
-	function newWithMissingEntityNameThrows() mxunit_expectedException="ModelGlue.gesture.orm.cform.cformService.enitityNotFound" {
+	/**
+	* @mxunit_expectedException "ModelGlue.gesture.orm.cform.cformService.enitityNotFound" 
+	*/
+	function newWithMissingEntityNameThrows() {
 		ormService.new(obj).returns(expected);
 		ormService.new("badObj").throws("ModelGlue.gesture.orm.cform.cformService.enitityNotFound");
 		newObj = ormAdapter.new("badObj");
@@ -114,7 +126,10 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals(expected,theObj);
 	}
 
-	function readWithMissingEntityNameThrows()  mxunit_expectedException="ModelGlue.gesture.orm.cform.cformService.enitityNotFound" {
+	/**
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.enitityNotFound"
+	*/
+	function readWithMissingEntityNameThrows() {
 		ormService.read(obj,crit).returns(expected);
 		ormService.read("badObj",crit).throws("ModelGlue.gesture.orm.cform.cformService.enitityNotFound");
 		theObj = ormAdapter.read("badObj",crit);

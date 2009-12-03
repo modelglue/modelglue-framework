@@ -188,26 +188,36 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 	arrayAppend(cbl,{ormtype="clob", expected=false,name="something"});
 	arrayAppend(cbl,{type="binary", expected=false,name="something"});
 
-	function getObjectMetadataPropertiesShouldReturnAllDirectProperties(property) mxunit_dataprovider="directPropertyList" {
+	
+	/**
+	* @mxunit:dataprovider "directPropertyList"
+	*/
+	function getObjectMetadataPropertiesShouldReturnAllDirectProperties(property) {
 		props = ormAdapter.getObjectMetadata("MainObject").properties;
 		assertTrue(StructKeyExists(props,arguments.property.name),"The property #arguments.property.name# was expected but not found");
 	}
 
-	function getObjectMetadataPropertiesShouldReturnAllInheritedProperties(property) mxunit_dataprovider="inheritedPropertyList" {
+	/**
+	* @mxunit:dataprovider "inheritedPropertyList"
+	*/
+	function getObjectMetadataPropertiesShouldReturnAllInheritedProperties(property) {
 		props = ormAdapter.getObjectMetadata("MainObject").properties;
 		assertTrue(StructKeyExists(props,arguments.property.name),"The property #arguments.property.name# was expected but not found");
 	}
 
-	function getObjectMetadataPropertyReturnsCfdatatype(property) mxunit_dataprovider="dts" {
+	/**
+	* @mxunit:dataprovider "dts"
+	*/
+	function getObjectMetadataPropertyReturnsCfdatatype(property) {
 		props = ormAdapter.getObjectMetadata("MainObject").properties;
-		debug(arguments.property);
-		debug(props[arguments.property.name]);
 		assertEquals(arguments.property.type,props[arguments.property.name].cfdatatype,"The property #arguments.property.name# should have a type of #arguments.property.type#.");
 	}
 
-	function canBeLabelReturnsAsExpected(prop)  mxunit_dataprovider="cbl" {
+	/**
+	* @mxunit:dataprovider "cbl"
+	*/
+	function canBeLabelReturnsAsExpected(prop)  {
 		makePublic(ormAdapter,"canBeLabelField");
-		debug(arguments.prop);
 		assertEquals(arguments.prop.expected,ormAdapter.canBeLabelField(arguments.prop));
 	}
 

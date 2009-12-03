@@ -33,12 +33,18 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals("model.compositeKeyObject",getMetaData(obj).name);
 		assertEquals("b",obj.getAProperty());
 	}
-	
-	function readThrowsOnMissingObject()  mxunit_expectedException="ModelGlue.gesture.orm.cform.cformService.entityNotFound" {
+
+	/**
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.entityNotFound" 
+	*/
+	function readThrowsOnMissingObject()  {
 		obj = ormService.read(entityName,{mainId=10000});
 	}
 	
-	function readThrowsIfMoreThanOneRecordFound()  mxunit_expectedException="Application" {
+	/**
+	* @mxunit:expectedException "Application" 
+	*/
+	function readThrowsIfMoreThanOneRecordFound()  {
 		obj = ormService.read("compositeKeyObject",{key1=1});
 	}
 	
@@ -54,7 +60,10 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertTrue(IsNull(obj.getMainId()),"The mainId property should be NULL for a new object but isn't.");
 	}
 	
-	function newThrowsIfEntityDoesNotExist()  mxunit_expectedException="Application" {
+	/**
+	* @mxunit_expectedException "Application" 
+	*/
+	function newThrowsIfEntityDoesNotExist() {
 		obj = ormService.new("blahblah");
 	}
 	

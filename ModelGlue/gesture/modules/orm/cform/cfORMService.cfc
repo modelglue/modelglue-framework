@@ -36,7 +36,7 @@ component output="false" hint="I am the ColdFusion ORM service." {
 	}
 	
 	any function list(required string entityName, struct filterCriteria=StructNew(), string sortOrder="", string returnType="query") {
-		var list = EntityLoad(arguments.entityName,arguments.filterCriteria,sortOrder);
+		var list = EntityLoad(arguments.entityName,arguments.filterCriteria,arguments.sortOrder);
 		if (arguments.returnType eq "query") {
 			list = EntitytoQuery(list);
 		} 
