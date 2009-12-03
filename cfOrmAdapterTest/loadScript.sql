@@ -26,21 +26,21 @@ INSERT INTO many2many_struct(
             many2many_structid, type_boolean, type_date, type_numeric, type_string)
     VALUES (2, true, '2009-11-25', 1, 'a');
 
-INSERT INTO parentobject(
+INSERT INTO ParentObject(
             mainid, aParentProperty, parentmany2oneid)
     VALUES (1, 'aParentProperty', 1);
 
-INSERT INTO compositekeyobject(key1,key2,aproperty)
+INSERT INTO CompositeKeyObject(key1,key2,aproperty)
 VALUES (1,'a','b');
-INSERT INTO compositekeyobject(key1,key2,aproperty)
+INSERT INTO CompositeKeyObject(key1,key2,aproperty)
 VALUES (1,'b','c');
-INSERT INTO compositekeyobject(key1,key2,aproperty)
+INSERT INTO CompositeKeyObject(key1,key2,aproperty)
 VALUES (2,'a','d');
-INSERT INTO compositekeyobject(key1,key2,aproperty)
+INSERT INTO CompositeKeyObject(key1,key2,aproperty)
 VALUES (2,'b','e');
 
 
-INSERT INTO mainobject(
+INSERT INTO MainObject(
             mainid, ormtype_string, ormtype_character, ormtype_char, ormtype_short, 
             ormtype_integer, ormtype_int, ormtype_long, ormtype_big_decimal, 
             ormtype_float, ormtype_double, ormtype_boolean, ormtype_yes_no, 
