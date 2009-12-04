@@ -141,8 +141,11 @@
 							</cfcatch>
 						</cftry>
 				
-						<cfif isObject(variables.sourceValue)>
+						<!--- added isDefined check to support cfOrm --->
+						<cfif isDefined("variables.sourceValue") and isObject(variables.sourceValue)>
 							<cfset variables.sourceValue = sourceValue.get%Metadata.properties[thisProp].sourcekey%() />
+						<cfelse>
+							<cfset variables.sourceValue = "" />
 						</cfif>
 	
           <select name="%Metadata.properties[thisProp].name%" id="%Metadata.properties[thisProp].name%" >
@@ -170,7 +173,10 @@
 				<cfset variables.selectedList = event.getValue("%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%")/>
 			<cfelse>
 				<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
-				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
+				<!--- Added an if clause to support cfOrm --->
+				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%")>
+					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
+				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
 				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
@@ -178,15 +184,20 @@
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
 				</cfif>
 
-				<cfif isQuery(variables.selected)>
-					<cfset variables.selectedList = valueList(selected.%Metadata.properties[thisProp].sourcekey%) />
-				<cfelseif isStruct(variables.selected)>
-					<cfset variables.selectedList = structKeyList(selected)>
-				<cfelseif isArray(variables.selected)>
+				<!--- Added isDefined check to support cfOrm --->
+				<cfif isDefined("variables.selected")>
+					<cfif isQuery(variables.selected)>
+						<cfset variables.selectedList = valueList(selected.%Metadata.properties[thisProp].sourcekey%) />
+					<cfelseif isStruct(variables.selected)>
+						<cfset variables.selectedList = structKeyList(selected)>
+					<cfelseif isArray(variables.selected)>
+						<cfset variables.selectedList = "" />
+						<cfloop from="1" to="##arrayLen(variables.selected)##" index="variables.i">
+							<cfset variables.selectedList = listAppend(variables.selectedList, variables.selected[variables.i].get%Metadata.properties[thisProp].sourcekey%()) />
+						</cfloop>
+					</cfif>
+				<cfelse>
 					<cfset variables.selectedList = "" />
-					<cfloop from="1" to="##arrayLen(variables.selected)##" index="variables.i">
-						<cfset variables.selectedList = listAppend(variables.selectedList, variables.selected[variables.i].get%Metadata.properties[thisProp].sourcekey%()) />
-					</cfloop>
 				</cfif>
 			</cfif>
 				            	
