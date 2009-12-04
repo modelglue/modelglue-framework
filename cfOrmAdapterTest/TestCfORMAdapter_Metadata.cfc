@@ -28,9 +28,9 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals("The label for this object",ormAdapter.getObjectMetadata("displayNameObject").label);
 	}
 
-	function getObjectMetadataReturnsCorrectPrimaryKey() {
-		assertEquals("mainId",ormAdapter.getObjectMetadata("MainObject")._primaryKey);
-		assertEquals("Id",ormAdapter.getObjectMetadata("labelObject")._primaryKey);
+	function getObjectMetadataReturnsCorrectPrimaryKeys() {
+		assertEquals("mainId",ArrayToList(ormAdapter.getObjectMetadata("MainObject").primaryKeys));
+		assertEquals("Id",ArrayToList(ormAdapter.getObjectMetadata("labelObject").primaryKeys));
 	}
 
 	function getObjectMetadataPropertyReturnsCorrectAlias() {
@@ -167,7 +167,7 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 	// To check canBeLabel
 	cbl = [];
 	arrayAppend(cbl,{length="100",expected=true,name="something"});
-	arrayAppend(cbl,{length="65535",expected=false,name="something"});
+	arrayAppend(cbl,{length="65536",expected=false,name="something"});
 	arrayAppend(cbl,{expected=false,name="somethingid"});
 	arrayAppend(cbl,{ormtype="string", expected=true,name="something"});
 	arrayAppend(cbl,{ormtype="character", expected=true,name="something"});

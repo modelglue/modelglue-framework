@@ -159,7 +159,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		md._cfcproperties = setCfcProperties(omd);
 		var props = processProperties(md._cfcproperties);
 		md.properties = props.properties;
-		md._primaryKey = props.primaryKey;
+		md.primaryKeys = props.primaryKeys;
 		return md;
 	}
 	
@@ -220,7 +220,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	}
 	
 	private struct function processProperties(required array props) {
-		var propertyInfo = {properties = {},primaryKey=""};
+		var propertyInfo = {properties = {},primaryKeys = []};
 		var i =1;
 		for (i=1; i <= ArrayLen(arguments.props); i++) {
 			var p = arguments.props[i];
@@ -237,7 +237,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			
 			if (StructKeyExists(p,"fieldtype") and p.fieldtype eq "id") {
 				prop.primaryKey = true;
-				propertyInfo.primaryKey = ListAppend(propertyInfo.primaryKey,p.name);
+				ArrayAppend(propertyInfo.primaryKeys,p.name);
 			} else {
 				prop.primaryKey = false;
 			}
