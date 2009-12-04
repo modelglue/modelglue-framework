@@ -22,7 +22,15 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 
 	string function getCriteriaProperties(required string table) {
 		if (not structKeyExists(variables._cpCache, arguments.table)) {
-			variables._cpCache[arguments.table] = ArrayToList(variables._ormService.getPropertyNames());
+			var props = getObjectMetadata(arguments.table).properties;
+			var prop = 0;
+			var list = "";
+			for (prop in props) {
+				if (not props[prop].relationship) {
+					list = listAppend(list,prop);
+				}
+			}
+			variables._cpCache[arguments.table] = list;
 		}
 		return variables._cpCache[arguments.table];
 	}
@@ -57,12 +65,16 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	}
 	
 	any function new(required string table) {
-		// Dennis says: "You do need to make sure that read(table,criteria) returns a new entity when StructIsEmpty(criteria)"
 		return variables._ormService.new(arguments.table);
 	}
 	
 	any function read(required string table, required struct ids) {
-		return variables._ormService.read(arguments.table,arguments.ids);
+		// Dennis says: "You do need to make sure that read(table,criteria) returns a new entity when StructIsEmpty(criteria)"
+		if (structIsEmpty(arguments.ids)) {
+			return variables._ormService.new(arguments.table);
+		} else {
+			return variables._ormService.read(arguments.table,arguments.ids);
+		}
 	}
 	
 	any function validate(required string table, required any theObject) {
@@ -216,11 +228,13 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			prop.alias = p.name;
 			prop.name = p.name;
 			prop.label = getLabel(p,p.Name);
+			prop.length = getLength(p);
 			if (not StructKeyExists(p,"fieldtype") or ListFindNoCase("id,column",p.fieldtype)) {
 				prop.cfdatatype = getCfDatatype(p);
 			} else {
 				prop.cfdatatype = "";
 			}
+			
 			if (StructKeyExists(p,"fieldtype") and p.fieldtype eq "id") {
 				prop.primaryKey = true;
 				propertyInfo.primaryKey = ListAppend(propertyInfo.primaryKey,p.name);
@@ -293,14 +307,22 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	}
 
 	private boolean function canBeLabelField(required struct prop) {
-		var canBe = true;
 		if (getCfDatatype(arguments.prop) neq "string" 
 			or right(arguments.prop.name,2) eq "id"
-			or (StructKeyExists(arguments.prop,"length") and arguments.prop.length gt 65534)
+			or (StructKeyExists(arguments.prop,"length") and arguments.prop.length gt 65535)
 			or StructKeyExists(arguments.prop,"ormtype") and listFindNoCase("text,clob",arguments.prop.ormtype)) {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	private boolean function getLength(required struct prop) {
+		if ((StructKeyExists(arguments.prop,"length") and arguments.prop.length gt 65535)
+			or StructKeyExists(arguments.prop,"ormtype") and listFindNoCase("text,clob",arguments.prop.ormtype)) {
+			return 65536;
+		} else {
+			return 1;
 		}
 	}
 

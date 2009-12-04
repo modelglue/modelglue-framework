@@ -3,10 +3,6 @@ component output="false" hint="I am the ColdFusion ORM service." {
 		return this;
 	}
 
-	string function getPropertyNames(required string entityName) {
-		return ORMGetSessionFactory().getClassMetadata(arguments.entityName).getPropertyNames();
-	}
-	
 	any function read(required string entityName, required struct pkStruct) {
 		var obj = 0;
 	    try {

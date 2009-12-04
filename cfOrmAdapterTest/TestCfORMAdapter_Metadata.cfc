@@ -11,10 +11,12 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 	}
 	
 
+	/* This isn't testing the right thing anymore
 	function getCriteriaPropertiesReturnsAllPersistedProperties() {
 		ormService.getPropertyNames().returns(ORMGetSessionFactory().getClassMetadata("MainObject").getPropertyNames());
 		assertEquals(ArrayToList(ORMGetSessionFactory().getClassMetadata("MainObject").getPropertyNames()),ormAdapter.getCriteriaProperties("MainObject"));
 	}
+	*/
 
 	function getObjectMetadataReturnsCorrectAlias() {
 		assertEquals("MainObject",ormAdapter.getObjectMetadata("MainObject").alias);
@@ -96,6 +98,11 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals("",ormAdapter.getObjectMetadata("MainObject").properties["mainid"].sourceColumn);
 		assertEquals("",ormAdapter.getObjectMetadata("MainObject").properties["type_string"].sourceColumn);
 		assertEquals("type_string",ormAdapter.getObjectMetadata("MainObject").properties["many2one"].sourceColumn);
+	}
+
+	function getObjectMetadataPropertyReturnsCorrectlength() {
+		assertEquals(1,ormAdapter.getObjectMetadata("MainObject").properties["type_string"].length);
+		assertEquals(65536,ormAdapter.getObjectMetadata("MainObject").properties["ormtype_text"].length);
 	}
 
 	/* No longer used, but keeping around in case it needs to come back

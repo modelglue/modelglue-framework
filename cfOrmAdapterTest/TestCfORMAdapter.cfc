@@ -126,6 +126,12 @@ component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
 		assertEquals(expected,theObj);
 	}
 
+	function readWithEmptyCriteriaReturnsNewObject() {
+		ormService.new(obj).returns(expected);
+		theObj = ormAdapter.read(obj,{});
+		assertEquals(expected,theObj);
+	}
+
 	/**
 	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.enitityNotFound"
 	*/
