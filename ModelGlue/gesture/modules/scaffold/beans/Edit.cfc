@@ -173,31 +173,29 @@
 				<cfset variables.selectedList = event.getValue("%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%")/>
 			<cfelse>
 				<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
-				<!--- Added an if clause to support cfOrm --->
-				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%")>
-					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
-				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
+				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
 				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
-				<cfelse>
+				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Iterator")>
 					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
+				<cfelse>
+					<!--- cfOrm --->
+					<cfset variables.selected = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
 				</cfif>
 
 				<!--- Added isDefined check to support cfOrm --->
-				<cfif isDefined("variables.selected")>
-					<cfif isQuery(variables.selected)>
-						<cfset variables.selectedList = valueList(selected.%Metadata.properties[thisProp].sourcekey%) />
-					<cfelseif isStruct(variables.selected)>
-						<cfset variables.selectedList = structKeyList(selected)>
-					<cfelseif isArray(variables.selected)>
-						<cfset variables.selectedList = "" />
-						<cfloop from="1" to="##arrayLen(variables.selected)##" index="variables.i">
-							<cfset variables.selectedList = listAppend(variables.selectedList, variables.selected[variables.i].get%Metadata.properties[thisProp].sourcekey%()) />
-						</cfloop>
-					</cfif>
-				<cfelse>
+				<cfif not isDefined("variables.selected")>
 					<cfset variables.selectedList = "" />
+				<cfelseif isQuery(variables.selected)>
+					<cfset variables.selectedList = valueList(selected.%Metadata.properties[thisProp].sourcekey%) />
+				<cfelseif isStruct(variables.selected)>
+					<cfset variables.selectedList = structKeyList(selected)>
+				<cfelseif isArray(variables.selected)>
+					<cfset variables.selectedList = "" />
+					<cfloop from="1" to="##arrayLen(variables.selected)##" index="variables.i">
+						<cfset variables.selectedList = listAppend(variables.selectedList, variables.selected[variables.i].get%Metadata.properties[thisProp].sourcekey%()) />
+					</cfloop>
 				</cfif>
 			</cfif>
 				            	

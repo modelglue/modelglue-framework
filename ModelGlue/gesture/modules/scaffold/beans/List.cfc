@@ -69,9 +69,10 @@
 	<cfset variables.viewEvent = myself & xe.view  />
 </cfsilent>
 <cfoutput>
-<div id="breadcrumb"><a href="##listEvent##">%spaceCap( Metadata.alias )%</a></div>
+<div id="breadcrumb">%spaceCap( Metadata.alias )% / <a href="##editEvent##">Add New %spaceCap( Metadata.alias )%</a></div>
 <br />
-<table>
+<table class="list">
+    <thead>
 	<tr>
 	 <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 	 	<<cfif listFindNoCase(Metadata.primaryKeyList , thisProp) IS false AND Metadata.properties[thisProp].relationship IS false >>
@@ -81,6 +82,8 @@
 		<th>&nbsp;</th>	
 		<th>&nbsp;</th>	
 	</tr>
+    </thead>
+    <tbody>
     <cfloop query="%Metadata.alias%Query">
 		<tr>	
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
@@ -92,6 +95,7 @@
 			<td><a href="##deleteEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%">Delete</a></td>
 		</tr>
 	</cfloop>
+    </tbody>
 </table>
 </div>
 </cfoutput>
