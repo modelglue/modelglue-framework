@@ -10,7 +10,7 @@
 
 
 	<cffunction name="testPopulateLocation" returntype="void" access="public">
-		<cfset var ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+		<cfset var ec = mg.getEventContextFactory().new() />
 		<cfset var mockCgi = structNew() />
 		<cfset mockCgi.SCRIPT_NAME = "index.cfm" />
 		<cfset mockCgi.PATH_INFO = "" />
@@ -24,7 +24,7 @@
 	<cffunction name="testExtractValues" returntype="void" access="public">
 		<cfset var vals = "" />
 		<cfset var mockCgi = structNew() />
-		<cfset var ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+		<cfset var ec = mg.getEventContextFactory().new() />
 		<cfset mockCgi.SCRIPT_NAME = "index.cfm" />
 		<cfset mockCgi.PATH_INFO = "" />
 		<cfset vals = urlManager.extractValues(mockCgi) />
@@ -39,7 +39,7 @@
 	
 	<cffunction name="testLinkTo" returntype="void" access="public">
 		<cfset var resultUrl = "" />
-		<cfset var ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+		<cfset var ec = mg.getEventContextFactory().new() />
 		<cfset variables.urlManager.populateLocation(ec) />
 		<cfset ec.setValue("urlValueName", "urlValue") />
 		<cfset ec.setValue("urlValueName2", "urlValue2") />

@@ -17,14 +17,14 @@ specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
 
-This file is part of Model-Glue Model-Glue (Gesture) Alpha 1 (3.0.89).
+This file is part of Model-Glue Model-Glue (Gesture) Final (3.0.206).
 
 The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
 --->
 
 
 Model-Glue
-Model-Glue Model-Glue (Gesture) Beta 1 (3.0.130).
+Model-Glue Model-Glue (Gesture) Final (3.0.206).
 
 Well, now you've gone and done it.  
 

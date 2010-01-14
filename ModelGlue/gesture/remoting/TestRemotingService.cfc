@@ -1,4 +1,4 @@
-<cfcomponent extends="mxunit.framework.TestCase"> 
+<cfcomponent  extends="modelglue.gesture.test.ModelGlueAbstractTestCase">
 	<!--- Created by John Mason, mason@fusionlink.com--->
 	<!--- Date: Jul 24, 2009--->
 	<!---Uses the 'buster' test dummy app to unit test the remoting services--->

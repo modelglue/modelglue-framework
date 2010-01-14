@@ -26,7 +26,7 @@
 	<cfargument name="returnValues" type="string" required="false" default="" />
 	
 	<cfset var local = StructNew()/>
-	
+	<cfset local.result = StructNew() />
 	<!--- For Javascript post calls to the service --->
 	<cfif structIsEmpty(form) is false>
 		<cfset arguments.values = duplicate(form) />

@@ -14,13 +14,13 @@
 
 <cfset variables.mockHelpersScope.helperFunction = this.mockHelperFunction />
 
-<cffunction name="createMapCollectionNoInit" access="private" hint="Creates a basic MapCollection to test without running init().">
+<!--- <cffunction name="createMapCollectionNoInit" access="private" hint="Creates a basic MapCollection to test without running init().">
 	<cfreturn createObject("component", "ModelGlue.gesture.eventrequest.EventContext") />
 </cffunction>
 
 <cffunction name="createMapCollection" access="private" hint="Creates a basic MapCollection to test.  Extend this test class and override this method to test other implementations.">
 	<cfreturn createMapCollectionNoInit().init() />
-</cffunction>
+</cffunction> --->
 
 <cffunction name="createEventContext" access="private">
 	<cfset var ec = "" />
@@ -35,11 +35,9 @@
 	<cfset request._modelglue.bootstrap.framework = mg />
 	
 	<!--- Event context has many dependencies that are configured into the framework:  we list them explicitly here --->	
-	<cfset ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
-			viewRenderer=vr,
-			helpers=variables.mockHelpersScope,
-			modelglue=mg,
-			statePersister=mg.getStatePersister()
+	<cfset ec =  mg.getEventContextFactory().new(
+			helpers=variables.mockHelpersScope, 
+			viewRenderer=vr
 		) 
 	/>
 	<cfreturn ec />
@@ -465,13 +463,13 @@
 <!--- LOCATION TESTS --->
 <cffunction name="testForwardToUrl" access="public" returntype="void">
 	<cfset var cfhttp = "" />
-	
 	<cfset var msg = createUUID() />
 	<cfset var path = "http://modelglue.local/gesture/eventrequest/test/" />
 	<cfset var urlpathdestination = "#path#/ForwardToUrlDestination.cfm?msg=#msg#" />
+	
 	<cfhttp url="#path#ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat(urlpathdestination)#"  />
 	<!--- todo: Find a better way to test this because this method is fragile and sucks --->
-	<cfset assertTrue(cfhttp.fileContent eq msg, 'File content not message! Expected #msg#, got #cfhttp.filecontent#') />
+	<cfset assertTrue(find(msg, cfhttp.fileContent) GT 0, 'File content not message! Expected #msg# got #cfhttp.filecontent#') />
 </cffunction>
 
 <cffunction name="testSaveState" access="public" returntype="void">
@@ -524,6 +522,9 @@
 	<cfset assertTrue(trace[2].message eq "messageVal", "messageVal incorrect") />
 	<cfset assertTrue(trace[2].tag eq "tagVal", "tagVal incorrect") />
 	<cfset assertTrue(trace[2].traceType eq "traceTypeVal", "traceTypeVal incorrect") />
+	<cfset ec.addTraceStatement("Unicorn", structNew(), "UnicornTagVal", "UnicornTypeVal") />
+	<cfset trace = ec.getTrace() />
+	<cfset assertTrue( trace[3].message CONTAINS "cfdump", "Complex value didn't get dumped")>
 </cffunction>
 
 <!--- BEAN POPULATION TEST --->

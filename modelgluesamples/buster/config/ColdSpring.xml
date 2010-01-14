@@ -5,7 +5,7 @@
 
 	<!-- Be sure to change these to false when you go to production! -->
 	<property name="reload"><value>true</value></property>
-	<property name="debug"><value>true</value></property>
+	<property name="debug"><value>false</value></property>
 	
 	<!-- Name of the URL variable that states which event-handler to run -->
 	<property name="eventValue"><value>event</value></property>
