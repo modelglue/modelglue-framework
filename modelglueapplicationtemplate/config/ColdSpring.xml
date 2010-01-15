@@ -65,24 +65,9 @@
 <!-- ORM Framework Configuration -->
 		
 <!--
-		The following explains how to connect Model-Glue to either the
-		Transfer or Reactor ORM frameworks.
-	
-		If you've got the lastest (from CVS) version of ColdSpring, the commented-out
-		code below will work.
-	
-		Otherwise, do the following:
-		
-		1.  Choose whether to use Reactor or Transfer for this project
-		2.  Open up /ModelGlue/unity/config/Configuration.xml
-		3.  Uncomment the appropriate "To use xxxx as an ORM Framework..." block below
-		4.  Delete the <alias /> tags in the ORM block you uncommented
-		5.  If using Reactor, copy/paste the beans named "ormAdapter.Reactor" and
-				"ormService.Reactor" to this file (from Configuration.xml) and remove 
-				the ".Reactor" from their name attributes.
-		6.  If using Transfer, copy/paste the beans named "ormAdapter.Transfer" and
-				"ormService.Transfer" to this file (from Configuration.xml) and remove 
-				the ".Transfer" from their name attributes.
+		To connect Model-Glue to either the
+		Transfer or Reactor ORM frameworks
+		uncomment and configure the appropriate block below
 -->
 	
 <!-- 
