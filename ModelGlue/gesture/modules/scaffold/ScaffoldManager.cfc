@@ -382,7 +382,9 @@
 		<cfset var pk = "" />
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset hiddenFieldString = listAppend( hiddenFieldString, '
-	<input type="hidden" name="#pk#" value="###arguments._alias#Record.get#pk#()##">', " ") />
+				<cfif event.valueExists("#pk#")>
+					<input type="hidden" name="#pk#" value="###arguments._alias#Record.get#pk#()##">
+				</cfif>', " ") />
 		</cfloop>
 		<cfreturn hiddenFieldString />
 	</cffunction>

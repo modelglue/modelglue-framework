@@ -87,14 +87,17 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		var props = getObjectMetadata(entityName).properties;
 		var p = 0;
 		var property = 0;
+		var childIndex = 1;
+		var childKey = 0;
+		var errorCollection = createObject("component", "ModelGlue.Util.ValidationErrorCollection").init();
 		var record = arguments.target;
 		var childIndex = 1;
 
 		// Update all direct properties	- this will capture inherited properties as well
 		if (arguments.event.argumentExists("properties")) {
-			arguments.event.makeEventBean(arguments.target, arguments.event.getArgument("properties", ""));
+			arguments.event.makeEventBean(record, arguments.event.getArgument("properties", ""));
 		} else {
-			arguments.event.makeEventBean(arguments.target);
+			arguments.event.makeEventBean(record);
 		}
 		
 		// Do relationships
@@ -106,9 +109,20 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 					var eventKey = property.alias & "|" & property.sourceKey;
 					if (arguments.event.valueExists(eventKey)) {
 						var children = evaluate("record.get#property.alias#()");
-						// remove all existing
-						while (evaluate("record.has#property._singularname#()")) {
-							evaluate("record.remove#property._singularname#(children[1])");
+						if (not IsNull(children)) {
+							// remove all existing
+							if (isArray(children)) {
+								// collection is an array
+								while (evaluate("record.has#property._singularname#()")) {
+									evaluate("record.remove#property._singularname#(children[1])");
+								}
+							} else {
+								// collection is a struct
+								while (evaluate("record.has#property._singularname#()")) {
+									childKey = listFirst(structKeyList(children));
+									evaluate("record.remove#property._singularname#(childKey)");
+								}
+							}
 						}
 						// add any requested
 						var selectedChildIds = ListToArray(arguments.event.getValue(eventKey));
@@ -116,7 +130,14 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 							criteria[property.sourceKey] = selectedChildIds[childIndex];
 							var targetObject = read(property.sourceObject, criteria);
 							if (not IsNull(targetObject)) {
-								evaluate("record.add#property._singularname#(targetObject)");
+								if (isArray(children)) {
+									// collection is an array
+									evaluate("record.add#property._singularname#(targetObject)");
+								} else {
+									// collection is a structure
+									childKey = evaluate("targetObject.get#property._structKeyColumn#()");
+									evaluate("record.add#property._singularname#(childKey,targetObject)");
+								}
 							}
 						}
 					}
@@ -136,6 +157,8 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			}
 			
 		}
+		
+		return errorCollection;
 		
 	}
 
@@ -253,13 +276,13 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			}
 			if (StructKeyExists(p,"fieldtype") and ListFindNoCase("one-to-many,many-to-many",p.fieldtype)) {
 				prop.pluralrelationship = true;
+				prop._collectionType = p.type;
+				if (p.type eq "struct") {
+					prop._structKeyColumn = p.structKeyColumn;
+					prop._structKeyType = p.structKeyType;
+				}
 			} else {
 				prop.pluralrelationship = false;
-			}
-			if (StructKeyExists(p,"singularname")) {
-				prop._singularname = p.singularname;
-			} else {
-				prop._singularname = p.name;
 			}
 			if (StructKeyExists(p,"cfc")) {
 				prop.sourceObject = p.cfc;
@@ -270,6 +293,16 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 				prop.sourceObject = "";
 				prop.sourceKey = "";
 				prop.sourceColumn = "";
+			}
+			if (StructKeyExists(p,"singularname")) {
+				prop._singularname = p.singularname;
+			} else {
+				prop._singularname = p.name;
+			}
+			if (not StructKeyExists(p,"persistent") or p.persistent is true) {
+				prop._persistent = true;
+			} else {
+				prop._persistent = false;
 			}
 			propertyInfo.properties[p.name] = prop;
 		}

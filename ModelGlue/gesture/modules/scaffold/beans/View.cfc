@@ -66,7 +66,7 @@
 <br />
 <cfform class="edit"> 
 <fieldset>
-	<<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
+	<<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false AND (not structKeyExists(Metadata.properties[thisProp],"_persistent") or Metadata.properties[thisProp]._persistent is true)>>
 			<div class="formfield">
 				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
 				<span class="input">##%Metadata.alias%Record.get%Metadata.properties[thisProp].alias%()##</span>
@@ -83,6 +83,9 @@
 				</cfcatch>
 			</cftry>
 	
+			<cfif not structKeyExists(variables,"sourceValue")>
+				<cfset variables.sourceValue = "" />
+			</cfif>
 			<cfif isObject(variables.sourceValue)>
 				<cfset variables.sourceValue = variables.sourceValue.get%Metadata.properties[thisProp].sourcecolumn%() />
 			</cfif>
@@ -95,22 +98,32 @@
 				<label for="%Metadata.properties[thisProp].alias%"><b>%Metadata.properties[thisProp].label%:</b></label>
 				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
-					<cfloop collection="##variables.list##" item="variables.rel">
-						<span class="input">##variables.list[variables.rel].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
-					</cfloop>
 				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
-					<cfloop from="1" to="##arrayLen(variables.list)##" index="variables.idx">
-						<span class="input">##variables.list[variables.idx].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
-					</cfloop>
-				<cfelse>
+				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Iterator")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Iterator().getQuery() />
-					<cfloop query="variables.list">
-						<span class="input">##%Metadata.properties[thisProp].sourcecolumn%##</span>
-					</cfloop>
+				<cfelse>
+					<<!--- cfOrm --->>
+					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%() />
+				</cfif>
+				<cfif structKeyExists(variables,"list")>
+					<cfif isQuery(variables.list)>
+						<cfloop query="variables.list">
+							<span class="input">##%Metadata.properties[thisProp].sourcecolumn%##</span>
+						</cfloop>
+					<cfelseif isStruct(variables.list)>
+						<cfloop collection="##variables.list##" item="variables.rel">
+							<span class="input">##variables.list[variables.rel].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+						</cfloop>
+					<cfelseif isArray(variables.list)>
+						<cfloop from="1" to="##arrayLen(variables.list)##" index="variables.idx">
+							<span class="input">##variables.list[variables.idx].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+						</cfloop>
+					</cfif>
 				</cfif>
 			</div>
 		<</cfif>><</cfloop>>
+	
 </fieldset>
 </cfform>
 </div>

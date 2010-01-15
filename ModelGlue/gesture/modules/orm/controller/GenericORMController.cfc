@@ -154,10 +154,11 @@
 		</cfif>
 	</cfloop>
 
-	<!--- Create Record --->	
-	<cfset record = orm.read(table,criteria) />
-	
+	<!--- Moved the cftransaction above the read to address problems with detached objects in Hibernate --->
 	<cftransaction>
+		<!--- Create Record --->	
+		<cfset record = orm.read(table,criteria) />
+	
 		<!--- Assemble, which returns an error collection if any setters failed --->
 		<cfset assembleErrors = orm.assemble(arguments.event, record) />
 	

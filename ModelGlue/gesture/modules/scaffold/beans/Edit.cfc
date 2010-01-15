@@ -76,7 +76,7 @@
 	<cfreturn  ('<cfsilent>
 <<cfoutput>>
 	<cfset event.copyToScope( variables, "#copyToScopeList#" )/>
-	<cfset variables.commitEvent = "##myself####xe.commit##%makeBeanSourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%" />
+	<cfset variables.commitEvent = "##myself####xe.commit##" />
 	<cfset variables.editEvent = myself & xe.edit  />
 	<cfset variables.listEvent = myself & xe.list  />
 	<cfset variables.hasErrors = false />
@@ -107,7 +107,7 @@
 <cfform action="##commitEvent##" class="edit">
 %makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
-		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
+		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false AND (not structKeyExists(Metadata.properties[thisProp],"_persistent") or Metadata.properties[thisProp]._persistent is true) >>
 			<tr>	
         		<td><label for="%thisProp%">%spaceCap( thisProp )%</label>	</td>
 				<td>
@@ -126,7 +126,7 @@
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
 			<tr>	
         		<td>
-	        		<label for="%Metadata.properties[thisProp].name%" <cfif structKeyExists(validation, "%Metadata.properties[thisProp].alias%")>class="error"</cfif><b>%Metadata.properties[thisProp].label%:</b></label>
+	        		<label for="%Metadata.properties[thisProp].sourceKey%" <cfif structKeyExists(validation, "%Metadata.properties[thisProp].alias%")>class="error"</cfif><b>%Metadata.properties[thisProp].label%:</b></label>
 	        	</td>
 	        	<td>
 	        <cfset variables.valueQuery = event.getValue("%Metadata.properties[thisProp].sourceobject%List") />
@@ -148,7 +148,7 @@
 							<cfset variables.sourceValue = "" />
 						</cfif>
 	
-          <select name="%Metadata.properties[thisProp].name%" id="%Metadata.properties[thisProp].name%" >
+          <select name="%Metadata.properties[thisProp].sourceKey%" id="%Metadata.properties[thisProp].sourceKey%" >
             <<cfif %Metadata.properties[thisProp].nullable% IS true OR %Metadata.properties[thisProp].nullable% IS 1>>
 			  <option value=""></option>
 			 <</cfif>>
@@ -217,8 +217,8 @@
 		<tr>
 			<td colspan="2"><input type="submit" name="submit" value=" Save %Metadata.alias% "></td>
 		</tr>
-</table>
 </cfform>
+</table>
 </cfoutput>
 <</cfoutput>>
 ')>	
