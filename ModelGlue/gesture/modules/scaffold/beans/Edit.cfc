@@ -194,7 +194,7 @@
             hidden makes the field always defined.  if this was not here, and you deleted this whole field
             from the control, you would wind up deleting all child records during a genericCommit...
           --->
-          <input type="hidden" name="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" value="" />
+          <input type="hidden" id="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" name="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" value="" />
 	        <div class="formfieldinputstack">
           <cfloop query="valueQuery">
             <label for="%Metadata.properties[thisProp].alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##"><input type="checkbox" name="%Metadata.properties[thisProp].alias%|%Metadata.properties[thisProp].sourcekey%" id="%Metadata.properties[thisProp].alias%_##valueQuery.%Metadata.properties[thisProp].sourcekey%##" value="##valueQuery.%Metadata.properties[thisProp].sourcekey%##"<cfif listFindNoCase(selectedList, "##valueQuery.%Metadata.properties[thisProp].sourcekey%##")> checked</cfif>/>##valueQuery.%Metadata.properties[thisProp].sourcecolumn%##</label><br />
