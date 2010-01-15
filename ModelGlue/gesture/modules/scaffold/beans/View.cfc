@@ -64,6 +64,7 @@
 <cfoutput>
 <div id="breadcrumb"><a href="##listEvent##">%spaceCap( Metadata.alias )%</a> / View %spaceCap( Metadata.alias )%</div>
 <br />
+<div>
 <cfform class="edit"> 
 <fieldset>
 	<<cfloop collection="%Metadata.properties%" item="variables.thisProp">><<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
