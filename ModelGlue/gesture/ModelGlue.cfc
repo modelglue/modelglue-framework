@@ -139,6 +139,15 @@
 	<cfset variables._logWriter = arguments.logWriter />
 </cffunction>
 
+<cffunction name="getEventContextFactory" access="public" output="false" returntype="any">
+	<cfreturn variables._eventContextFactory />
+</cffunction>
+
+<cffunction name="setEventContextFactory" access="public" output="false" returntype="void">
+	<cfargument name="eventContextFactory" type="any" required="true" />
+	<cfset variables._eventContextFactory = arguments.eventContextFactory />
+</cffunction>
+
 <cffunction name="setOrmAdapter" returntype="any" access="public" hint="I set the ORM adapter." output="false">
 	<cfargument name="ormAdapter" type="any" required="true" />
 	<cfset variables._ormAdapter = arguments.ormAdapter />
@@ -321,5 +330,6 @@
 	
 	<cfreturn variables._logRenderer.renderLog(arguments.eventContext) />
 </cffunction>
+
 
 </cfcomponent>

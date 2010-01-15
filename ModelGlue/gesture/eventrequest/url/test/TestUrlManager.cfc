@@ -6,7 +6,7 @@
 		<cfset createModelGlueIfNotDefined(this.coldspringPath) />
 		<cfset variables.urlManager = createObject("component", "ModelGlue.gesture.eventrequest.url.UrlManager").init() />
 		<cfset variables.urlManager.setModelGlue(mg) />			
-		<cfset variables.ec = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+		<cfset variables.ec = mg.getEventContextFactory().new() />
 	</cffunction>
 
 <cffunction name="testPopulateLocation" returntype="void" access="public">

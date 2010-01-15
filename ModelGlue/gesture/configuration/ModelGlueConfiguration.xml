@@ -26,6 +26,12 @@
 		</list>
 	</property>
 	
+	<!-- Event Context creation is bottlenecked through a factory to allow for proper configuration and testing -->
+	<property name="eventContextFactory">
+		<ref bean="modelglue.eventContextFactory"/>
+	</property>
+	
+		
 	<property name="scaffoldManager">
 		<ref bean="modelglue.scaffoldManager" />
 	</property>
@@ -270,10 +276,21 @@
 -->
 <bean id="modelglue.logRenderer" class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
 
+	
+<bean id="modelglue.eventContextFactory" class="ModelGlue.gesture.eventrequest.EventContextFactory">
+	<property name="modelGlue"><ref bean="modelglue.ModelGlue"/></property>
+	<property name="statePersister"><ref bean="modelglue.statePersister"/></property>
+	<property name="viewRenderer"><ref bean="modelglue.viewRenderer"/></property>
+	<property name="beanPopulator"><ref bean="modelglue.beanPopulator"/></property>
+	<property name="logWriter"><ref bean="modelglue.logWriter"/></property>
+	<property name="objectPath"><value>ModelGlue.gesture.eventrequest.EventContext</value></property>
+</bean>	
 <!-- 
 	Writer that writes the that renders the ModelGlue Log.
 -->
-<bean id="modelglue.logWriter" class="ModelGlue.gesture.eventrequest.log.LogWriter" />		
+<bean id="modelglue.logWriter" class="ModelGlue.gesture.eventrequest.log.LogWriter">
+	<constructor-arg name="debugMode"><bean factory-bean="modelglue.modelGlueConfiguration" factory-method="getDebug" /></constructor-arg>
+</bean>		
 	
 <!--
 	ScaffoldManager (does the creation of scaffold bits)

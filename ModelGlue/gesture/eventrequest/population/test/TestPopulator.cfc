@@ -8,7 +8,7 @@
 
 
 <cffunction name="testStructBasedPopulator" output="false" returntype="void" access="public">
-	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+	<cfset var ctx = mg.getEventContextFactory().new() />
 	<cfset var pop = createObject("component", "ModelGlue.gesture.eventrequest.population.StructBasedPopulator").init() />
 	<cfset var source = {} />
 	
@@ -21,7 +21,7 @@
 
 <cffunction name="testUrlBasedPopulator" output="false" returntype="void" access="public">
 	<cfset var urlManager = "" />
-	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+	<cfset var ctx = mg.getEventContextFactory().new() /> />
 	<cfset var pop = mg.getInternalBean("modelGlue.urlPopulator")/>
 	
 
@@ -33,7 +33,7 @@
 </cffunction>
 
 <cffunction name="testFormBasedPopulator" output="false" returntype="void" access="public">
-	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init() />
+	<cfset var ctx = mg.getEventContextFactory().new() /> />
 	<cfset var pop = mg.getInternalBean("modelGlue.formPopulator") />
 	
 	<cfset form.someKey = "someFormValue" />

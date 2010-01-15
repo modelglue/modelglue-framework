@@ -1,0 +1,38 @@
+<modelglue>
+	
+<controllers>
+</controllers>
+	
+	<event-types>
+		<event-type name="hasNoDebug" disableDebug="true">
+			<before>
+			</before>
+		</event-type>
+	</event-types>
+	<event-handlers>
+		
+						
+	<event-handler name="PlainEventHandlerWithDebugNotSet" >
+		<broadcasts />
+		<results/>
+	</event-handler>
+		
+	<event-handler name="PlainEventHandlerWithDebugFalse" disableDebug="false">
+		<broadcasts />
+		<results/>
+	</event-handler>
+		
+	<event-handler name="eventHandlerWithDisabledDebug" disableDebug="true">
+		<broadcasts />
+		<results/>
+	</event-handler>
+		
+				
+	<event-handler name="eventHandlerWithEventTypeOfDisabledDebug" type="hasNoDebug">
+		<broadcasts />
+		<results/>
+	</event-handler>
+
+</event-handlers>
+
+</modelglue>

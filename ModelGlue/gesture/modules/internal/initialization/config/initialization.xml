@@ -6,7 +6,7 @@
 				beans="modelglue.HelperInjector"
 	>
 		<message-listener message="modelglue.loadFrameworkIntoScope" function="loadFrameworkIntoScope" />	
-		<message-listener message="modelglue.onApplicationStoredInScope" function="loadHelpers" />	
+		<message-listener message="onApplicationStart" function="loadHelpers" />	
 	</controller>
 </controllers>
 

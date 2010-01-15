@@ -1,0 +1,16 @@
+<modelglue>
+	<config>
+		<setting name="arbitrarySetting" value="arbitrarySettingValue" />
+		<setting name="viewMappings" value="viewMappingsValue" />
+		<setting name="helperMappings" value="/I/Am/A/Helper/Mapping,/So/Am/I" />
+	</config>
+	<controllers>
+	</controllers>
+	
+	<event-types>
+	</event-types>
+	
+	<event-handlers>
+	</event-handlers>
+
+</modelglue>

@@ -149,7 +149,6 @@
 			</cfcase>
 		</cfswitch>
 	</cfloop>
-	
 	<cfloop from="1" to="#arrayLen(arguments.settingsXML.xmlChildren)#" index="i">
 		<cfset settingXml = arguments.settingsXML.xmlChildren[i] />
 		
@@ -174,11 +173,19 @@
 				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />
 				--->
 			</cfcase>
+			<cfcase value="helperMappings">
+				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
+				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
+					<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+				</cfloop>			
+			</cfcase>
 			<cfdefaultcase>
 				<cfset arguments.modelglue.setConfigSetting(settingXml.xmlAttributes.name, settingXml.xmlAttributes.value) />
 			</cfdefaultcase>
 		</cfswitch>
+
 	</cfloop>
+		
 </cffunction>	
 
 <cffunction name="loadControllers" output="false" hint="Loads controllers from <controllers> block.">
@@ -259,7 +266,12 @@
 		<cfset etXml = arguments.typesXML.xmlChildren[i] /> 
 		<cfset et = structNew() />
 		<cfset et.name = etXml.xmlAttributes.name />
-		
+		<!--- Make sure we have a good value here for the debug value --->
+		<cfparam name="etXml.xmlAttributes.disableDebug" default="false" />
+		<cfif isBoolean( etXml.xmlAttributes.disableDebug ) IS false>
+			<cfset etXml.xmlAttributes.disableDebug = false />
+		</cfif>
+		<cfset et.disableDebug = etXml.xmlAttributes.disableDebug />
 		
 		<cfloop list="before,after" index="blockType">
 			<cfset et[blockType] = structNew() />
@@ -301,6 +313,7 @@
 			<cfparam name="ehXml.xmlAttributes.cacheKey" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
+			<cfparam name="ehXml.xmlAttributes.disableDebug" default="false" />
 
 			<!--- existence of a single type key or a list causes this to be xml-defined typed event --->
 			<cfif structKeyExists(variables.eventTypes, ehXml.xmlAttributes.type)
@@ -308,7 +321,7 @@
 			>
 				<cfset isXmlTypeList = "true" />
 			</cfif>
-			
+
 			<!--- Try to instantiate the type. --->
 			<cftry>
 				<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
@@ -339,6 +352,10 @@
 				<cfset ehInst.cacheKey = "eventHandler." & ehInst.name />
 			</cfif>
 			
+			<cfif isBoolean(ehXml.xmlAttributes.disableDebug)>
+				<cfset ehInst.disableDebug = ehXml.xmlAttributes.disableDebug />
+			</cfif>
+
 			<!--- Load messages --->
 			<cfset childXml = xmlSearch(ehXml, "broadcasts") />
 			
@@ -381,12 +398,19 @@
 	
 	<cfset var typename = "" />
 	<cfset var moduleBlock = "" />
+	<cfset var typeBlock = "" />
 	<cfset var i = "" />
 	
 	<cfloop list="#arguments.types#" index="typename">
 		<cfif structKeyExists(variables.eventTypes, typeName)>
-		
+			
+			<cfset typeBlock = variables.eventTypes[typeName] />
 			<cfset moduleBlock = variables.eventTypes[typeName][block] />
+			
+			<cfif typeBlock.disableDebug IS true >
+				<cfset arguments.eh.disableDebug = true />
+			</cfif>
+
 			<!--- Load any broadcasts if we have any  and respect the possibility of multiple views blocks (like for requestformats ). --->
 			<cfif structKeyExists(moduleBlock, "broadcasts") IS true>
 				<cfloop from="1" to="#arrayLen(moduleBlock.broadcasts)#" index="i">

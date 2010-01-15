@@ -4,6 +4,7 @@
 <cfset this.name = "buster" />
 <cfset this.sessionManagement = true>
 <cfset this.sessionTimeout = createTimeSpan(0,0,30,0)>
+<cfset this.mappings["/buster"] = expandPath('.') />
 
 <cffunction name="onSessionStart"  output="false">
 	<!--- Not sure anyone'll ever need this...

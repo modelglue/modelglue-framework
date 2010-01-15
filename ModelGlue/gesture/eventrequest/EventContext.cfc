@@ -1,14 +1,14 @@
 <cfcomponent output="false" extends="ModelGlue.Core.Event" hint="I represent an event request and its context.  I am what you see as arguments.event.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new EventContext.">
+	<cfargument name="modelglue" required="true" hint="The framework itself." />
+	<cfargument name="statePersister" required="true" hint="StatePersister to use during stateful redirects." />
+	<cfargument name="viewRenderer" required="true" hint="ViewRenderer to use to render included views to HTML." />
+	<cfargument name="beanPopulator" required="true" hint="Populator used by makeEventBean()." />
+	<cfargument name="logWriter" required="true" hint="LogWriter used by addTraceStatement()." />
+	<cfargument name="requestPhases" hint="Request phases." />
 	<cfargument name="eventHandlers" default="#structNew()#" hint="Available event handlers." />
 	<cfargument name="messageListeners" default="#structNew()#" hint="Message subscribers." />
-	<cfargument name="requestPhases" hint="Request phases." />
-	<cfargument name="modelglue" required="false" hint="The framework itself." />
-	<cfargument name="statePersister" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister").init()#" hint="StatePersister to use during stateful redirects." />
-	<cfargument name="viewRenderer" required="false" default="#createObject("component", "ModelGlue.gesture.view.ViewRenderer").init()#" hint="ViewRenderer to use to render included views to HTML." />
-	<cfargument name="beanPopulator" required="false" default="#createObject("component", "ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator").init()#" hint="Populator used by makeEventBean()." />
-	<cfargument name="logWriter" required="false" default="#createObject("component", "ModelGlue.gesture.eventrequest.log.LogWriter").init()#" hint="LogWriter used by addTraceStatement()." />
 	<cfargument name="values" required="false" default="#arrayNew(1)#" hint="A single structure or array of structures to merge into this collection." />
 	<cfargument name="helpers" required="false" hint="Helpers available as part of the event context." default="#structNew()#" />
 	
@@ -275,7 +275,11 @@
 		
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
-	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHAndler.name#"">") /> 
+	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHandler.name#"">") /> 
+	<cfif arguments.eventHandler.disableDebug IS true>
+		<cfset this.addTraceStatement("Configuration", "Disabling Debug For ""#arguments.eventHandler.name#""", "disableDebug=true") /> 
+		<cfset request.modelGlueSuppressDebugging = "true" />  
+	</cfif>
 	
 	<!--- 
 		Invoke "" message broadcasts.  Code repeated for format, if necessary, to 
@@ -722,10 +726,6 @@
   <cfargument name="traceType" type="string" default="OK" />
 
 	<cfset arguments.time = getTickCount() />
-	
-	<cfif not isSimpleValue(arguments.message)>
-		<cfsavecontent variable="arguments.message"><cfdump var="#arguments.message#" /></cfsavecontent>
-	</cfif>
 	
 	<cfset variables._logWriter.write(this, arguments) />
 </cffunction>
