@@ -103,8 +103,8 @@
 </ul>
 </cfif>
 <br />
-<table>
 <cfform action="##commitEvent##" class="edit">
+<table>
 %makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false >>
