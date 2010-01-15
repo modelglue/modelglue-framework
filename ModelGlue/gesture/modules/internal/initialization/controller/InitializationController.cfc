@@ -22,7 +22,6 @@
 	<cfset var mg = getModelGlue() />
 	<cfset var mappings = mg.getConfigSetting("helperMappings") />
 	<cfset var mapping = "" />
-	
 	<cfloop list="#mappings#" index="mapping">
 		<cfset inj.injectPath(mg.helpers, mapping) />
 	</cfloop>

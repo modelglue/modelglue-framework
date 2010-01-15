@@ -1,9 +1,20 @@
 <cfcomponent extends="modelglue.gesture.test.ModelGlueAbstractTestCase">
 
+<!--- 
+
+	Note: These tests are really complex. If you want to try and be more performant, use the method createModelGlueIfNotDefined( this.coldSpringPath)
+	BUT this has ramifications because if you are expecting predictable results, and you reuse a framework instance 
+	(that has been defined) your tests can fail depending on the order in which MXunit runs them.
+	
+	In most cases, changing over to createModelGlue(this.coldspringPath)  will fix failing tests because the ModelGlue instance is clean, fresh and the contents are predictable.
+	
+	 
+ --->
+
 <cfset this.coldspringPath = "/ModelGlue/gesture/test/ColdSpring.xml">
 
 <cffunction name="testSimpleXMLModule" returntype="void" access="public">
-	<cfset var mg = createModelGlueIfNotDefined(this.coldspringPath) />
+	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
 	<cfset var controllerVars = "" />
@@ -206,5 +217,22 @@
 	
 	<!--- If we don't throw error, we made it. --->
 </cffunction>
+
+<cffunction name="testViewHelperSetting" returntype="void" access="public">
+	<cfset var mg = createModelGlue("/ModelGlue/gesture/eventrequest/test/ColdSpring.xml") />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
+	
+	<cfset beanFactory = mg.getInternalBeanFactory() />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	
+	<cfset assertTrue( mg.getConfigSetting("helperMappings") IS "/I/Am/A/HelperMapping", "No initial helper mapping found, this is a config problem probably" ) />
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/viewMappingInSettingsXmlModule.xml") />
+	<cfset assertTrue( mg.getConfigSetting("helperMappings") IS "/I/Am/A/HelperMapping,/I/Am/A/Helper/Mapping,/So/Am/I", "Helper mappings from config block not added correctly We got ""#mg.getConfigSetting("helperMappings")#"" ")>
+	<!--- If we don't throw error, we made it. --->
+</cffunction>
+	
 	
 </cfcomponent>

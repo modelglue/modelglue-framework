@@ -149,7 +149,6 @@
 			</cfcase>
 		</cfswitch>
 	</cfloop>
-	
 	<cfloop from="1" to="#arrayLen(arguments.settingsXML.xmlChildren)#" index="i">
 		<cfset settingXml = arguments.settingsXML.xmlChildren[i] />
 		
@@ -174,11 +173,19 @@
 				<cfset arguments.modelglue.setConfigSetting("viewMappings", val) />
 				--->
 			</cfcase>
+			<cfcase value="helperMappings">
+				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
+				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
+					<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+				</cfloop>			
+			</cfcase>
 			<cfdefaultcase>
 				<cfset arguments.modelglue.setConfigSetting(settingXml.xmlAttributes.name, settingXml.xmlAttributes.value) />
 			</cfdefaultcase>
 		</cfswitch>
+
 	</cfloop>
+		
 </cffunction>	
 
 <cffunction name="loadControllers" output="false" hint="Loads controllers from <controllers> block.">

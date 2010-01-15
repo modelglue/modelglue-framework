@@ -21,6 +21,9 @@
 	<property name="eventValue">
 		<value>event</value>
 	</property>
+	<property name="helperMappings">
+		<value>/I/Am/A/HelperMapping</value>
+	</property>
 </bean>
 	
 </beans>
