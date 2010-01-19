@@ -45,6 +45,8 @@
 	<cfargument name="propertylist" required="false" default=""/>
 	<cfargument name="eventType" required="false" default=""/>
 	<cfargument name="advice" required="false" default="#structNew()#"/>
+	<cfargument name="ormName" required="true"/>
+	
 	<cfset var metadata = structNew() />
 	<cfset metadata.alias = arguments.alias />
 	<cfset metadata.primaryKeyList = arrayToList( arguments.primaryKeys ) />
@@ -60,6 +62,7 @@
 	<cfset metadata.orderedPropertyList = metadata.propertylist />
 	<cfset metadata.eventType = arguments.eventType />
 	<cfset metadata.advice = arguments.advice />
+	<cfset metadata.ormName = arguments.ormName />
 	<cfset beforeMetadataLoaded( metadata ) />
 	<cfset this.hasXMLGeneration = arguments.hasXMLGeneration />
 	<cfset this.hasViewGeneration = arguments.hasViewGeneration />

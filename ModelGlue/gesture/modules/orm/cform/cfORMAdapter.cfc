@@ -1,8 +1,9 @@
 component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete implementation of a Model-Glue ORM adapter."  {
 	
-	function init(framework,ormService) {
+	function init(framework,ormService,ormName) {
 		variables._mg = arguments.framework;
 		variables._ormService = arguments.ormService;
+		variables._ormName = arguments.ormName;
 		variables._mdCache = structNew();
 		variables._cpCache = structNew();
 		variables._pkCache = structNew();
@@ -177,6 +178,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		var md = {};
 		var entity = EntityNew(arguments.entityName);
 		var omd = getMetadata(entity);
+		md.ormName = variables._ormName;
 		md.alias = arguments.entityName;
 		md.label = getLabel(omd,arguments.entityName);
 		md._cfcproperties = setCfcProperties(omd);

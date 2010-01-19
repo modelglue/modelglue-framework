@@ -6,6 +6,7 @@
 				hint="I am the (Model-Glue) framework object." />
 	<cfargument name="transfer" type="any" required="true" 
 				hint="I am the (Transfer) framework object." />
+	<cfargument name="ormName" type="any" required="true" />
 
 	
 	<cfset variables._mg = arguments.framework />
@@ -14,6 +15,7 @@
 	<cfset variables._cpCache = structNew() />
 	<cfset variables._tmdCache = structNew() />
 	<cfset variables._dictCache = structNew() />
+	<cfset variables._ormName = arguments.ormName />
 
 	<cfreturn this />
 </cffunction>
@@ -83,6 +85,9 @@
 	<cfif structKeyExists(variables._mdCache, arguments.table)>
 		<cfreturn variables._mdCache[arguments.table] />
 	</cfif>
+
+	<!--- Record ORM Name --->	
+	<cfset result.ormName = variables._ormName />
 
 	<cfset result.primaryKeys = arrayNew(1) />
 	<cfset result.labelField = "" />

@@ -3,10 +3,12 @@
 <cffunction name="init" returntype="ModelGlue.unity.orm.ReactorAdapter" output="false" access="public">
 	<cfargument name="framework" type="any" required="true" />
 	<cfargument name="reactor" type="any" required="true" />
+	<cfargument name="ormName" type="any" required="true" />
 
 	<cfset variables._reactor = arguments.reactor />
 	<cfset variables._mdCache = structNew() />
 	<cfset variables._cpCache = structNew() />
+	<cfset variables._ormName = arguments.ormName />
 	
 	<cfreturn this />
 </cffunction>
@@ -46,6 +48,9 @@
 	<cfif structKeyExists(variables._mdCache, arguments.table)>
 		<cfreturn variables._mdCache[arguments.table] />
 	</cfif>
+
+	<!--- Record ORM Name --->	
+	<cfset result.ormName = variables._ormName />
 
 	<cfset result.primaryKeys = arrayNew(1) />
 	<cfset result.labelField = "" />

@@ -399,5 +399,10 @@
 		</cfloop>
 		<cfreturn "len( trim(" & PrimaryKeyCheck & ") )"/>
 	</cffunction>
-	
+
+	<cffunction name="getIsNullable" output="false" access="public" returntype="string" hint="I return whether a property is nullable or not">
+		<cfargument name="prop" type="any" required="true"/>
+		<cfreturn arguments.prop.nullable is true or arguments.prop.nullable eq 1 />
+	</cffunction>
+
 </cfcomponent>

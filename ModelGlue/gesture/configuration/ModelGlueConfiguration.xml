@@ -375,6 +375,7 @@
 <bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">
 	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 	<constructor-arg name="reactor"><ref bean="ormService.Reactor" /></constructor-arg>
+	<constructor-arg name="ormName"><value>Reactor</value></constructor-arg>
 </bean>
 <bean id="ormService.Reactor" class="reactor.reactorFactory">
 	<constructor-arg name="configuration"><ref bean="reactorConfiguration" /></constructor-arg>
@@ -385,6 +386,7 @@
 <bean id="ormAdapter.Transfer" class="ModelGlue.unity.orm.transfer.TransferAdapter">
 	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 	<constructor-arg name="transfer"><ref bean="ormService.Transfer" /></constructor-arg>
+	<constructor-arg name="ormName"><value>Transfer</value></constructor-arg>
 </bean>
 
 <bean id="ormService.Transfer" class="transfer.TransferFactory">
@@ -395,6 +397,7 @@
 <bean id="ormAdapter.cfORM" class="ModelGlue.gesture.modules.orm.cform.cfORMAdapter">
 	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 	<constructor-arg name="ormService"><ref bean="ormService.cfORM" /></constructor-arg>
+	<constructor-arg name="ormName"><value>cfOrm</value></constructor-arg>
 </bean>
 
 <bean id="ormService.cfORM" class="ModelGlue.gesture.modules.orm.cform.cfORMService">
