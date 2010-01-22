@@ -26,6 +26,8 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 <cfcomponent displayname="AbstractORMAdapter.cfc" hint="I am a marker for Model-Glue ORM adapters.">
 
 <cffunction name="init" returntype="ModelGlue.unity.orm.AbstractORMAdapter" output="false" access="public">
+	<cfargument name="ormName" type="any" required="true" />
+	<cfset variables._ormName = arguments.ormName />
 	<cfreturn this />
 </cffunction>
 
@@ -103,6 +105,73 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	</cfloop>
 
 	<cfreturn result />	
+</cffunction>
+
+<cffunction name="getOrmName" returntype="string" output="false" access="public">
+	<cfreturn variables._ormName />
+</cffunction>
+
+<cffunction name="getSourceValue" output="false" access="public" returntype="any" hint="Used by templates generated via scaffolding">
+	<cfargument name="record" required="true" />
+	<cfargument name="propertyName" required="true" />
+	<cfargument name="sourceKey" required="true" />
+	<cfset var sourceValue = "" />
+	<cftry>
+		<!--- note that only Transfer differs from this logic, so the default is implemented here, and it's overridden in the Transfer adapter --->
+		<cfset variables.sourceValue = evaluate("arguments.record.get#arguments.propertyName#()") />
+		<cfcatch>
+		</cfcatch>
+	</cftry>
+	<cfif isDefined("variables.sourceValue") and isObject(variables.sourceValue)>
+		<cfset variables.sourceValue = evaluate("variables.sourceValue.get#arguments.sourceKey#()") />
+	<cfelse>
+		<cfset variables.sourceValue = "" />
+	</cfif>
+	<cfreturn sourceValue />
+</cffunction>
+
+<cffunction name="getSelectedList" output="false" access="public" returntype="any" hint="Used by templates generated via scaffolding">
+	<cfargument name="event" required="true" />
+	<cfargument name="record" required="true" />
+	<cfargument name="propertyName" required="true" />
+	<cfargument name="sourceKey" required="true" />
+	
+	<cfset var selectedList = "" />
+	<cfset var selected = "" />
+	<cfset var i = "" />
+
+	<cfif arguments.event.exists(arguments.propertyName & "|" & arguments.sourceKey)>
+		<cfset variables.selectedList = event.getValue(arguments.propertyName & "|" & arguments.sourceKey) />
+	<cfelse>
+		<!--- TODO: This needs to be factored out into the respective ORM adapters. For now it only exists in the Abstract adapter. --->
+		<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
+		<cfif structKeyExists(arguments.record, "get#arguments.propertyName#Struct")>
+			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Struct()") />
+		<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Array")>
+			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Array()") />
+		<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Iterator")>
+			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Iterator().getQuery()") />
+		<cfelse>
+			<!--- cfOrm --->
+			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#()") />
+		</cfif>
+	
+		<!--- Added isDefined check to support cfOrm --->
+		<cfif not isDefined("selected")>
+			<cfset selectedList = "" />
+		<cfelseif isQuery(selected)>
+			<cfset selectedList = evaluate("valueList(selected.#arguments.sourceKey#)") />
+		<cfelseif isStruct(selected)>
+			<cfset selectedList = structKeyList(selected)>
+		<cfelseif isArray(selected)>
+			<cfset selectedList = "" />
+			<cfloop from="1" to="#arrayLen(selected)#" index="i">
+				<cfset selectedList = listAppend(selectedList, evaluate("selected[i].get#arguments.sourceKey#()")) />
+			</cfloop>
+		</cfif>
+	</cfif>
+
+	<cfreturn selectedList />
 </cffunction>
 
 </cfcomponent>

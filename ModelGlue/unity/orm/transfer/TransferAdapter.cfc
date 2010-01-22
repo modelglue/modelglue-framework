@@ -611,4 +611,21 @@
 
 </cffunction>
 
+<cffunction name="getSourceValue" output="false" access="public" returntype="any" hint="Used by templates generated via scaffolding">
+	<cfargument name="record" required="true" />
+	<cfargument name="propertyName" required="true" />
+	<cfargument name="sourceKey" required="true" />
+	<cfset var sourceValue = "" />
+	<cftry>
+		<cfif structKeyExists(arguments.record,"getParent#arguments.propertyName#")>
+			<cfset variables.sourceValue = evaluate("arguments.record.getParent##arguments.propertyName##()") />
+		<cfelse>
+			<cfset variables.sourceValue = evaluate("arguments.record.get##arguments.propertyName##()") />
+		<</cfif>
+		<cfcatch>
+		</cfcatch>
+	</cftry>
+	<cfreturn sourceValue />
+</cffunction>
+
 </cfcomponent>
