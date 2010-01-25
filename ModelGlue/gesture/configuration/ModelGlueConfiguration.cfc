@@ -17,7 +17,7 @@
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = "5" />
 	<cfset variables._instance.requestFormatValue = "html" />
-		
+	<cfset variables._instance.endlessLoopThreshold	= 100 />
 		<!--- Generation --->
 		<cfset variables._instance.generationEnabled = false />
 		<cfset variables._instance.generationModule = "" />
@@ -299,6 +299,14 @@
 </cffunction>
 <cffunction name="getGenerationEnabled" returntype="boolean" output="false">
 	<cfreturn variables._instance.GenerationEnabled />
+</cffunction>
+
+<cffunction name="setEndlessLoopThreshold" returntype="void" output="false" access="public">
+	<cfargument name="EndlessLoopThreshold" type="string" />
+	<cfset variables._instance.EndlessLoopThreshold = arguments.EndlessLoopThreshold />
+</cffunction>
+<cffunction name="getEndlessLoopThreshold" returntype="string" output="false">
+	<cfreturn variables._instance.EndlessLoopThreshold />
 </cffunction>
 
 </cfcomponent>
