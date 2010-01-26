@@ -26,7 +26,7 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 <cfcomponent displayname="AbstractORMAdapter.cfc" hint="I am a marker for Model-Glue ORM adapters.">
 
 <cffunction name="init" returntype="ModelGlue.unity.orm.AbstractORMAdapter" output="false" access="public">
-	<cfargument name="ormName" type="any" required="true" />
+	<cfargument name="ormName" type="any" required="false" default="Abstract" />
 	<cfset variables._ormName = arguments.ormName />
 	<cfreturn this />
 </cffunction>

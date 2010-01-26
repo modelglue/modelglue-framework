@@ -1,6 +1,6 @@
 component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete implementation of a Model-Glue ORM adapter."  {
 	
-	function init(framework,ormService,ormName) {
+	function init(framework,ormService,ormName="cfOrm") {
 		variables._mg = arguments.framework;
 		variables._ormService = arguments.ormService;
 		variables._ormName = arguments.ormName;

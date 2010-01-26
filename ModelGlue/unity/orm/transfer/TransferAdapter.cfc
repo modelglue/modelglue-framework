@@ -6,8 +6,7 @@
 				hint="I am the (Model-Glue) framework object." />
 	<cfargument name="transfer" type="any" required="true" 
 				hint="I am the (Transfer) framework object." />
-	<cfargument name="ormName" type="any" required="true" />
-
+	<cfargument name="ormName" type="any" required="false" default="Transfer" />
 	
 	<cfset variables._mg = arguments.framework />
 	<cfset variables._transfer = arguments.transfer />

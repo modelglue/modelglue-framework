@@ -3,7 +3,7 @@
 <cffunction name="init" returntype="ModelGlue.unity.orm.ReactorAdapter" output="false" access="public">
 	<cfargument name="framework" type="any" required="true" />
 	<cfargument name="reactor" type="any" required="true" />
-	<cfargument name="ormName" type="any" required="true" />
+	<cfargument name="ormName" type="any" required="false" default="Reactor" />
 
 	<cfset variables._reactor = arguments.reactor />
 	<cfset variables._mdCache = structNew() />
