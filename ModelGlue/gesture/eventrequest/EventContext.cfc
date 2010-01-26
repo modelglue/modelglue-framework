@@ -517,6 +517,14 @@
 	<cfreturn urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
 </cffunction>
 
+<cffunction name="bindTo" access="public" output="false" returntype="string" hint="Creates a URL-decoded version of the linkTo() method for use in bind URLs.">
+	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
+	<cfargument name="append" default="" hint="The list of values to append." />
+	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+	
+	<cfreturn urlDecode(linkTo(argumentCollection=arguments)) />
+</cffunction>
+
 <cffunction name="forwardToUrl" access="public" hint="Forwards to a given URL, optionally storing state across the redirect.">
 	<cfargument name="url" type="string" hint="The URL to redirect to using <cflocation />">
 	<cfargument name="preserveState" type="boolean" required="false" default="false" hint="Preserve state across the redirect?" />
