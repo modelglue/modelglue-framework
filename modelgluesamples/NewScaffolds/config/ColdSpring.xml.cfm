@@ -4,7 +4,7 @@
 	<bean id="modelglue.modelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
 	
 		<!-- Be sure to change these to false when you go to production! -->
-		<property name="reload"><value>false</value></property>
+		<property name="reload"><value>true</value></property>
 		<property name="debug"><value>true</value></property>
 		
 		<!-- Name of the URL variable that states which event-handler to run -->
@@ -52,12 +52,104 @@
 		
 		Advanced users who are used to ColdSpring will probably delete this bean in favor of their own approach.
 	-->
+	<bean id="CFUniFormConfigBean" class="coldspring.beans.factory.config.MapFactoryBean">
+		<property name="SourceMap">
+			<map>
+				<entry key="jQuery">
+					<value>www/js/jquery-1.3.2.min.js</value>
+				</entry>
+				<entry key="renderer">
+					<value>/NewScaffolds/views/customtags/forms/renderValidationErrors.cfm</value>
+				</entry>
+				<entry key="uniformCSS">
+					<value>www/css/uni-form.css</value>
+				</entry>
+				<entry key="uniformCSSie">
+					<value>www/css/uni-form-ie.css</value>
+				</entry>
+				<entry key="uniformJS">
+					<value>www/js/uni-form.jquery.js</value>
+				</entry>
+				<entry key="validationJS">
+					<value>www/js/jquery.validate-1.5.1.min.js</value>
+				</entry>
+				<entry key="dateCSS">
+					<value>www/cfuniform/css/jquery.ui.datepicker.css</value>
+				</entry>
+				<entry key="dateJS">
+					<value>www/js/ui.datepicker.packed.js</value>
+				</entry>
+				<entry key="timeCSS">
+					<value>www/css/jquery.timeentry.css</value>
+				</entry>
+				<entry key="timeJS">
+					<value>www/js/jquery.timeentry-1.4.2.min.js</value>
+				</entry>
+				<entry key="maskJS">
+					<value>www/cfuniform/js/jquery.maskedinput-1.2.1.pack.js</value>
+				</entry>
+				<entry key="textareaJS">
+					<value>www/jquery.prettyComments-1.4.js</value>
+				</entry>
+				<entry key="dateSetup">
+					<map>
+						<entry key="buttonImage">
+							<value>www/images/calendar.png</value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="textareaSetup">
+					<map>
+						<entry key="maxHeight">
+							<value>800</value>
+						</entry>
+						<entry key="animate">
+							<value>true</value>
+						</entry>
+						<entry key="animationSpeed">
+							<value>slow</value>
+						</entry>
+					</map>
+				</entry>
+				<entry key="timeSetup">
+					<map>
+						<entry key="show24Hours">
+							<value>true</value>
+						</entry>
+						<entry key="showSeconds">
+							<value>false</value>
+						</entry>
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="ScaffoldTemplate.Grid" factory-bean="modelglue.scaffoldManager" factory-method="addScaffoldTemplate" lazy-init="false">  
+		<constructor-arg name="scaffoldBeanRegistry">  
+			<map>
+				<entry key="Grid"><ref bean="newScaffold.Grid" /></entry>
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="newScaffold.Grid" class="coldspring.beans.factory.config.MapFactoryBean">
+		<property name="SourceMap">
+			<map>
+				<entry key="class"><value>newScaffolds.beans.Grid</value></entry>
+				<event key="hasXMLGeneration"><value>true</value></event>
+				<event key="hasViewGeneration"><value>true</value></event>
+				<entry key="prefix"><value>Grid.</value></entry>
+				<entry key="suffix"><value>.cfm</value></entry>
+			</map>
+		</property>
+	</bean> 
 
 	<!-- Override default scaffolds -->
 	<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>beans.Edit_cfU</value></entry>
+				<entry key="class"><value>newScaffolds.beans.Edit_cfU</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Form.</value></entry>

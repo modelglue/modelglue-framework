@@ -73,8 +73,7 @@
 	<cfargument name="propertylist" type="string" required="true"/>
 	<cfargument name="suffix" type="string" required="true"/> 
 	<cfargument name="ormName" type="string" required="true"/> 
-	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Record,xe.commit,xe.edit,xe.list", arguments.primaryKeyList ),  "textnocase" ) />
-	
+	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Record,CFUniformConfig,xe.commit,xe.edit,xe.list", arguments.primaryKeyList ),  "textnocase" ) />
 	<cfreturn  ('<cfsilent>
 <<cfoutput>>
 	<cfimport taglib="/views/customtags/forms/cfUniForm/" prefix="uform" />
@@ -107,9 +106,8 @@
 </ul>
 </cfif>
 <br />
-<table>
 <div class="cfUniForm-form-container">
-	<uform:form action="##commitEvent##" id="frmMain" submitValue=" Save %Metadata.alias% ">
+	<uform:form action="##commitEvent##" id="frmMain" config="##CFUniformConfig##" submitValue=" Save %Metadata.alias% ">
 	%makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
 		<uform:fieldset legend="">
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
@@ -134,7 +132,6 @@
 		</uform:fieldset>
 	</uform:form>
 </div>
-</table>
 </cfoutput>
 
 <</cfoutput>>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modelglue>
 	<controllers>
+		<controller id="Controller" type="controller.Controller">
+			<message-listener message="onRequestStart" />
+		</controller>
 		<!--
 		<controller id="Controller" type="controller.Controller">
 			<message-listener message="onRequestStart" />
@@ -51,7 +54,7 @@
 			</views>
 		</event-handler>
 		
-		<scaffold object="Country" event-type="templatedPage">
+		<scaffold object="Country" type="edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence" event-type="templatedPage">
 		</scaffold>
 
 		<scaffold object="Province" event-type="templatedPage">

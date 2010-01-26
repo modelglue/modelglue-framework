@@ -4,24 +4,6 @@
 
 	<event-handlers>
 
-		<event-handler name="Country.List" access="public" type="templatedPage">
-			<broadcasts>
-				<message name="ModelGlue.genericList">
-					<argument name="criteria" value="" />
-					<argument name="object" value="Country" />
-					<argument name="queryName" value="CountryQuery" />
-				</message>
-			</broadcasts>
-			<views>
-				<view name="body" template="List.Country.cfm" append="true">
-					<value name="xe.delete" value="Country.Delete" overwrite="true" />
-					<value name="xe.edit" value="Country.Edit" overwrite="true" />
-					<value name="xe.list" value="Country.List" overwrite="true" />
-					<value name="xe.view" value="Country.View" overwrite="true" />
-				</view>
-			</views>
-		</event-handler>				
-
 		<event-handler name="Country.Edit" access="public" type="templatedPage">
 			<broadcasts>
 				<message name="ModelGlue.genericRead">
@@ -45,23 +27,24 @@
 			</results>
 		</event-handler>
 
-		<event-handler name="Country.View" access="public" type="templatedPage">
+		<event-handler name="Country.Grid" access="public" type="templatedPage">			
 			<broadcasts>
-				<message name="ModelGlue.genericRead">
-					<argument name="criteria" value="CountryId" />
+				<message name="ModelGlue.genericList">
+					<argument name="criteria" value="" />
 					<argument name="object" value="Country" />
-					<argument name="recordName" value="CountryRecord" />
+					<argument name="queryName" value="CountryQuery" />
 				</message>
 			</broadcasts>
 			<views>
-				<view name="body" template="Display.Country.cfm" append="true">
+				<view name="body" template="Grid.Country.cfm" append="true">
+					<value name="xe.delete" value="Country.Delete" overwrite="true" />
+					<value name="xe.edit" value="Country.Edit" overwrite="true" />
 					<value name="xe.list" value="Country.List" overwrite="true" />
+					<value name="xe.view" value="Country.View" overwrite="true" />
 				</view>
 			</views>
-			<results>
-			</results>
 		</event-handler>
-
+		
 		<event-handler name="Country.Commit" access="public" type="templatedPage">
 			<broadcasts>
 				<message name="ModelGlue.genericCommit">

@@ -5,7 +5,7 @@
 <title>New Scaffolding Sample</title>
 </head>
 <body>
-<h1>New Scaffolding Sample</h2>
+<h1>New Scaffolding Sample</h1>
 #viewcollection.getView("body")#
 </body>
 </html>
