@@ -5,7 +5,7 @@
 	
 		<!-- Be sure to change these to false when you go to production! -->
 		<property name="reload"><value>true</value></property>
-		<property name="debug"><value>true</value></property>
+		<property name="debug"><value>false</value></property>
 		
 		<!-- Name of the URL variable that states which event-handler to run -->
 		<property name="eventValue"><value>event</value></property>
@@ -157,7 +157,19 @@
 			</map>
 		</property>
 	</bean>	
-		
+
+	<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
+		<property name="SourceMap">
+			<map>
+				<entry key="class"><value>newScaffolds.beans.List_Paging_jQueryTableSorter</value></entry>
+				<event key="hasXMLGeneration"><value>true</value></event>
+				<event key="hasViewGeneration"><value>true</value></event>
+				<entry key="prefix"><value>List.</value></entry>
+				<entry key="suffix"><value>.cfm</value></entry>
+			</map>
+		</property>
+	</bean>
+
 	<!-- CF9/ORM adapter/service -->
 	<alias alias="ormAdapter" name="ormAdapter.cfORM" />
 	<alias alias="ormService" name="ormService.cfORM" />

@@ -17,8 +17,22 @@ INSERT INTO province(provinceid, provincename, sortsequence, countryid)
 INSERT INTO province(provinceid, provincename, sortsequence, countryid)
     VALUES (3, 'British Columbia', 1, 1);
 INSERT INTO province(provinceid, provincename, sortsequence, countryid)
-    VALUES (4, 'New York', 2, 2);
+    VALUES (4, 'Saskatchewan', 1, 1);
 INSERT INTO province(provinceid, provincename, sortsequence, countryid)
-    VALUES (5, 'North Carolina', 2, 2);
+    VALUES (5, 'Manitoba', 1, 1);
 INSERT INTO province(provinceid, provincename, sortsequence, countryid)
-    VALUES (6, 'Maine', 2, 2);
+    VALUES (6, 'Quebec', 1, 1);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (7, 'New Brunswick', 1, 1);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (8, 'Nova Scotia', 1, 1);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (9, 'Prince Edward Island', 1, 1);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (10, 'Newfoundland', 1, 1);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (11, 'New York', 2, 2);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (12, 'North Carolina', 2, 2);
+INSERT INTO province(provinceid, provincename, sortsequence, countryid)
+    VALUES (13, 'Maine', 2, 2);
