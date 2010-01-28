@@ -25,7 +25,7 @@
 			</views>
 		</event-handler>
 		
-		<scaffold object="Country" type="edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence" event-type="templatedPage">
+		<scaffold object="Country" type="view,list,edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence,provinces" event-type="templatedPage">
 		</scaffold>
 
 		<scaffold object="Province" event-type="templatedPage">

@@ -110,7 +110,7 @@
 <cfform action="##commitEvent##" class="edit">
 %makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
-		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false AND (not structKeyExists(Metadata.properties[thisProp],"_persistent") or Metadata.properties[thisProp]._persistent is true) >>
+		<<cfif %isDisplayProperty(thisProp,Metadata)%>>
 			<cf_scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
 				value="##%Metadata.alias%Record.get%thisProp%()##" length="%Metadata.properties[thisProp].length%" />
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>

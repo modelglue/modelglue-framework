@@ -59,16 +59,6 @@
 	<cfargument name="propertylist" type="string" required="true"/>
 	<cfargument name="suffix" type="string" required="true"/> 
 	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Query,xe.delete,xe.edit,xe.list,xe.view", arguments.primaryKeyList ),  "textnocase" ) />
-	<cfset var prop = "" />
-	<cfset var listingDisplayProperty = "" />
-	<cfset var displayPropertyList = "" />
-	<!--- Create an ordered list of display properties to pass to the custom tag --->
-	<cfloop list="#arguments.orderedpropertylist#" index="prop">
-		<cfset listingDisplayProperty = getListingDisplayProperty(arguments,prop) />
-		<cfif len(listingDisplayProperty) neq 0>
-			<cfset displayPropertyList = listAppend(displayPropertyList,listingDisplayProperty) />
-		</cfif>
-	</cfloop>
 	<cfreturn  ('
 <<cfoutput>>
 <cfsilent>
@@ -78,7 +68,7 @@
 <cfoutput>
 <div id="breadcrumb">%spaceCap( Metadata.alias )% / <a href="##editEvent##">Add New %spaceCap( Metadata.alias )%</a></div>
 <br />
-<cf_scaffold_list displayPropertyList="#displayPropertyList#" primaryKeyList="%Metadata.primaryKeyList%" theQuery="##%Metadata.alias%Query##"
+<cf_scaffold_list displayPropertyList="%getDisplayPropertyList(Metadata.orderedpropertylist,Metadata)%" primaryKeyList="%Metadata.primaryKeyList%" theList="##%Metadata.alias%Query##"
 	viewEvent="##myself & xe.view##" editEvent="##editEvent##" deleteEvent="##myself & xe.delete##" />
 </cfoutput>
 <</cfoutput>>

@@ -143,23 +143,8 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfif arguments.event.exists(arguments.propertyName & "|" & arguments.sourceKey)>
 		<cfset variables.selectedList = event.getValue(arguments.propertyName & "|" & arguments.sourceKey) />
 	<cfelse>
-		<!--- TODO: This needs to be factored out into the respective ORM adapters. For now it only exists in the Abstract adapter. --->
-		<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
-		<cfif structKeyExists(arguments.record, "get#arguments.propertyName#Struct")>
-			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Struct()") />
-		<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Array")>
-			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Array()") />
-		<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Iterator")>
-			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#Iterator().getQuery()") />
-		<cfelse>
-			<!--- cfOrm --->
-			<cfset selected = evaluate("arguments.record.get#arguments.propertyName#()") />
-		</cfif>
-	
-		<!--- Added isDefined check to support cfOrm --->
-		<cfif not isDefined("selected")>
-			<cfset selectedList = "" />
-		<cfelseif isQuery(selected)>
+		<cfset selected = getChildCollection(arguments.record,arguments.propertyName) />
+		<cfif isQuery(selected)>
 			<cfset selectedList = evaluate("valueList(selected.#arguments.sourceKey#)") />
 		<cfelseif isStruct(selected)>
 			<cfset selectedList = structKeyList(selected)>
@@ -172,6 +157,33 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	</cfif>
 
 	<cfreturn selectedList />
+</cffunction>
+
+<cffunction name="getChildCollection" output="false" access="public" returntype="any" hint="Used by templates generated via scaffolding">
+	<cfargument name="record" required="true" />
+	<cfargument name="propertyName" required="true" />
+	
+	<cfset var theCollection = "" />
+	
+	<!--- TODO: This needs to be factored out into the respective ORM adapters. For now it only exists in the Abstract adapter. --->
+	<!--- This should support both transfer and reactor. Add more ORM specific stuff here --->
+	<cfif structKeyExists(arguments.record, "get#arguments.propertyName#Struct")>
+		<cfset theCollection = evaluate("arguments.record.get#arguments.propertyName#Struct()") />
+	<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Array")>
+		<cfset theCollection = evaluate("arguments.record.get#arguments.propertyName#Array()") />
+	<cfelseif structKeyExists(arguments.record, "get#arguments.propertyName#Iterator")>
+		<cfset theCollection = evaluate("arguments.record.get#arguments.propertyName#Iterator().getQuery()") />
+	<cfelse>
+		<!--- cfOrm --->
+		<cfset theCollection = evaluate("arguments.record.get#arguments.propertyName#()") />
+	</cfif>
+
+	<!--- Added isDefined check to support cfOrm --->
+	<cfif not isDefined("theCollection")>
+		<cfset theCollection = "" />
+	</cfif>
+
+	<cfreturn theCollection />
 </cffunction>
 
 </cfcomponent>

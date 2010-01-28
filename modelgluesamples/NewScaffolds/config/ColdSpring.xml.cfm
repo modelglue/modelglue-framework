@@ -170,6 +170,18 @@
 		</property>
 	</bean>
 
+	<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
+		<property name="SourceMap">
+			<map>
+				<entry key="class"><value>newScaffolds.beans.View_New</value></entry>
+				<event key="hasXMLGeneration"><value>true</value></event>
+				<event key="hasViewGeneration"><value>true</value></event>
+				<entry key="prefix"><value>Display.</value></entry>
+				<entry key="suffix"><value>.cfm</value></entry>
+			</map>
+		</property>
+	</bean>
+	
 	<!-- CF9/ORM adapter/service -->
 	<alias alias="ormAdapter" name="ormAdapter.cfORM" />
 	<alias alias="ormService" name="ormService.cfORM" />

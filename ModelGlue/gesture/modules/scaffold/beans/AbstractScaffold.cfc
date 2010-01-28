@@ -95,15 +95,4 @@
 	<cfreturn variables._metadata />	
 </cffunction>
 
-<cffunction name="getListingDisplayProperty" output="false" access="public" returntype="string" hint="I return a list item (propertyName and Label) if the property should be included in a listing screen">
-	<cfargument name="metadata" type="struct" required="true"/>
-	<cfargument name="propertyName" type="string" required="true"/>
-	
-	<cfif listFindNoCase(arguments.metadata.primaryKeyList,arguments.propertyName) IS false AND arguments.metadata.properties[arguments.propertyName].relationship IS false AND (NOT structKeyExists(arguments.metadata.properties[arguments.propertyName],"_persistent") or arguments.metadata.properties[arguments.propertyName]._persistent IS true)>
-		<cfreturn arguments.propertyName & "^" & arguments.metadata.properties[arguments.propertyName].label />
-	<cfelse>
-		<cfreturn "" />
-	</cfif>
-</cffunction>
-
 </cfcomponent>

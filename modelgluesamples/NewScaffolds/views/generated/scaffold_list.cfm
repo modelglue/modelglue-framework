@@ -4,7 +4,7 @@
 	<!--- tag attributes --->
 	<cfparam name="attributes.displayPropertyList" type="string" />
 	<cfparam name="attributes.primaryKeyList" type="string" />
-	<cfparam name="attributes.theQuery" type="query" />
+	<cfparam name="attributes.theList" type="any" />
 	<cfparam name="attributes.viewEvent" type="string" />
 	<cfparam name="attributes.editEvent" type="string" />
 	<cfparam name="attributes.deleteEvent" type="string" />
@@ -48,15 +48,37 @@
 	</tr>
     </tfoot>
     <tbody>
-    <cfloop query="attributes.theQuery">
-		<tr>	
-		    <cfloop list="#attributes.displayPropertyList#"  index="thisProp">
-	        	<td><a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theQuery[pk][attributes.theQuery.currentRow]#</cfloop>">#attributes.theQuery[listFirst(thisProp,'^')][attributes.theQuery.currentRow]#</a></td>
-			</cfloop>
-        	<td><a href="#attributes.editEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theQuery[pk][attributes.theQuery.currentRow]#</cfloop>">Edit</a></td>
-        	<td><a href="#attributes.deleteEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theQuery[pk][attributes.theQuery.currentRow]#</cfloop>">Delete</a></td>
-		</tr>
-	</cfloop>
+	<cfif isQuery(attributes.theList)>
+	    <cfloop query="attributes.theList">
+			<tr>	
+			    <cfloop list="#attributes.displayPropertyList#"  index="thisProp">
+		        	<td><a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theList[pk][attributes.theList.currentRow]#</cfloop>">#attributes.theList[listFirst(thisProp,'^')][attributes.theList.currentRow]#</a></td>
+				</cfloop>
+	        	<td><a href="#attributes.editEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theList[pk][attributes.theList.currentRow]#</cfloop>">Edit</a></td>
+	        	<td><a href="#attributes.deleteEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#attributes.theList[pk][attributes.theList.currentRow]#</cfloop>">Delete</a></td>
+			</tr>
+		</cfloop>
+	<cfelseif isStruct(attributes.theList)>
+		<cfloop collection="#attributes.theList#" item="theObject">
+			<tr>	
+			    <cfloop list="#attributes.displayPropertyList#"  index="thisProp">
+		        	<td><a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">#evaluate('attributes.theList[theObject].get#listFirst(thisProp,'^')#()')#</a></td>
+				</cfloop>
+	        	<td><a href="#attributes.editEvent#<a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">Edit</a></td>
+	        	<td><a href="#attributes.deleteEvent#<a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">Delete</a></td>
+			</tr>
+		</cfloop>
+	<cfelseif isArray(attributes.theList)>
+		<cfloop from="1" to="#arrayLen(attributes.theList)#" index="theObject">
+			<tr>	
+			    <cfloop list="#attributes.displayPropertyList#"  index="thisProp">
+		        	<td><a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">#evaluate('attributes.theList[theObject].get#listFirst(thisProp,'^')#()')#</a></td>
+				</cfloop>
+	        	<td><a href="#attributes.editEvent#<a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">Edit</a></td>
+	        	<td><a href="#attributes.deleteEvent#<a href="#attributes.viewEvent#<cfloop list='#attributes.primaryKeyList#' index='pk'>&#pk#=#evaluate('attributes.theList[theObject].get#pk#()')#</cfloop>">Delete</a></td>
+			</tr>
+		</cfloop>
+	</cfif>
     </tbody>
 </table>
 <div id="pager" class="pager">

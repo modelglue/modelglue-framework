@@ -405,4 +405,25 @@
 		<cfreturn arguments.prop.nullable is true or arguments.prop.nullable eq 1 />
 	</cffunction>
 
+	<cffunction name="isDisplayProperty" output="false" access="public" returntype="string" hint="Should this property be displayed on list, view and edit screens?">
+		<cfargument name="propertyName" type="string" required="true"/>
+		<cfargument name="metadata" type="struct" required="true"/>
+		
+		<cfreturn listFindNoCase(arguments.metadata.primaryKeyList,arguments.propertyName) IS false AND arguments.metadata.properties[arguments.propertyName].relationship IS false AND (NOT structKeyExists(arguments.metadata.properties[arguments.propertyName],"_persistent") or arguments.metadata.properties[arguments.propertyName]._persistent IS true) />
+	</cffunction>
+
+	<cffunction name="getDisplayPropertyList" output="false" access="public" returntype="string" hint="I return a list item (propertyName and Label) if the property should be included in a listing screen">
+		<cfargument name="orderedPropertyList" type="string" required="true"/>
+		<cfargument name="metadata" type="struct" required="true"/>
+		
+		<cfset var prop = "" />
+		<cfset var displayPropertyList = "" />
+		<cfloop list="#arguments.orderedPropertyList#" index="prop">
+			<cfif isDisplayProperty(prop,arguments.metadata)>
+				<cfset displayPropertyList = listAppend(displayPropertyList,prop & "^" & arguments.metadata.properties[prop].label) />
+			</cfif>
+		</cfloop>
+		<cfreturn displayPropertyList />
+	</cffunction>
+	
 </cfcomponent>
