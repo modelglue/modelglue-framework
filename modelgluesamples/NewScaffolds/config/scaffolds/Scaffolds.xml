@@ -51,6 +51,11 @@
 					<argument name="queryName" value="ProvinceList" />
 					<argument name="criteria" value="" />
 				</message>
+				<message name="ModelGlue.genericList">
+					<argument name="object" value="Language" />
+					<argument name="queryName" value="LanguageList" />
+					<argument name="criteria" value="" />
+				</message>
 			</broadcasts>
 			<views>
 				<view name="body" template="Form.Country.cfm" append="true">
@@ -197,6 +202,95 @@
 			</views>
 			<results>
 				<result do="Province.List" redirect="true" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Language.List" access="public" type="templatedPage">
+			<broadcasts>
+				<message name="ModelGlue.genericList">
+					<argument name="criteria" value="" />
+					<argument name="object" value="Language" />
+					<argument name="queryName" value="LanguageQuery" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="List.Language.cfm" append="true">
+					<value name="xe.delete" value="Language.Delete" overwrite="true" />
+					<value name="xe.edit" value="Language.Edit" overwrite="true" />
+					<value name="xe.list" value="Language.List" overwrite="true" />
+					<value name="xe.view" value="Language.View" overwrite="true" />
+				</view>
+			</views>
+		</event-handler>				
+
+		<event-handler name="Language.Edit" access="public" type="templatedPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="LanguageId" />
+					<argument name="object" value="Language" />
+					<argument name="recordName" value="LanguageRecord" />
+				</message>
+				<message name="ModelGlue.genericList">
+					<argument name="object" value="Country" />
+					<argument name="queryName" value="CountryList" />
+					<argument name="criteria" value="" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Form.Language.cfm" append="true">
+					<value name="xe.commit" value="Language.Commit" overwrite="true" />
+					<value name="xe.list" value="Language.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Language.View" access="public" type="templatedPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="LanguageId" />
+					<argument name="object" value="Language" />
+					<argument name="recordName" value="LanguageRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Display.Language.cfm" append="true">
+					<value name="xe.list" value="Language.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Language.Commit" access="public" type="templatedPage">
+			<broadcasts>
+				<message name="ModelGlue.genericCommit">
+					<argument name="criteria" value="LanguageId" />
+					<argument name="object" value="Language" />
+					<argument name="validationName" value="LanguageValidation" />
+					<argument name="recordName" value="LanguageRecord" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result name="commit" do="Language.List" redirect="true" preserveState="false" />
+				<result name="validationError" do="Language.Edit" redirect="false" append="LanguageId" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Language.Delete" access="public" type="templatedPage">
+			<broadcasts>
+				<message name="ModelGlue.genericDelete">
+					<argument name="criteria" value="LanguageId" />
+					<argument name="object" value="Language" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result do="Language.List" redirect="true" preserveState="false" />
 			</results>
 		</event-handler>
 

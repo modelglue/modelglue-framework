@@ -10,7 +10,7 @@
 		<!-- Name of the URL variable that states which event-handler to run -->
 		<property name="eventValue"><value>event</value></property>
 		<!-- Default event-handler -->
-		<property name="defaultEvent"><value>province.list</value></property>
+		<property name="defaultEvent"><value>country.list</value></property>
 		<!-- Execute this event when the requested event is missing. Won't work if generationEnabled=true and in development mode! -->
 		<property name="missingEvent"><value>page.missing</value></property>
 		<!-- Execute this event when an error occurs. -->

@@ -25,10 +25,13 @@
 			</views>
 		</event-handler>
 		
-		<scaffold object="Country" type="view,list,edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence,provinces" event-type="templatedPage">
+		<scaffold object="Country" type="view,list,edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence,provinces,languages" event-type="templatedPage">
 		</scaffold>
 
 		<scaffold object="Province" event-type="templatedPage">
+		</scaffold>
+
+		<scaffold object="Language" event-type="templatedPage" propertylist="LanguageName,Countries">
 		</scaffold>
 
 	</event-handlers>
