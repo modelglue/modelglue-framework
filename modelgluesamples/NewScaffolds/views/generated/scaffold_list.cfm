@@ -42,7 +42,6 @@
 					$("#" + tableId + " tbody tr").find("td:eq(" + i + ")").filter(".criterion").unbind(".uifilter");
 					$("#" + tableId + " tbody tr").find("td:eq(" + i + ")").filter(".criterion").bind("click.uifilter",(function(){
 						clickedText = $(this).text();
-						alert(clickedText);
 						filterText = ((filterText == clickedText) ? "" : clickedText);
 						$.uiTableFilter($("#" + tableId), filterText, columnArray[i]);
 					}));
@@ -52,7 +51,7 @@
 			<cfoutput>
 			$("###tableId#")
 				.tablesorter({widthFixed: true, widgets: ["zebra"]})
-				.tablesorterPager({container: $("###pagerContainer#"), size: 5});
+				.tablesorterPager({container: $("###pagerContainer#"), size: 5, refreshIt:filterTable});
 			filterTable("#attributes.name#");
 			
 			$("###pagerContainer#").click(function(){
