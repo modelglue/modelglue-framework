@@ -6,6 +6,6 @@
 <cfoutput>
 <div id="breadcrumb"> Language / <a href="#editEvent#">Add New  Language</a></div>
 <br />
-<cf_scaffold_list displayPropertyList="LanguageName^Language Name" primaryKeyList="LanguageId" theList="#LanguageQuery#"
+<cf_scaffold_list name="Language" displayPropertyList="LanguageName^Language Name" primaryKeyList="LanguageId" theList="#LanguageQuery#"
 	viewEvent="#myself & xe.view#" editEvent="#editEvent#" deleteEvent="#myself & xe.delete#" />
 </cfoutput>

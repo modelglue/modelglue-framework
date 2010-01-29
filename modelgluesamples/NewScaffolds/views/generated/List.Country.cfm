@@ -6,6 +6,6 @@
 <cfoutput>
 <div id="breadcrumb"> Country / <a href="#editEvent#">Add New  Country</a></div>
 <br />
-<cf_scaffold_list displayPropertyList="countrycode^Country Code,countryname^Country Name,sortsequence^Sort Sequence" primaryKeyList="CountryId" theList="#CountryQuery#"
+<cf_scaffold_list name="Country" displayPropertyList="countrycode^Country Code,countryname^Country Name,sortsequence^Sort Sequence" primaryKeyList="CountryId" theList="#CountryQuery#"
 	viewEvent="#myself & xe.view#" editEvent="#editEvent#" deleteEvent="#myself & xe.delete#" />
 </cfoutput>

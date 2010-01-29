@@ -153,23 +153,23 @@
 					
 					$(config.cssFirst,pager).click(function() {
 						moveToFirstPage(table);
-						return false;
+						//return false;
 					});
 					$(config.cssNext,pager).click(function() {
 						moveToNextPage(table);
-						return false;
+						//return false;
 					});
 					$(config.cssPrev,pager).click(function() {
 						moveToPrevPage(table);
-						return false;
+						//return false;
 					});
 					$(config.cssLast,pager).click(function() {
 						moveToLastPage(table);
-						return false;
+						//return false;
 					});
 					$(config.cssPageSize,pager).change(function() {
 						setPageSize(table,parseInt($(this).val()));
-						return false;
+						//return false;
 					});
 				});
 			};
