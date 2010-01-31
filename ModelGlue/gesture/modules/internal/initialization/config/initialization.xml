@@ -41,17 +41,17 @@
 			<message name="onSessionEnd" />
 		</broadcasts>
 	</event-handler>
-	<event-handler name="modelglue.onRequestStart">
+	<event-handler name="modelglue.onRequestStart" extensible="true">
 		<broadcasts>
 			<message name="onRequestStart" />
 		</broadcasts>
 	</event-handler>
-	<event-handler name="modelglue.onRequestEnd">
+	<event-handler name="modelglue.onRequestEnd" extensible="true">
 		<broadcasts>
 			<message name="onRequestEnd" />
 		</broadcasts>
 	</event-handler>
-	<event-handler name="modelglue.onQueueComplete">
+	<event-handler name="modelglue.onQueueComplete" extensible="true">
 		<broadcasts>
 			<message name="onQueueComplete" />
 		</broadcasts>

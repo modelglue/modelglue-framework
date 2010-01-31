@@ -314,6 +314,7 @@
 			<cfparam name="ehXml.xmlAttributes.cacheKeyValues" default="" />
 			<cfparam name="ehXml.xmlAttributes.cacheTimeout" default="0" />
 			<cfparam name="ehXml.xmlAttributes.disableDebug" default="false" />
+			<cfparam name="ehXml.xmlAttributes.extensible" default="false" />
 
 			<!--- existence of a single type key or a list causes this to be xml-defined typed event --->
 			<cfif structKeyExists(variables.eventTypes, ehXml.xmlAttributes.type)
@@ -322,12 +323,22 @@
 				<cfset isXmlTypeList = "true" />
 			</cfif>
 
-			<!--- Try to instantiate the type. --->
 			<cftry>
-				<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
+				<!--- If the event-handler already exists, get a reference to it --->
+				<cfif modelglue.hasEventHandler(ehXml.xmlAttributes.name)>
+					<cfset ehInst = modelglue.getEventHandler(ehXml.xmlAttributes.name) />
+					
+					<!--- If it's not an "extensible" event-handler, create a new eh object--->
+					<cfif not ehInst.extensible>
+						<cfset ehInst = ehFactory.create("EventHandler") />
+					</cfif>
+				<!--- Otherwise, try to instantiate the type. --->
+				<cfelse>
+					<cfset ehInst = ehFactory.create(ehXml.xmlAttributes.type) >
+				</cfif>
 				<!--- If the type is not found, force a base EventHandler to be created --->
 				<cfcatch>
-					<cfset ehInst = ehFactory.create("EventHandler") >
+					<cfset ehInst = ehFactory.create("EventHandler") />
 				</cfcatch>
 			</cftry>
 			
@@ -356,6 +367,10 @@
 				<cfset ehInst.disableDebug = ehXml.xmlAttributes.disableDebug />
 			</cfif>
 
+			<cfif isBoolean(ehXml.xmlAttributes.extensible)>
+				<cfset ehInst.extensible = ehXml.xmlAttributes.extensible />
+			</cfif>
+			
 			<!--- Load messages --->
 			<cfset childXml = xmlSearch(ehXml, "broadcasts") />
 			

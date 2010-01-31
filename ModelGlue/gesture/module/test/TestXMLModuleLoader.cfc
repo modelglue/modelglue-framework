@@ -218,6 +218,25 @@
 	<!--- If we don't throw error, we made it. --->
 </cffunction>
 
+<cffunction name="testSettingExtensibleInAFewWays" returntype="void" access="public">
+	<cfset var mg = createModelGlueIfNotDefined(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var obj = "" />
+	<cfset var beanFactory = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/extensibleXmlModule.xml") />
+	
+	<cfset obj = mg.getEventHandler("eventHandlerWithExtensibleNotSet") />
+	<cfset assertTrue( obj.extensible IS false, "Extensible setting did not default to false") />
+	<cfset obj = mg.getEventHandler("eventHandlerWithExtensibleFalse") />
+	<cfset assertTrue( obj.extensible IS false, "Extensible setting did not work when extensible=""false"" ") />
+	<cfset obj = mg.getEventHandler("eventHandlerWithExtensibleTrue") />
+	<cfset assertTrue( obj.extensible IS true, "Extensible setting did not work when extensible=""true"" ") />
+	
+	<!--- If we don't throw error, we made it. --->
+</cffunction>
+
 <cffunction name="testViewHelperSetting" returntype="void" access="public">
 	<cfset var mg = createModelGlue("/ModelGlue/gesture/eventrequest/test/ColdSpring.xml") />
 	<cfset var loader = "" />

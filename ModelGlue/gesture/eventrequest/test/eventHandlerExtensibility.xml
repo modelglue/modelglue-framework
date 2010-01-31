@@ -1,0 +1,27 @@
+<modelglue>
+
+<controllers>
+
+	<controller id="controller" type="ModelGlue.gesture.eventrequest.test.Controller">
+		<message-listener message="onRequestStart" />
+		<message-listener message="customOnRequestStart" />
+	</controller>
+
+</controllers>
+
+<event-handlers>
+
+	<!--
+		Setting extensible to true would not ordinarily be required here,
+		but in the context of the unit test, this module loads *before*
+		the internal modules - we need to work out a better way to do this...
+	-->
+	<event-handler name="modelglue.onRequestStart" extensible="true">
+		<broadcasts>
+			<message name="customOnRequestStart" />
+		</broadcasts>
+	</event-handler>
+
+</event-handlers>
+
+</modelglue>
