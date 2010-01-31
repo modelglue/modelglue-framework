@@ -2,9 +2,7 @@
 <modelglue>
 	<controllers>
 		<controller id="Controller" type="buster.controller.Controller">
-			<!-- 
-	<message-listener message="message" function="controllerFunction" />
-	-->
+			<message-listener message="onRequestStart" />
 		</controller>
 		<controller id="GetController" type="buster.controller.GetController">
 			<message-listener function="users" message="get.users" />
@@ -71,5 +69,7 @@
 			</views>
 		</event-handler>
 	</event-handlers>
+	<event-handler name="get.empty">
+	</event-handler>
 </modelglue>
 

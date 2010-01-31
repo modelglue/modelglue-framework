@@ -49,5 +49,41 @@
 		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content--->
 		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse)) />	
 	</cffunction>
+			
+	<cffunction name="testForEventNameInReturnValues" access="public" returntype="void">  
+		<cfset var local = StructNew() />
+
+		<cftry>
+			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#/RemotingService.cfc?method=executeEvent&returnformat=json">
+				<cfhttpparam type="Formfield" name="eventName" value="get.empty" />
+				<cfhttpparam type="Formfield" name="returnValues" value="event" />
+			</cfhttp>
+			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
+		</cftry>
+
+		<cfset local.validresponse = "{""event"":""get.empty""}" />
+
+		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		
+	</cffunction>
+			
+	<cffunction name="testForOnRequestStartValueInReturnValues" access="public" returntype="void">  
+		<cfset var local = StructNew() />
+
+		<cftry>
+			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#/RemotingService.cfc?method=executeEvent&returnformat=json">
+				<cfhttpparam type="Formfield" name="eventName" value="get.empty" />
+				<cfhttpparam type="Formfield" name="returnValues" value="onRequestStartTest" />
+			</cfhttp>
+			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
+		</cftry>
+
+		<cfset local.validresponse = "{""onRequestStartTest"":""onRequestStartTest""}" />
+
+		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		
+	</cffunction>
 
 </cfcomponent>
