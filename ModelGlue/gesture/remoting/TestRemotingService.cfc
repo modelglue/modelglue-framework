@@ -7,7 +7,14 @@
 
 	<!---May need to alter this your particular environment--->
 	<cfset variables.instance.busterURL = "http://buster.local" />
-	
+
+	<cffunction name="setUp" returntype="void" access="public" hint="put things here that you want to run before each test">
+		<cftry>
+			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#" />			
+			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
+		</cftry>		
+	</cffunction>
+			
 	<cffunction name="testJSONRemotingCall" access="public" returntype="void">  
 		<cfset var local = StructNew() />
 
@@ -22,7 +29,8 @@
 		<cfset local.validresponse = "{""users"":{""ROWCOUNT"":12,""COLUMNS"":[""NAME""],""DATA"":{""name"":[""Person-1"",""Person-2"",""Person-3"",""Person-4"",""Person-5"",""Person-6"",""Person-7"",""Person-8"",""Person-9"",""Person-10"",""Person-11"",""Person-12""]}}}" />
 
 		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
-		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse)) />	
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		
 	</cffunction>
 
 	<cffunction name="testWDDXRemotingCall" access="public" returntype="void">  
@@ -40,6 +48,42 @@
 
 		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content--->
 		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse)) />	
+	</cffunction>
+			
+	<cffunction name="testForEventNameInReturnValues" access="public" returntype="void">  
+		<cfset var local = StructNew() />
+
+		<cftry>
+			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#/RemotingService.cfc?method=executeEvent&returnformat=json">
+				<cfhttpparam type="Formfield" name="eventName" value="get.empty" />
+				<cfhttpparam type="Formfield" name="returnValues" value="event" />
+			</cfhttp>
+			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
+		</cftry>
+
+		<cfset local.validresponse = "{""event"":""get.empty""}" />
+
+		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		
+	</cffunction>
+			
+	<cffunction name="testForOnRequestStartValueInReturnValues" access="public" returntype="void">  
+		<cfset var local = StructNew() />
+
+		<cftry>
+			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#/RemotingService.cfc?method=executeEvent&returnformat=json">
+				<cfhttpparam type="Formfield" name="eventName" value="get.empty" />
+				<cfhttpparam type="Formfield" name="returnValues" value="onRequestStartTest" />
+			</cfhttp>
+			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
+		</cftry>
+
+		<cfset local.validresponse = "{""onRequestStartTest"":""onRequestStartTest""}" />
+
+		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		
 	</cffunction>
 
 </cfcomponent>

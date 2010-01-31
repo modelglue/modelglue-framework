@@ -195,6 +195,8 @@
 	<cfset var i = 0 />
 	<cfset var requestFormat = getValue(variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var view = "" />
+	<cfset var ehTracker = 0 />
+	<cfset var endlessLoopThreshold = variables._modelGlue.getConfigSetting("endlessLoopThreshold")>
 	
 	<cfif not isStruct(variables._nextEventHandler)>
 		<!--- Nothing to do! --->
@@ -218,11 +220,14 @@
 			<cfreturn />
 		</cfif>
 	</cfif>
-	 
 	<!--- Run event handlers (broadcast/listener/result addition) --->
 	<cfloop condition="not isSimpleValue(variables._nextEventHandler)">
 		<cfset eh = getNextEventHandler() />
 		<cfset executeEventHandler(eh) />
+		<cfset ehTracker = ehTracker + 1>
+		<cfif ehTracker GTE endlessLoopThreshold>
+			<cfthrow type="Custom" message="Endless.Results.Found" detail="Model-Glue detected a coding error resulting in an endless loop. <br />Check your result tags in Model-Glue because you have a circular problem. <br />This most often happens when you have an event handler 'a' with a result for event handler 'b' and 'b' has a result for event handler 'a'. <br />You should thank us for stopping this at #endlessLoopThreshold# Event Handler executions before it brought down your server or harmed a baby seal."> 
+		</cfif>
 	</cfloop>
 
 	<!--- If we need to signal completion, do so. --->
@@ -510,6 +515,14 @@
 	<cfset var urlManager = variables._modelglue.getInternalBean("modelglue.urlManager") />
 
 	<cfreturn urlManager.linkTo(arguments.eventName, arguments.append, arguments.anchor, this) />
+</cffunction>
+
+<cffunction name="bindTo" access="public" output="false" returntype="string" hint="Creates a URL-decoded version of the linkTo() method for use in bind URLs.">
+	<cfargument name="eventName" type="string" hint="Name of the event to forward to." />
+	<cfargument name="append" default="" hint="The list of values to append." />
+	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
+	
+	<cfreturn urlDecode(linkTo(argumentCollection=arguments)) />
 </cffunction>
 
 <cffunction name="forwardToUrl" access="public" hint="Forwards to a given URL, optionally storing state across the redirect.">

@@ -1,23 +1,24 @@
 <cfcomponent output="false" extends="ModelGlue.gesture.controller.Controller">
 
-<cffunction name="setUp" output="false" access="public" returntype="void" hint="I set up the scaffolding">
-		<cfargument name="event" />
-			<!--- get rid of any existing configuration --->
-			<!--- <cfset getModelGlue().getScaffoldManager().nukeConfigFile() /> --->
-</cffunction>
-
-<!--- <cffunction name="generateScaffolds" output="false" hint="If specified by the config setting, I generate the scaffolds in the modelglue.xml files">
+<cffunction name="appendGeneratedViewMapping" output="false" access="public" returntype="void" hint="I append the generatedViewMapping to the viewMappings if needed">
 	<cfargument name="event" />
+	<cfset var i = 0 />
+	<cfset var _modelglue = GetModelGlue() />
+	<cfset var generatedViewMapping = _modelglue.getConfigSetting("generatedViewMapping") />
 	
-	<cfset var eventName = arguments.event.getValue(arguments.event.getValue("eventValue")) />
+	<!--- Note: We operate directly on the viewMappings array in _modelglue.configuration to save from reading a copy and writing it back --->
 	
-	<cfif not getModelGlue().hasEventHandler(eventName) and getModelGlue().getConfigSetting("generationEnabled")>
-		<cfset event.addTraceStatement("Event Generation", "Generating ""#eventName#""") />
-		
-		<cfset beans.modelglueEventGenerator.generateEvent(arguments.event) />
-		
-		<cfset arguments.event.addResult("configurationInvalidated") />
-	</cfif>
-</cffunction> --->
+	<!--- Check to see if the generatedViewMapping already appears in the viewMappings --->
+	<cfloop index="i" from="1" to="#ArrayLen(_modelglue.configuration.viewMappings)#">
+		<cfif _modelglue.configuration.viewMappings[i] eq generatedViewMapping>
+			<!--- Found an existing view mapping for generatedViewMapping --->
+			<cfreturn />
+		</cfif>
+	</cfloop>
+	
+	<!--- We don't have a view mapping for the generated views, so append it to the array --->
+	<cfset ArrayAppend(_modelglue.configuration.viewMappings, generatedViewMapping) />
+	
+</cffunction>
 
 </cfcomponent>

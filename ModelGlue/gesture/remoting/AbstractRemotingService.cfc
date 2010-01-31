@@ -10,10 +10,17 @@
 	
 	<cfmodule template="#template#" />
 	
-	<cfset mg = variables.locator.findInScope(application, request._modelglue.bootstrap.appKey) />
-	
-	<cfif not arrayLen(mg)>
-		<cfthrow message="Can't locate Model-Glue instance named #request._modelglue.bootstrap.appKey# in application scope!" />
+	<!--- If this is an intialization request, retrieve the framework from the request bootstrapper --->
+	<cfif request._modelglue.bootstrap.initializationRequest is true>
+		<cfset mg = arrayNew(1) />
+		<cfset mg[1] = request._modelGlue.bootstrap.framework />
+	<!--- Otherwise, grab it from the application scope --->
+	<cfelse>
+		<cfset mg = variables.locator.findInScope(application, request._modelglue.bootstrap.appKey) />
+		
+		<cfif not arrayLen(mg)>
+			<cfthrow message="Can't locate Model-Glue instance named #request._modelglue.bootstrap.appKey# in application scope!" />
+		</cfif>
 	</cfif>
 	
 	<cfreturn mg[1] />
@@ -25,17 +32,27 @@
 	<cfargument name="values" type="struct" required="false" default="#StructNew()#"/>
 	<cfargument name="returnValues" type="string" required="false" default="" />
 	
-	<cfset var local = StructNew()/>
-	<cfset local.result = StructNew() />
-	<!--- For Javascript post calls to the service --->
-	<cfif structIsEmpty(form) is false>
-		<cfset arguments.values = duplicate(form) />
-	<!--- For Javascript get calls to the service --->
-	<cfelseif structIsEmpty(url) is false>
-		<cfset arguments.values = duplicate(url) />
-	</cfif>
+	<cfset var local = StructNew() />
 	
-	<cfset local.event = getModelGlue().executeEvent(argumentCollection=arguments) />
+	<cfset local.mg = getModelGlue() />
+	<cfset local.result = StructNew() />
+	
+	<!--- Retrieve the "eventValue" config setting in order to set it from the "eventName" argument --->
+	<cfset local.eventValue = local.mg.getConfigSetting("eventValue") />
+	
+	<!---
+	Add the event name to the URL scope
+	Note that this will also create a "url" structure for Flash remoting calls (does this work on non-Adobe CF engines?)
+	--->
+	<cfset url[local.eventValue] = arguments.eventName />
+	
+	<!---
+	Append the arguments scope to the URL scope, thus populating the event with all arguments,
+	including the nested keys of the "values" argument for Flash remoting calls
+	--->
+	<cfset structAppend(url, arguments.values) />
+	
+	<cfset local.event = local.mg.handleRequest() />
 	
 	<cfloop list="#arguments.returnValues#" index="local.i">
 		<cfset local.result[local.i] = local.event.getValue(local.i) />

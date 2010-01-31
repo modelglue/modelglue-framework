@@ -45,10 +45,10 @@
 				<cfset eventTime = trace[i].time - initialTime />
 			</cfif>
 
-			<cfif mode eq "verbose" or (mode eq "trace" and trace[i].type eq "USER")>
-				<cfif trace[i].type eq "WARNING">
+			<cfif mode eq "verbose" or (mode eq "trace" and trace[i].traceType eq "USER")>
+				<cfif trace[i].traceType eq "WARNING">
 				<tr style="background:#colors.warning#" valign="top">
-				<cfelseif trace[i].type eq "USER">
+				<cfelseif trace[i].traceType eq "USER">
 				<tr style="background:#colors.trace#" valign="top">
 				<cfelseif not displayedRowCount mod 2>
 				<tr style="background:##F9F9F9" valign="top">
@@ -59,9 +59,9 @@
 					<td valign="top" nowrap="true">#trace[i].type#</td>
 					<td valign="top">#trace[i].message#</td>
 				</tr>
-				<cfif trace[i].type eq "WARNING">
+				<cfif trace[i].traceType eq "WARNING">
 				<tr style="background:#colors.warning#" valign="top">
-				<cfelseif trace[i].type eq "USER">
+				<cfelseif trace[i].traceType eq "USER">
 				<tr style="background:#colors.trace#" valign="top">
 				<cfelseif not displayedRowCount mod 2>
 				<tr style="background:##F9F9F9" valign="top">

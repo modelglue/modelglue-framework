@@ -211,12 +211,7 @@
 
 <!--- EVENT INVOCATION --->
 <cffunction name="handleRequest" output="false" hint="Runs an event request, returning the EventContext.  Duck-typed return for speed.">
-	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
-										modelglue=this,
-										viewRenderer=variables._viewRenderer,
-										statePersister=variables._statePersister,
-										beanPopulator=variables._beanPopulator,
-										logWriter=variables._logWriter,
+	<cfset var ctx = variables._eventContextFactory.new(
 										helpers=this.helpers
 						 			 ) 
 	/>
@@ -230,12 +225,7 @@
 	<cfargument name="eventName" type="string" />
 	<cfargument name="values" type="struct" />
 	
-	<cfset var ctx = createObject("component", "ModelGlue.gesture.eventrequest.EventContext").init(
-										modelglue=this,
-										viewRenderer=variables._viewRenderer,
-										statePersister=variables._statePersister,
-										beanPopulator=variables._beanPopulator,
-										logWriter=variables._logWriter,
+	<cfset var ctx = variables._eventContextFactory.new(
 										helpers=this.helpers,
 										requestPhases=arrayNew(1)
 						 			 ) 

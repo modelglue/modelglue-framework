@@ -8,5 +8,10 @@
 		<cfreturn this />
 	</cffunction>
 	
-</cfcomponent>
+	<cffunction name="onRequestStart" access="public" output="false" returntype="void" hint="I add a test value to the event">
+		<cfargument name="event" type="any" required="true" />
+		
+		<cfset arguments.event.setValue("onRequestStartTest", "onRequestStartTest") />
+	</cffunction>
 	
+</cfcomponent>

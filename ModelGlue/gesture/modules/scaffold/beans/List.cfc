@@ -92,7 +92,7 @@
 		<</cfif>>
 	<</cfloop>>
 			<td><a href="##editEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%">Edit</a></td>
-			<td><a href="##deleteEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%">Delete</a></td>
+			<td><a href="##deleteEvent##%makeQuerySourcedPrimaryKeyURLString( Metadata.alias, Metadata.primaryKeyList )%" onclick="return confirm(''Are you sure you want to delete this?'')">Delete</a></td>
 		</tr>
 	</cfloop>
     </tbody>
