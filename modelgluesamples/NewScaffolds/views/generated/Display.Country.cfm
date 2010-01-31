@@ -23,13 +23,15 @@
 				displayPropertyList="ProvinceName^Province Name,SortSequence^Sort Sequence"
 				primaryKeyList="ProvinceId"
 				theList="#variables.ormAdapter.getChildCollection(CountryRecord,'provinces')#"
-				viewEvent="#myself#Province.View" editEvent="#myself#Province.Edit" deleteEvent="#myself#Province.Delete" />
+				viewEvent="#myself#Province.View" editEvent="#myself#Province.Edit" deleteEvent="#myself#Province.Delete"
+				record="#CountryRecord#" parentPKList="CountryId" />
 		
 			<cf_scaffold_list name="languages" label="Languages" 
 				displayPropertyList="LanguageName^Language Name"
 				primaryKeyList="LanguageId"
 				theList="#variables.ormAdapter.getChildCollection(CountryRecord,'languages')#"
-				viewEvent="#myself#Language.View" editEvent="#myself#Language.Edit" deleteEvent="#myself#Language.Delete" />
+				viewEvent="#myself#Language.View" editEvent="#myself#Language.Edit" deleteEvent="#myself#Language.Delete"
+				record="#CountryRecord#" parentPKList="CountryId" />
 		
 </fieldset>
 </form>

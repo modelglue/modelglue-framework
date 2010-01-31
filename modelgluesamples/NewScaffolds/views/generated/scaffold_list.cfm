@@ -9,8 +9,10 @@
 	<cfparam name="attributes.editEvent" type="string" />
 	<cfparam name="attributes.deleteEvent" type="string" />
 	<cfparam name="attributes.name" type="string" />
+	<cfparam name="attributes.record" type="any" default="" />
 	<cfparam name="attributes.label" type="string" default="" />
-	
+	<cfparam name="attributes.parentPKList" type="string" default="" />
+		
 	<cfset pagerContainer = attributes.name & "Pager" />
 	<cfset tableId = attributes.name & "Table" />
 	<cfset columnList = "" />
@@ -51,7 +53,7 @@
 			<cfoutput>
 			$("###tableId#")
 				.tablesorter({widthFixed: true, widgets: ["zebra"]})
-				.tablesorterPager({container: $("###pagerContainer#"), size: 5, refreshIt:filterTable});
+				.tablesorterPager({container: $("###pagerContainer#"), size: 5});
 			filterTable("#attributes.name#");
 			
 			$("###pagerContainer#").click(function(){
@@ -90,6 +92,15 @@
 					<th>&nbsp;</th>	
 					<th>&nbsp;</th>	
 				</tr>
+				<cfif len(attributes.label) neq 0>
+					<cfset newLink = attributes.editEvent />
+					<cfloop list='#attributes.parentPKList#' index='pk'>
+						<cfset newLink = listAppend(newLink,"#pk#=#evaluate('attributes.record.get#pk#()')#","&") />
+					</cfloop>
+					<th colspan="#listLen(attributes.displayPropertyList)#">
+						<a href="#newLink#">Add to #attributes.label#</a>
+					</th>
+				</cfif>
 			    </tfoot>
 			    <tbody>
 				<cfif isQuery(attributes.theList)>

@@ -17,7 +17,8 @@
 				displayPropertyList="CountryCode^Country Code,CountryName^Country Name,SortSequence^Sort Sequence"
 				primaryKeyList="CountryId"
 				theList="#variables.ormAdapter.getChildCollection(LanguageRecord,'Countries')#"
-				viewEvent="#myself#Country.View" editEvent="#myself#Country.Edit" deleteEvent="#myself#Country.Delete" />
+				viewEvent="#myself#Country.View" editEvent="#myself#Country.Edit" deleteEvent="#myself#Country.Delete"
+				record="#LanguageRecord#" parentPKList="LanguageId" />
 		
 </fieldset>
 </form>

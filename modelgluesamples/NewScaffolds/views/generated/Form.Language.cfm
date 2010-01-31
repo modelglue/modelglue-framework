@@ -39,13 +39,13 @@
 		<uform:fieldset legend="">
 		    
 					<cf_scaffold_property name="LanguageName" label="Language Name" type="string"
-						value="#LanguageRecord.getLanguageName()#" length="1" />
+						value="#LanguageRecord.getLanguageName()#" length="1" event="#event#" />
 				
 				<cf_scaffold_manytomany name="CountryId" label="Countries"
 					valueQuery="#event.getValue('CountryList')#"
 					selectedList="#variables.ormAdapter.getSelectedList(event,LanguageRecord,'Countries','CountryId')#"
 					childDescProperty="CountryCode"
-					value="#variables.ormAdapter.getSourceValue(event,LanguageRecord,'Countries','CountryId')#"
+					value="#variables.ormAdapter.getSourceValue(LanguageRecord,'Countries','CountryId',event)#"
 					nullable="YES" objectName="Language" />
 				
 		</uform:fieldset>

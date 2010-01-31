@@ -115,17 +115,22 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 	<cfargument name="record" required="true" />
 	<cfargument name="propertyName" required="true" />
 	<cfargument name="sourceKey" required="true" />
+	<cfargument name="event" required="false" />
 	<cfset var sourceValue = "" />
-	<cftry>
-		<!--- note that only Transfer differs from this logic, so the default is implemented here, and it's overridden in the Transfer adapter --->
-		<cfset variables.sourceValue = evaluate("arguments.record.get#arguments.propertyName#()") />
-		<cfcatch>
-		</cfcatch>
-	</cftry>
-	<cfif isDefined("variables.sourceValue") and isObject(variables.sourceValue)>
-		<cfset variables.sourceValue = evaluate("variables.sourceValue.get#arguments.sourceKey#()") />
+	<cfif structKeyExists(arguments,"event") and arguments.event.valueExists(arguments.sourceKey)>
+		<cfset sourceValue = arguments.event.getValue(arguments.sourceKey) />
 	<cfelse>
-		<cfset variables.sourceValue = "" />
+		<cftry>
+			<!--- note that only Transfer differs from this logic, so the default is implemented here, and it's overridden in the Transfer adapter --->
+			<cfset sourceValue = evaluate("arguments.record.get#arguments.propertyName#()") />
+			<cfcatch>
+			</cfcatch>
+		</cftry>
+		<cfif isDefined("sourceValue") and isObject(sourceValue)>
+			<cfset sourceValue = evaluate("sourceValue.get#arguments.sourceKey#()") />
+		<cfelse>
+			<cfset sourceValue = "" />
+		</cfif>
 	</cfif>
 	<cfreturn sourceValue />
 </cffunction>

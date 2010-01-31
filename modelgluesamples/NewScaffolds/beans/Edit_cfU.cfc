@@ -113,19 +113,19 @@
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 				<<cfif %isDisplayProperty(thisProp,Metadata)%>>
 					<cf_scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
-						value="##%Metadata.alias%Record.get%thisProp%()##" length="%Metadata.properties[thisProp].length%" />
+						value="##%Metadata.alias%Record.get%thisProp%()##" length="%Metadata.properties[thisProp].length%" event="##event##" />
 				<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
 					<cf_scaffold_manytoone name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 						valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 						childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
-						value="##variables.ormAdapter.getSourceValue(event,%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'')##"
+						value="##variables.ormAdapter.getSourceValue(%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'',event)##"
 						nullable="%getIsNullable(Metadata.properties[thisProp])%" objectName="%Metadata.alias%" validation="##validation##" />
 			<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
 				<cf_scaffold_manytomany name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 					valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 					selectedList="##variables.ormAdapter.getSelectedList(event,%Metadata.alias%Record,''%thisProp%'',''%Metadata.properties[thisProp].sourceKey%'')##"
 					childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
-					value="##variables.ormAdapter.getSourceValue(event,%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'')##"
+					value="##variables.ormAdapter.getSourceValue(%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'',event)##"
 					nullable="%getIsNullable(Metadata.properties[thisProp])%" objectName="%Metadata.alias%" />
 				<</cfif>>  
 			<</cfloop>>

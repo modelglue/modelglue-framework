@@ -7,8 +7,12 @@
 	<cfparam name="attributes.label" type="string" default="#attributes.name#" />
 	<cfparam name="attributes.value" type="string" default="" />
 	<cfparam name="attributes.length" type="numeric" default="0" />
+	<cfparam name="attributes.event" type="any" />
 <</cfsilent>
 <cfoutput>
+<cfif structKeyExists(attributes,"event") and attributes.event.valueExists(attributes.name)>
+	<cfset attributes.value = attributes.event.getValue(attributes.name) />
+</cfif>
 <cfif attributes.type eq "boolean">
 	<uform:field label="#attributes.label#" name="#attributes.name#" type="radio">
 		<uform:radio label="Yes" value="1" isChecked="#isBoolean(attributes.value) and attributes.value#" />

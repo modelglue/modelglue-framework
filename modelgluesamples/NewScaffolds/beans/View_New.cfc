@@ -73,7 +73,7 @@
 				value="##%Metadata.alias%Record.get%thisProp%()##" />
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
 			<cf_scaffold_property_view name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
-				value="##variables.ormAdapter.getSourceValue(event,%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'')##" />
+				value="##variables.ormAdapter.getSourceValue(%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcecolumn%'')##" />
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
 			<<cfset childMetadata = %findOrmAdapter().getObjectMetadata(Metadata.properties[thisProp].sourceObject)% />>
 			<<cfset childMetadata.primaryKeyList = arrayToList(childMetadata.primaryKeys) />>
@@ -81,7 +81,8 @@
 				displayPropertyList="%getDisplayPropertyList(structKeyList(childMetadata.properties),childMetadata)%"
 				primaryKeyList="%childMetadata.primaryKeyList%"
 				theList="##variables.ormAdapter.getChildCollection(%Metadata.alias%Record,''%thisProp%'')##"
-				viewEvent="##myself##%Metadata.properties[thisProp].sourceObject%.View" editEvent="##myself##%Metadata.properties[thisProp].sourceObject%.Edit" deleteEvent="##myself##%Metadata.properties[thisProp].sourceObject%.Delete" />
+				viewEvent="##myself##%Metadata.properties[thisProp].sourceObject%.View" editEvent="##myself##%Metadata.properties[thisProp].sourceObject%.Edit" deleteEvent="##myself##%Metadata.properties[thisProp].sourceObject%.Delete"
+				record="##%Metadata.alias%Record##" parentPKList="%Metadata.primarykeylist%" />
 		<</cfif>>  
 	<</cfloop>>
 </fieldset>

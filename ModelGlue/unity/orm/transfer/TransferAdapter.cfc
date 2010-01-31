@@ -614,16 +614,21 @@
 	<cfargument name="record" required="true" />
 	<cfargument name="propertyName" required="true" />
 	<cfargument name="sourceKey" required="true" />
+	<cfargument name="event" required="false" />
 	<cfset var sourceValue = "" />
-	<cftry>
-		<cfif structKeyExists(arguments.record,"getParent#arguments.propertyName#")>
-			<cfset variables.sourceValue = evaluate("arguments.record.getParent##arguments.propertyName##()") />
-		<cfelse>
-			<cfset variables.sourceValue = evaluate("arguments.record.get##arguments.propertyName##()") />
-		<</cfif>
-		<cfcatch>
-		</cfcatch>
-	</cftry>
+	<cfif structKeyExists(arguments,"event") and arguments.event.valueExists(arguments.sourceKey)>
+		<cfset sourceValue = arguments.event.getValue(arguments.sourceKey) />
+	<cfelse>
+		<cftry>
+			<cfif structKeyExists(arguments.record,"getParent#arguments.propertyName#")>
+				<cfset variables.sourceValue = evaluate("arguments.record.getParent##arguments.propertyName##()") />
+			<cfelse>
+				<cfset variables.sourceValue = evaluate("arguments.record.get##arguments.propertyName##()") />
+			<</cfif>
+			<cfcatch>
+			</cfcatch>
+		</cftry>
+	</cfif>
 	<cfreturn sourceValue />
 </cffunction>
 
