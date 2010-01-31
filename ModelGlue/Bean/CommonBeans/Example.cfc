@@ -1,5 +1,5 @@
 <cfcomponent hint="I am an example bean that shows how ModelGlue's IoC beans can hold some really complex values.">
-  <cffunction name="Init" access="public" output="false" output="false" hint="I build a new example bean.">
+  <cffunction name="Init" access="public" output="false" hint="I build a new example bean.">
     <cfset variables.simpleproperty = "" />
     <cfset variables.arrayproperty = "" />
     <cfset variables.structproperty = "" />
