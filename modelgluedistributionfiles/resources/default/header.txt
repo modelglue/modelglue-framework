@@ -1,8 +1,8 @@
-<!---
+@headerCommentBegin@
 LICENSE INFORMATION:
 
-Copyright 2008, Joe Rinehart
- 
+@versionCopyright@
+
 Licensed under the Apache License, Version 2.0 (the "License"); you may not 
 use this file except in compliance with the License. 
 
@@ -17,9 +17,7 @@ specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
 
-This file is part of Model-Glue @versionLabel@ (@versionNumber@.@revisionNumber@).
+This file is part of @versionLabel@ (@versionNumber@).
 
-The version number in parenthesis is in the format versionNumber.subversion.revisionNumber.
---->
-
-
+The version number in parentheses is in the format versionNumber.subversion.revisionNumber.
+@headerCommentEnd@

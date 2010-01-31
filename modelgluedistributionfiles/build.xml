@@ -1,108 +1,326 @@
 <project name="Model-Glue Distribution" default="build" basedir=".">
-
-<property name="workingDirectory" value="/Library/WebServer/Documents/gesture/build/temp" />
-<property name="zipDirectory" value="/Library/WebServer/Documents/gesture/build" />
-<property name="checkoutURL" value="http://svn.firemoss.com/modelglue/trunk" />
-<property name="revisionNumber" value="53" />
-<property name="versionLabel" value="Model-Glue (Gesture) Alpha 1" />
-<property name="versionNumber" value="3.0" />
-
-<target name="build" depends="makeWorkingDirectory,export,header,replace,arrange,zip,cleanup">
-	
-</target>
-
-<!-- Make the working dir -->
-<target name="makeWorkingDirectory">
-	<delete dir="${workingDirectory}" />
-	<mkdir dir="${workingDirectory}" />
-</target>
-
-<!-- Check out the desired revision to build -->
-<target name="export">	
-		<exec executable="svn">
-		<arg value="export" />
-		<arg value="-r" />
-		<arg value="${revisionNumber}" />
-		<arg value="${checkoutURL}" />
-		<arg value="${workingDirectory}/export" />
-	</exec>
-</target>
-	
-<!-- Add the header boilerplate to all files -->
-<target name="header">
-	<mkdir dir="${workingDirectory}/build" />
-
-	<copy todir="${workingDirectory}/build">
-		<fileset dir="${workingDirectory}/export">
-			<exclude name="**/NOTICE" />
-			<exclude name="**/LICENSE" />
-			<exclude name="**/modelglueapplicationtemplate" />
-			<exclude name="**/documentation" />
-			<exclude name="**/*.xsl" />
-			<exclude name="**/*.xml" />
-			<exclude name="**/*.dtd" />
-			<exclude name="**/*.css" />
-		</fileset>
-		<filterchain>
-			<concatfilter prepend="header.txt" />
-		</filterchain>
-	</copy>
-
-	<copy todir="${workingDirectory}/build">
-		<fileset dir="${workingDirectory}/export">
-			<include name="**/*.xsl" />
-			<include name="**/*.xml" />
-			<include name="**/*.dtd" />
-			<include name="**/*.css" />
-		</fileset>
-	</copy>
-
-	<copy todir="${workingDirectory}/build">
-		<fileset dir="${workingDirectory}/export">
-			<include name="**/NOTICE" />
-			<include name="**/LICENSE" />
-			<include name="**/modelglueapplicationtemplate" />
-			<include name="**/documentation" />
-		</fileset>
-	</copy>
-	
-	<!-- ModelGlue.cfm now contains whitespace, clean it up! -->
-	<replaceregexp match="---&gt;\s+&lt;cfsilent&gt;" replace="---&gt;&lt;cfsilent&gt;">
-			<fileset dir="${workingDirectory}/build" includes="**/*.cfm"/>
-	</replaceregexp>
+	<description>
 		
-</target>
-
-<!-- Replace tokens -->	
-<target name="replace">
-	<replace dir="${workingDirectory}/build" token="@versionLabel@" value="${versionLabel}" />
-	<replace dir="${workingDirectory}/build" token="@versionNumber@" value="${versionNumber}" />
-	<replace dir="${workingDirectory}/build" token="@revisionNumber@" value="${revisionNumber}" />
-</target>
-
-<!-- Arrange files for distro -->
-<target name="arrange">
-	<delete file="${workingDirectory}/build/modelgluedistributionfiles/header.txt" />
-	<delete file="${workingDirectory}/build/modelgluedistributionfiles/build.xml" />
-	<delete dir="${workingDirectory}/build/modelgluebuilds" />
-	<!-- WTF is this doing here? -->
-	<delete dir="${workingDirectory}/build/trunk" />
+		This buildfile defines properties and targets for downloading Model-Glue builds from SVN
+		and packaging them as Zip files for distribution.
+		
+		INSTRUCTIONS FOR ECLIPSE USERS: BUILD A MODEL-GLUE DISTRIBUTION ZIP IN FIVE STEPS
 	
-	<copy todir="${workingDirectory}/build">
-		<fileset dir="${workingDirectory}/build/modelgluedistributionfiles" />
-	</copy>
-	<delete dir="${workingDirectory}/build/modelgluedistributionfiles" />
-</target>
+			0. Make sure you have Eclipse installed. (I didn't really have to tell you that, right?)
+		
+			1. Download and extract the zip file for SvnAnt (http://subclipse.tigris.org/svnant.html)
+				and copy all the files in the SvnAnt lib directory to the modelgluedistributionfiles/lib directory.
+		
+			2. Make sure you have either the Subclipse or Subversive plugin installed in Eclipse.
+		
+				Subclipse home: http://subclipse.tigris.org/
+				Subversive home: http://www.eclipse.org/subversive/
 
-<!-- Zip it up -->
-<target name="zip">
-	<zip destfile="${workingDirectory}/modelglue_${versionNumber}.${revisionNumber}.zip" basedir="${workingDirectory}/build" />
-	<move file="${workingDirectory}/modelglue_${versionNumber}.${revisionNumber}.zip" todir="${zipDirectory}" />
-</target>
-
-<!-- Take out the papers and the trash -->
-<target name="cleanup">
-	<delete dir="${workingDirectory}" />
-</target>	
+			3. Copy the local.properties.example file and save it as local.properties. Open local.properties in a text editor
+				and edit the local.profile= setting if needed:
+		
+					* To build a distribution zip for the latest official release, use local.profile=latestRelease 
+					* To build a distribution zip for the latest revision in trunk, use local.profile=bleedingEdge
+		
+			4. Open the Ant view in Eclipse, click the "Add Buildfiles" button, and add modelgluedistributionfiles/build.xml.
+				The "Model-Glue Distribution" buildfile should now appear.
+		
+			5. Select the "zip" target under the buildfile, and click the "Run the Selected Target" button on the Ant View bar.
 	
+		
+		INSTRUCTIONS FOR ANT COMMAND-LINE USERS: BUILD A MODEL-GLUE DISTRIBUTION ZIP IN FIVE STEPS
+		
+			0. Make sure you have Apache Ant installed. (I didn't really have to tell you that, right?)
+		
+			1. Download and extract the zip file for SvnAnt (http://subclipse.tigris.org/svnant.html)
+				and copy all the files in the SvnAnt lib directory to the modelgluedistributionfiles/lib directory.
+		
+			2. Make sure you have a command-line SVN client installed.	For Windows users,
+				the Slik SVN client distribution is recommended (http://www.sliksvn.com/en/download/).
+
+			3. Copy the local.properties.example file and save it as local.properties. Open local.properties in a text editor
+				and edit the local.profile= setting if needed:
+	
+				* To build a distribution zip for the latest official release, use local.profile=latestRelease 
+				* To build a distribution zip for the latest revision in trunk, use local.profile=bleedingEdge
+	
+			4. Open a command-line shell and switch to the modelgluedistributionfiles directory.
+	
+			5. Run the following command: ant zip
+
+		FURTHER INFORMATION
+	
+		Look at the main targets defined below (or use ant -projecthelp) for information on the most useful targets available.
+		
+		Look at the various properties files under profiles (profile.properties, source.properties, version.properties)
+		to see how profiles may be used to create custom builds.
+		
+	</description>
+
+	<!-- Default profile is bleedingEdge (i.e. latest copy from SVN). Used only if local.profile is not set in local.properties --> 
+	<property name="defaultProfile" value="bleedingEdge" />
+
+	<!-- IMPORT EXTERNAL ANT DEFINITIONS -->
+
+	<import file="localDefs.xml" />
+	<import file="svnDefs.xml" />
+
+	
+	<!-- MAIN TARGETS -->
+	
+	<target name="build" depends="export,exportProperties" description="Default target (currently makes sure we have an export and its properties)" />
+	
+	<target name="clean" depends="localProperties" description="Delete the working directory and everything in it">
+		<delete dir="${local.workingDirectory}" />
+	</target>
+	
+	<target name="cleanBuild" depends="clean,build" description="Clean the working directory and rebuild the project" />
+
+	<target name="export" depends="checkExportDirectoryAvailability,localProperties,sourceProperties" unless="exportDirectoryAvailable"
+			description="Download an SVN export if we don't have a copy">
+		<antcall target="svnExport">
+			<param name="svnSrcUrl" value="${source.svn.url}"/>
+			<param name="svnDestPath" value="${local.exportDirectory}"/>
+			<param name="svnRevision" value="${source.svn.revision}"/>
+		</antcall>
+	</target>
+	
+	<target name="munge" depends="build,mungeDirectory,mungeAndCopyFiles" description="Munge the current export files for distribution"	/>
+
+	<target name="remunge" depends="cleanMungeDirectory,munge" description="Remunge the current export files" />
+
+	<target name="zip" depends="munge,localProperties,versionProperties" description="Create a distribution zip from a munged export">
+		<delete file="${local.zipDirectory}/modelglue_${version.number}.zip" />
+		<zip destfile="${local.zipDirectory}/modelglue_${version.number}.zip" basedir="${local.mungeDirectory}" />
+	</target>
+
+
+	<!-- REFERENCES -->
+	
+	<!-- Patternsets for matching different file types in the project -->
+	
+	<!-- Core CFML files in the project to be munged and distributed -->
+	<patternset id="coreCfmlFiles">
+		<include name="**/*.cfm" />
+		<include name="**/*.cfc" />
+		<exclude name="modelglueapplicationtemplate/" />
+		<exclude name="modelgluedistributionfiles/" />
+	</patternset>
+
+	<!-- Whitespace-sensitive core CFML files in the project to be munged and distributed -->
+	<patternset id="coreCfmlFilesWhitespaceSensitive">
+		<include name="ModelGlue/gesture/ModelGlue.cfm" />
+		<include name="ModelGlue/gesture/view/ViewRenderer.cfm" />
+	</patternset>
+
+	<!-- Core HTML files in the project to be munged and distributed -->
+	<patternset id="coreHtmlFiles">
+		<include name="**/*.htm" />
+		<exclude name="modelglueapplicationtemplate/" />
+		<exclude name="modelgluedistributionfiles/" />
+	</patternset>
+
+	<!-- Core XML files in the project to be munged and distributed -->
+	<patternset id="coreXmlFiles">
+		<include name="**/*.xsl" />
+		<include name="**/*.xml" />
+		<exclude name="modelglueapplicationtemplate/" />
+		<exclude name="modelgluedistributionfiles/" />
+	</patternset>
+
+	<!-- Core CSS and JavaScript files in the project to be munged and distributed -->
+	<patternset id="coreCssJavaScriptFiles">
+		<include name="**/*.css" />
+		<include name="**/*.js" />
+		<exclude name="modelglueapplicationtemplate/" />
+		<exclude name="modelgluedistributionfiles/" />
+	</patternset>
+
+	<!-- All project files to be distributed -->
+	<patternset id="projectFiles">
+		<include name="**/*" />
+		<exclude name="modelgluedistributionfiles/" />
+	</patternset>
+
+	<!-- Resource files to be distributed -->
+	<patternset id="resourceFiles">
+		<include name="readme.txt" />
+		<include name="LICENSE" />
+		<include name="NOTICE" />
+	</patternset>
+
+
+	<!-- INTERNAL TARGETS -->
+			
+	<!-- Additional profile properties targets -->
+	
+	<target name="sourceProperties" depends="profileDirectory">
+		<property file="${profileDirectory}/source.properties" />
+	</target>
+		
+	<target name="versionProperties" depends="profileDirectory,exportProperties">
+		<!-- This target depends on exportProperties so that export properties can be referenced in the version.properties file -->
+		<property file="${profileDirectory}/version.properties" />
+	</target>
+
+	
+	<!-- Working directory targets -->
+	
+	<target name="workingDirectory" depends="localProperties">
+		<mkdir dir="${local.workingDirectory}" />
+	</target>
+
+	<target name="mungeDirectory" depends="localProperties">
+		<mkdir dir="${local.mungeDirectory}" />
+	</target>
+	
+	
+	<!-- Export targets -->
+	
+	<!-- Check if the export is available --> 
+	<target name="checkExportDirectoryAvailability">
+		<available property="exportDirectoryAvailable" file="${local.exportDirectory}/" />
+	</target>
+
+	<!-- Read the export properties from the export.properties file -->
+	<target name="exportProperties" depends="exportPropertiesFile">
+		<property file="${local.workingDirectory}/export.properties" />
+	</target>
+
+	<!-- Ensure that the export.properties file is available by saving it if needed -->
+	<target name="exportPropertiesFile" depends="checkExportPropertiesFileAvailability" unless="exportPropertiesFileAvailable">
+		<antcall target="saveExportPropertiesFile" />
+	</target>
+
+	<!-- Check if the export.properties file is available --> 
+	<target name="checkExportPropertiesFileAvailability" depends="localProperties">
+		<available property="exportPropertiesFileAvailable" file="${local.workingDirectory}/export.properties" />
+	</target>
+
+	<!-- Get SVN information for the export and save it as export.properties -->
+	<target name="saveExportPropertiesFile" depends="sourceProperties,localProperties,workingDirectory">
+		<antcall target="saveSvnInfo">
+			<param name="svnTarget" value="${source.svn.url}"/>
+			<param name="svnPropPrefix" value="export."/>
+			<param name="svnDestFile" value="${local.workingDirectory}/export.properties"/>
+		</antcall>
+	</target>
+
+	
+	<!-- Munging targets -->
+	
+	<!-- Make a clean munge directory -->
+	<target name="cleanMungeDirectory" depends="localProperties">
+		<delete dir="${local.mungeDirectory}" />
+		<mkdir dir="${local.mungeDirectory}" />
+	</target>
+
+	<!-- Munge and copy all files for distribution -->
+	<target name="mungeAndCopyFiles"
+		depends="mungeResourceFiles,mungeCoreCfmlFiles,mungeCoreHtmlFiles,mungeCoreXmlFiles,mungeCoreCssJavaScriptFiles,copyUnmungedProjectFiles" />
+
+	<!-- Munge resource files for distribution -->
+	<target name="mungeResourceFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
+		<copy todir="${local.mungeDirectory}">
+			<fileset dir="${profile.resourceDirectory}">
+				<patternset refid="resourceFiles" />
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="versionCopyright" value="${version.copyright}" />
+					<token key="versionLabel" value="${version.label}" />
+					<token key="versionNumber" value="${version.number}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+
+	<!-- Munge whitespace-sensitive core CFML files for distribution -->
+	<target name="mungeCoreCfmlFilesWhitespaceSensitive" depends="build,mungeDirectory,profileProperties,versionProperties">
+		<antcall target="mungeExportFiles">
+			<reference refid="coreCfmlFilesWhitespaceSensitive" torefid="sourcePattern" />
+			<param name="headerCommentBegin" value="&lt;!---" />
+			<param name="headerCommentEnd" value="---&gt;" />
+		</antcall>
+	</target>
+
+	<!-- Munge core CFML files for distribution -->
+	<target name="mungeCoreCfmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties,mungeCoreCfmlFilesWhitespaceSensitive">
+		<antcall target="mungeExportFiles">
+			<reference refid="coreCfmlFiles" torefid="sourcePattern" />
+			<param name="headerCommentBegin" value="&lt;!---" />
+			<param name="headerCommentEnd" value="---&gt;${line.separator}${line.separator}" />
+		</antcall>
+	</target>
+
+	<!-- Munge core HTML files for distribution -->
+	<target name="mungeCoreHtmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
+		<antcall target="mungeExportFiles">
+			<reference refid="coreHtmlFiles" torefid="sourcePattern" />
+			<param name="headerCommentBegin" value="&lt;!--" />
+			<param name="headerCommentEnd" value="--&gt;${line.separator}${line.separator}" />
+		</antcall>
+	</target>
+
+	<!-- Munge core XML files for distribution -->
+	<target name="mungeCoreXmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
+		<antcall target="mungeExportFiles">
+			<reference refid="coreXmlFiles" torefid="sourcePattern" />
+			<param name="headerCommentBegin" value="&lt;!--" />
+			<param name="headerCommentEnd" value="--&gt;${line.separator}${line.separator}" />
+		</antcall>
+	</target>
+
+	<!-- Munge core CSS and JavaScript files for distribution -->
+	<target name="mungeCoreCssJavaScriptFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
+		<antcall target="mungeExportFiles">
+			<reference refid="coreCssJavaScriptFiles" torefid="sourcePattern" />
+			<param name="headerCommentBegin" value="/*" />
+			<param name="headerCommentEnd" value="*/${line.separator}${line.separator}" />
+		</antcall>
+	</target>
+	
+	<!-- Generic export file munger target. Normally invoked via antcall to set munging properties (see examples above) -->
+	<target name="mungeExportFiles">
+		<copy todir="${local.mungeDirectory}">
+			<fileset dir="${local.exportDirectory}">
+				<patternset refid="sourcePattern" />
+			</fileset>
+			<filterchain>
+				<concatfilter prepend="${profile.resourceDirectory}/header.txt" />
+				<replacetokens>
+					<token key="headerCommentBegin" value="${headerCommentBegin}" />
+					<token key="headerCommentEnd" value="${headerCommentEnd}" />
+					<token key="versionCopyright" value="${version.copyright}" />
+					<token key="versionLabel" value="${version.label}" />
+					<token key="versionNumber" value="${version.number}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+	</target>
+	
+	<!-- Copy any remaining project files unmunged for distribution -->
+	<target name="copyUnmungedProjectFiles" depends="build">
+		<copy todir="${local.mungeDirectory}">
+			<fileset dir="${local.exportDirectory}">
+				<patternset refid="projectFiles" />
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- Ant debug targets -->
+
+	<target name="echoLocalProperties" depends="localProperties">
+		<echoproperties prefix="local." />
+	</target>
+	
+	<target name="echoExportProperties" depends="exportProperties">
+		<echoproperties prefix="export." />
+	</target>
+	
+	<target name="echoVersionProperties" depends="versionProperties">
+		<echoproperties prefix="version." />
+	</target>
+
 </project>

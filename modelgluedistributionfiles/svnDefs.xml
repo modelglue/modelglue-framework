@@ -1,0 +1,43 @@
+<project>
+	<description>
+		This buildfile defines targets for performing SVN operations.
+	</description>
+
+
+	<!-- Default location of jars required for svn ant task -->
+	<property name="svn.antlib" location="lib/" />
+
+	<!-- Default properties for SVN ant task -->
+	<property name="svn.dateTimeZone" value="GMT" />
+	
+	<!-- Define the SVN ant task -->
+	<target name="svnTask">
+		<typedef resource="org/tigris/subversion/svnant/svnantlib.xml">
+			<classpath>
+				<fileset dir="${svn.antlib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</typedef>
+	</target>
+
+	<!-- Export a resource from SVN to a local directory -->
+	<target name="svnExport" depends="svnTask">
+		<svn>
+			<export srcUrl="${svnSrcUrl}" destPath="${svnDestPath}" revision="${svnRevision}" />
+		</svn>
+	</target>
+
+	<!-- Get information about an SVN resource -->
+	<target name="svnInfo" depends="svnTask">
+		<svn>
+			<info target="${svnTarget}" propPrefix="${svnPropPrefix}" />
+		</svn>
+	</target>
+
+	<!-- Save information about an SVN resource to a file -->
+	<target name="saveSvnInfo" depends="svnInfo">
+		<echoproperties prefix="${svnPropPrefix}" destfile="${svnDestFile}" />
+	</target>
+
+</project>

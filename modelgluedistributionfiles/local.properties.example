@@ -1,0 +1,19 @@
+# local.properties example
+
+# Working directories on the local computer 
+local.workingDirectory=${basedir}/build
+local.exportDirectory=${basedir}/build/export
+local.mungeDirectory=${basedir}/build/munge
+local.zipDirectory=${basedir}/build
+
+
+# Profiles directory
+#local.profilesDirectory=${basedir}/profiles
+
+# Default profile (can be overridden with -Dlocal.profile= from IDE or Ant command line)
+local.profile=latestRelease
+
+# SVN properties
+
+# Location of jar files for SvnAnt (http://subclipse.tigris.org/svnant.html)
+#svn.antlib=${basedir}/lib

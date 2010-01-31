@@ -1,0 +1,62 @@
+<project>
+	<description>
+		This buildfile defines properties and targets for loading local configuration information.
+		
+		Local configuration information is loaded from two locations:
+		
+			* A local.properties file for local settings
+			* A profile directory containing properties files for build settings
+		
+		The local.properties file nor 
+	</description>
+
+	<!-- IMPLICIT TARGETS (always executed) -->
+	
+	<!-- Locations of local property files. Do not add local.propertiesFile to SVN! -->	
+	<property name="localPropertiesFile" location="local.properties" />
+	<property name="localPropertiesExampleFile" location="local.properties.example" />
+	
+	<!-- Defaults for build profiles. Can be overridden by setting local.profilesDirectory and local.profile properties --> 
+	<property name="defaultProfilesDirectory" location="profiles" />
+	<property name="defaultProfile" value="default" />
+	
+	<!-- Load the local properties file (will be reloaded later if it does not exist yet) -->
+	<property file="${localPropertiesFile}" />
+	
+	
+	<!-- INTERNAL TARGETS (can be hidden from Eclipse Ant view) -->
+	
+	<!-- local properties targets -->
+	
+	<!-- Load the local properties -->
+	<target name="localProperties" depends="localPropertiesFile">
+		<property file="${localPropertiesFile}" />
+	</target>
+	
+	<!-- Ensure that local.properties file is available by making a copy from the default file if needed --> 
+	<target name="localPropertiesFile" depends="checkLocalPropertiesFileAvailability" unless="localPropertiesFileAvailable">
+		<copy file="${localPropertiesExampleFile}" tofile="${localPropertiesFile}" />
+	</target>
+	
+	<!-- Check if the local.properties file is available --> 
+	<target name="checkLocalPropertiesFileAvailability">
+		<available property="localPropertiesFileAvailable" file="${localPropertiesFile}" />
+	</target>
+		
+	<!-- profile targets -->
+	
+	<!-- Set the profileDirectory property to the location of the current build profile -->
+	<target name="profileDirectory" depends="localProperties">
+		<!-- Set the default local profile properties (these values are ignored if properties were already set by local.properties or the command-line) -->
+		<property name="local.profilesDirectory" location="${defaultProfilesDirectory}" />
+		<property name="local.profile" value="${defaultProfile}" />
+		<!-- Set the current profile directory property -->
+		<property name="profileDirectory" location="${local.profilesDirectory}/${local.profile}" />
+	</target>	
+
+	<!-- Load the profile properties -->
+	<target name="profileProperties" depends="profileDirectory">
+		<property file="${profileDirectory}/profile.properties" />
+	</target>
+	
+</project>
