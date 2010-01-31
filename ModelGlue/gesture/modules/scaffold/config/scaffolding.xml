@@ -1,35 +1,11 @@
 <modelglue>
 
+<!-- Note: This module must be loaded _AFTER_ the configuration module so that the primary module is loaded before appendGeneratedViewMapping is called -->  
+
 <controllers>
-	<controller id="modelglue.scaffoldController"	type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController">
-		<message-listener message="modelglue.onApplicationStoredInScope" function="setUp" />
-		<message-listener message="modelglue.modulesLoaded" function="generateScaffolds" />
+	<controller id="modelglue.scaffoldController" type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController">
+		<message-listener message="modelglue.readyForModuleLoading" function="appendGeneratedViewMapping" />
 	</controller>
 </controllers>
-	
-	<event-types>
-		<event-type name="templatedPage">
-			<after>
-				<results>
-					<result do="template.main"/>
-				</results>
-			</after>
-		</event-type>
-	</event-types>
-		
-<event-handlers>
-	<event-handler name="modelglue.readyForModuleLoading">
-		<broadcasts>
-			<message name="modelglue.readyForModuleLoading" />
-		</broadcasts>
-	</event-handler>
-	<event-handler name="modelglue.modulesLoaded">
-		<broadcasts>
-			<message name="modelglue.modulesLoaded" />
-		</broadcasts>
-		<results>
-			<result name="configurationInvalidated" do="modelglue.readyForModuleLoading" />
-		</results>
-	</event-handler>
-</event-handlers>
+
 </modelglue>
