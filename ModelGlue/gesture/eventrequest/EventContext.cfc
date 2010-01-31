@@ -427,7 +427,10 @@
 </cffunction>
 
 <cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
-	<cfreturn getInitialEventHandler().name />
+	<cfset var eventValue = variables._state.getValue("eventValue") />
+	<cfset var defaultEvent = variables._modelGlue.getConfigSetting("defaultEvent") />
+	
+	<cfreturn variables._state.getValue(eventValue, defaultEvent) />
 </cffunction>
 
 <cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler. Here for backwards compatibility.">
