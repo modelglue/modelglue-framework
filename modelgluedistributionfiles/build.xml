@@ -231,6 +231,7 @@
 					<token key="versionLabel" value="${version.label}" />
 					<token key="versionNumber" value="${version.number}" />
 				</replacetokens>
+				<fixcrlf eol="${profile.eol}" />
 			</filterchain>
 		</copy>
 	</target>
@@ -295,6 +296,7 @@
 					<token key="versionLabel" value="${version.label}" />
 					<token key="versionNumber" value="${version.number}" />
 				</replacetokens>
+				<fixcrlf eol="${profile.eol}" />
 			</filterchain>
 		</copy>
 	</target>
