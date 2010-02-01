@@ -9,7 +9,6 @@
 <cfproperty name="cacheKey" type="string" hint="Key by which this event-handler should be known in the cache.  Typically set by convention." />
 <cfproperty name="cacheKeyValues" type="string" hint="List of event values to append to the cache key." />
 <cfproperty name="cacheTimeout" type="numeric" hint="Number of seconds this event-handler should be cached." />
-<cfproperty name="disableDebug" type="boolean" hint="Whether or not to automatically disable Model Glue debugging for this event handler" />
 <cfproperty name="extensible" type="boolean" hint="Allow extension by other event-handlers with the same name?" />
 
 <cfset this.name = "" />
@@ -24,7 +23,6 @@
 <cfset this.cacheKey = "" />
 <cfset this.cacheKeyValues = "" />
 <cfset this.cacheTimeout = 0 />
-<cfset this.disableDebug = false />
 <cfset this.extensible = false />
 
 <cffunction name="addMessage" returntype="ModelGlue.gesture.eventhandler.EventHandler" output="false" hint="Adds a Message and returns this.">

@@ -281,11 +281,6 @@
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
 	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHandler.name#"">") /> 
-	<cfif arguments.eventHandler.disableDebug IS true>
-		<cfset this.addTraceStatement("Configuration", "Disabling Debug For ""#arguments.eventHandler.name#""", "disableDebug=true") /> 
-		<cfset request.modelGlueSuppressDebugging = "true" />  
-	</cfif>
-	
 	<!--- 
 		Invoke "" message broadcasts.  Code repeated for format, if necessary, to 
 		avoid string parsing - this is a per-request invocation!

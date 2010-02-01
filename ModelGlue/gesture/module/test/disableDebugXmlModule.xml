@@ -4,8 +4,11 @@
 </controllers>
 	
 	<event-types>
-		<event-type name="hasNoDebug" disableDebug="true">
+		<event-type name="hasNoDebug">
 			<before>
+				<broadcasts>
+					<message name="modelglue.disableModelGlueDebugging" />
+				</broadcasts>
 			</before>
 		</event-type>
 	</event-types>
@@ -17,17 +20,18 @@
 		<results/>
 	</event-handler>
 		
-	<event-handler name="PlainEventHandlerWithDebugFalse" disableDebug="false">
+	<event-handler name="PlainEventHandlerWithDebugFalse">
 		<broadcasts />
 		<results/>
 	</event-handler>
 		
-	<event-handler name="eventHandlerWithDisabledDebug" disableDebug="true">
-		<broadcasts />
+	<event-handler name="eventHandlerWithDisabledDebug">
+		<broadcasts>
+			<message name="modelglue.disableModelGlueDebugging" />
+		</broadcasts>
 		<results/>
 	</event-handler>
 		
-				
 	<event-handler name="eventHandlerWithEventTypeOfDisabledDebug" type="hasNoDebug">
 		<broadcasts />
 		<results/>

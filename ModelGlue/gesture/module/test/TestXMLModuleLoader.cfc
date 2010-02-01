@@ -192,31 +192,6 @@
 	<!--- If we don't throw error, we made it. --->
 </cffunction>
 
-<cffunction name="testSettingDisableDebugInAFewWays" returntype="void" access="public">
-	<cfset var mg = createModelGlueIfNotDefined(this.coldspringPath) />
-	<cfset var loader = "" />
-	<cfset var obj = "" />
-	<cfset var beanFactory = "" />
-	
-	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
-	
-	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-	
-	<cfset loader.load(mg, "/ModelGlue/gesture/module/test/disableDebugXmlModule.xml") />
-	
-	
-	<cfset obj = mg.getEventHandler("PlainEventHandlerWithDebugNotSet") />
-	<cfset assertTrue( obj.disableDebug IS false, "Disable Debug setting did not default to false") />
-	<cfset obj = mg.getEventHandler("PlainEventHandlerWithDebugFalse") />
-	<cfset assertTrue( obj.disableDebug IS false, "Disable Debug setting did not work when  disableDebug=""false"" ") />
-	<cfset obj = mg.getEventHandler("eventHandlerWithDisabledDebug") />
-	<cfset assertTrue( obj.disableDebug IS true, "Disable Debug setting did not work when disableDebug=""true"" ") />
-	<cfset obj = mg.getEventHandler("eventHandlerWithEventTypeOfDisabledDebug") />
-	<cfset assertTrue( obj.disableDebug IS true, "Disable Debug setting did not work when event type had disableDebug=""false"" ") />
-	
-	<!--- If we don't throw error, we made it. --->
-</cffunction>
 
 <cffunction name="testSettingExtensibleInAFewWays" returntype="void" access="public">
 	<cfset var mg = createModelGlueIfNotDefined(this.coldspringPath) />

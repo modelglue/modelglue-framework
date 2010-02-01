@@ -72,6 +72,7 @@
 				<constructor-arg name="modules">
 					<list>
 						<value>/ModelGlue/gesture/modules/internal/configuration/config/configuration.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/utility/config/utility.xml</value>
 						<value>/ModelGlue/gesture/modules/scaffold/config/scaffolding.xml</value>
 					</list>
 				</constructor-arg>
