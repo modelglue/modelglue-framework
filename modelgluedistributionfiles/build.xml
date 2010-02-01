@@ -94,6 +94,7 @@
 		<zip destfile="${local.zipDirectory}/modelglue_${version.number}.zip" basedir="${local.mungeDirectory}" />
 	</target>
 
+	<target name="cleanZip" depends="clean,zip" description="Download a fresh export and create a distribution zip from it" />
 
 	<!-- REFERENCES -->
 	
@@ -209,10 +210,9 @@
 	
 	<!-- Munging targets -->
 	
-	<!-- Make a clean munge directory -->
+	<!-- Clean out the munge directory -->
 	<target name="cleanMungeDirectory" depends="localProperties">
 		<delete dir="${local.mungeDirectory}" />
-		<mkdir dir="${local.mungeDirectory}" />
 	</target>
 
 	<!-- Munge and copy all files for distribution -->

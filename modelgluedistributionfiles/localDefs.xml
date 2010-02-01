@@ -7,7 +7,7 @@
 			* A local.properties file for local settings
 			* A profile directory containing properties files for build settings
 		
-		The local.properties file nor 
+		The local.properties file normally defines the local.profile property to select the profile to use.  
 	</description>
 
 	<!-- IMPLICIT TARGETS (always executed) -->
