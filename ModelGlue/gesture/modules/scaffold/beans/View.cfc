@@ -97,7 +97,7 @@
 				<cfif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Struct")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Struct() />
 					<cfloop collection="##variables.list##" item="variables.rel">
-						<span class="input">##variables.rel.get%Metadata.properties[thisProp].sourcecolumn%()##</span>
+						<span class="input">##variables.list[variables.rel].get%Metadata.properties[thisProp].sourcecolumn%()##</span>
 					</cfloop>
 				<cfelseif structKeyExists(%Metadata.alias%Record, "get%Metadata.properties[thisProp].alias%Array")>
 					<cfset variables.list = %Metadata.alias%Record.get%Metadata.properties[thisProp].alias%Array() />
