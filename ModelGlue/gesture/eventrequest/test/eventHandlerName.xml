@@ -1,0 +1,14 @@
+<modelglue>
+
+<controllers>
+</controllers>
+
+<event-handlers>
+
+	<event-handler name="home" />
+	
+	<event-handler name="test" />
+
+</event-handlers>
+
+</modelglue>

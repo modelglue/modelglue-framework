@@ -236,11 +236,11 @@
 	</cfif>
 	
 	<cfset arguments.field.sourceObject = arguments.relationship.name />
-	<cfset arguments.field.sourceColumn = fields[1].name />
+	<cfset arguments.field.sourceColumn = fields[1].alias />
 	
 	<cfloop from="1" to="#arrayLen(fields)#" index="i">
 		<cfif fields[i].primaryKey>
-			<cfset arguments.field.sourceKey = fields[i].name />
+			<cfset arguments.field.sourceKey = fields[i].alias />
 		</cfif>
 	</cfloop>
 

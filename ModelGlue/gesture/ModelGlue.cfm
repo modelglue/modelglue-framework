@@ -8,11 +8,14 @@
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES" default="#structNew()#" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES" default="#structNew()#" />
 <cfparam name="ModelGlue_VERSION_INDICATOR" default="GESTURE" />
+<cfparam name="ModelGlue_INITIALIZATION_LOCK_TIMEOUT" default="60" />
 <cfparam name="request._modelglue.bootstrap" default="#structNew()#" />
 <cfparam name="request._modelglue.bootstrap.blockEvent" default="0" />
 
 <cfset request._modelglue.bootstrap.initializationRequest = false />
 <cfset request._modelglue.bootstrap.appKey = ModelGlue_APP_KEY />
+<cfset request._modelglue.bootstrap.initializationLockPrefix = expandPath(".") & "/.modelglue" />
+<cfset request._modelglue.bootstrap.initializationLockTimeout = ModelGlue_INITIALIZATION_LOCK_TIMEOUT />
 
 <cfif not structKeyExists(application, ModelGlue_APP_KEY) 
 			or (
@@ -22,7 +25,7 @@
 			or (
 					application[ModelGlue_APP_KEY].configuration.reload
 			)>
-	<cflock name="#expandPath(".")#/.modelglue.loading" type="exclusive" timeout="60">
+	<cflock name="#request._modelglue.bootstrap.initializationLockPrefix#.loading" type="exclusive" timeout="#request._modelglue.bootstrap.initializationLockTimeout#">
 		<cfif not structKeyExists(application, ModelGlue_APP_KEY)
 					or (
 							structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)

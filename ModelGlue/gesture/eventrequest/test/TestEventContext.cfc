@@ -553,4 +553,54 @@
 	<cfset assertTrue(bean.getImplicitProp() eq "", "implicit prop set when not whitelisted!") />
 </cffunction>
 
+<!--- EVENT HANDLER NAME TESTS --->
+<cffunction name="testGetInitialEventHandlerNameForDefaultEvent" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/eventHandlerName.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "home", ec.getInitialEventHandlerName(), "The requested event should be ""home"" " ) />
+</cffunction>
+
+<cffunction name="testGetInitialEventHandlerNameForExplicitEvent" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/eventHandlerName.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "test" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "test", ec.getInitialEventHandlerName(), "The requested event should be ""test"" " ) />
+</cffunction>
+
+<!--- EVENT HANDLER EXTENSIBILITY TEST --->
+<cffunction name="testEventHandlerExtensibility" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/eventHandlerExtensibility.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertTrue( ec.exists("onRequestStart"), "The internal onRequestStart function was not invoked" ) />
+	<cfset assertTrue( ec.exists("customOnRequestStart"), "The custom onRequestStart function was not invoked" ) />
+</cffunction>
+
 </cfcomponent>

@@ -9,6 +9,7 @@
 	<cfset variables.instance.busterURL = "http://buster.local" />
 
 	<cffunction name="setUp" returntype="void" access="public" hint="put things here that you want to run before each test">
+		<cfset var local = structNew() />
 		<cftry>
 			<cfhttp method="Post" timeout="10" result="local.cfhttp" url="#variables.instance.busterURL#" />			
 			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>

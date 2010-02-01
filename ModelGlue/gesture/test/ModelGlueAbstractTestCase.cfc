@@ -17,6 +17,8 @@
 		
 		<cfset request._modelglue.bootstrap.bootstrapper = bootstrapper />
 		<cfset request._modelglue.bootstrap.initializationRequest = true />
+		<cfset request._modelglue.bootstrap.initializationLockPrefix = expandPath(".") & "/.modelglue" />
+		<cfset request._modelglue.bootstrap.initializationLockTimeout = 60 />
 		
 		<cfreturn bootstrapper>
 	</cffunction>

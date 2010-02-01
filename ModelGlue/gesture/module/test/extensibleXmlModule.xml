@@ -1,0 +1,16 @@
+<modelglue>
+
+<controllers>
+</controllers>
+
+<event-handlers>
+
+	<event-handler name="eventHandlerWithExtensibleNotSet" />
+	
+	<event-handler name="eventHandlerWithExtensibleFalse" extensible="false" />
+	
+	<event-handler name="eventHandlerWithExtensibleTrue" extensible="true" />
+	
+</event-handlers>
+
+</modelglue>

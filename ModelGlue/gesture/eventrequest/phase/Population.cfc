@@ -10,11 +10,6 @@
 	<cfset var modelglue = arguments.eventContext.getModelGlue() />
 	<cfset var event = "" />
 	
-	<!--- 
-		Before event queue runs, we need to load any configured modules.
-	--->
-	<cfset loadModules(modelglue) />
-	
 	<!--- Add the newly loaded event to the queue. --->
 	<cfset event =  modelglue.getEventHandler("modelglue.onEventContextCreation") />
 	<cfset arguments.eventContext.addEventHandler(event) />

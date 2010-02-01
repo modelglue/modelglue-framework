@@ -10,16 +10,20 @@
 	<cfset variables._modules = arguments.modules />	
 </cffunction>
 
-<cffunction name="loadModules" access="private" output="false" hint="Loads modules associated with this phase if we're in an initializing request.">
+<cffunction name="load" access="private" returntype="void" output="false" hint="I perform the loading for this phase.">
+	<cfargument name="eventContext" hint="I am the event context to use for loading.  Duck typed for speed.  Should have no queued events, but this isn't checked (to save time)." />
+	
+	<cfset loadModules(arguments.eventContext.getModelGlue()) />
+</cffunction>
+
+<cffunction name="loadModules" access="private" output="false" hint="Loads modules associated with this phase.">
 	<cfargument name="modelglue" />
 	
 	<cfset var i = "" />
 	
-	<cfif request._modelglue.bootstrap.initializationRequest>
-		<cfloop from="1" to="#arrayLen(variables._modules)#" index="i">
-			<cfset variables._moduleLoader.load(modelglue, variables._modules[i]) />
-		</cfloop>
-	</cfif>
+	<cfloop from="1" to="#arrayLen(variables._modules)#" index="i">
+		<cfset variables._moduleLoader.load(modelglue, variables._modules[i]) />
+	</cfloop>
 </cffunction>
 
 </cfcomponent>

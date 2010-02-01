@@ -150,10 +150,10 @@
 	<cftry>
 		<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
 			<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
-				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Beginning request phase.") /> 
-				
-				<cfset variables._requestPhases[i].execute(this) />
-				
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Setting up request phase.") /> 
+				<cfset variables._requestPhases[i].setup(this,request._modelglue.bootstrap.initializationLockPrefix,request._modelglue.bootstrap.initializationLockTimeout) />
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Executing request phase.") /> 
+				<cfset variables._requestPhases[i].execute(this) />				
 				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Request phase complete.") /> 
 			</cfloop>
 		<cfelse>
@@ -281,11 +281,6 @@
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
 	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHandler.name#"">") /> 
-	<cfif arguments.eventHandler.disableDebug IS true>
-		<cfset this.addTraceStatement("Configuration", "Disabling Debug For ""#arguments.eventHandler.name#""", "disableDebug=true") /> 
-		<cfset request.modelGlueSuppressDebugging = "true" />  
-	</cfif>
-	
 	<!--- 
 		Invoke "" message broadcasts.  Code repeated for format, if necessary, to 
 		avoid string parsing - this is a per-request invocation!
@@ -427,7 +422,10 @@
 </cffunction>
 
 <cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
-	<cfreturn getInitialEventHandler().name />
+	<cfset var eventValue = variables._state.getValue("eventValue") />
+	<cfset var defaultEvent = variables._modelGlue.getConfigSetting("defaultEvent") />
+	
+	<cfreturn variables._state.getValue(eventValue, defaultEvent) />
 </cffunction>
 
 <cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler. Here for backwards compatibility.">
