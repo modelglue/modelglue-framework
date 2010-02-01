@@ -150,10 +150,10 @@
 	<cftry>
 		<cfif isArray(variables._requestPhases) and arrayLen(variables._requestPhases)>
 			<cfloop from="1" to="#arrayLen(variables._requestPhases)#" index="i">
-				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Beginning request phase.") /> 
-				
-				<cfset variables._requestPhases[i].execute(this) />
-				
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Setting up request phase.") /> 
+				<cfset variables._requestPhases[i].setup(this,request._modelglue.bootstrap.initializationLockPrefix,request._modelglue.bootstrap.initializationLockTimeout) />
+				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Executing request phase.") /> 
+				<cfset variables._requestPhases[i].execute(this) />				
 				<cfset this.addTraceStatement(variables._requestPhases[i].name, "Request phase complete.") /> 
 			</cfloop>
 		<cfelse>
