@@ -7,7 +7,7 @@
 	<cfset var loader = "" />
 	<cfset var obj = "" />
 	<cfset var beanFactory = "" />
-	
+	<cfset var ec ="" />
 	<cfset beanFactory = mg.getInternalBeanFactory() />
 	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/gesture/externaladapters/beaninjection/test/ColdSpring.xml")) />
 	
