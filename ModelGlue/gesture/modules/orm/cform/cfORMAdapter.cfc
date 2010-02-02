@@ -185,6 +185,11 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 		var props = processProperties(md._cfcproperties);
 		md.properties = props.properties;
 		md.primaryKeys = props.primaryKeys;
+		if (structKeyExists(omd,"orderedPropertyList")) {
+			md.orderedPropertyList = omd.orderedPropertyList;
+		} else {
+			md.orderedPropertyList = listSort(structKeyList(md.properties),"textnocase");
+		}
 		return md;
 	}
 	
@@ -276,6 +281,11 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			} else {
 				prop.relationship = false;
 			}
+			if (prop.relationship) {
+				prop.relationshiptype = p.fieldtype;
+			} else {
+				prop.relationshiptype = "";
+			}
 			if (StructKeyExists(p,"fieldtype") and ListFindNoCase("one-to-many,many-to-many",p.fieldtype)) {
 				prop.pluralrelationship = true;
 				prop._collectionType = p.type;
@@ -357,7 +367,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			or StructKeyExists(arguments.prop,"ormtype") and listFindNoCase("text,clob",arguments.prop.ormtype)) {
 			return 65536;
 		} else {
-			return 1;
+			return 0;
 		}
 	}
 
