@@ -41,7 +41,17 @@
 		<property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
 		<!-- What scaffold generation patterns should ModelGlue use if you do not specify in the <scaffold type=""> attribute? .-->
 		<property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
-		
+		<!-- Mappings of custom tag prefixes to locations for importing into generated views -->
+		<property name="scaffoldCustomTagMappings">
+			<map>
+				<entry key="mg">
+					<value>/ModelGlue/gesture/modules/scaffold/customtags/</value>
+				</entry>
+				<entry key="uform">
+					<value>/views/customtags/forms/cfUniForm/</value>
+				</entry>
+			</map>
+		</property>
 		<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
 	</bean>
 		
@@ -136,7 +146,7 @@
 	<bean id="newScaffold.Grid" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>newScaffolds.beans.Grid</value></entry>
+				<entry key="class"><value>beans.Grid</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Grid.</value></entry>
@@ -149,7 +159,7 @@
 	<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>newScaffolds.beans.Edit_cfU</value></entry>
+				<entry key="class"><value>beans.Edit_cfU</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Form.</value></entry>
@@ -161,7 +171,7 @@
 	<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>newScaffolds.beans.List_Paging_jQueryTableSorter</value></entry>
+				<entry key="class"><value>beans.List_Paging_jQueryTableSorter</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>List.</value></entry>
@@ -173,7 +183,7 @@
 	<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>newScaffolds.beans.View_New</value></entry>
+				<entry key="class"><value>beans.View_New</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Display.</value></entry>

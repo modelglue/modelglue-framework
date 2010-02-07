@@ -111,16 +111,16 @@
 %makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 		<<cfif listFindNoCase( Metadata.primaryKeyList, thisProp ) IS false AND Metadata.properties[thisProp].relationship IS false AND (not structKeyExists(Metadata.properties[thisProp],"_persistent") or Metadata.properties[thisProp]._persistent is true) >>
-			<cf_scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
+			<mg:scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
 				value="##%Metadata.alias%Record.get%thisProp%()##" length="%Metadata.properties[thisProp].length%" />
 		<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
-			<cf_scaffold_manytoone name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
+			<mg:scaffold_manytoone name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 				valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 				childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
 				value="##variables.ormAdapter.getSourceValue(event,%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'')##"
 				nullable="%getIsNullable(Metadata.properties[thisProp])%" objectName="%Metadata.alias%" validation="##validation##" />
 	<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
-		<cf_scaffold_manytomany name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
+		<mg:scaffold_manytomany name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 			valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 			selectedList="##variables.ormAdapter.getSelectedList(event,%Metadata.alias%Record,''%thisProp%'',''%Metadata.properties[thisProp].sourceKey%'')##"
 			childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"

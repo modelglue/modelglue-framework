@@ -8,6 +8,7 @@
 		<cfset  variables._MGConfig.expandedScaffoldFilePath= replace( expandPath( variables._MGConfig.scaffoldCFPath ), "\", "/", "all" )   />
 		<cfset  variables._MGConfig.scaffoldXMLFilePath= replace( expandPath( arguments.ModelGlueConfiguration.getScaffoldPath() ) , "\",  "/", "all")   />
 		<cfset  variables._MGConfig.shouldRescaffold= arguments.ModelGlueConfiguration.getRescaffold() />
+		<cfset  variables._MGConfig.scaffoldCustomTagMappings = arguments.ModelGlueConfiguration.getScaffoldCustomTagMappings() />
 		<cfset structAppend( variables._scaffoldBeanRegistry, unwind(arguments.scaffoldBeanRegistry) ) />
 		
 		<!--- Only bother hitting the disk if we are rescaffolding--->
@@ -57,7 +58,7 @@
 		<cfloop from="1" to="#arrayLen( inflatedScaffoldArray )#" index="i">
 			<cfif inflatedScaffoldArray[i].hasViewGeneration IS true >
 				<cfset cftemplate(	inflatedScaffoldArray[i].loadMetadata(), 
-												inflatedScaffoldArray[i].loadViewTemplateWithMetadata(),
+												getTemplateCustomTagImportScript() & inflatedScaffoldArray[i].loadViewTemplateWithMetadata(),
 												inflatedScaffoldArray[i].makeFullFilePathAndNameForView( variables._MGConfig.expandedScaffoldFilePath ) ) />
 			</cfif>
 		</cfloop>
@@ -424,6 +425,15 @@
 			</cfif>
 		</cfloop>
 		<cfreturn displayPropertyList />
+	</cffunction>
+
+	<cffunction name="getTemplateCustomTagImportScript" output="false" access="private" returntype="string" hint="I return the cftemplate script that imports the custom tag mappings for scaffolded views">
+		<cfreturn ('<cfsilent><<cfoutput>>
+	<<cfloop collection="%variables._MGConfig.scaffoldCustomTagMappings%" item="variables.customTagPrefix">>
+		<cfimport prefix="%customTagPrefix%" taglib="%variables._MGConfig.scaffoldCustomTagMappings[variables.customTagPrefix]%" /><</cfloop>>
+<</cfoutput>>
+</cfsilent>'
+		) />
 	</cffunction>
 	
 </cfcomponent>

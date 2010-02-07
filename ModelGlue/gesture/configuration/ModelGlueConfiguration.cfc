@@ -29,6 +29,7 @@
 		<cfset variables._instance.generatedViewMapping = "views" />		
 		<cfset variables._instance.scaffoldPath = "config/scaffolds/Scaffolds.xml" />		
 		<cfset variables._instance.defaultScaffolds = "list,edit,view,commit,delete" />		
+		<cfset variables._instance.scaffoldCustomTagMappings = StructNew() />		
 		
     <cfreturn this />
 </cffunction>
@@ -307,6 +308,14 @@
 </cffunction>
 <cffunction name="getEndlessLoopThreshold" returntype="string" output="false">
 	<cfreturn variables._instance.EndlessLoopThreshold />
+</cffunction>
+
+<cffunction name="setScaffoldCustomTagMappings" returntype="void" output="false" access="public">
+	<cfargument name="ScaffoldCustomTagMappings" type="struct" />
+	<cfset variables._instance.ScaffoldCustomTagMappings = arguments.ScaffoldCustomTagMappings />
+</cffunction>
+<cffunction name="getScaffoldCustomTagMappings" returntype="struct" output="false">
+	<cfreturn variables._instance.ScaffoldCustomTagMappings />
 </cffunction>
 
 </cfcomponent>
