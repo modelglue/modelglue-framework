@@ -33,6 +33,9 @@
 		<cfcatch type="coldspring.NoSuchBeanDefinitionException">
 			<!--- No bean, no ORM.  --->
 		</cfcatch>
+		<cfcatch type="BeanFactory.FileNotFound">
+			<!--- Ditto for legacy apps using ChiliBeans --->
+		</cfcatch>
 	</cftry>
 	
 	<cfif not isObject(getOrmAdapter())>

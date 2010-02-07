@@ -140,12 +140,23 @@
 					<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
 					
 					<!--- If we're not currently using ChiliBeans, shift to it. --->
-					<cfif getMetadata(iocAdapter).name neq "ModelGlue.Bean.BeanFactory">
+					<cfif getMetadata(iocAdapter).name neq "ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter">
 						<cfset iocAdapter = createObject("component", "ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter").init("") />
+						<cfset arguments.modelglue.setIocAdapter(iocAdapter) />
+					</cfif>
+			<!--- Check for legacy applications switching from ChiliBeans to ColdSpring ---> 
+				<cfelseif settingXml.xmlAttributes.value eq "ModelGlue.Core.ColdSpringLoader">
+					<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
+					
+					<!--- If we're not currently using ColdSpring, shift to it. --->
+					<cfif getMetadata(iocAdapter).name neq "ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter">
+						<cfset iocAdapter = createObject("component", "ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter").init() />
+						<cfset iocAdapter.setBeanFactory(arguments.modelglue.getInternalBeanFactory()) />
 						<cfset arguments.modelglue.setIocAdapter(iocAdapter) />
 					</cfif>
 					
 				</cfif>
+				
 			</cfcase>
 		</cfswitch>
 	</cfloop>

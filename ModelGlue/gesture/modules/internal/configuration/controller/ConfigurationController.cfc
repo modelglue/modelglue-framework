@@ -13,7 +13,7 @@
 	
 	<cfset arguments.event.addTraceStatement("Configuration", "Loading Initial XML Module") />
 	<cfset mg = getModelGlue() />
-	<cfset cfg = mg.getBean("modelglue.ModelGlueConfiguration") />
+	<cfset cfg = mg.getInternalBean("modelglue.ModelGlueConfiguration") />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
