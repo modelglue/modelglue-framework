@@ -13,4 +13,8 @@
 			<value>/ModelGlue/helpers/cflib</value>
 		</property>
 	</bean>
+	<!-- Use ChiliBeans as the default legacy IoC adapter --> 
+	<bean id="modelGlue.iocAdapter" class="ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter">
+		<constructor-arg name="beanMappings"><value></value></constructor-arg>
+	</bean>
 </beans>

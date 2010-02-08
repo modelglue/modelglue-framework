@@ -140,12 +140,23 @@
 					<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
 					
 					<!--- If we're not currently using ChiliBeans, shift to it. --->
-					<cfif getMetadata(iocAdapter).name neq "ModelGlue.Bean.BeanFactory">
+					<cfif getMetadata(iocAdapter).name neq "ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter">
 						<cfset iocAdapter = createObject("component", "ModelGlue.gesture.externaladapters.ioc.ChiliBeansAdapter").init("") />
+						<cfset arguments.modelglue.setIocAdapter(iocAdapter) />
+					</cfif>
+			<!--- Check for legacy applications switching from ChiliBeans to ColdSpring ---> 
+				<cfelseif settingXml.xmlAttributes.value eq "ModelGlue.Core.ColdSpringLoader">
+					<cfset iocAdapter = arguments.modelGlue.getIocAdapter() />
+					
+					<!--- If we're not currently using ColdSpring, shift to it. --->
+					<cfif getMetadata(iocAdapter).name neq "ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter">
+						<cfset iocAdapter = createObject("component", "ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter").init() />
+						<cfset iocAdapter.setBeanFactory(arguments.modelglue.getInternalBeanFactory()) />
 						<cfset arguments.modelglue.setIocAdapter(iocAdapter) />
 					</cfif>
 					
 				</cfif>
+				
 			</cfcase>
 		</cfswitch>
 	</cfloop>
@@ -176,7 +187,10 @@
 			<cfcase value="helperMappings">
 				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
 				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
-					<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+					<!--- Skip duplicate helper mappings to avoid duplicated helper injection later --->
+					<cfif not ListFindNoCase(arguments.modelglue.configuration.helperMappings, tmpArray[j])>
+						<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+					</cfif>
 				</cfloop>			
 			</cfcase>
 			<cfdefaultcase>
@@ -193,7 +207,7 @@
 	<cfargument name="controllersXML" />
 
 	
-	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.controllerBeanInjector") />
+	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.beanInjector") />
 	<cfset var ctrlInst = "" />
 	<cfset var ctrlXml = "" />
 	<cfset var listXml = "" />

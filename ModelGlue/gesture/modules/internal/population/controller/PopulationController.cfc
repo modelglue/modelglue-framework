@@ -19,8 +19,8 @@
 		<cfset pops[i].populate(arguments.event) />
 	</cfloop>
 	
-	<!--- If the "event" value isn't set, set it. --->
-	<cfif not len(arguments.event.getValue(mg.configuration.eventValue))>
+	<!--- If the "event" value isn't set, set it to the default (but don't do this for legacy apps as we may not know the defaultEvent yet). --->
+	<cfif not len(arguments.event.getValue(mg.configuration.eventValue)) and (mg.configuration.versionIndicator neq "legacy")>
 		<cfset arguments.event.setValue(mg.configuration.eventValue, mg.configuration.defaultEvent) />
 	</cfif>
 	
