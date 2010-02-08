@@ -145,9 +145,9 @@
 </bean>
 
 <!-- 
-	Injector that performs "beans"-scope injection and autowiring for controllers.
+	Injector that performs "beans"-scope injection and autowiring for controllers and helper components.
 -->
-<bean id="modelglue.controllerBeanInjector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
+<bean id="modelglue.beanInjector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
 
 <!--
 	Factory responsible for creating ModuleLoader implementations.
@@ -258,8 +258,10 @@
 <!--
 	Helper injector
 -->
-<bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector" />
-	
+<bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector">
+	<property name="beanInjector"><ref bean="modelglue.beanInjector" /></property>
+</bean>
+
 <!--
 	Event generator (does the creation of controllers, event-handler XML, etc. bits)
 -->

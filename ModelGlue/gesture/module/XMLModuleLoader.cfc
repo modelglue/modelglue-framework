@@ -187,7 +187,10 @@
 			<cfcase value="helperMappings">
 				<cfset tmpArray = listToArray(settingXml.xmlAttributes.value) />
 				<cfloop from="1" to="#arrayLen(tmpArray)#" index="j">
-					<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+					<!--- Skip duplicate helper mappings to avoid duplicated helper injection later --->
+					<cfif not ListFindNoCase(arguments.modelglue.configuration.helperMappings, tmpArray[j])>
+						<cfset arguments.modelglue.configuration.helperMappings = listAppend( arguments.modelglue.configuration.helperMappings,  tmpArray[j] ) />
+					</cfif>
 				</cfloop>			
 			</cfcase>
 			<cfdefaultcase>
@@ -204,7 +207,7 @@
 	<cfargument name="controllersXML" />
 
 	
-	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.controllerBeanInjector") />
+	<cfset var injector = arguments.modelglue.getInternalBean("modelglue.beanInjector") />
 	<cfset var ctrlInst = "" />
 	<cfset var ctrlXml = "" />
 	<cfset var listXml = "" />

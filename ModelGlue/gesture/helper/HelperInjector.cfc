@@ -4,6 +4,11 @@
 	<cfreturn this />
 </cffunction>
 
+<cffunction name="setBeanInjector" access="public" returntype="void" hint="I set the bean injector to use.">
+	<cfargument name="beanInjector" type="any" required="true" />
+	<cfset variables._beanInjector = arguments.beanInjector />
+</cffunction>
+
 <cffunction name="injectPath" output="false" hint="Injects files (.cfm or .cfc) from a path into a target cfc.  Not recursive.">
 	<cfargument name="target" hint="Structure into which helpers should be placed." />
 	<cfargument name="path" />
@@ -56,7 +61,18 @@
 	<cfset componentName = listDeleteAt(componentName, listLen(componentName, "."), ".") />
 	
 	<cfset instance = createObject("component", componentName) />
-		
+	
+	<!--- Do not assume the helper component has an init() method, but if it does then call it --->
+	<cfif StructKeyExists(instance, "init")>
+		<cfset instance.init() />
+	</cfif>
+	
+	<!--- Perform bean injection: Metadata --->
+	<cfset variables._beanInjector.injectBeanByMetadata(instance) />
+	
+	<!--- Perform autowiring --->
+	<cfset variables._beanInjector.autowire(instance) />
+
 	<cfset arguments.target[helperFileName] = instance />
 </cffunction>
 
