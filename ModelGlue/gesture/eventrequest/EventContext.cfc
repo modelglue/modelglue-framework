@@ -615,7 +615,7 @@
 	</cftry>
 </cffunction>
 
-<cffunction name="copyToScope" output="false" access="public" returntype="void" hint="I copy values from the event into the desired scope">
+<cffunction name="copyToScope" output="false" access="public" returntype="struct" hint="I copy values from the event into the desired scope">
 	<cfargument name="scope" type="struct" required="true"/>
 	<cfargument name="ListOfEventKeys" type="string" default="true"/>
 	<cfargument name="ArrayOfDefaults" type="any" default="#arrayNew(1)#"/>
@@ -624,6 +624,7 @@
 	<cfset var ScopeContext = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
+	<cfset var eventKey = "" />
 	<cfif isSimpleValue( arguments.ArrayOfDefaults ) IS true>
 		<cfset arguments.ArrayOfDefaults = listToArray( arguments.ArrayOfDefaults ) />
 	</cfif>
@@ -633,22 +634,24 @@
 		<cfset ScopeContext = arguments.Scope />
 		
 		<cfloop from="1" to="#arrayLen( thisEventKeyArray)#" index="j">
-			<cfif structKeyExists( ScopeContext, thisEventKeyArray[j]) IS false OR isStruct( ScopeContext[ thisEventKeyArray[j] ]  ) IS false >
+			<cfset eventKey = trim( thisEventKeyArray[j] ) />
+			<cfif structKeyExists( ScopeContext, eventKey) IS false OR isStruct( ScopeContext[ eventKey ]  ) IS false >
 				<!--- so we don't have something we can attach keys to, lets make something--->
-				<cfset ScopeContext[ thisEventKeyArray[j] ] = structNew() />
+				<cfset ScopeContext[ eventKey ] = structNew() />
 			</cfif>
 			<cfif j IS arrayLen( thisEventKeyArray ) AND i LTE arrayLen( arguments.ArrayOfDefaults )>
 				<!--- if we are done dot-walking, and have a default, lets use it. We should be done in the inner loop after this---->
-				<cfset ScopeContext[ thisEventKeyArray[j] ] = variables._state.getValue( EventKeyArray[i], arguments.ArrayOfDefaults[i] ) />
+				<cfset ScopeContext[ eventKey ] = variables._state.getValue( trim( EventKeyArray[i] ), arguments.ArrayOfDefaults[i] ) />
 			<cfelseif j IS arrayLen( thisEventKeyArray )>
 				<!--- ok, done dot-walking, grab something from the event. We should be done in the inner loop after this--->
-				<cfset ScopeContext[ thisEventKeyArray[j] ] = variables._state.getValue( EventKeyArray[i] ) />
+				<cfset ScopeContext[ eventKey ] = variables._state.getValue( trim( EventKeyArray[i] ) ) />
 			<cfelse>
 				<!--- walk down the dot path another level and go around the merry go round again --->
-				<cfset ScopeContext = ScopeContext[ thisEventKeyArray[j] ] />
+				<cfset ScopeContext = ScopeContext[ eventKey ] />
 			</cfif>
 		</cfloop>	
 	</cfloop>
+	<cfreturn arguments.scope />
 </cffunction>
 
 <!--- VIEW MANAGEMENT --->
