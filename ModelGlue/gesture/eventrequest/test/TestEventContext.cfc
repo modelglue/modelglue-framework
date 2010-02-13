@@ -85,6 +85,22 @@
 	<cfset assertTrue(er.getInitialEventHandler().name eq "eh2", "Initial event shouldn't be set until _after_ prepareForInvocation() is invoked!") />
 </cffunction>
 
+<cffunction name="testValueRetrievalAFewWays" access="public" returntype="void">
+	<cfset var er = createEventContext() />
+	<cfset var mockScope = structNew() />
+	<cfset er.setValue("Pigs", "Fly") />
+	<cfset er.setValue("Rugs", "Fly") />
+	
+	<cfset assertTrue( er.getValue("Pigs") IS "Fly", "Getting a simple value failed") />
+	<cfset assertTrue( er.getValue("Dogs", "Rule") IS "Rule", "Getting a defaulted value failed.") />
+	<cfset mockScope = er.copyToScope( mockScope, "Pigs,Rugs") /> 
+	<cfset assertTrue("#mockScope.Pigs#,#mockScope.Rugs#" IS "Fly,Fly", "Copy To Scope failed. #structKeyList(mockScope)#") />
+	<cfset structClear( mockScope ) />
+	<cfset mockScope = er.copyToScope( mockScope, " Pigs , Rugs ") /> 
+	<cfset assertTrue("#mockScope.Pigs#,#mockScope.Rugs#" IS "Fly,Fly", "Copy To Scope failed with whitespace in the list of values. #structKeyList(mockScope)#: #mockScope.Pigs#,#mockScope.Rugs#") />
+	
+</cffunction>
+
 <cffunction name="testEventDequeueing" access="public" returntype="void">
 	<cfset var er = createEventContext() />
 	<cfset var eh1 = createEventHandler() />
