@@ -6,7 +6,7 @@
 <cfset this.sessionTimeout = createTimeSpan(0,0,30,0) />
 <cfset this.ormenabled = true />
 <cfset this.datasource = "NewScaffolding" />
-<cfset this.ormsettings = {dbcreate="dropcreate",logSQL=true,sqlscript="loadScript.sql"} />
+<cfset this.ormsettings = {dbcreate="update",logSQL=true,sqlscript="loadScript.sql"} />
 <cfset this.mappings = createMappings() />
 
 <cffunction name="onSessionStart"  output="false">

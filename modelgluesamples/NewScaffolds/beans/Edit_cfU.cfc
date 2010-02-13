@@ -76,7 +76,6 @@
 	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Record,CFUniformConfig,xe.commit,xe.edit,xe.list", arguments.primaryKeyList ),  "textnocase" ) />
 	<cfreturn  ('<cfsilent>
 <<cfoutput>>
-	<cfimport taglib="/views/customtags/forms/cfUniForm/" prefix="uform" />
 	<cfset event.copyToScope( variables, "#copyToScopeList#" )/>
 	<cfset variables.commitEvent = "##myself####xe.commit##" />
 	<cfset variables.editEvent = myself & xe.edit  />
@@ -112,16 +111,16 @@
 		<uform:fieldset legend="">
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
 				<<cfif %isDisplayProperty(thisProp,Metadata)%>>
-					<cf_scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
+					<mg:scaffold_property name="%thisProp%" label="%Metadata.properties[thisProp].label%" type="%Metadata.properties[thisProp].cfdatatype%"
 						value="##%Metadata.alias%Record.get%thisProp%()##" length="%Metadata.properties[thisProp].length%" event="##event##" />
 				<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS false >>
-					<cf_scaffold_manytoone name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
+					<mg:scaffold_manytoone name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 						valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 						childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
 						value="##variables.ormAdapter.getSourceValue(%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'',event)##"
 						nullable="%getIsNullable(Metadata.properties[thisProp])%" objectName="%Metadata.alias%" validation="##validation##" />
 			<<cfelseif Metadata.properties[thisProp].relationship IS true AND Metadata.properties[thisProp].pluralrelationship IS true >>
-				<cf_scaffold_manytomany name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
+				<mg:scaffold_manytomany name="%Metadata.properties[thisProp].sourceKey%" label="%Metadata.properties[thisProp].label%"
 					valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 					selectedList="##variables.ormAdapter.getSelectedList(event,%Metadata.alias%Record,''%thisProp%'',''%Metadata.properties[thisProp].sourceKey%'')##"
 					childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
