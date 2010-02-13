@@ -19,10 +19,10 @@
 		<uform:radio label="No" value="0" isChecked="#isBoolean(attributes.value) and not attributes.value#" />
 	</uform:field>
 <cfelseif attributes.type eq "date">
-	<uform:field name="#attributes.name#" type="date" value="#attributes.value#" />
+	<uform:field label="#attributes.label#" name="#attributes.name#" type="date" value="#attributes.value#" />
 <cfelseif attributes.length LTE 65535>
-	<uform:field name="#attributes.name#" type="text" value="#attributes.value#" />
+	<uform:field label="#attributes.label#" name="#attributes.name#" type="text" value="#attributes.value#" />
 <cfelse>
-	<uform:field name="#attributes.name#" type="textarea" value="#attributes.value#" />
+	<uform:field label="#attributes.label#" name="#attributes.name#" type="textarea" value="#attributes.value#" />
 </cfif>
 </cfoutput>

@@ -112,10 +112,10 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 </cffunction>
 
 <cffunction name="getSourceValue" output="false" access="public" returntype="any" hint="Used by templates generated via scaffolding">
-	<cfargument name="event" required="false" />
 	<cfargument name="record" required="true" />
 	<cfargument name="propertyName" required="true" />
 	<cfargument name="sourceKey" required="true" />
+	<cfargument name="event" required="false" />
 	<cfset var sourceValue = "" />
 	<cfif structKeyExists(arguments,"event") and arguments.event.valueExists(arguments.sourceKey)>
 		<cfset sourceValue = arguments.event.getValue(arguments.sourceKey) />

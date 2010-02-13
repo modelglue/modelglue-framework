@@ -1,4 +1,4 @@
-component persistent="true"
+component persistent="true" orderedPropertyList="CountryCode,CountryName,SortSequence,Provinces,Languages"
 {
 	property name="CountryId" fieldtype="id" generator="increment" type="numeric";
 	property name="CountryCode" length="2" notnull="true";

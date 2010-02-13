@@ -14,7 +14,9 @@
 <</cfsilent>
 <cfoutput>
 <input type="hidden" name="#attributes.name#" value="" />
-#attributes.label#
+<uform:field type="custom">
+	#attributes.label#
+</uform:field>
 <cfloop query="attributes.valueQuery">
 	<uform:field label="#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#"
 		name="#attributes.name#_#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"
