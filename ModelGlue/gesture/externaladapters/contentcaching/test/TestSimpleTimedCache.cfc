@@ -113,9 +113,6 @@
 </cffunction>
 
 <cffunction name="testSimpleTimedCacheLongSweepInterval" access="public" returntype="void">
-	<!--- Create a different cache with a sweep interval of 5 seconds and default timeout of 2 seconds --->
-	<cfset variables._cache = createObject("component", "ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache").init(5) />
-	<cfset variables._cache.setDefaultTimeout(2) />
 
 	<cfset var key1 = "foo" />
 	<cfset var contents1 = "one" />
@@ -124,6 +121,10 @@
 	<cfset var key3 = "baz" />
 	<cfset var contents3 = "three" />
 	<cfset var item = "" />
+
+	<!--- Create a different cache with a sweep interval of 5 seconds and default timeout of 2 seconds --->
+	<cfset variables._cache = createObject("component", "ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache").init(5) />
+	<cfset variables._cache.setDefaultTimeout(2) />
 
 	<cfset variables._cache.put(key1, contents1) />
 	<cfset variables._cache.put(key2, contents2, 3) />
@@ -166,9 +167,6 @@
 </cffunction>
 
 <cffunction name="testSimpleTimedCacheShortSweepInterval" access="public" returntype="void">
-	<!--- Create a different cache with a sweep interval of 2 seconds and default timeout of 6 seconds --->
-	<cfset variables._cache = createObject("component", "ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache").init(2) />
-	<cfset variables._cache.setDefaultTimeout(8) />
 
 	<cfset var key1 = "foo" />
 	<cfset var contents1 = "one" />
@@ -177,6 +175,10 @@
 	<cfset var key3 = "baz" />
 	<cfset var contents3 = "three" />
 	<cfset var item = "" />
+
+	<!--- Create a different cache with a sweep interval of 2 seconds and default timeout of 6 seconds --->
+	<cfset variables._cache = createObject("component", "ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache").init(2) />
+	<cfset variables._cache.setDefaultTimeout(8) />
 
 	<cfset variables._cache.put(key1, contents1) />
 	<cfset variables._cache.put(key2, contents2, 4) />
