@@ -35,6 +35,7 @@
 	<cfset url.event = "eventHandlerWithEventTypeOfDisabledDebug" />
 	<cfset ec = mg.handleRequest() />
 	<cfset assertTrue( request.modelGlueSuppressDebugging IS true, "Disable Debug setting did not work when event type had modelglue.disableModelGlueDebugging broadcast ") />
+	<cfset structClear(url) />	
 	
 	<!--- If we don't throw error, we made it. --->
 </cffunction>

@@ -48,36 +48,36 @@
 	<cfset assertTrue(isObject(obj), "event handler not object!") />
 	
 	<!--- Messages --->
-	<cfset assertTrue(structCount(obj.messages) eq 1, "message not found or more than one message found") />
+	<cfset assertTrue(arrayLen(obj.messages) eq 1, "message not found or more than one message found") />
 
-	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[1].name eq "messageName", "message name not set") />
-	<cfset assertTrue(obj.messages.CFNULLKEYWORKAROUND[1].arguments.getValue("argumentName") eq "argumentValue", "argument value not set (result = '#obj.messages.CFNULLKEYWORKAROUND[1].arguments.getValue("argumentName")#')") />
+	<cfset assertTrue(obj.messages[1].name eq "messageName", "message name not set") />
+	<cfset assertTrue(obj.messages[1].arguments.getValue("argumentName") eq "argumentValue", "argument value not set (result = '#obj.messages[1].arguments.getValue("argumentName")#')") />
 
 
 	<!--- Results --->
-	<cfset assertTrue(structCount(obj.results.CFNULLKEYWORKAROUND) eq 2, "results not found or two results not found") />
-	<cfset assertTrue(arrayLen(obj.results.CFNULLKEYWORKAROUND.resultName) eq 1, "resultName result not  found or more than one result mapped") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND.resultName[1].event eq "eventName", "resultName event prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND.resultName[1].redirect, "resultName redirect prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND.resultName[1].append eq "appendValue", "resultName append prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND.resultName[1].anchor eq "anchorValue", "resultName anchor prop misdefined") />
-	<cfset assertFalse(obj.results.CFNULLKEYWORKAROUND.resultName[1].preservestate, "resultName preservestate prop misdefined") />
-	<cfset assertTrue(arrayLen(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"]) eq 1, "implicit result result not  found or more than one result mapped") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"][1].event eq "implicitEventName", "implicit result event prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"][1].redirect, "implicit result redirect prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"][1].append eq "appendValue", "implicit result append prop misdefined") />
-	<cfset assertTrue(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"][1].anchor eq "anchorValue", "implicit result anchor prop misdefined") />
-	<cfset assertFalse(obj.results.CFNULLKEYWORKAROUND["CFNULLKEYWORKAROUND"][1].preservestate, "implicit result preservestate prop misdefined") />
+	<cfset assertTrue(structCount(obj.results) eq 2, "results not found or two results not found") />
+	<cfset assertTrue(arrayLen(obj.results.resultName) eq 1, "resultName result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results.resultName[1].event eq "eventName", "resultName event prop misdefined") />
+	<cfset assertTrue(obj.results.resultName[1].redirect, "resultName redirect prop misdefined") />
+	<cfset assertTrue(obj.results.resultName[1].append eq "appendValue", "resultName append prop misdefined") />
+	<cfset assertTrue(obj.results.resultName[1].anchor eq "anchorValue", "resultName anchor prop misdefined") />
+	<cfset assertFalse(obj.results.resultName[1].preservestate, "resultName preservestate prop misdefined") />
+	<cfset assertTrue(arrayLen(obj.results["CFNULLKEYWORKAROUND"]) eq 1, "implicit result result not  found or more than one result mapped") />
+	<cfset assertTrue(obj.results["CFNULLKEYWORKAROUND"][1].event eq "implicitEventName", "implicit result event prop misdefined") />
+	<cfset assertTrue(obj.results["CFNULLKEYWORKAROUND"][1].redirect, "implicit result redirect prop misdefined") />
+	<cfset assertTrue(obj.results["CFNULLKEYWORKAROUND"][1].append eq "appendValue", "implicit result append prop misdefined") />
+	<cfset assertTrue(obj.results["CFNULLKEYWORKAROUND"][1].anchor eq "anchorValue", "implicit result anchor prop misdefined") />
+	<cfset assertFalse(obj.results["CFNULLKEYWORKAROUND"][1].preservestate, "implicit result preservestate prop misdefined") />
 	
 	<!--- Views --->
-	<cfset assertTrue(arrayLen(obj.views.CFNULLKEYWORKAROUND) eq 1, "view not found or more than one view found") />
-	<cfset assertTrue(obj.views.CFNULLKEYWORKAROUND[1].name eq "viewName", "view name not set") />
-	<cfset assertTrue(obj.views.CFNULLKEYWORKAROUND[1].template eq "templateName", "view template not set") />
-	<cfset assertTrue(structCount(obj.views.CFNULLKEYWORKAROUND[1].values) eq 1, "number of values is not one") />
-	<cfset assertTrue(structKeyExists(obj.views.CFNULLKEYWORKAROUND[1].values, "valueName"), "value named ""valuename"" not found") />
-	<cfset assertTrue(obj.views.CFNULLKEYWORKAROUND[1].values.valueName.name eq "valueName", "valueName value not named valueName (ugh, that's confusing.)") />	
-	<cfset assertTrue(obj.views.CFNULLKEYWORKAROUND[1].values.valueName.value eq "valueValue", "valueName value not set to valueValue") />	
-	<cfset assertFalse(obj.views.CFNULLKEYWORKAROUND[1].values.valueName.overwrite eq "valueValue", "valueName value wasn't set to not overwrite") />	
+	<cfset assertTrue(arrayLen(obj.views) eq 1, "view not found or more than one view found") />
+	<cfset assertTrue(obj.views[1].name eq "viewName", "view name not set") />
+	<cfset assertTrue(obj.views[1].template eq "templateName", "view template not set") />
+	<cfset assertTrue(structCount(obj.views[1].values) eq 1, "number of values is not one") />
+	<cfset assertTrue(structKeyExists(obj.views[1].values, "valueName"), "value named ""valuename"" not found") />
+	<cfset assertTrue(obj.views[1].values.valueName.name eq "valueName", "valueName value not named valueName (ugh, that's confusing.)") />	
+	<cfset assertTrue(obj.views[1].values.valueName.value eq "valueValue", "valueName value not set to valueValue") />	
+	<cfset assertFalse(obj.views[1].values.valueName.overwrite eq "valueValue", "valueName value wasn't set to not overwrite") />	
 	
 </cffunction>
 

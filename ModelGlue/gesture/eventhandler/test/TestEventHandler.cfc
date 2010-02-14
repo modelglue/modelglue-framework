@@ -48,7 +48,7 @@
 
 	<cfset eh.addMessage(message) />
 
-	<cfset assertTrue(arrayLen(eh.messages.cfNullKeyWorkaround), "messages should have a length after add")>	
+	<cfset assertTrue(arrayLen(eh.messages), "messages should have a length after add")>	
 	<cfset assertTrue(eh.hasMessage("message"), "hasMessage returned false after adding message!") />
 </cffunction>
 
@@ -62,7 +62,7 @@
 
 	<cfset eh.addResult(result) />
 	
-	<cfset assertTrue(structCount(eh.results.cfNullKeyWorkaround), "results should have length after add")>	
+	<cfset assertTrue(structCount(eh.results), "results should have length after add")>	
 	<cfset assertTrue(eh.hasResult("result"), "hasResult returned false after adding result!") />
 </cffunction>
 
@@ -70,7 +70,7 @@
 <cffunction name="testView_defaultProperties" returntype="void" access="public">
 	<cfset var view = createView() />
 	
-	<cfset assertFalse(view.append, "view should have apend=true by default")>	
+	<cfset assertFalse(view.append, "view should have append=true by default")>	
 	<cfset assertTrue(view.cache eq false) />
 	<cfset assertTrue(view.cacheKey eq "") />
 	<cfset assertTrue(view.cacheKeyValues eq "") />
@@ -85,7 +85,7 @@
 
 	<cfset eh.addView(view) />
 	
-	<cfset assertTrue(arrayLen(eh.views["cfNullKeyWorkaround"]), "views should have length before add")>	
+	<cfset assertTrue(arrayLen(eh.views), "views should have length before add")>	
 </cffunction>
 
 <cffunction name="testView_AddValue" returntype="void" access="public">

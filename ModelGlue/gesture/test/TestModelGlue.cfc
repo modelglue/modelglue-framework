@@ -80,7 +80,9 @@
 	<cfset assertTrue(context.getValue("someFormKey") eq "someFormValue", "form value not populated") />
 	<cfset assertTrue(context.getValue("someUrlKey") eq "someUrlValue", "form value not populated") />
 	<cfset assertTrue(context.getValue("conflictKey") eq "formConflictValue", "conflict value not recognized from form") />
-		
+	
+	<cfset structClear(url) />
+	<cfset structClear(form) />
 </cffunction>
 
 <cffunction name="testPhase_StatefulRedirectPopulation" returntype="void" access="public">
@@ -99,6 +101,9 @@
 	<cfset assertTrue(context.getValue("preservedValueName") eq "preservedValue", "preserved value not populated") />
 	<cfset assertFalse(structKeyExists(session, "_modelgluePreservedState"), "preserved state not cleared") />
 	<cfset assertTrue(context.getValue("conflictKey") eq "formConflictValue", "conflict value not recognized from form") />
+
+	<cfset structClear(form) />
+	<cfset structClear(url) />
 </cffunction>
 
 </cfcomponent>

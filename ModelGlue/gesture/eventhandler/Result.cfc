@@ -6,6 +6,7 @@
 <cfproperty name="append" type="string" hint="If a redirect occurs, I'm a comma-delimited list of event values to append to the resultant url.">
 <cfproperty name="anchor" type="string" hint="If a redirect occurs, I'm the name of an event value containing a string to append as an anchor (index.cfm?event=foo##Anchor)">
 <cfproperty name="preserveState" default="true" type="boolean" hint="If a redirect takes place, should state be preserved?">
+<cfproperty name="format" type="string" hint="The request format of the result." />
 
 <cfset this.name = "" />
 <cfset this.event = "" />
@@ -13,5 +14,6 @@
 <cfset this.append = "" />
 <cfset this.anchor = "" />
 <cfset this.preserveState = true />
+<cfset this.format = "" />
 
 </cfcomponent>

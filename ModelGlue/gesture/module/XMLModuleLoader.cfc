@@ -462,19 +462,18 @@
 	<cfloop from="1" to="#arrayLen(arguments.broadcastsXml.xmlChildren)#" index="i">
 		<cfset msgXml = arguments.broadcastsXml.xmlChildren[i] />
 		<cfset msgInst = createObject("component", "ModelGlue.gesture.eventhandler.Message") />
+		
+		<cfparam name="arguments.broadcastsXml.xmlAttributes.format" default="" />
 	
 		<cfset msgInst.name = msgXml.xmlAttributes.name />
+		<cfset msgInst.format = arguments.broadcastsXml.xmlAttributes.format />
 		
 		<cfloop from="1" to="#arrayLen(msgXml.xmlChildren)#" index="j">
 			<cfset argXml = msgXml.xmlChildren[j] />
 			<cfset msgInst.arguments.setValue(argXml.xmlAttributes.name, argXml.xmlAttributes.value) />
 		</cfloop>
 		
-		<cfif structKeyExists(arguments.broadcastsXml.xmlAttributes, "format")>
-			<cfset arguments.eventHandler.addMessage(msgInst, arguments.broadcastsXml.xmlAttributes.format) />
-		<cfelse>
-			<cfset arguments.eventHandler.addMessage(msgInst) />
-		</cfif>
+		<cfset arguments.eventHandler.addMessage(msgInst) />
 	</cfloop>
 </cffunction>
 
@@ -492,8 +491,11 @@
 	<cfloop from="1" to="#arrayLen(arguments.resultsXml.xmlChildren)#" index="i">
 		<cfset resXml = arguments.resultsXml.xmlChildren[i] />
 		<cfset resInst = createObject("component", "ModelGlue.gesture.eventhandler.Result") />
-
-			
+		
+		<cfparam name="arguments.resultsXml.xmlAttributes.format" default="" />
+		
+		<cfset resInst.format = arguments.resultsXml.xmlAttributes.format />
+		
 		<cfloop collection="#resXml.xmlAttributes#" item="j">
 			<cfswitch expression="#j#">
 				<cfcase value="do">
@@ -511,11 +513,7 @@
 			</cfswitch>
 		</cfloop>
 
-		<cfif structKeyExists(arguments.resultsXml.xmlAttributes, "format")>
-			<cfset arguments.eventHandler.addResult(resInst, arguments.resultsXml.xmlAttributes.format) />
-		<cfelse>
-			<cfset arguments.eventHandler.addResult(resInst) />
-		</cfif>
+		<cfset arguments.eventHandler.addResult(resInst) />
 	</cfloop>
 </cffunction>
 
@@ -570,9 +568,12 @@
 	<cfloop from="1" to="#arrayLen(arguments.viewsXml.xmlChildren)#" index="i">
 		<cfset viewXml = arguments.viewsXml.xmlChildren[i] />
 		<cfset viewInst = createObject("component", "ModelGlue.gesture.eventhandler.View") />
-	
+		
+		<cfparam name="arguments.viewsXml.xmlAttributes.format" default="" />
+		
 		<cfset viewInst.name = viewXml.xmlAttributes.name />
 		<cfset viewInst.template = viewXml.xmlAttributes.template />
+		<cfset viewInst.format = arguments.viewsXml.xmlAttributes.format />
 		
 		<cfparam name="viewXml.xmlAttributes.append" default="false" />
 		<cfparam name="viewXml.xmlAttributes.cache" default="false" />
@@ -609,11 +610,7 @@
 			<cfset viewInst.addValue(valueInst) />
 		</cfloop>
 
-		<cfif structKeyExists(arguments.viewsXml.xmlAttributes, "format")>
-			<cfset arguments.eventHandler.addView(viewInst, arguments.viewsXml.xmlAttributes.format) />
-		<cfelse>
-			<cfset arguments.eventHandler.addView(viewInst) />
-		</cfif>
+		<cfset arguments.eventHandler.addView(viewInst) />
 
 	</cfloop>
 </cffunction>
