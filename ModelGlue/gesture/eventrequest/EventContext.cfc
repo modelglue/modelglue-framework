@@ -193,7 +193,7 @@
 	<cfset var cacheKey = 0 />
 	<cfset var cacheReq = "" />
 	<cfset var i = 0 />
-	<cfset var requestFormat = getValue(variables._modelGlue.getConfigSetting("requestFormatValue")) />
+	<cfset var requestFormat = getValue("requestFormat", variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var view = "" />
 	<cfset var ehTracker = 0 />
 	<cfset var endlessLoopThreshold = variables._modelGlue.getConfigSetting("endlessLoopThreshold")>
@@ -204,9 +204,9 @@
 	</cfif>
 
 	<cfif isObject(variables._initialEvent) and initialEh.cache>
-		<cfset cacheKey = initialEh.cacheKey />
+		<cfset cacheKey = initialEh.cacheKey & "." & requestFormat />
 		<cfloop list="#initialEh.cacheKeyValues#" index="i">
-			<cfset cacheKey = "#requestFormat#." & cacheKey & ".#getValue(i)#" />
+			<cfset cacheKey = cacheKey & "." & getValue(i) />
 		</cfloop>
 		
 		<cfset cacheReq = variables._modelglue.cacheAdapter.get(cacheKey) />

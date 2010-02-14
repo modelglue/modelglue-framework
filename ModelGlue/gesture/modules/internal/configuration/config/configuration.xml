@@ -4,6 +4,7 @@
 	<controller id="configurationController"
 						  type="ModelGlue.gesture.modules.internal.configuration.controller.ConfigurationController">
 		<message-listener message="modelglue.readyForModuleLoading" function="loadInitialXMLModule" />
+		<message-listener message="modelglue.modulesLoaded" function="configureCache" />
 	</controller>	
 </controllers>
 	

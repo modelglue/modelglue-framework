@@ -239,6 +239,9 @@
 		<!--- Always create the "beans" scope, even though it's explicitly created if needed by inject() --->
 		<cfset ctrlVars = ctrlInst._modelGlueBeanInjection_getVariablesScope() />
 		<cfset ctrlVars.beans = structNew() />
+		
+		<!--- Inject the cache adapter into the "beans" scope --->
+		<cfset ctrlVars.beans.CacheAdapter = arguments.modelglue.cacheAdapter />
 
 		<!--- Perform bean injection: Metadata --->
 		<cfset injector.injectBeanByMetadata(ctrlInst) />

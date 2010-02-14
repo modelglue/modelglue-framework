@@ -15,7 +15,7 @@
     <cfset variables._instance.eventValue = "event" />
     <cfset variables._instance.defaultTemplate = "index.cfm" />
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
-    <cfset variables._instance.defaultCacheTimeout = "5" />
+    <cfset variables._instance.defaultCacheTimeout = 60 />
 	<cfset variables._instance.requestFormatValue = "html" />
 	<cfset variables._instance.endlessLoopThreshold	= 100 />
 		<!--- Generation --->

@@ -23,5 +23,43 @@
 	<cfset variables.helpers = arguments.helpers />
 </cffunction>
 
+<!--- Legacy methods for caching values. Methods use the cache adapter injected into the "beans" scope. --->
+
+<cffunction name="AddToCache" access="public" returnType="void" output="false" hint="I add a value to the cache.">
+    <cfargument name="name" type="string" required="true" hint="I am the name of the value." />
+    <cfargument name="value" type="any" required="true" hint="I am the value." />
+    <cfargument name="timeout" type="numeric" required="false" hint="I am the [optional] timespan for which this value should be cached." />
+
+	<cfif structKeyExists(arguments, "timeout")>
+		<cfset beans.CacheAdapter.put("value." & arguments.name, arguments.value, arguments.timeout) />
+	<cfelse>
+		<cfset beans.CacheAdapter.put("value." & arguments.name, arguments.value) />
+	</cfif>
+</cffunction>
+
+<cffunction name="ExistsInCache" access="public" returnType="boolean" output="false" hint="I check whether a value exists in the cache.">
+    <cfargument name="name" type="string" required="true" hint="I am the name of the value.">
+    <cfset var cacheReq = beans.CacheAdapter.get("value." & arguments.name) />
+
+	<cfreturn cacheReq.success />
+</cffunction>
+
+<cffunction name="GetFromCache" access="public" returnType="any" output="false" hint="I return a value if it cached, or thow an exception if it is not.">
+    <cfargument name="name" type="string" required="true" hint="I am the name of the value.">
+    <cfset var cacheReq = beans.CacheAdapter.get("value." & arguments.name) />
+
+    <cfif cacheReq.success>
+		<cfreturn cacheReq.content />
+	<cfelse>
+		<!--- Exception type matches one used in Unity for compatibility --->
+		<cfthrow type="ModelGlue.Util.TimedCache.ItemNotFound" message="Request value '#arguments.name#' not in cache." />
+	</cfif>
+</cffunction>
+
+<cffunction name="RemoveFromCache" access="public" returnType="boolean" output="false" hint="I remove a value from the cache.">
+    <cfargument name="name" type="string" required="true" hint="I am the name of the value.">
+
+	<cfreturn beans.CacheAdapter.purge("value." & arguments.name) />
+</cffunction>
 
 </cfcomponent>
