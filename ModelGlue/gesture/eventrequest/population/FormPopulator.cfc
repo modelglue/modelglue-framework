@@ -6,6 +6,8 @@
 <cffunction name="populate" output="false" hint="I receive a structure and an event context and populate the event context from the structure.">
 	<cfargument name="context" hint="EventContext to populate." />
 	
+	<cfparam name="form" default="#structNew()#" />
+	
 	<cfset super.populate(context, form) />
 </cffunction>
 
