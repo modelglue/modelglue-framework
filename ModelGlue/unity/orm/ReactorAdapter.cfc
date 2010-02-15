@@ -75,6 +75,7 @@
 		<cfset md[fields[i].alias].relationship = false />
 		<cfset md[fields[i].alias].linkingRelationship = false />
 		<cfset md[fields[i].alias].pluralRelationship = false />
+		<cfset md[fields[i].alias].relationshiptype = "" />
 		
 		<cfif dict.getValue("#arguments.table#.#fields[i].alias#.label") neq "#arguments.table#.#fields[i].alias#.label">
 			<cfset md[fields[i].alias].label = dict.getValue("#arguments.table#.#fields[i].alias#.label") />
@@ -105,6 +106,7 @@
 			
 			<cfset field.alias = hasOne[i].alias />
 			<cfset field.relationship = true />
+			<cfset field.relationshiptype = "many-to-one" />
 			<cfset field.linkingRelationship = false />
 			<cfset field.pluralRelationship = false />
 			<cfset determineSource(field, hasOne[i]) />
@@ -127,6 +129,7 @@
 			<!--- Determine the source --->
 			<cfset determineSource(md[hasOne[i].alias], hasOne[i]) />
 			<cfset md[hasOne[i].alias].relationship = true />
+			<cfset md[hasOne[i].alias].relationshiptype = "many-to-one" />
 
 		</cfif>
 	</cfloop>
@@ -154,6 +157,7 @@
 			
 			<cfset field.alias = hasMany[i].alias />
 			<cfset field.relationship = true />
+			<cfset field.relationshiptype = "one-to-many" />
 			<cfset field.linkingRelationship = false />
 			<cfset field.pluralRelationship = true />
 			
@@ -181,6 +185,7 @@
 			<cfset field.relationship = true />
 			<cfset field.linkingRelationship = true />
 			<cfset field.pluralRelationship = true />
+			<cfset field.relationshiptype = "many-to-many" />
 			<cfset field.name = hasMany[i].link[1] />
 			<cfset determineSource(field, hasMany[i]) />
 
@@ -206,7 +211,7 @@
 			<properties>
 			<cfloop from="1" to="#arrayLen(properties)#" index="i">
 				<property>
-					<cfloop list="nullable,cfdatatype,primarykey,sourcecolumn,pluralrelationship,relationship,sourceobject,name,default,sourcekey,length,alias,label,comment" index="j">
+					<cfloop list="nullable,cfdatatype,primarykey,sourcecolumn,pluralrelationship,relationship,sourceobject,name,default,sourcekey,length,alias,label,comment,relationshiptype" index="j">
 						<#j#><![CDATA[#properties[i][j]#]]></#j#>
 					</cfloop>
 				</property>							
@@ -303,6 +308,7 @@
 
 	<cfset var field = structNew() />
 	<cfset field.relationship = false />
+	<cfset field.relationshiptype = "" />
 	<cfset field.linkingRelationship  = false />
 	<cfset field.pluralRelationship  = false />
 	<cfset field.sourceTableForeignKey = "" />
