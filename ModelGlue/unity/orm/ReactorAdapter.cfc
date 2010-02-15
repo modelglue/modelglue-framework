@@ -221,6 +221,7 @@
 	</cfxml>
 	</cfoutput>
 	<cfset result.properties = md />
+	<cfset result.orderedPropertyList = listSort(arrayToList(result.properties),"textnocase") /> 
 	
 	<cfset variables._mdCache[arguments.table] = result />
 
