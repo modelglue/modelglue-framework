@@ -164,9 +164,10 @@
 	<cfset listener.listenerFunction = "listener_testExecuteEventHandler_ListenerInvocation_byFormat" />
 	<cfset msg = createMessage() />
 	<cfset msg.name = "explicitFormatMessage" />
+	<cfset msg.format = "explicitFormat" />
 	<cfset listeners[msg.name] = arrayNew(1) />
 	<cfset arrayAppend(listeners[msg.name], listener) />
-	<cfset eh1.addMessage(msg, "explicitFormat") />
+	<cfset eh1.addMessage(msg) />
 	
 	<cfset er = createEventContext() />
 	<cfset er.setListenerMap(listeners) />
@@ -294,17 +295,21 @@
 	<cfset listener1.target = this />
 	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg1.name = "message1" />
+	<cfset msg1.format = "explicitFormat" />
 	<cfset makePublic(this,"listener1_testExecuteEventHandler_ResultQueueing") />
 	
 	<cfset listener2.target = this />
 	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg2.name = "message2" />
+	<cfset msg2.format = "explicitFormat" />
 	<cfset makePublic(this,"listener2_testExecuteEventHandler_ResultQueueing") />
 	
 	<cfset listener3.target = this />
 	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg3.name = "message3" />
-		<cfset makePublic(this,"listener3_testExecuteEventHandler_ResultQueueing") />
+	<cfset msg3.format = "explicitFormat" />
+	<cfset makePublic(this,"listener3_testExecuteEventHandler_ResultQueueing") />
+	
 	<cfset listeners[msg1.name] = arrayNew(1) />
 	<cfset listeners[msg2.name] = arrayNew(1) />
 	<cfset listeners[msg3.name] = arrayNew(1) />
@@ -315,21 +320,23 @@
 
 	<!--- Set up event handlers --->	
 	<cfset eh1.name = "eh1" />
-	<cfset eh1.addMessage(msg1, "explicitFormat") />
+	<cfset eh1.addMessage(msg1) />
 	<!--- Explicit result --->
 	<cfset result1.name = "result1" />
 	<cfset result1.event = "eh2" />
-	<cfset eh1.addResult(result1, "explicitFormat") />
+	<cfset result1.format = "explicitFormat" />
+	<cfset eh1.addResult(result1) />
 	<!--- Implicit result --->
 	<cfset result2.name = "" />
 	<cfset result2.event = "eh3" />
-	<cfset eh1.addResult(result2, "explicitFormat") />
+	<cfset result2.format = "explicitFormat" />
+	<cfset eh1.addResult(result2) />
 
 	<cfset eh2.name = "eh2" />
-	<cfset eh2.addMessage(msg2, "explicitFormat") />
+	<cfset eh2.addMessage(msg2) />
 
 	<cfset eh3.name = "eh3" />
-	<cfset eh3.addMessage(msg3, "explicitFormat") />
+	<cfset eh3.addMessage(msg3) />
 
 	<cfset eventHandlers[eh1.name] = eh1 />
 	<cfset eventHandlers[eh2.name] = eh2 />
@@ -395,10 +402,11 @@
 
 	<cfset formattedView.name = "testFormattedRenderView" />
 	<cfset formattedView.template = "testFormatView.cfm" />
+	<cfset formattedView.format = "explicitFormat" />
 
 	<cfset eh.name = "eh" />
 	<cfset eh.addView(view) />
-	<cfset eh.addView(formattedView, "explicitFormat") />
+	<cfset eh.addView(formattedView) />
 
 	<cfset ec = createEventContext() />
 	<cfset ec.setValue("viewContents", "testEventHandler_ViewRendering") />
@@ -583,6 +591,8 @@
 	<cfset ec = mg.handleRequest() />
 	
 	<cfset assertEquals( "home", ec.getInitialEventHandlerName(), "The requested event should be ""home"" " ) />
+	
+	<cfset structClear(url) />
 </cffunction>
 
 <cffunction name="testGetInitialEventHandlerNameForExplicitEvent" returntype="void" access="public">
@@ -600,6 +610,8 @@
 	<cfset ec = mg.handleRequest() />
 	
 	<cfset assertEquals( "test", ec.getInitialEventHandlerName(), "The requested event should be ""test"" " ) />
+	
+	<cfset structClear(url) />
 </cffunction>
 
 <!--- EVENT HANDLER EXTENSIBILITY TEST --->
@@ -617,6 +629,169 @@
 	
 	<cfset assertTrue( ec.exists("onRequestStart"), "The internal onRequestStart function was not invoked" ) />
 	<cfset assertTrue( ec.exists("customOnRequestStart"), "The custom onRequestStart function was not invoked" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<!--- FORMAT EXECUTION ORDER TESTS --->
+<cffunction name="testExecutionOrderOfMessageBroadcastWithFormat" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "broadcastEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfMessageBroadcastWithFormatFromEventType" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "typedBroadcastEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfImplicitResultQueuedWithFormat" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "resultEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfImplicitResultQueuedWithFormatFromEventType" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "typedResultEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfNamedResultQueuedWithFormat" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "namedResultEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfNamedResultQueuedWithFormatFromEventType" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "typedNamedResultEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfViewQueuedWithFormat" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "viewEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "none", ec.getViewCollection().getFinalView(), "The view with the content of ""none"" should be the final view" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
+<cffunction name="testExecutionOrderOfViewQueuedWithFormatFromEventType" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var loader = "" />
+	<cfset var ec = "" />
+	
+	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
+	<cfset loader.load(mg, "/ModelGlue/gesture/eventrequest/test/format/formatOrder.xml") />
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "typedViewEvent" />
+	<cfset url.requestFormat = "format" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertEquals( "none", ec.getViewCollection().getFinalView(), "The view with the content of ""none"" should be the final view" ) />
+	
+	<cfset structClear(url) />
 </cffunction>
 
 </cfcomponent>

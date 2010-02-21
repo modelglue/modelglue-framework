@@ -236,7 +236,6 @@
 -->
 <bean id="modelGlue.cacheAdapter" class="ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache">
 	<constructor-arg name="sweepInterval"><value>10</value></constructor-arg>
-	<constructor-arg name="defaultTimeout"><value>60</value></constructor-arg>
 </bean>
 
 <!--

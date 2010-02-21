@@ -27,4 +27,7 @@
 	
 </cffunction>
 
+<cffunction name="stub_listenerFunction1">
+</cffunction>
+
 </cfcomponent>

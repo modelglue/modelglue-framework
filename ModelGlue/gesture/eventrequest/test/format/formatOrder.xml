@@ -1,0 +1,135 @@
+<modelglue>
+
+<config>
+
+	<setting name="viewMappings" value="/ModelGlue/gesture/eventrequest/test/format" />
+
+</config>
+
+<controllers>
+
+	<controller id="FormatController" type="ModelGlue.gesture.eventrequest.test.format.FormatController">
+		<message-listener message="addNamedResult" />
+		<message-listener message="addFormatNamedResult" />
+		<message-listener message="message" />
+		<message-listener message="formatMessage" />
+	</controller>
+
+</controllers>
+
+<event-types>
+
+	<event-type name="broadcastType">
+		<before>
+			<broadcasts format="format">
+				<message name="formatMessage" />
+			</broadcasts>
+		</before>
+	</event-type>
+
+	<event-type name="resultType">
+		<before>
+			<results format="format">
+				<result do="formatTargetEvent" />
+			</results>
+		</before>
+	</event-type>
+
+	<event-type name="namedResultType">
+		<before>
+			<broadcasts format="format">
+				<message name="addFormatNamedResult" />
+			</broadcasts>
+		</before>
+	</event-type>
+
+	<event-type name="viewType">
+		<before>
+			<views format="format">
+				<include name="view" template="formatView.cfm" />
+			</views>
+		</before>
+	</event-type>
+
+</event-types>
+
+<event-handlers>
+
+	<event-handler name="broadcastEvent">
+		<broadcasts format="format">
+			<message name="formatMessage" />
+		</broadcasts>
+		<broadcasts>
+			<message name="message" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="typedBroadcastEvent" type="broadcastType">
+		<broadcasts>
+			<message name="message" />
+		</broadcasts>
+	</event-handler>
+
+	<event-handler name="resultEvent">
+		<results format="format">
+			<result do="formatTargetEvent" />
+		</results>
+		<results>
+			<result do="targetEvent" />
+		</results>
+	</event-handler>
+	<event-handler name="typedResultEvent" type="resultType">
+		<results>
+			<result do="targetEvent" />
+		</results>
+	</event-handler>
+
+	<event-handler name="namedResultEvent">
+		<broadcasts format="format">
+			<message name="addFormatNamedResult" />
+		</broadcasts>
+		<broadcasts>
+			<message name="addNamedResult" />
+		</broadcasts>
+		<results>
+			<result name="target" do="targetEvent" />
+			<result name="formatTarget" do="formatTargetEvent" />
+		</results>
+	</event-handler>
+	<event-handler name="typedNamedResultEvent" type="namedResultType">
+		<broadcasts>
+			<message name="addNamedResult" />
+		</broadcasts>
+		<results>
+			<result name="target" do="targetEvent" />
+			<result name="formatTarget" do="formatTargetEvent" />
+		</results>
+	</event-handler>
+
+	<event-handler name="targetEvent">
+		<broadcasts>
+			<message name="message" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="formatTargetEvent">
+		<broadcasts>
+			<message name="formatMessage" />
+		</broadcasts>
+	</event-handler>
+
+	<event-handler name="viewEvent">
+		<views format="format">
+			<include name="view" template="formatView.cfm" />
+		</views>
+		<views>
+			<include name="view" template="view.cfm" />
+		</views>
+	</event-handler>
+	<event-handler name="typedViewEvent" type="viewType">
+		<views>
+			<include name="view" template="view.cfm" />
+		</views>
+	</event-handler>
+
+</event-handlers>
+
+</modelglue>

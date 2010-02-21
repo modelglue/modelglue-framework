@@ -30,6 +30,7 @@
 	<cfargument name="append" default="" hint="The list of values to append." />
 	<cfargument name="anchor" default="" hint="The anchor literal for the resultant URL." />
 	<cfargument name="eventContext" default="" hint="Required if using append." />
+	<cfargument name="preferredContext" default="" hint="An optional context to use as a source for the values to append." />
 		
 	<cfset var link = "#variables._mg.configuration.defaultTemplate#?#variables._mg.configuration.eventValue#=" />
 	<cfset var i = "" />
@@ -40,7 +41,11 @@
 
 	<!--- Add values --->
 	<cfloop list="#arguments.append#" index="i">
-		<cfset link = link & "&#i#=#urlEncodedFormat(arguments.eventContext.getValue(i))#" />
+		<cfif isStruct(arguments.preferredContext) and structKeyExists(arguments.preferredContext, i)>
+			<cfset link = link & "&#i#=#urlEncodedFormat(arguments.preferredContext[i])#" />
+		<cfelse>
+			<cfset link = link & "&#i#=#urlEncodedFormat(arguments.eventContext.getValue(i))#" />
+		</cfif>
 	</cfloop>
 	
 	<!--- Add anchor --->

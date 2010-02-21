@@ -21,4 +21,14 @@
 	<cfset this.loaded = true />
 </cffunction>
 
+<cffunction name="configureCache" output="false" hint="I configure default timeout for the cache adapter.">
+	<cfargument name="event" />
+	
+	<cfset var mg = getModelGlue() />
+	<cfset var cacheAdapter = mg.cacheAdapter />
+	<cfset var defaultCacheTimeout = mg.getConfigSetting("defaultCacheTimeout") />
+
+	<cfset cacheAdapter.setDefaultTimeout(defaultCacheTimeout) />
+</cffunction>
+
 </cfcomponent>

@@ -13,12 +13,9 @@
 
 <cfset this.name = "" />
 <cfset this.access = "public" />
-<cfset this.messages = structNew() />
-<cfset this.messages.cfNullKeyWorkaround = arrayNew(1) />
-<cfset this.views = structNew() />
-<cfset this.views.cfNullKeyWorkaround = arrayNew(1) />
+<cfset this.messages = arrayNew(1) />
+<cfset this.views = arrayNew(1) />
 <cfset this.results = structNew() />
-<cfset this.results.cfNullKeyWorkaround = structNew() />
 <cfset this.cache = 0 />
 <cfset this.cacheKey = "" />
 <cfset this.cacheKeyValues = "" />
@@ -27,29 +24,19 @@
 
 <cffunction name="addMessage" returntype="ModelGlue.gesture.eventhandler.EventHandler" output="false" hint="Adds a Message and returns this.">
 	<cfargument name="message" type="ModelGlue.gesture.eventhandler.Message" />
-	<cfargument name="format" type="string" default="cfNullKeyWorkaround" />
 	
-	<cfif not structKeyExists(this.messages, arguments.format)>
-		<cfset this.messages[arguments.format] = arrayNew(1) />
-	</cfif>
-	
-	<cfset arrayAppend(this.messages[arguments.format], message) />
+	<cfset arrayAppend(this.messages, message) />
 
 	<cfreturn this />
 </cffunction>
 
 <cffunction name="hasMessage" access="public" returnType="boolean" output="false" hint="I state if a message already exists in this EventHandler.  Incurs a loop:  not a map lookup">
   <cfargument name="messagename" required="true" type="string">
-  <cfargument name="format" default="cfNullKeyWorkaround" type="string">
 	
 	<cfset var i = "" />
 	
-	<cfif not structKeyExists(this.messages, arguments.format)>
-		<cfset this.messages[arguments.format] = arrayNew(1) />
-	</cfif>
-	
-	<cfloop from="1" to="#arrayLen(this.messages[arguments.format])#" index="i">
-		<cfif this.messages[arguments.format][i].name eq messageName>
+	<cfloop from="1" to="#arrayLen(this.messages)#" index="i">
+		<cfif this.messages[i].name eq messageName>
 			<cfreturn true />
 		</cfif>
 	</cfloop>
@@ -59,48 +46,36 @@
 
 <cffunction name="addView" returntype="ModelGlue.gesture.eventhandler.EventHandler" output="false" hint="Adds a View and returns this.">
 	<cfargument name="view" type="ModelGlue.gesture.eventhandler.View" />
-  <cfargument name="format" default="cfNullKeyWorkaround" type="string">
 	
-	<cfif not structKeyExists(this.views, arguments.format)>
-		<cfset this.views[arguments.format] = arrayNew(1) />
-	</cfif>
-
-	<cfset arrayAppend(this.views[arguments.format], view) />
+	<cfset arrayAppend(this.views, view) />
 	
 	<cfreturn this />
 </cffunction>
 
 <cffunction name="addResult" returntype="ModelGlue.gesture.eventhandler.EventHandler" output="false" hint="Adds a Result and returns this.">
 	<cfargument name="result" type="ModelGlue.gesture.eventhandler.Result" />
-	<cfargument name="format" type="string" default="cfNullKeyWorkaround" />
 	
 	<cfif arguments.result.name eq "">
 		<cfset arguments.result.name = "cfNullKeyWorkaround" />
 	</cfif>
 	
-	<cfif not structKeyExists(this.results, arguments.format)>
-		<cfset this.results[arguments.format] = structNew() />
+	<cfif not structKeyExists(this.results, arguments.result.name)>
+		<cfset this.results[arguments.result.name] = arrayNew(1) />
 	</cfif>
 	
-	<cfif not structKeyExists(this.results[arguments.format], arguments.result.name)>
-		<cfset this.results[arguments.format][arguments.result.name] = arrayNew(1) />
-	</cfif>
-	
-	<cfset arrayAppend(this.results[arguments.format][arguments.result.name], result) />
+	<cfset arrayAppend(this.results[arguments.result.name], result) />
 	
 	<cfreturn this />
 </cffunction>
 
 <cffunction name="hasResult" access="public" returntype="boolean" output="false" hint="I state if any resMappings exist for the given result name.  Map lookup (fast operation).">
 	<cfargument name="name" required="true" type="string">
-	<cfargument name="format" required="false" default="cfNullKeyWorkaround" />
 	
-	<cfreturn structKeyExists(this.results, arguments.format) and structKeyExists(this.results[arguments.format], arguments.name) />
+	<cfreturn structKeyExists(this.results, arguments.name) />
 </cffunction>
 
 <cffunction name="resultMappingExists" access="public" returntype="boolean" output="false" hint="Deprecated for consistency:  use hasResult().">
 	<cfargument name="name" required="true" type="string">
-	<cfargument name="format" required="false" default="cfNullKeyWorkaround" />
 
 	<cfreturn hasResult(argumentCollection=arguments) />
 </cffunction>
