@@ -20,7 +20,7 @@
 	
 	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
 	
-	<cfset mg.addEventListener("message", this, "stub_listenerFunction") />
+	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
 	
 	<cfset assertTrue(mg.hasEventListener("message"), "no listener for ""message"" after add!") />
 	
@@ -28,14 +28,60 @@
 	<cfset assertTrue(arrayLen(listeners) eq 1, "should have 1 listener after add") />
 	<cfset assertTrue(getMetadata(listeners[1]).name eq "ModelGlue.gesture.eventhandler.MessageListener", "a MessageListener instance should exist after add") />
 
-	<cfset mg.addEventListener("message", this, "stub_listenerFunction") />
+	<cfset mg.addEventListener("message", this, "stub_listenerFunction2") />
 	
 	<cfset listeners = mg.getEventListeners("message") />
 	<cfset assertTrue(arrayLen(listeners) eq 2, "should have 2 listeners after second add") />
 	
 </cffunction>
 
-<cffunction name="stub_listenerFunction">
+<cffunction name="testAddDuplicateEventListenerFromSameComponent" returntype="void" access="public">
+	<cfset var mg = createUnconfiguredModelGlue() />
+	<cfset var listeners = "" />
+	
+	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
+	
+	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	
+	<cfset assertTrue(mg.hasEventListener("message"), "no listener for ""message"" after add!") />
+	
+	<cfset listeners = mg.getEventListeners("message") />
+	<cfset assertTrue(arrayLen(listeners) eq 1, "should have 1 listener after add") />
+	<cfset assertTrue(getMetadata(listeners[1]).name eq "ModelGlue.gesture.eventhandler.MessageListener", "a MessageListener instance should exist after add") />
+
+	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	
+	<cfset listeners = mg.getEventListeners("message") />
+	<cfset assertTrue(arrayLen(listeners) eq 1, "should still have 1 listener after duplicate add") />
+	
+</cffunction>
+
+<cffunction name="testAddDuplicateEventListenerFromDifferentComponent" returntype="void" access="public">
+	<cfset var mg = createUnconfiguredModelGlue() />
+	<cfset var listeners = "" />
+	<cfset var component = createObject( "component", "ModelGlue.gesture.test.TestModelGlueTemplate" ) />
+	
+	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
+	
+	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	
+	<cfset assertTrue(mg.hasEventListener("message"), "no listener for ""message"" after add!") />
+	
+	<cfset listeners = mg.getEventListeners("message") />
+	<cfset assertTrue(arrayLen(listeners) eq 1, "should have 1 listener after add") />
+	<cfset assertTrue(getMetadata(listeners[1]).name eq "ModelGlue.gesture.eventhandler.MessageListener", "a MessageListener instance should exist after add") />
+
+	<cfset mg.addEventListener("message", component, "stub_listenerFunction1") />
+	
+	<cfset listeners = mg.getEventListeners("message") />
+	<cfset assertTrue(arrayLen(listeners) eq 2, "should have 2 listeners after add from separate component") />
+	
+</cffunction>
+
+<cffunction name="stub_listenerFunction1">
+</cffunction>
+
+<cffunction name="stub_listenerFunction2">
 </cffunction>
 
 <!--- EVENT HANDLER REGISTRATION TESTS --->

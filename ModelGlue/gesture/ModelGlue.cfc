@@ -247,6 +247,7 @@
 	<cfargument name="listenerFunctionName" type="string" required="true" hint="The name of the listener function to fire.  A warning (but not an exception) will be added to the EventRequest if it's not defined at time of invocation." />
 	
 	<cfset var listener = createObject("component", "ModelGlue.gesture.eventhandler.MessageListener") />
+	<cfset var listenerIndex = "" />
 
 	<cfif not hasEventListener(arguments.messageName)>
 		<cfset this.messageListeners[arguments.messageName] = arrayNew(1) />
@@ -254,6 +255,14 @@
 	
 	<cfset listener.target = arguments.listenerInstance />
 	<cfset listener.listenerFunction = arguments.listenerFunctionName />
+	
+	<!--- Check for the existence of a message-listener function of the same name in the same target controller, and return out if found --->
+	<cfloop from="1" to="#arrayLen(this.messageListeners[arguments.messageName])#" index="listenerIndex">
+		<cfif listener.listenerFunction is this.messageListeners[arguments.messageName][listenerIndex].listenerFunction
+			and getMetadata(listener.target).name is getMetadata(this.messageListeners[arguments.messageName][listenerIndex].target).name>
+			<cfreturn this />
+		</cfif>
+	</cfloop>
 	
 	<cfset arrayAppend(this.messageListeners[arguments.messageName], listener) />
 	
