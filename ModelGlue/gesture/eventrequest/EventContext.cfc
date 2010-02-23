@@ -364,11 +364,11 @@
 </cffunction>
 
 <!--- EVENT KNOWLEDGE --->
-<cffunction name="getCurrentEventHandler" access="public" hint="Returns the current event handler.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
+<cffunction name="getCurrentEventHandler" access="public" output="false" hint="Returns the current event handler.  Modifying the instance returned alters the behavior of the event handler for all users of the application!">
 	<cfreturn variables._currentEventHandler />
 </cffunction>
 
-<cffunction name="getCurrentEventHandlerName" access="public" hint="Returns the name of the currently executing event handler.">
+<cffunction name="getCurrentEventHandlerName" access="public" output="false" hint="Returns the name of the currently executing event handler.">
 	<cfreturn getCurrentEventHandler().name />
 </cffunction>
 
@@ -376,18 +376,18 @@
 	<cfreturn variables._initialEvent />
 </cffunction>
 
-<cffunction name="getInitialEventHandlerName" access="public" hint="Returns the name of the user-requested event handler.">
+<cffunction name="getInitialEventHandlerName" access="public" output="false" hint="Returns the name of the user-requested event handler.">
 	<cfset var eventValue = variables._state.getValue("eventValue") />
 	<cfset var defaultEvent = variables._modelGlue.getConfigSetting("defaultEvent") />
 	
 	<cfreturn variables._state.getValue(eventValue, defaultEvent) />
 </cffunction>
 
-<cffunction name="getEventHandlerName" access="public" hint="Returns the name of the user-requested event handler. Here for backwards compatibility.">
+<cffunction name="getEventHandlerName" access="public" output="false" hint="Returns the name of the user-requested event handler. Here for backwards compatibility.">
 	<cfreturn getInitialEventHandlerName() />
 </cffunction>
 
-<cffunction name="getMessage" access="public" hint="Returns the name of the currently broadcast message.">
+<cffunction name="getMessage" access="public" output="false" hint="Returns the name of the currently broadcast message.">
 	<cfreturn variables._currentMessage />
 </cffunction>
 
@@ -413,15 +413,15 @@
 </cffunction>
 
 <!--- RESULT MANAGEMENT --->
-<cffunction name="resetResults" access="public" hint="Resets results to an empty array.">
+<cffunction name="resetResults" access="public" output="false" hint="Resets results to an empty array.">
 	<cfset variables._results = arrayNew(1) />
 </cffunction>
 
-<cffunction name="getResults" access="public" hint="Gets the result names added by a listener function.">
+<cffunction name="getResults" access="public" output="false" hint="Gets the result names added by a listener function.">
 	<cfreturn variables._results />
 </cffunction>
 
-<cffunction name="addResult" access="public" hint="Adds a result, by name, to the result queue.">
+<cffunction name="addResult" access="public" output="false" hint="Adds a result, by name, to the result queue.">
 	<cfargument name="resultName" type="string" hint="The name of the result (e.g., ""formInvalid"" or the like) to add." />
 	
 	<cfset var results = getResults() />
