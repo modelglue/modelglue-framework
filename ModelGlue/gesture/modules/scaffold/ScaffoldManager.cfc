@@ -305,6 +305,7 @@
 		<cfset var CloseTagString = ">>"/>
 		<cfset var VariableString = "%"/>
 		<cfset var EscapedVariableString = "%%"/>
+		<cfset var TemplateScript = "" />
 
 		<cfscript>
 			// TRANSFORM TEMPLATE FOR PROCESSING
