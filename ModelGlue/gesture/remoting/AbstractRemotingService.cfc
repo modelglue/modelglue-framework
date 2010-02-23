@@ -58,7 +58,12 @@
 		<cfset local.result[local.i] = local.event.getValue(local.i) />
 	</cfloop>
 	
-	<cfset resetCFHtmlHead() />
+	<cftry>
+		<cfset resetCFHtmlHead() />
+		<cfcatch type="any">
+			<cfset local.event.addTraceStatement("RemotingService", "An error occurred executing resetCFHtmlHead()", cfcatch.message, "WARNING") />
+		</cfcatch>
+	</cftry>
 	<cfreturn local.result />
 </cffunction>
 
