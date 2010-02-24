@@ -1,4 +1,4 @@
-<project name="Model-Glue Distribution" default="build" basedir=".">
+<project name="Model-Glue Distribution" default="cleanZip" basedir=".">
 	<description>
 		
 		This buildfile defines properties and targets for downloading Model-Glue builds from SVN
