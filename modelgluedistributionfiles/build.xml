@@ -111,8 +111,15 @@
 
 	<!-- Whitespace-sensitive core CFML files in the project to be munged and distributed -->
 	<patternset id="coreCfmlFilesWhitespaceSensitive">
+		<!-- Framework files -->
 		<include name="ModelGlue/gesture/ModelGlue.cfm" />
 		<include name="ModelGlue/gesture/view/ViewRenderer.cfm" />
+		<!-- Unit tests -->
+		<include name="ModelGlue/gesture/eventrequest/test/format/formatView.cfm" />
+		<include name="ModelGlue/gesture/eventrequest/test/format/view.cfm" />
+		<include name="ModelGlue/gesture/view/test/views/testFormatView.cfm" />
+		<include name="ModelGlue/gesture/view/test/views/testOuterView.cfm" />
+		<include name="ModelGlue/gesture/view/test/views/testView.cfm" />
 	</patternset>
 
 	<!-- Core HTML files in the project to be munged and distributed -->
@@ -243,6 +250,7 @@
 			<reference refid="coreCfmlFilesWhitespaceSensitive" torefid="sourcePattern" />
 			<param name="headerCommentBegin" value="&lt;!---" />
 			<param name="headerCommentEnd" value="---&gt;" />
+			<param name="addEOLtoLastLineIfMissing" value="false" /> 
 		</antcall>
 	</target>
 
@@ -284,6 +292,7 @@
 	
 	<!-- Generic export file munger target. Normally invoked via antcall to set munging properties (see examples above) -->
 	<target name="mungeExportFiles">
+		<property name="addEOLtoLastLineIfMissing" value="true" />
 		<copy todir="${local.mungeDirectory}">
 			<fileset dir="${local.exportDirectory}">
 				<patternset refid="sourcePattern" />
@@ -297,7 +306,7 @@
 					<token key="versionLabel" value="${version.label}" />
 					<token key="versionNumber" value="${version.number}" />
 				</replacetokens>
-				<fixcrlf eol="${profile.eol}" />
+				<fixcrlf eol="${profile.eol}" fixlast="${addEOLtoLastLineIfMissing}" />
 			</filterchain>
 		</copy>
 	</target>
