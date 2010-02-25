@@ -6,7 +6,7 @@
 
 <cffunction name="put" access="public" hint="Puts content into the cache.">
 	<cfargument name="key" type="string" required="true" hint="Key for the content." />
-	<cfargument name="content" type="string" required="true" hint="The content to cache." />
+	<cfargument name="content" type="any" required="true" hint="The content to cache." />
 	<cfargument name="timeout" type="numeric" required="false" hint="Seconds this item should live in the cache." />
 </cffunction>
 

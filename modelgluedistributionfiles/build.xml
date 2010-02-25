@@ -104,6 +104,7 @@
 	<patternset id="coreCfmlFiles">
 		<include name="**/*.cfm" />
 		<include name="**/*.cfc" />
+		<exclude name="**/*.xml.cfm" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
 	</patternset>
