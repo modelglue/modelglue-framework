@@ -218,7 +218,7 @@
 
 	<!-- Munge and copy all files for distribution -->
 	<target name="mungeAndCopyFiles"
-		depends="mungeResourceFiles,mungeCoreCfmlFiles,mungeCoreHtmlFiles,mungeCoreXmlFiles,mungeCoreCssJavaScriptFiles,copyUnmungedProjectFiles" />
+		depends="mungeResourceFiles,mungeCoreCfmlFiles,mungeCoreHtmlFiles,mungeCoreCssJavaScriptFiles,copyUnmungedProjectFiles" />
 
 	<!-- Munge resource files for distribution -->
 	<target name="mungeResourceFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
