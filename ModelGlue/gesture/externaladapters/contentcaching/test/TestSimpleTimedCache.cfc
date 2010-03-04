@@ -15,8 +15,18 @@
 	<cfset var key1 = "foo" />
 	<cfset var content1 = "one" />
 	<cfset var key2 = "bar" />
-	<cfset var content2 = "two" />
+	<cfset var content2 = ArrayNew(1) />
+	<cfset var key3 = "baz" />
+	<cfset var content3 = StructNew() />
 	<cfset var item = "" />
+	<cfset var key4 = "qux" />
+	<cfset var content4 = CreateObject("component", "ModelGlue.Bean.CommonBeans.Example").init() />
+
+	<cfset content2[1] = "two" />
+	<cfset content2[2] = "dos" />
+	<cfset content3.first = "three" />
+	<cfset content3.second = "tres" />
+	<cfset content4.setSimpleProperty("four") />
 	
 	<cfset item = variables._cache.get(key1) />
 	<cfset assertFalse(item.success, "Item key1 didn't initially fail to retrieve!") />
@@ -33,6 +43,22 @@
 	<cfset item = variables._cache.get(key2) />
 	<cfset assertTrue(item.success, "Item key2 didn't initially retrieve!") />
 	<cfset assertEquals(content2, item.content, "Item key2 didn't match contents!") />
+
+	<cfset item = variables._cache.get(key3) />
+	<cfset assertFalse(item.success, "Item key3 didn't initially fail to retrieve!") />
+	
+	<cfset variables._cache.put(key3, content3) />
+	<cfset item = variables._cache.get(key3) />
+	<cfset assertTrue(item.success, "Item key3 didn't initially retrieve!") />
+	<cfset assertEquals(content3, item.content, "Item key3 didn't match contents!") />
+
+	<cfset item = variables._cache.get(key4) />
+	<cfset assertFalse(item.success, "Item key4 didn't initially fail to retrieve!") />
+	
+	<cfset variables._cache.put(key4, content4) />
+	<cfset item = variables._cache.get(key4) />
+	<cfset assertTrue(item.success, "Item key4 didn't initially retrieve!") />
+	<cfset assertEquals(content4, item.content, "Item key4 didn't match contents!") />
 
 	<cfset item = variables._cache.get(key1) />
 	<cfset assertTrue(item.success, "Item key1 failed to retrieve after key2 put!") />

@@ -24,6 +24,9 @@
 	<property name="helperMappings">
 		<value>/I/Am/A/HelperMapping</value>
 	</property>
+	<property name="maxQueuedEventsPerRequest">
+		<value>20</value>
+	</property>
 </bean>
 	
 </beans>

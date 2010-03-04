@@ -17,7 +17,7 @@
     <cfset variables._instance.defaultExceptionHandler = "Exception" />
     <cfset variables._instance.defaultCacheTimeout = 60 />
 	<cfset variables._instance.requestFormatValue = "html" />
-	<cfset variables._instance.endlessLoopThreshold	= 100 />
+	<cfset variables._instance.maxQueuedEventsPerRequest = 100 />
 		<!--- Generation --->
 		<cfset variables._instance.generationEnabled = false />
 		<cfset variables._instance.generationModule = "" />
@@ -302,12 +302,12 @@
 	<cfreturn variables._instance.GenerationEnabled />
 </cffunction>
 
-<cffunction name="setEndlessLoopThreshold" returntype="void" output="false" access="public">
-	<cfargument name="EndlessLoopThreshold" type="string" />
-	<cfset variables._instance.EndlessLoopThreshold = arguments.EndlessLoopThreshold />
+<cffunction name="setMaxQueuedEventsPerRequest" returntype="void" output="false" access="public">
+	<cfargument name="MaxQueuedEventsPerRequest" type="string" />
+	<cfset variables._instance.MaxQueuedEventsPerRequest = arguments.MaxQueuedEventsPerRequest />
 </cffunction>
-<cffunction name="getEndlessLoopThreshold" returntype="string" output="false">
-	<cfreturn variables._instance.EndlessLoopThreshold />
+<cffunction name="getMaxQueuedEventsPerRequest" returntype="string" output="false">
+	<cfreturn variables._instance.MaxQueuedEventsPerRequest />
 </cffunction>
 
 <cffunction name="setScaffoldCustomTagMappings" returntype="void" output="false" access="public">

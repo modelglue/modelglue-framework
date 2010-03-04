@@ -310,21 +310,21 @@
 		<cfscript>
 			// TRANSFORM TEMPLATE FOR PROCESSING
 			// Turn CF Template tag and variable identifiers into arbritrary strings
-			TemplateScript = Replace(TemplateScript, OpenTagString, "!!START_CFTEMPLATE!!", "all");
-			TemplateScript = Replace(TemplateScript, CloseTagString, "!!END_CFTEMPLATE!!", "all");
-			TemplateScript = Replace(TemplateScript, EscapedVariableString, "!!EscapedVariableString!!", "all");
-			TemplateScript = Replace(TemplateScript, VariableString, "!!VariableString!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, OpenTagString, "!!START_CFTEMPLATE!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, CloseTagString, "!!END_CFTEMPLATE!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, EscapedVariableString, "!!EscapedVariableString!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, VariableString, "!!VariableString!!", "all");
 	
 			// Turn ColdFusion tag and variable identifiers into arbritrary strings
-			TemplateScript = Replace(TemplateScript, "<", "!!START_CF_TAG!!", "all");
-			TemplateScript = Replace(TemplateScript, ">", "!!END_CF_TAG!!", "all");
-			TemplateScript = Replace(TemplateScript, "####", "!!EscapedCFVariableString!!", "all");
-			TemplateScript = Replace(TemplateScript, "##", "!!CFVariableString!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "<", "!!START_CF_TAG!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, ">", "!!END_CF_TAG!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "####", "!!EscapedCFVariableString!!", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "##", "!!CFVariableString!!", "all");
 			
 			// Turn CF Template tag and variable identifiers into ColdFusion tag and variable identifiers
-			TemplateScript = Replace(TemplateScript, "!!START_CFTEMPLATE!!", "<", "all");
-			TemplateScript = Replace(TemplateScript, "!!END_CFTEMPLATE!!", ">", "all");
-			TemplateScript = Replace(TemplateScript, "!!VariableString!!", "##", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "!!START_CFTEMPLATE!!", "<", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "!!END_CFTEMPLATE!!", ">", "all");
+			arguments.TemplateScript = Replace(arguments.TemplateScript, "!!VariableString!!", "##", "all");
 			
 		</cfscript>	
 		

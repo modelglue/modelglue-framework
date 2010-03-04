@@ -18,21 +18,12 @@
 --->
 
 <!---
-	**SCAFFOLDING CONFIGURATION**
-	
-  If your application uses custom scaffolding settings, change this to set the location
-	of your ScaffoldingConfiguration.xml file
-	
-	<cfset ModelGlue_SCAFFOLDING_CONFIGURATION_PATH = expandPath("/ModelGlue/unity/config/ScaffoldingConfiguration.xml") />
---->
-
-<!---
 	**CUSTOM CORE CONFIGURATION**
 
-  If your path to /modelglue/unity/config/Configuration.xml is custom, change it here.  Otherwise,
-  it will default to /modelglue/unity/config/Configuration.xml
+  If your path to ModelGlueConfiguration.xml is custom, change it here.  Otherwise,
+  it will default to /ModelGlue/gesture/configuration/ModelGlueConfiguration.xml
 
-	<cfset ModelGlue_CORE_COLDSPRING_PATH = expandPath("/ModelGlue/unity/config/Configuration.xml") />
+	<cfset ModelGlue_CORE_COLDSPRING_PATH = "/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
 --->
 
 <!---

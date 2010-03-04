@@ -30,7 +30,8 @@
 		<cfset local.validresponse = "{""users"":{""ROWCOUNT"":12,""COLUMNS"":[""NAME""],""DATA"":{""name"":[""Person-1"",""Person-2"",""Person-3"",""Person-4"",""Person-5"",""Person-6"",""Person-7"",""Person-8"",""Person-9"",""Person-10"",""Person-11"",""Person-12""]}}}" />
 
 		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
-		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
+		<!--- Making this comparison case insensitive because of the unfathomable key casing issues between different version of CF --->
+		<cfset assertFalse(compareNoCase(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
 		
 	</cffunction>
 

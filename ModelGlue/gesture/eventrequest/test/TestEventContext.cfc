@@ -794,4 +794,38 @@
 	<cfset structClear(url) />
 </cffunction>
 
+<cffunction name="testQueuedEventLimit" returntype="void" access="public">
+	<cfset var maxQueuedEventsPerRequest = mg.getConfigSetting("maxQueuedEventsPerRequest") />
+	<cfset var i = 0 />
+	<cfset var er = "" />
+	<cfset var eh = "" />
+
+	<!--- Test that does not exceed the queue limit --->
+	<cfset er = createEventContext() />
+	<cfloop index="i" from="1" to="#maxQueuedEventsPerRequest#">
+		<cfset eh = createEventHandler() />
+		<cfset eh.name = "eh#i#" />		
+		<cfset er.addEventHandler(eh) />
+	</cfloop>
+	<cftry>
+		<cfset er.execute() />
+		<cfcatch type="ModelGlue.QueuedEventLimitExceeded">
+			<cfset fail("Event queue limit exception thrown prematurely!") />
+		</cfcatch>
+	</cftry>
+	
+	<!--- Test that exceeds the queue limit --->
+	<cfset er = createEventContext() />	
+	<cfloop index="i" from="1" to="#(maxQueuedEventsPerRequest+1)#">
+		<cfset eh = createEventHandler() />
+		<cfset eh.name = "eh#i#" />		
+		<cfset er.addEventHandler(eh) />
+	</cfloop>
+	<cftry>
+		<cfset er.execute() />
+		<cfset fail("Event queue limit exception not thrown!") />
+		<cfcatch type="ModelGlue.QueuedEventLimitExceeded" />
+	</cftry>	
+</cffunction>
+
 </cfcomponent>
