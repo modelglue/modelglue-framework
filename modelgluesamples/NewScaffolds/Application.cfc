@@ -6,7 +6,7 @@
 <cfset this.sessionTimeout = createTimeSpan(0,0,30,0) />
 <cfset this.ormenabled = true />
 <cfset this.datasource = "NewScaffolding" />
-<cfset this.ormsettings = {dbcreate="update",logSQL=true,sqlscript="loadScript.sql"} />
+<cfset this.ormsettings = {dbcreate="update",logSQL=true,sqlscript="loadScript.sql",flushatrequestend=false,dialect="MySQLwithInnoDB"} />
 <cfset this.mappings = createMappings() />
 
 <cffunction name="onSessionStart"  output="false">
@@ -48,6 +48,7 @@
 	<cfloop index="i" list="views,beans" delimiters=",">
 		<cfset mappings["/" & i] = GetDirectoryFromPath(GetCurrentTemplatePath()) & i />
 	</cfloop>
+	<cfset mappings["/cfUniForm"] = GetDirectoryFromPath(GetCurrentTemplatePath()) & "views/customtags/forms/cfUniform" />
 	<cfreturn mappings>
 </cffunction>
 

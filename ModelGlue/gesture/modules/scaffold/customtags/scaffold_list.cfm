@@ -1,5 +1,5 @@
 <cfif thisTag.executionMode eq "start"><cfexit method="exittemplate" /></cfif>
-<cfimport taglib="/views/customtags/forms/cfUniForm/" prefix="uform" />
+<cfimport taglib="/cfUniForm/" prefix="uform" />
 <cfsilent>
 	<!--- tag attributes --->
 	<cfparam name="attributes.displayPropertyList" type="string" />

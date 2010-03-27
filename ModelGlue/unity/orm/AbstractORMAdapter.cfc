@@ -152,7 +152,10 @@ The version number in parenthesis is in the format versionNumber.subversion.revi
 		<cfif isQuery(selected)>
 			<cfset selectedList = evaluate("valueList(selected.#arguments.sourceKey#)") />
 		<cfelseif isStruct(selected)>
-			<cfset selectedList = structKeyList(selected)>
+			<cfset selectedList = "" />
+			<cfloop collection="#selected#" item="i">
+				<cfset selectedList = listAppend(selectedList, evaluate("selected[i].get#arguments.sourceKey#()")) />
+			</cfloop>
 		<cfelseif isArray(selected)>
 			<cfset selectedList = "" />
 			<cfloop from="1" to="#arrayLen(selected)#" index="i">

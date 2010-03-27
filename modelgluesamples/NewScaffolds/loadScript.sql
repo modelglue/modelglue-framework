@@ -18,17 +18,17 @@ INSERT INTO Lang
 VALUES (4,'Pig Latin');
 
 INSERT INTO CountryLanguage
-VALUES (1,1,'CA','English');
+VALUES (1,1,'English');
 INSERT INTO CountryLanguage
-VALUES (2,1,'CA','French');
+VALUES (2,1,'French');
 INSERT INTO CountryLanguage
-VALUES (1,2,'US','English');
+VALUES (1,2,'English');
 INSERT INTO CountryLanguage
-VALUES (3,2,'US','Spanish');
+VALUES (3,2,'Spanish');
 INSERT INTO CountryLanguage
-VALUES (1,3,'UK','English');
+VALUES (1,3,'English');
 INSERT INTO CountryLanguage
-VALUES (4,3,'UK','Pig Latin');
+VALUES (4,3,'Pig Latin');
 
 INSERT INTO province(provinceid, provincename, sortsequence, countryid)
     VALUES (0, 'Other', 3, 0);

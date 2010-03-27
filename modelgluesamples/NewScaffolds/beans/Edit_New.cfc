@@ -124,8 +124,7 @@
 			valueQuery="##event.getValue(''%Metadata.properties[thisProp].sourceobject%List'')##"
 			selectedList="##variables.ormAdapter.getSelectedList(event,%Metadata.alias%Record,''%thisProp%'',''%Metadata.properties[thisProp].sourceKey%'')##"
 			childDescProperty="%Metadata.properties[thisProp].sourcecolumn%"
-			value="##variables.ormAdapter.getSourceValue(%Metadata.alias%Record,''%Metadata.properties[thisProp].alias%'',''%Metadata.properties[thisProp].sourcekey%'',event)##"
-			nullable="%getIsNullable(Metadata.properties[thisProp])%" objectName="%Metadata.alias%" />
+			objectName="%Metadata.alias%" />
 		<</cfif>>  
 	<</cfloop>>
 	<tr>
