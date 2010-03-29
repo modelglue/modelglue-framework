@@ -4,25 +4,36 @@ component persistent="true" table="Lang"
 	property name="LanguageName" notnull="true";
 	property name="Countries" fieldtype="many-to-many" cfc="Country" type="array" linktable="CountryLanguage" inverse="true" singularname="Country" fkcolumn="LanguageId";
 	
-	public void function removeCountry(object) hint="set both sides of the bi-directional relationship" {
-		var Languages = arguments.object.getLanguages();
-		if (isStruct(Languages)) {
-			structDelete(Languages,variables.LanguageName);
+	public Language function init() {
+		if (isNull(variables.Countries)) {
+			variables.Countries = [];
 		}
-		if (isArray(variables.Countries)) {
-			var index = arrayFind(variables.Countries,arguments.object);
-			if (index gt 0) {
-				arrayDeleteAt(variables.Countries,index);
-			}
+		return this;
+	}
+	
+	public void function addCountry(required Country Country) 
+		hint="set both sides of the bi-directional relationship" {
+		// set this side
+		if (not hasCountry(arguments.Country)) {
+			arrayAppend(variables.Countries,arguments.Country);
+		}
+		// set the other side
+		if (not arguments.Country.hasLanguage(variables.LanguageName)) {
+			arguments.Country.addLanguage(variables.LanguageName,this);
 		}
 	}
 
-	public void function addCountry(object) hint="set both sides of the bi-directional relationship" {
-		var Languages = arguments.object.getLanguages();
-		if (not isStruct(Languages)) {
-			Languages = {};
+	public void function removeCountry(required Country Country) 
+		hint="set both sides of the bi-directional relationship" {
+		// set this side
+		var index = arrayFind(variables.Countries,arguments.Country);
+		if (index gt 0) {
+			arrayDeleteAt(variables.Countries,index);
 		}
-		Languages[variables.LanguageName] = this;
-		arrayAppend(variables.Countries,arguments.object);
+		// set the other side
+		if (arguments.Country.hasLanguage(variables.LanguageName)) {
+			arguments.Country.removeLanguage(variables.LanguageName);
+		}
 	}
+
 }

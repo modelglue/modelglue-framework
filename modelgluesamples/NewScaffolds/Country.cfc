@@ -7,26 +7,32 @@ component persistent="true" orderedPropertyList="CountryCode,CountryName,SortSeq
 	property name="Provinces" fieldtype="one-to-many" cfc="Province" type="array" singularname="Province" fkcolumn="CountryId" inverse="true";
 	property name="Languages" fieldtype="many-to-many" cfc="Language" type="struct" structkeycolumn="LanguageName" structkeytype="string" linktable="CountryLanguage" singularname="Language" fkcolumn="CountryId";
 	
-	public void function addLanguage(key,object) hint="set both sides of the bi-directional relationship" {
-		var Countries = arguments.object.getCountries();
-		if (not isArray(Countries)) {
-			Countries = [];
+	public Country function init() {
+		if (isNull(variables.Languages)) {
+			variables.Languages = {};
 		}
-		arrayAppend(Countries,this);
-		variables.Languages[arguments.key] = arguments.object;
+		return this;
+	}
+	
+	public void function addLanguage(required string key,required Language Language) 
+		hint="set both sides of the bi-directional relationship" {
+		// set this side
+		variables.Languages[arguments.key] = arguments.Language;
+		// set the other side
+		if (not arguments.Language.hasCountry(this)) {
+			arguments.Language.addCountry(this);
+		}
 	}
 
-	public void function removeLanguage(key) hint="set both sides of the bi-directional relationship" {
+	public void function removeLanguage(required string key) 
+		hint="set both sides of the bi-directional relationship" {
+		// set the other side
 		var Language = (structKeyExists(variables.Languages,arguments.key) ? variables.Languages[arguments.key] : "");
-		if (isObject(Language)) {
-			var Countries = Language.getCountries();
-			if (isArray(Countries)) {
-				var index = arrayFind(Countries,this);
-				if (index gt 0) {
-					arrayDeleteAt(Countries,index);
-				}
-			}
+		if (isObject(Language) and Language.hasCountry(this)) {
+			Language.removeCountry(this);
 		}
+		// set this side
 		structDelete(variables.Languages,arguments.key);
 	}
+
 }
