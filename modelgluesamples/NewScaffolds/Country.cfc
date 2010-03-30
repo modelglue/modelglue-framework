@@ -20,7 +20,8 @@ component persistent="true" orderedPropertyList="CountryCode,CountryName,SortSeq
 		variables.Languages[arguments.key] = arguments.Language;
 		// set the other side
 		if (not arguments.Language.hasCountry(this)) {
-			arguments.Language.addCountry(this);
+			arrayAppend(arguments.Language.getCountries(),this);
+			//arguments.Language.addCountry(this);
 		}
 	}
 
@@ -29,7 +30,12 @@ component persistent="true" orderedPropertyList="CountryCode,CountryName,SortSeq
 		// set the other side
 		var Language = (structKeyExists(variables.Languages,arguments.key) ? variables.Languages[arguments.key] : "");
 		if (isObject(Language) and Language.hasCountry(this)) {
-			Language.removeCountry(this);
+			var Countries = Language.getCountries();
+			var index = arrayFind(Countries,this);
+			if (index gt 0) {
+				arrayDeleteAt(Countries,index);
+			}
+			//Language.removeCountry(this);
 		}
 		// set this side
 		structDelete(variables.Languages,arguments.key);

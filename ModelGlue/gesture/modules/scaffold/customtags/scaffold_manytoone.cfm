@@ -13,7 +13,7 @@
 	<cfparam name="attributes.readonly" type="boolean" default="false" />
 <</cfsilent>
 <cfoutput>
-<uform:field name="#attributes.name#" type="select">
+<uform:field name="#attributes.name#" type="select" label="#attributes.label#">
 	<cfif attributes.nullable>
 		<uform:option display="" value="" />
 	</cfif>

@@ -30,42 +30,14 @@
 		<script type="text/javascript" language="javascript" src="www/js/jquery-1.3.2.min.js"></script>
 		<script type="text/javascript" language="javascript" src="www/js/jquery.tablesorter.min.js"></script>
 		<script type="text/javascript" language="javascript" src="www/addons/pager/jquery.tablesorter.pager.js"></script>
-		<script type="text/javascript" src="www/js/jquery.uitablefilter.js"></script>
 		<script type="text/javascript" charset="utf-8">
-		<cfoutput>
-		var #attributes.name#FilterText = "";
-		var #attributes.name#ColumnArray = [#columnList#];
-		</cfoutput>
-
 		$(document).ready(function() {
-			function filterTable(pagerId) {
-				var prefix = pagerId.replace("Pager","");
-				var tableId = prefix + "Table";
-				var filterText = eval(prefix + "FilterText");
-				var columnArray = eval(prefix + "ColumnArray");
-			    for (i = 0; i < columnArray.length; i++) {
-					$("#" + tableId + " tbody tr").find("td:eq(" + i + ")").filter(".criterion").unbind(".uifilter");
-					$("#" + tableId + " tbody tr").find("td:eq(" + i + ")").filter(".criterion").bind("click.uifilter",(function(){
-						clickedText = $(this).text();
-						filterText = ((filterText == clickedText) ? "" : clickedText);
-						$.uiTableFilter($("#" + tableId), filterText, columnArray[i]);
-					}));
-				}
-			}
-			
 			<cfoutput>
 			$("###tableId#")
 				.tablesorter({widthFixed: true, widgets: ["zebra"]})
 				.tablesorterPager({container: $("###pagerContainer#"), size: 5});
-			filterTable("#attributes.name#");
-			
-			$("###pagerContainer#").click(function(){
-				filterTable("#attributes.name#");
-			});
-
 			</cfoutput>
 		});
-
 		</script>
 	</cfsavecontent>
 	<cfhtmlhead text="#tableSorterInit#">
