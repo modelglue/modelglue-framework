@@ -45,7 +45,7 @@
 		<property name="scaffoldCustomTagMappings">
 			<map>
 				<entry key="mg">
-					<value>/ModelGlue/gesture/modules/scaffold/customtags/</value>
+					<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
 				</entry>
 				<entry key="uform">
 					<value>/ModelGlueExtensions/cfUniform/tags/forms/cfUniform/</value>
