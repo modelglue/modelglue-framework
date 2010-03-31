@@ -1,5 +1,5 @@
 <cfif thisTag.executionMode eq "start"><cfexit method="exittemplate" /></cfif>
-<cfimport taglib="/cfUniForm/" prefix="uform" />
+<cfimport taglib="/ModelGlueExtensions/cfUniform/tags/forms/cfUniform/" prefix="uform" />
 <cfsilent>
 	<!--- tag attributes --->
 	<cfparam name="attributes.displayPropertyList" type="string" />

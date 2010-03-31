@@ -48,7 +48,7 @@
 	<cfloop index="i" list="views,beans" delimiters=",">
 		<cfset mappings["/" & i] = GetDirectoryFromPath(GetCurrentTemplatePath()) & i />
 	</cfloop>
-	<cfset mappings["/cfUniForm"] = GetDirectoryFromPath(GetCurrentTemplatePath()) & "views/customtags/forms/cfUniform" />
+	<cfset mappings["/modelglueextensions"] = GetDirectoryFromPath(GetCurrentTemplatePath()) & "../../modelglueextensions" />
 	<cfreturn mappings>
 </cffunction>
 

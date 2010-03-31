@@ -48,7 +48,7 @@
 					<value>/ModelGlue/gesture/modules/scaffold/customtags/</value>
 				</entry>
 				<entry key="uform">
-					<value>/views/customtags/forms/cfUniForm/</value>
+					<value>/ModelGlueExtensions/cfUniform/tags/forms/cfUniform/</value>
 				</entry>
 			</map>
 		</property>
