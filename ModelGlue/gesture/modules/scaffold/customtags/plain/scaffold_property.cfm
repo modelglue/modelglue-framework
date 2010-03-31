@@ -8,9 +8,9 @@
 	<cfparam name="attributes.length" type="numeric" default="0" />
 <</cfsilent>
 <cfoutput>
-<tr>	
-	<td><label for="#attributes.name#">#attributes.label#</label></td>
-	<td>
+<div class="formfield">
+	<label for="#attributes.name#"><b>#attributes.label#:</b></label>
+	<span class="input">
 		<cfif attributes.type eq "boolean">
 			<input type="radio" id="#attributes.name#_true" name="#attributes.name#" value="true"<cfif isBoolean(attributes.value) and attributes.value> checked="checked"</cfif>/>
 			<label for="#attributes.name#_true"> Yes</label>
@@ -21,6 +21,6 @@
 		<cfelse>
 			<textarea class="input" id="#attributes.name#" name="#attributes.name#">#attributes.value#</textarea>
 		</cfif>
-	</td>
-</tr>
+	</span>
+</div>
 </cfoutput>

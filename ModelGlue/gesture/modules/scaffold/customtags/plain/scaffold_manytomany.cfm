@@ -12,9 +12,9 @@
 	<cfparam name="attributes.validation" type="struct" default="#structNew()#" />
 <</cfsilent>
 <cfoutput>
-<tr>	
-	<td><label for="#attributes.name#"<cfif structKeyExists(attributes.validation,attributes.name)> class="error"</cfif>>#attributes.label#</label></td>
-	<td>
+<div class="formfield">
+	<label for="#attributes.name#"><b>#attributes.label#:</b></label>
+	<span class="input">
 		<!--- 
 		hidden makes the field always defined.  if this was not here, and you deleted this whole field
 		from the control, you would wind up deleting all child records during a genericCommit...
@@ -29,6 +29,6 @@
 				</label><br />
 			</cfloop>
 		</div>
-	</td>
-</tr>
+	</span>
+</div>
 </cfoutput>

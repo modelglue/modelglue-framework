@@ -11,20 +11,24 @@
 	<cfparam name="attributes.validation" type="struct" default="#structNew()#" />
 <</cfsilent>
 <cfoutput>
-<tr>	
-	<td><label for="#attributes.name#"<cfif structKeyExists(attributes.validation,attributes.name)> class="error"</cfif>>#attributes.label#</label></td>
-	<td>
+<div class="formfield">
+	<label for="#attributes.name#"><b>#attributes.label#:</b></label>
+	<span class="input">
 		<select id="#attributes.name#" name="#attributes.name#">
 			<cfif attributes.nullable>
 				<option value=""></option>
 			</cfif>
 			<cfloop query="attributes.valueQuery">
-				<option value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"<cfif attributes.value eq attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]> selected=selected</cfif>>
+				<option value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"
+					<cfif attributes.value eq attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]> selected="selected"</cfif>
+				>
 					#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#
 				</option>
 			</cfloop>
 		</select>
+		<!--- TODO: Delete this?
 		<cfmodule template="/ModelGlue/customtags/validationErrors.cfm" property="#attributes.objectName#" validation="#attributes.validation#" />
-	</td>
-</tr>
+		--->
+	</span>
+</div>
 </cfoutput>
