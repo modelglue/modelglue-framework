@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<snippet filetemplate="false" extension="cfm">
+<name>cfUniForm Fieldset Tag</name>
+<help>Inserts a cfUniForm fieldset tag</help>
+<starttext><![CDATA[			<uform:fieldset legend="$${Legend Text}">
+			</uform:fieldset>
+]]></starttext>
+<endtext><![CDATA[]]></endtext>
+</snippet>

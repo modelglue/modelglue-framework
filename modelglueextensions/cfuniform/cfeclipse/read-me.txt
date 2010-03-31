@@ -1,0 +1,17 @@
+/******************************************************************************************\
+
+cfeclipse dictionary xml courtesy of Mary Jo Sminkey (http://www.cfwebstore.com)
+
+/******************************************************************************************\
+
+Drop the cfuniform.xml file (/cfeclipse/dictionary/cfuniform.xml) into your plugins/cfeclipse directory 
+(latest release would be the org.cfeclipse.cfml_1.3.1.6 directory) and then add it to the 
+dictionaryconfig.xml file like this:
+
+        <version key="cf8" label="Coldfusion 8">
+            <grammar location="cf8.xml" />
+            <grammar location="user.xml" />
+            <grammar location="cfuniform.xml" />
+       </version>
+
+Restart Eclipse, and it should be good to go.

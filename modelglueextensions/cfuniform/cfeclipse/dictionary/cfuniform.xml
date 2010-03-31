@@ -1,0 +1,677 @@
+<?xml version="1.0" ?>
+<dictionary xmlns="http://www.cfeclipse.org/version1/dictionary"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cfeclipse.org/version1/dictionary.xsd http://cfeclipse.tigris.org/version1/dictionary/dictionary.xsd"
+>
+			
+	<tags>
+			
+		<tag creator="8" name="uform:radio" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="label" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="value" type="string" required="true">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="hint" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="isChecked" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="no" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:states-aus" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="defaultState" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="fieldName" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="province" />
+			</parameter>
+			<parameter name="struct" type="struct" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#form#" />
+			</parameter>
+			<parameter name="showSelect" type="boolean" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="showAustralia" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+
+				<values default="" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:optgroup" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="label" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="isDisabled" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:field" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="type" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="" />
+			</parameter>
+			<parameter name="name" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="label" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#attributes.name#" />
+
+			</parameter>
+			<parameter name="value" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="hint" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="errorMessage" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="isRequired" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="isDisabled" type="boolean" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="isChecked" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="fieldSize" type="numeric" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="35" />
+			</parameter>
+			<parameter name="maxFieldLength" type="numeric" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="50" />
+			</parameter>
+			<parameter name="textareaResizable" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+
+			</parameter>
+			<parameter name="containerClass" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="inputClass" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="mask" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="validation" type="string" required="false">
+				<help><![CDATA[
+					deprecated in v3.0 (2/19/09)
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="pluginSetup" type="string" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+				<values default="" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:form" single="true" xmlstyle="true">
+
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="action" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="id" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="loadDateUI" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="loadTimeUI" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="loadMaskUI" type="boolean" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="loadValidation" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="loadjQuery" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="no" />
+			</parameter>
+			<parameter name="loadTextareaResize" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="textareaMaxHeight" type="numeric" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="500" />
+
+			</parameter>
+			<parameter name="textareaSetup" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="timeSetup" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="dateSetup" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="validationSetup" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="errors" type="struct" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#structNew()#" />
+			</parameter>
+			<parameter name="errorTitle" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="Oooops!  Invalid Fields!" />
+			</parameter>
+			<parameter name="errorMessage" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="The following errors were detected in your form.  Please fix the offending fields and re-submit." />
+			</parameter>
+			<parameter name="errorMessagePlacement" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="both" />
+			</parameter>
+			<parameter name="errorListType" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="ul" />
+
+			</parameter>
+			<parameter name="okMsg" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="method" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="post" />
+			</parameter>
+
+			<parameter name="showSubmit" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="showCancel" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="cancelValue" type="string" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="Cancel" />
+			</parameter>
+			<parameter name="cancelDisplay" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="Cancel" />
+			</parameter>
+			<parameter name="submitValue" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="Submit" />
+			</parameter>
+			<parameter name="showReset" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="resetValue" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="Reset" />
+
+			</parameter>
+			<parameter name="submitButtonAddClass" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="submit2name" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="submit2value" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="submit2placement" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="before" />
+			</parameter>
+			<parameter name="requiredFields" type="struct" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#structNew()#" />
+			</parameter>
+			<parameter name="fieldLabels" type="struct" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#structNew()#" />
+			</parameter>
+			<parameter name="config" type="struct" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="#structNew()#" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:checkbox" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="value" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+
+			<parameter name="label" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="hint" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="isChecked" type="boolean" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+			<parameter name="name" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:countrycodes" single="true" xmlstyle="true">
+
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="defaultCountry" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="fieldName" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="country" />
+			</parameter>
+
+			<parameter name="struct" type="struct" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#form#" />
+			</parameter>
+			<parameter name="showSelect" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+				<values default="" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:fieldset" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="legend" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+
+			</parameter>
+			<parameter name="class" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="inlineLabels" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+				<values default="" />
+			</parameter>
+
+		</tag>
+			
+		<tag creator="8" name="uform:option" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+			<parameter name="display" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="value" type="string" required="true">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="" />
+			</parameter>
+			<parameter name="isSelected" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="no" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:states-can" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+
+			<parameter name="defaultState" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="fieldName" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="province" />
+			</parameter>
+			<parameter name="struct" type="struct" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#form#" />
+			</parameter>
+			<parameter name="showSelect" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="showCanada" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="yes" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+				<values default="" />
+			</parameter>
+		</tag>
+			
+		<tag creator="8" name="uform:states-us" single="true" xmlstyle="true">
+			<help><![CDATA[
+				
+			]]></help>
+
+			<parameter name="defaultState" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="" />
+			</parameter>
+			<parameter name="fieldName" type="string" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="state" />
+			</parameter>
+			<parameter name="struct" type="struct" required="false">
+
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="#form#" />
+			</parameter>
+			<parameter name="showSelect" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+				<values default="yes" />
+			</parameter>
+			<parameter name="showUS" type="boolean" required="false">
+				<help><![CDATA[
+					
+				]]></help>
+
+				<values default="no" />
+			</parameter>
+			<parameter name="content" type="string" required="false">
+				<help><![CDATA[
+					do not supply this attribute; it is used internally
+				]]></help>
+				<values default="" />
+			</parameter>
+		</tag>
+	</tags>
+			
+	<functions>
+
+	</functions>
+	<scopes>
+	</scopes>
+</dictionary>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<snippet filetemplate="false" extension="cfm">
+<name>cfUniForm Select Input Tag</name>
+<help>Inserts a cfUniForm select box tag block</help>
+<starttext><![CDATA[				<uform:field label="$${Label}" name="$${Field Name}" type="select" isRequired="$${Is Required?:true|false}">
+]]></starttext>
+<endtext><![CDATA[				</uform:field>
+]]></endtext>
+</snippet>

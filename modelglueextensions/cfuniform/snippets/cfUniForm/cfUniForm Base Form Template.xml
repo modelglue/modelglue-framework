@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<snippet filetemplate="false" extension="cfm">
+<name>cfUniForm Base Form Template</name>
+<help>Inserts a base cfUniForm form block</help>
+<starttext><![CDATA[	<div class="cfUniForm-form-container">
+		<uform:form action="#$${Submit Action (e.g. xit.varName)}#" id="$${Form ID}" errors="#$${Form Errors Variable}#" errorMessagePlacement="$${Error Message Placement:inline|top|both|none}" submitValue="#$${Submit Button Variable (e.g. btnVarName)}#" loadValidation="true">
+			<p class="bold">Fields marked with an asterisk (*) are required.</p>
+			
+			<uform:fieldset legend="$${Legend Text}">
+			</uform:fieldset>
+		</uform:form>
+	</div>
+]]></starttext>
+<endtext><![CDATA[]]></endtext>
+</snippet>

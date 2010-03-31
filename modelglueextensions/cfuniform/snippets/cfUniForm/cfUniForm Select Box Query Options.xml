@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<snippet filetemplate="false" extension="cfm">
+<name>cfUniForm Select Box Query Options</name>
+<help>Inserts a query-driven select box option list (cfUniForm option tag)</help>
+<starttext><![CDATA[				<cfloop query="$${Query Name (e.g. qFoo)}">
+					<uform:option display="#$${Query Name (e.g. qFoo)}.$${Query Display Column}[currentRow]#" value="#$${Query Name (e.g. qFoo)}.$${Query ID Column}[currentRow]#" isSelected="#$${Compare To Variable (e.g. foo.getId())} EQ $${Query Name (e.g. qFoo)}.$${Query ID Column}[currentRow]#" />
+				</cfloop>
+]]></starttext>
+<endtext><![CDATA[]]></endtext>
+</snippet>

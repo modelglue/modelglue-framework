@@ -1,0 +1,21 @@
+body { 	background-color: white; font-family: 'Lucida Grande', Geneva, Verdana, Arial, Helvetica, sans-serif; }
+#wrap {
+	width: 790px;
+	height: 100%;
+	margin: 10px auto;
+}
+a { color: blue; }
+li { padding: 2px 0; }
+dl { margin-left: 20px; font-size: 0.8em; }
+dd { white-space: pre; }
+.hide { display: none; }
+.bold { font-weight: bold; }
+
+
+/* BEGIN: dynamic add/remove row rules */
+input.removable { width: 60% !important; }
+img.remove-field-trigger { margin-left: 10px; cursor: pointer; }
+div.removable-field-row { margin-top: 15px; }
+div.add-field-container { margin: 15px 0 0 32% !important; }
+span.add-field-trigger { cursor: pointer; }
+/* END: dynamic add/remove row rules */

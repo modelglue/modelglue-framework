@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<snippet filetemplate="false" extension="cfm">
+<name>cfUniForm Custom Input Tag</name>
+<help>Inserts a cfUniForm type="custom" wrapper tag block</help>
+<starttext><![CDATA[				<uform:field label="$${Label}" type="custom">
+					<!--- custom code here --->
+				</uform:field>
+]]></starttext>
+<endtext><![CDATA[]]></endtext>
+</snippet>
