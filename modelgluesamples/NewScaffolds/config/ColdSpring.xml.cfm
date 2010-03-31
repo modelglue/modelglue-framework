@@ -159,7 +159,7 @@
 	<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>beans.Edit_cfU</value></entry>
+				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.Edit</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Form.</value></entry>
@@ -171,7 +171,7 @@
 	<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>beans.List_Paging_jQueryTableSorter</value></entry>
+				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.List</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>List.</value></entry>
@@ -183,7 +183,7 @@
 	<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
 			<map>
-				<entry key="class"><value>beans.View_New</value></entry>
+				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.View</value></entry>
 				<event key="hasXMLGeneration"><value>true</value></event>
 				<event key="hasViewGeneration"><value>true</value></event>
 				<entry key="prefix"><value>Display.</value></entry>
