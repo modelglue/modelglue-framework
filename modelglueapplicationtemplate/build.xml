@@ -8,33 +8,33 @@
 	
 	Instructions:
 	
-	Set the "newApplicationName" property's value to the datasource name of
-	your new application directory.  The script will name the application 
-	(via <cfapplication>) the same thing - feel free to change it later.
+	Run the script. Answer the prompts. That's it!
 	
-	Set the "newApplicationDirectory" to the directory where you'd like your
-	new application to go.
-	
-	Run the script.
+	Edit the build.properties file in this directory if you wish to change the defaults or skip the prompts.
 -->	
-<project name="New Model-Glue Application" default="build" basedir="..">
-	<property name="newApplicationName" value="myNewApplication" />
-	<property name="newApplicationDirectory" value="/webroot/newApplicationDirectory/" />
+<project name="New Model-Glue Application" default="build">
 
-	<!--
-	For the Windows/IIS crowd   
-	<property name="newApplicationDirectory" value="c:/inetpub/wwwroot/${newApplicationName}" />
-	-->
-	
-	<!-- Where is the MG app template? -->
-	<property name="templateDirectory" value="./modelglueapplicationtemplate"/>
-		
-	<target name="build">
+	<!-- Get build properties from file before any other sources -->
+	<property file="build.properties" />
+
+	<!-- Default values for required properties not found in the build.properties file -->
+	<property name="templateDirectory" value="." />
+	<property name="defaultNewApplicationName" value="myNewApplication" />
+	<property name="defaultNewApplicationParentDirectory" value="/webroot" />
+
+	<target name="build" depends="newApplicationNameProperty,newApplicationDirectoryProperty" description="Create a new Model-Glue application">
 		<copy todir="${newApplicationDirectory}">
-			<fileset dir="${templateDirectory}">
-				<exclude name="**/build.xml" />
-			</fileset>
+			<fileset dir="${templateDirectory}" excludes=".project,build.xml,build.properties,readme.txt" />
 		</copy>
 		<replace dir="${newApplicationDirectory}" token="modelglueapplicationtemplate" value="${newApplicationName}" />
 	</target>
-</project> 
+	
+	<target name="newApplicationNameProperty" unless="newApplicationName">
+		<input message="New application name:" addproperty="newApplicationName" defaultvalue="${defaultNewApplicationName}" />
+	</target>
+
+	<target name="newApplicationDirectoryProperty" unless="newApplicationDirectory">
+		<input message="New application directory:" addproperty="newApplicationDirectory" defaultvalue="${defaultNewApplicationParentDirectory}/${newApplicationName}" />
+	</target>
+
+</project>
