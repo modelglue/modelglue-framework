@@ -1,5 +1,5 @@
 <cfif thisTag.executionMode eq "start"><cfexit method="exittemplate" /></cfif>
-<cfimport taglib="/ModelGlueExtensions/cfUniform/tags/forms/cfUniform/" prefix="uform" />
+<cfimport taglib="/modelglueextensions/cfuniform/tags/forms/cfUniForm/" prefix="uform" />
 <cfinclude template="../listHelperFunctions.cfm" />
 <cfsilent>
 	<!--- tag attributes --->
