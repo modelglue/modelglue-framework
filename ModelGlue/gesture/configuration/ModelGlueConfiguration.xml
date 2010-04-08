@@ -62,6 +62,7 @@
 					<list>
 						<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
 						<value>/ModelGlue/gesture/modules/internal/generation/config/generation.xml</value>
+						<value>/ModelGlue/gesture/modules/asset/config/asset.xml</value>
 					</list>
 				</constructor-arg>
 			</bean>
@@ -113,6 +114,13 @@
 	-->
 	<property name="viewRenderer">
 		<ref bean="modelglue.viewRenderer" />
+	</property>
+
+	<!-- 
+		Asset Manager to use.
+	-->
+	<property name="assetManager">
+		<ref bean="modelglue.assetManager" />
 	</property>
 
 	<!-- 
@@ -242,6 +250,21 @@
 	View renderer
 -->
 <bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer">
+	<property name="modelGlue">
+		<ref bean="modelGlue.ModelGlue" />
+	</property>
+</bean>
+
+<!--
+	Asset manager
+-->
+<bean id="modelglue.assetManager" class="ModelGlue.gesture.modules.asset.manager.AssetManager">
+	<constructor-arg name="CSSPrefix"><value>&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
+	<constructor-arg name="CSSSuffix"><value>" /&gt;</value></constructor-arg>
+	<constructor-arg name="IECSSPrefix"><value>&lt;!--[if lte ie 8]&gt;&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
+	<constructor-arg name="IECSSSuffix"><value>" /&gt;&lt;![endif]--&gt;</value></constructor-arg>
+	<constructor-arg name="JSPrefix"><value>&lt;script type="text/javascript" src="</value></constructor-arg>
+	<constructor-arg name="JSSuffix"><value>"&gt;&lt;/script&gt;</value></constructor-arg>
 	<property name="modelGlue">
 		<ref bean="modelGlue.ModelGlue" />
 	</property>

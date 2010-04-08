@@ -25,6 +25,7 @@
 		<property name="applicationMapping"><value>/</value></property>
 		<property name="viewMappings"><value>/views,/views/customized,/views/generated</value></property>
 		<property name="helperMappings"><value>/helpers</value></property>
+		<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
 		
 		<!-- Generate unknown events when in development mode?  (reload=false) -->
 		<property name="generationEnabled"><value>false</value></property>
@@ -48,7 +49,7 @@
 					<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
 				</entry>
 				<entry key="uform">
-					<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
+					<value>/modelglueextensions/jQuery/cfuniform/tags/forms/cfUniForm/</value>
 				</entry>
 			</map>
 		</property>

@@ -14,6 +14,7 @@
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
+	<cfset variables._assetCollection = createObject("component", "ModelGlue.gesture.collections.AssetCollection").init() />
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
 	<cfset variables._currentEventHandler = "" />
@@ -48,6 +49,8 @@
 			<cfset variables._requestPhases = arguments.requestPhases />
 		</cfif>
 	</cfif>
+	
+	<cfset variables._assetCollection.setAssetManager( variables._modelGlue.assetManager ) />
 	
 	<!--- Event Handler and View queues are implemented as linked lists --->
 	<cfset variables._nextEventHandler = "" />
@@ -712,6 +715,60 @@
 	<cfset var i = "" />
 	
 	<cfreturn variables._beanPopulator.populate(arguments.target, variables._state, fields) />
+</cffunction>
+
+
+<!--- ASSET MANAGEMENT --->
+<cffunction name="addCSSAssetFile" access="public" output="false" returntype="void">
+	<cfargument name="path" type="string" required="true" />
+	<cfargument name="name" type="string" required="false" />
+	
+	<cfset arguments.type = "CSS" />
+	
+	<cfset variables._assetCollection.addAssetFile( argumentCollection=arguments ) />
+</cffunction>
+
+<cffunction name="addCSSAssetCode" access="public" output="false" returntype="void">
+	<cfargument name="code" type="string" required="true" />
+	<cfargument name="name" type="string" required="false" />
+	
+	<cfset arguments.type = "CSS" />
+	
+	<cfset variables._assetCollection.addAssetCode( argumentCollection=arguments ) />
+</cffunction>
+
+<cffunction name="addJSAssetFile" access="public" output="false" returntype="void">
+	<cfargument name="path" type="string" required="true" />
+	<cfargument name="name" type="string" required="false" />
+	
+	<cfset arguments.type = "JS" />
+	
+	<cfset variables._assetCollection.addAssetFile( argumentCollection=arguments ) />
+</cffunction>
+
+<cffunction name="addJSAssetCode" access="public" output="false" returntype="void">
+	<cfargument name="code" type="string" required="true" />
+	<cfargument name="name" type="string" required="false" />
+	
+	<cfset arguments.type = "JS" />
+	
+	<cfset variables._assetCollection.addAssetCode( argumentCollection=arguments ) />
+</cffunction>
+
+<cffunction name="getCSSAssets" access="public" output="false" returntype="string">
+	<cfreturn variables._assetCollection.getCSSAssets() />
+</cffunction>
+
+<cffunction name="getJSAssets" access="public" output="false" returntype="string">
+	<cfreturn variables._assetCollection.getJSAssets() />
+</cffunction>
+
+<cffunction name="renderAssets" access="public" output="false" returntype="void">
+	<cfif not variables._assetCollection.assetsRendered() and len(variables._assetCollection.getAllAssets())>
+		<cfset variables._assetCollection.renderAssetsInHead() />
+		
+		<cfset addTraceStatement("Assets", "Assets rendered in HTML head") />
+	</cfif>
 </cffunction>
 
 </cfcomponent>

@@ -9,6 +9,7 @@
     <cfset variables._instance.applicationMapping = "" />
     <cfset variables._instance.viewMappings = arrayNew(1) />
     <cfset variables._instance.helperMappings = "" />
+    <cfset variables._instance.assetMappings = arrayNew(1) />
     <cfset variables._instance.primaryModule = "" />
     <cfset variables._instance.primaryModuleType = "XML.Gesture" />
     <cfset variables._instance.reloadKey = "init" />
@@ -148,6 +149,14 @@
 </cffunction>
 <cffunction name="getHelperMappings" returntype="string" output="false">
 	<cfreturn variables._instance.HelperMappings />
+</cffunction>
+
+<cffunction name="setAssetMappings" returntype="void" output="false" access="public">
+	<cfargument name="AssetMappings" type="string" />
+	<cfset variables._instance.AssetMappings = listToArray(arguments.AssetMappings) />
+</cffunction>
+<cffunction name="getAssetMappings" returntype="array" output="false">
+	<cfreturn variables._instance.AssetMappings />
 </cffunction>
 
 <cffunction name="setGeneratedViewMapping" returntype="void" output="false" access="public">

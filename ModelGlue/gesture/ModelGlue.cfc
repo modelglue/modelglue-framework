@@ -103,6 +103,12 @@
 	<cfset variables._viewRenderer = arguments.viewRenderer />
 </cffunction>
 
+<cffunction name="setAssetManager" output="false" hint="Sets the asset manager to use to store and render assets.">
+	<cfargument name="assetManager" output="false" />
+
+	<cfset this.assetManager = arguments.assetManager />
+</cffunction>
+
 <cffunction name="setCacheAdapter" output="false" hint="Sets the caching adapter to use for content caching.">
 	<cfargument name="cacheAdapter" output="false" />
 	<cfset this.cacheAdapter = arguments.cacheAdapter />

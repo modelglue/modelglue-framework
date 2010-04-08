@@ -25,6 +25,7 @@
 	<property name="applicationMapping"><value>/modelglueapplicationtemplate</value></property>
 	<property name="viewMappings"><value>/modelglueapplicationtemplate/views</value></property>
 	<property name="helperMappings"><value>/modelglueapplicationtemplate/helpers</value></property>
+	<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
 	
 	<!-- Generate unknown events when in development mode?  (reload=false) -->
 	<property name="generationEnabled"><value>false</value></property>
