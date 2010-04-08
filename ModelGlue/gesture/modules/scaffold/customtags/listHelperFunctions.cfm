@@ -7,7 +7,7 @@
 	<cfoutput>
 	<td<cfif listFirst(arguments.displayPropertyList) neq arguments.thisProp> class="criterion"</cfif>>
 		<cfif listFirst(arguments.displayPropertyList) eq arguments.thisProp>
-			<a href="#arguments.viewLink#">
+			<a href="#arguments.viewLink#" class="viewLink">
 		</cfif>
 		#arguments.propValue#
 		<cfif listFirst(arguments.displayPropertyList) eq arguments.thisProp>
@@ -46,8 +46,8 @@
 	<cfargument name="deleteEvent" />
 
 	<cfoutput>
-	<td><a href="#replaceNoCase(arguments.viewLink,arguments.viewEvent,arguments.editEvent)#">Edit</a></td>
-	<td><a href="#replaceNoCase(arguments.viewLink,arguments.viewEvent,arguments.deleteEvent)#">Delete</a></td>
+	<td class="button"><a href="#replaceNoCase(arguments.viewLink,arguments.viewEvent,arguments.editEvent)#">Edit</a></td>
+	<td class="button delete"><a href="#replaceNoCase(arguments.viewLink,arguments.viewEvent,arguments.deleteEvent)#">Delete</a></td>
 	</cfoutput>
 </cffunction>
 

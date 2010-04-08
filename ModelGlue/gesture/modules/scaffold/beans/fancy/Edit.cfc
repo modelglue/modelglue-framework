@@ -32,6 +32,40 @@
 		<cfset variables.isNew = false />
 	</cfif>
 	<cfset variables.ormAdapter = event.getModelGlue().getOrmAdapter() />
+	
+	<cfset event.addCSSAssetFile( "ui/css/smoothness/jquery-ui-1.8.custom.css" ) />
+	<cfset event.addCSSAssetFile( "cfuniform/commonassets/css/uni-form.css" ) />
+	<cfset event.addCSSAssetFile( path="cfuniform/commonassets/css/uni-form-ie.css", ieOnly=true ) />
+	
+	<cfoutput>
+	<cfsavecontent variable="buttonCSS">
+		<style type="text/css" media="all">
+			.uniForm .buttonHolder button {
+				background-color: none;
+				border: 1px solid ####D3D3D3;
+				font-size: 1em;
+			}
+		</style>
+	</cfsavecontent>
+	</cfoutput>
+	
+	<cfset event.addCSSAssetCode( buttonCSS ) />
+	
+	<cfset event.addJSAssetFile( "core/jquery-1.4.2.min.js" ) />
+	<cfset event.addJSAssetFile( "ui/js/jquery-ui-1.8.custom.min.js" ) />
+	<cfset event.addJSAssetFile( "cfuniform/commonassets/scripts/jQuery/forms/uni-form.jquery.js" ) />
+	
+	<cfoutput>
+	<cfsavecontent variable="buttonJS">
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$(":submit").button();
+			} );
+		</script>
+	</cfsavecontent>
+	</cfoutput>
+	
+	<cfset event.addJSAssetCode( buttonJS ) />
 </cfsilent>
 	
 <cfoutput>
@@ -48,7 +82,7 @@
 </cfif>
 <br />
 <div class="cfUniForm-form-container">
-	<uform:form action="##commitEvent##" id="frmMain" config="##CFUniformConfig##" submitValue=" Save %Metadata.alias% ">
+	<uform:form action="##commitEvent##" id="frmMain" config="##CFUniformConfig##" submitValue=" Save %Metadata.alias% " loadDefaultCSS="false" loadDefaultJS="false">
 	%makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
 		<uform:fieldset legend="">
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>

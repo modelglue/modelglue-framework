@@ -16,18 +16,101 @@
 	<cfparam name="attributes.onEditForm" type="boolean" default="false" />
 	
 	<cfset isEmbedded = len(attributes.label) gt 0 /> 
-		
+	
 	<cfset tableId = attributes.name & "Table" />
+	
+	<cfset caller.event.addCSSAssetFile( "ui/css/smoothness/jquery-ui-1.8.custom.css" ) />
+	<cfset caller.event.addCSSAssetFile( "dataTables/media/css/demo_page.css" ) />
+	<cfset caller.event.addCSSAssetFile( "dataTables/media/css/demo_table_jui.css" ) />
+	
 	<cfoutput>
-	<cfsavecontent variable="dataTablesInit"> <!--- Datatables jquery requirements --->
-		<link rel="stylesheet" type="text/css" media="all" href="/modelglueextensions/jQuery/dataTables/media/css/demo_table.css" />
-		<script type="text/javascript" language="javascript" src="/modelglueextensions/jQuery/dataTables/media/js/jquery.dataTables.min.js"></script>
+	<cfsavecontent variable="dataTablesCSS"> <!--- dataTables styling --->
+		<style type="text/css" media="all">
+			.dataTables_wrapper {
+				margin-bottom: 1em;
+				min-height: 0;
+			}
+			.dataTables_wrapper table {
+				width: 100%;
+			}
+			.dataTables_wrapper table th {
+				text-align: center;
+			}
+			.dataTables_wrapper table td.button {
+				text-align: center;
+			}
+			.dataTables_wrapper table a.viewLink {
+				background: none;
+			}
+			.ui-button, .ui-dialog {
+				font-size: 1em;
+			}
+			.ui-button-text-only .ui-button-text {
+				padding: .2em .6em;
+			}
+		</style>
+	</cfsavecontent>
+	</cfoutput>
+	
+	<cfset caller.event.addCSSAssetCode( dataTablesCSS ) />
+	
+	<cfset caller.event.addJSAssetFile( "core/jquery-1.4.2.min.js" ) />
+	<cfset caller.event.addJSAssetFile( "ui/js/jquery-ui-1.8.custom.min.js" ) />
+	<cfset caller.event.addJSAssetFile( "dataTables/media/js/jquery.dataTables.min.js" ) />
+	
+	<cfoutput>
+	<cfsavecontent variable="dataTablesJS"> <!--- dataTables JavaScript configuration --->
 		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function() { 	$("###tableId#").dataTable( { "bAutoWidth": false } ) } );
+			$(document).ready(function() {
+				
+				var th = $("###tableId# thead th");
+				var columns = [];
+				
+				th.each(function(index) {
+					if (index < th.length - 2)
+						columns.push( null );
+					else
+						columns.push( { "bSearchable": false, "bSortable": false } );
+				} );
+				
+				$("###tableId#").dataTable( {
+					"aoColumns": columns,
+					"bAutoWidth": false,
+					"bJQueryUI": true,
+					"fnDrawCallback": setButtons
+				} );
+				
+				$("td.delete a").live("click", function() {
+					var linkTarget = $(this).attr("href");
+					var entityName = "#attributes.name#";
+					
+					$("<div>Are you sure you wish to delete this " + entityName + "?</div>").appendTo("body").dialog( {
+						buttons: {
+							Cancel: function() {
+								$(this).dialog("close").remove();
+							},
+							OK: function() {
+								window.location.href = linkTarget;
+								$(this).dialog("close").remove();
+							}
+						},
+						modal: true,
+						title: "Delete " + entityName
+					} );
+					
+					return false;
+				} );
+				
+			} );
+			
+			function setButtons() {
+				$("td.button a, .addLink").button();
+			}
 		</script>
 	</cfsavecontent>
 	</cfoutput>
-	<cfhtmlhead text="#dataTablesInit#">	
+	
+	<cfset caller.event.addJSAssetCode( dataTablesJS ) />
 
 </cfsilent>
 <cfoutput>
@@ -66,25 +149,14 @@
 			</cfloop>
 		</cfif>
 	    </tbody>
-	    <tfoot>
-		<tr>
-			 <cfloop list="#attributes.displayPropertyList#" index="thisProp">
-				<th>#listLast(thisProp,"^")#</th>
-			</cfloop>
-			<th>&nbsp;</th>	
-			<th>&nbsp;</th>	
-		<cfif isEmbedded>
-			<cfset newLink = attributes.editEvent />
-			<cfloop list='#attributes.parentPKList#' index='pk'>
-				<cfset newLink = listAppend(newLink,"#pk#=#evaluate('attributes.record.get#pk#()')#","&") />
-			</cfloop>
-			<th colspan="#listLen(attributes.displayPropertyList)#">
-				<a href="#newLink#">Add to #attributes.label#</a>
-			</th>
-		</cfif>
-		</tr>
-	    </tfoot>
 	</table>
+	<cfif isEmbedded>
+		<cfset newLink = attributes.editEvent />
+		<cfloop list='#attributes.parentPKList#' index='pk'>
+			<cfset newLink = listAppend(newLink,"#pk#=#evaluate('attributes.record.get#pk#()')#","&") />
+		</cfloop>
+		<a href="#newLink#" class="addLink">Add to #attributes.label#</a>
+	</cfif>
 </cfsavecontent>
 
 <!--- Produce output here --->
