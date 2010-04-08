@@ -341,7 +341,7 @@
 <bean id="modelglue.scaffoldType.Commit" class="coldspring.beans.factory.config.MapFactoryBean">
 	<property name="SourceMap">
 		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Commit</value></entry>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Commit</value></entry>
 			<event key="hasXMLGeneration"><value>true</value></event>
 			<event key="hasViewGeneration"><value>false</value></event>
 		</map>
@@ -351,7 +351,7 @@
 <bean id="modelglue.scaffoldType.Delete" class="coldspring.beans.factory.config.MapFactoryBean">
 	<property name="SourceMap">
 		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.Delete</value></entry>
+			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Delete</value></entry>
 			<event key="hasXMLGeneration"><value>true</value></event>
 			<event key="hasViewGeneration"><value>false</value></event>
 		</map>
