@@ -42,11 +42,23 @@
 			.dataTables_wrapper table a.viewLink {
 				background: none;
 			}
+			
 			.ui-button, .ui-dialog {
 				font-size: 1em;
 			}
 			.ui-button-text-only .ui-button-text {
 				padding: .2em .6em;
+			}
+			
+			.ctrlHolder .dataTables_wrapper .dataTables_length select {
+				border-style: none;
+				background-color: none;
+				float: none;
+				width: auto;
+			}
+			.ctrlHolder .dataTables_wrapper .dataTables_filter input {
+				background-color: none;
+				border-style: none;
 			}
 		</style>
 	</cfsavecontent>
