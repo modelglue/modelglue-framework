@@ -167,7 +167,12 @@
 	<cfreturn variables._instance.GeneratedViewMapping />
 </cffunction>
 <cffunction name="getFullGeneratedViewMapping" returntype="string" output="false">
-	<cfreturn "#getApplicationMapping()#/#getGeneratedViewMapping()#" />
+	<cfset var fullGeneratedViewMapping = getGeneratedViewMapping() />
+	<!--- Let's see if the user put in a path from root. If not, we'll include it --->
+	<cfif mid(fullGeneratedViewMapping, 1, 1 ) IS NOT "/">
+		<cfset fullGeneratedViewMapping = "#getApplicationMapping()#/#getGeneratedViewMapping()#" />
+	</cfif>
+	<cfreturn fullGeneratedViewMapping />
 </cffunction>
 
 <cffunction name="setConfigurationPath" returntype="void" output="false" access="public" hint="Deprecated in favor of setPrimaryModule.  Included for Unity reverse compatibility.">
