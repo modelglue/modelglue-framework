@@ -122,8 +122,38 @@
 		</script>
 	</cfsavecontent>
 	</cfoutput>
-	
 	<cfset event.addJSAssetCode( buttonJS ) />
+	
+	
+	<<cfif %arrayLen(structFindValue(Metadata.properties, "date"))% GT 0>>
+		<cfset event.addJSAssetFile( "cfuniform/commonassets/scripts/jQuery/forms/jquery.datepick-3.7.5.min.js") />
+		<cfset event.addJSAssetFile( "cfuniform/commonassets/scripts/jQuery/forms/jquery.datepick-3.7.5.validation.min.js") />
+		<cfset event.addCSSAssetFile( path="cfuniform/commonassets/css/datepick/jquery.datepick.css") />
+		<cfset event.addCSSAssetFile( path="cfuniform/commonassets/css/datepick/smoothness.datepick.css") />
+			
+		<cfsavecontent variable="dateCSS">
+		<style type="text/css" media="all">
+			.uniForm .buttonHolder button {
+				background-color: none;
+				border: 1px solid ##D3D3D3;
+				font-size: 1em;
+			}
+		</style>
+		</cfsavecontent>
+		<cfset event.addCSSAssetCode( dateCSS ) />
+		
+		<cfsavecontent variable="dateJS">
+		  <script type="text/javascript">
+		  	$(document).ready(function() { 
+				$.datepicker.setDefaults({buttonImage:"/modelglueextensions/cfuniform/commonassets/images/uni-form/calendar.png"}); 
+				$("##frmMain .addDatePicker").datepick(); 
+				$("##frmMain .addDatePicker").datepicker(); 
+			});
+		  </script>
+		 </cfsavecontent>
+		 <cfset event.addJSAssetCode( dateJS ) />
+	 	
+	 <</cfif>>
 </cfsilent>
 	
 <cfoutput>
@@ -140,7 +170,7 @@
 </cfif>
 <br />
 <div class="cfUniForm-form-container">
-	<uform:form action="##commitEvent##" id="frmMain" config="##CFUniformConfig##" submitValue=" Save %Metadata.alias% " loadDefaultCSS="false" loadDefaultJS="false">
+	<uform:form action="##commitEvent##" id="frmMain" attributecollection="##CFUniformConfig##" submitValue=" Save %Metadata.alias% " loadDefaultCSS="false" loadDefaultJS="false">
 	%makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
 		<uform:fieldset legend="">
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>
