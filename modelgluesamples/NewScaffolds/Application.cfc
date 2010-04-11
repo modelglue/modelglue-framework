@@ -7,7 +7,6 @@
 <cfset this.ormenabled = true />
 <cfset this.datasource = "NewScaffolding" />
 <cfset this.ormsettings = {dbcreate="dropcreate",logSQL=true,sqlscript="loadScript.sql",flushatrequestend=false,dialect="MySQLwithInnoDB"} />
-<cfset this.mappings = createMappings() />
 
 <cffunction name="onSessionStart"  output="false">
 	<!--- Not sure anyone'll ever need this...
@@ -40,17 +39,5 @@
 		<cfset mgInstances[i].executeEvent(arguments.eventName, values) />
 	</cfloop>
 </cffunction>
-
-<cffunction name="createMappings" access="private" output="false" returntype="struct">
-	<cfset var mappings = StructNew()>
-	<cfset var i = "">
-	<cfset mappings["/"] = GetDirectoryFromPath(GetCurrentTemplatePath()) />
-	<cfloop index="i" list="views,beans" delimiters=",">
-		<cfset mappings["/" & i] = GetDirectoryFromPath(GetCurrentTemplatePath()) & i />
-	</cfloop>
-	<cfset mappings["/modelglueextensions"] = GetDirectoryFromPath(GetCurrentTemplatePath()) & "../../modelglueextensions" />
-	<cfreturn mappings>
-</cffunction>
-
 
 </cfcomponent>

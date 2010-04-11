@@ -20,15 +20,15 @@ VALUES (4,'Pig Latin');
 INSERT INTO CountryLanguage
 VALUES (1,1,'English');
 INSERT INTO CountryLanguage
-VALUES (2,1,'French');
+VALUES (1,2,'French');
 INSERT INTO CountryLanguage
-VALUES (1,2,'English');
+VALUES (2,1,'English');
 INSERT INTO CountryLanguage
-VALUES (3,2,'Spanish');
+VALUES (2,3,'Spanish');
 INSERT INTO CountryLanguage
-VALUES (1,3,'English');
+VALUES (3,1,'English');
 INSERT INTO CountryLanguage
-VALUES (4,3,'Pig Latin');
+VALUES (3,4,'Pig Latin');
 
 INSERT INTO Province(provinceid, provincename, sortsequence, countryid)
     VALUES (0, 'Other', 3, 0);

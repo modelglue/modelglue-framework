@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modelglue>
 	<controllers>
-		<controller id="Controller" type="controller.Controller">
+		<controller id="Controller" type="modelgluesamples.NewScaffolds.controller.Controller">
 			<message-listener message="onRequestStart" />
 		</controller>
 	</controllers>
@@ -25,15 +25,12 @@
 			</views>
 		</event-handler>
 		
-		<scaffold object="Country" type="view,list,edit,grid,commit,delete" propertylist="countrycode,countryname,sortsequence,provinces,languages" event-type="templatedPage">
-		</scaffold>
-
-		<scaffold object="Province" event-type="templatedPage">
-		</scaffold>
-
-		<scaffold object="Language" event-type="templatedPage" propertylist="LanguageName,Countries">
-		</scaffold>
-
+		<scaffold object="Country" propertylist="CountryCode,CountryName,SortSequence,Languages,Provinces" event-type="templatedPage" />
+		
+		<scaffold object="Language" propertylist="LanguageName,Countries" event-type="templatedPage" />
+		
+		<scaffold object="Province" event-type="templatedPage" />
+		
 	</event-handlers>
 </modelglue>
 
