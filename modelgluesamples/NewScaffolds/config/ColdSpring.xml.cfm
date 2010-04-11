@@ -49,7 +49,7 @@
 					<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
 				</entry>
 				<entry key="uform">
-					<value>/modelglueextensions/jQuery/cfuniform/tags/forms/cfUniForm/</value>
+					<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
 				</entry>
 			</map>
 		</property>
