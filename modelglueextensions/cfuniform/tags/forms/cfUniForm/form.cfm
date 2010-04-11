@@ -1,5 +1,5 @@
 <cfsilent>
-<!--- EDITABLE CONFIG SETTINGS ON LINE 305 --->
+<!--- EDITABLE CONFIG SETTINGS ON LINE 322 --->
 <!--- 
 filename:			tags/forms/form.cfm
 date created:	10/22/07
@@ -122,6 +122,10 @@ purpose:			I display an XHTML 1.0 Strict form based upon the Uni-Form markup
 						it as well.
 	
 	2/23/10			Deprecated the 'config' attribute.  Use 'pathConfig' instead.					MQ
+	
+	4/09/10			Added the 'jsLoadVar' and 'cssLoadVar' attributes.  These attributes			MQ
+						facilitate returning the CSS and JS load strings to the caller.
+						See use example comments for details.
 	
  --->
 
@@ -253,6 +257,18 @@ purpose:			I display an XHTML 1.0 Strict form based upon the Uni-Form markup
 	@jsConfigVar		Optional (string)			The name of the variable that should be used to return the jsConfig to the caller.
 														If not provided, the jsConfig will be added automatically. (Default behavior.)
 														If provided, cfUniForm will set the variable in the calling page.
+	@jsLoadVar			Optional (string)			The name of the variable that should be used to return the JavaScript load HTML to the caller.
+														(e.g. all of the <script src="/path/to/script.js"></script> load strings)
+														
+														If provided, cfUniForm will set the variable in the calling page.
+														
+														NOTE: Providing this variable will completely override @addJStoHead.  That is, @addJStoHead
+														*will* be ignored.
+	@cssLoadVar			Optional (string)			The name of the variable that should be used to return the CSS load HTML to the caller.
+														(e.g. all of the <link rel="stylesheet" src="/path/to/styles.css" /> load strings)
+														
+														If provided, cfUniForm will set the variable in the calling page rather than adding them
+														to the document <head>.
 	@configForm			Optional (boolean)			Indicates whether or not cfUniForm should call jQuery().uniform() on this specific form.
 														Useful if you have all of the assets already loaded and are loading the form
 														into the page via ajax.
@@ -367,6 +383,8 @@ purpose:			I display an XHTML 1.0 Strict form based upon the Uni-Form markup
 	<cfparam name="attributes.configForm" type="boolean" default="no" />
 	<cfparam name="attributes.addJStoHead" type="boolean" default="yes" />
 	<cfparam name="attributes.jsConfigVar" type="string" default="" />
+	<cfparam name="attributes.jsLoadVar" type="string" default="" />
+	<cfparam name="attributes.cssLoadVar" type="string" default="" />
 	<cfparam name="attributes.enctype" type="string" default="application/x-www-form-urlencoded" />
 	<cfparam name="attributes.requiredFields" type="struct" default="#structNew()#" />
 	<cfparam name="attributes.fieldLabels" type="struct" default="#structNew()#" />
@@ -834,20 +852,36 @@ $("button.submitButton").click(function() { $(this).attr("disabled",true).html("
 		<!--- END: build the prerequisite JavaScript/CSS --->
 		
 		<!--- check <head> loads --->
-		<cfif attributes.loadDefaultCSS>
+		<cfif attributes.loadDefaultCSS AND len(attributes.cssLoadVar) EQ 0>
 			<!--- load the CSS --->
 			<cfhtmlhead text="#_CSS#" />
+		<cfelseif attributes.loadDefaultCSS AND len(attributes.cssLoadVar) GT 0>
+			<cfset caller[attributes.cssLoadVar] = _CSS />
 		</cfif>
-		<cfif attributes.loadDefaultJS AND attributes.addJStoHead>
-			<!--- load the default JS to the <head> --->
-			<cfhtmlhead text="#_JS#" />
-		</cfif>
-		<cfif attributes.addJStoHead AND len(attributes.jsConfigVar) EQ 0>
-			<!--- no jsConfigVar; add it to the <head> --->
-			<cfhtmlhead text="#jsConfig#" />
-		<cfelseif attributes.addJStoHead AND len(attributes.jsConfigVar) GT 0>
-			<!--- we have a jsConfigVar; return jsConfig to the caller --->
-			<cfset caller[attributes.jsConfigVar] = jsConfig />
+		<!--- if we do *not* have a jsLoadVar... --->
+		<cfif len(attributes.jsLoadVar) EQ 0>
+			<cfif attributes.loadDefaultJS AND attributes.addJStoHead>
+				<!--- load the default JS to the <head> --->
+				<cfhtmlhead text="#_JS#" />
+			</cfif>
+			<cfif attributes.addJStoHead AND len(attributes.jsConfigVar) EQ 0>
+				<!--- no jsConfigVar; add it to the <head> --->
+				<cfhtmlhead text="#jsConfig#" />
+			<cfelseif attributes.addJStoHead AND len(attributes.jsConfigVar) GT 0>
+				<!--- we have a jsConfigVar; return jsConfig to the caller --->
+				<cfset caller[attributes.jsConfigVar] = jsConfig />
+			</cfif>
+		<!--- if we *do* have a jsLoadVar... --->
+		<cfelse>
+			<cfscript>
+				if ( len(attributes.jsConfigVar) EQ 0 ) {
+					_JS = _JS & " " & jsConfig;
+				} else {
+					caller[attributes.jsConfigVar] = jsConfig;
+				}
+				
+				caller[attributes.jsLoadVar] = _JS;
+			</cfscript>
 		</cfif>
 		
 	<!--- BEGIN: showSubmit check --->
@@ -877,11 +911,11 @@ $("button.submitButton").click(function() { $(this).attr("disabled",true).html("
 	
 	<cfoutput></form></cfoutput>
 	<!--- if we are suppose to load the JS and did not load to the head, load now --->
-	<cfif attributes.loadDefaultJS AND NOT attributes.addJStoHead>
+	<cfif (len(attributes.jsLoadVar) EQ 0) AND attributes.loadDefaultJS AND NOT attributes.addJStoHead>
 		<cfoutput>#_JS#</cfoutput>
 	</cfif>
 	<!--- do we need to add the jsConfig? --->
-	<cfif NOT attributes.addJStoHead AND len(attributes.jsConfigVar) EQ 0>
+	<cfif (len(attributes.jsLoadVar) EQ 0) AND NOT attributes.addJStoHead AND len(attributes.jsConfigVar) EQ 0>
 		<!--- no jsConfigVar; add jsConfig to output --->
 		<cfoutput>#jsConfig#</cfoutput>
 	</cfif>
