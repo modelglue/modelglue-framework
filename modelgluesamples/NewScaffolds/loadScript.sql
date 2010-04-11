@@ -17,17 +17,17 @@ VALUES (3,'Spanish');
 INSERT INTO Lang
 VALUES (4,'Pig Latin');
 
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (1,1,'English');
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (1,2,'French');
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (2,1,'English');
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (2,3,'Spanish');
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (3,1,'English');
-INSERT INTO CountryLanguage
+INSERT INTO CountryLanguage(CountryId,LanguageId,LanguageName)
 VALUES (3,4,'Pig Latin');
 
 INSERT INTO Province(provinceid, provincename, sortsequence, countryid)
