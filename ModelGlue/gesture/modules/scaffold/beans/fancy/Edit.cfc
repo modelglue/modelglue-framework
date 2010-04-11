@@ -146,7 +146,7 @@
 </cfif>
 <br />
 <div class="cfUniForm-form-container">
-	<uform:form action="##commitEvent##" id="frmMain" attributecollection="##CFUniformConfig##" submitValue=" Save %Metadata.alias% ">
+	<uform:form action="##commitEvent##" id="frmMain" attributecollection="##CFUniformConfig##" submitValue=" Save %Metadata.alias% " cssLoadVar="uformCSS" jsLoadVar="uformJS">
 	%makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
 		<uform:fieldset legend="">
 		    <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>

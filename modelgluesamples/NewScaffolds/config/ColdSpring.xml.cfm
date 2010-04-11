@@ -83,8 +83,6 @@
 						<entry key="animationSpeed"><value>'slow'</value></entry>
 					</map>
 				</entry>
-				<entry key="jsLoadVar"><value>uformJS</value></entry>
-				<entry key="cssLoadVar"><value>uformCSS</value></entry>
 				<entry key="pathConfig">
 					<map>
 						<entry key="jQuery"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/jquery-1.3.2.min.js</value></entry>
@@ -147,5 +145,14 @@
 	<!-- CF9/ORM adapter/service -->
 	<alias alias="ormAdapter" name="ormAdapter.cfORM" />
 	<alias alias="ormService" name="ormService.cfORM" />
+	
+	<!-- Transfer ORM adapter/service
+	<alias alias="ormAdapter" name="ormAdapter.Transfer" />
+	<alias alias="ormService" name="ormService.Transfer" />
+	<bean id="transferConfiguration" class="transfer.com.config.Configuration">
+		<constructor-arg name="datasourcePath"><value>/modelgluesamples/NewScaffolds/config/transfer/Datasource.xml</value></constructor-arg>
+		<constructor-arg name="configPath"><value>/modelgluesamples/NewScaffolds/config/transfer/Transfer.xml</value></constructor-arg>
+		<constructor-arg name="definitionPath"><value>/modelgluesamples/NewScaffolds/config/transfer/data</value></constructor-arg>
+	</bean> -->
 	
 </beans>
