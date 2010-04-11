@@ -48,6 +48,10 @@
 			<entry key="mg">
 				<value>/ModelGlue/gesture/modules/scaffold/customtags/plain/</value>
 			</entry>
+			<!-- Uncomment this entry and comment out the preceding one in order to use "fancy" scaffolds -->
+			<!-- <entry key="mg">
+				<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
+			</entry> -->
 			<entry key="uform">
 				<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
 			</entry>
