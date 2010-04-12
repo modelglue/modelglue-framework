@@ -6,8 +6,8 @@
 	<cfparam name="attributes.label" type="string" default="#attributes.name#" />
 	<cfparam name="attributes.value" type="string" default="" />
 	<!--- TODO: These should be configurable via Coldspring somehow --->
-	<cfparam name="attributes.dateFormat" type="string" default="m/d/yyyy" />
-	<cfparam name="attributes.timeFormat" type="string" default="h:mm TT" />
+	<cfparam name="attributes.dateFormat" type="string" default="mm/dd/yyyy" />
+	<cfparam name="attributes.timeFormat" type="string" default="" />
 <</cfsilent>
 <cfoutput>
 <div class="formfield">

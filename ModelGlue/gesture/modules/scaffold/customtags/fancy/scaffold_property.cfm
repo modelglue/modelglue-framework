@@ -8,6 +8,9 @@
 	<cfparam name="attributes.value" type="string" default="" />
 	<cfparam name="attributes.length" type="numeric" default="0" />
 	<cfparam name="attributes.event" type="any" />
+	<!--- TODO: These should be configurable via Coldspring somehow --->
+	<cfparam name="attributes.dateFormat" type="string" default="mm/dd/yyyy" />
+	<cfparam name="attributes.timeFormat" type="string" default="" />
 <</cfsilent>
 <cfoutput>
 <cfif structKeyExists(attributes,"event") and attributes.event.valueExists(attributes.name)>
@@ -19,7 +22,7 @@
 		<uform:radio label="No" value="0" isChecked="#isBoolean(attributes.value) and not attributes.value#" />
 	</uform:field>
 <cfelseif attributes.type eq "date">
-	<uform:field label="#attributes.label#" name="#attributes.name#" type="date" value="#attributes.value#" />
+	<uform:field label="#attributes.label#" name="#attributes.name#" type="date" value="#dateFormat(attributes.value, attributes.dateFormat)#  #timeFormat(attributes.value, attributes.timeFormat)#" />
 <cfelseif attributes.length LTE 65535>
 	<uform:field label="#attributes.label#" name="#attributes.name#" type="text" value="#attributes.value#" />
 <cfelse>

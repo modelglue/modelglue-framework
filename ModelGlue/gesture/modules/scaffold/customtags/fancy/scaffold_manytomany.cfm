@@ -10,14 +10,16 @@
 	<cfparam name="attributes.label" type="string" default="#attributes.name#" />
 <</cfsilent>
 <cfoutput>
-<uform:field type="custom">
-	<input type="hidden" name="#attributes.label#|#attributes.name#" value="" />
-	#attributes.label#
-</uform:field>
+<!--- 
+hidden makes the field always defined.  if this was not here, and you deleted this whole field
+from the control, you would wind up deleting all child records during a genericCommit...
+--->
+<input type="hidden" name="#attributes.label#|#attributes.name#" value="" />
+<uform:field name="#attributes.label#|#attributes.name#" type="select" label="#attributes.label#" selectSize="3" inputClass="multiSelect">
 <cfloop query="attributes.valueQuery">
-	<uform:field label="#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#"
-		name="#attributes.label#|#attributes.name#"
-		value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#" type="checkbox"
-		isChecked="#listFindNoCase(attributes.selectedList, attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow])#"  />
+	<uform:option display="#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#" 
+		value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"
+		isSelected="#listFindNoCase(attributes.selectedList, attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow])#" />
 </cfloop>
+</uform:field>
 </cfoutput>

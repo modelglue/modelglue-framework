@@ -6,6 +6,9 @@
 	<cfparam name="attributes.label" type="string" default="#attributes.name#" />
 	<cfparam name="attributes.value" type="string" default="" />
 	<cfparam name="attributes.length" type="numeric" default="0" />
+	<!--- TODO: These should be configurable via Coldspring somehow --->
+	<cfparam name="attributes.dateFormat" type="string" default="mm/dd/yyyy" />
+	<cfparam name="attributes.timeFormat" type="string" default="" />
 <</cfsilent>
 <cfoutput>
 <div class="formfield">
@@ -17,7 +20,7 @@
 			<input type="radio" id="#attributes.name#_false" name="#attributes.name#" value="false"<cfif isBoolean(attributes.value) and not attributes.value >checked="checked"</cfif>/>
 			<label for="#attributes.name#_false"> No</label>		
 		<cfelseif attributes.length LTE 65535>
-			<input type="text" class="input" id="#attributes.name#" name="#attributes.name#" value="<cfif attributes.type eq "date">#dateFormat(attributes.value,'m/d/yyyy')# #timeFormat(attributes.value,'h:mm TT')#<cfelse>#attributes.value#</cfif>" />
+			<input type="text" class="input" id="#attributes.name#" name="#attributes.name#" value="<cfif attributes.type eq "date">#dateFormat(attributes.value, attributes.dateFormat)# #timeFormat(attributes.value, attributes.timeFormat)#<cfelse>#attributes.value#</cfif>" />
 		<cfelse>
 			<textarea class="input" id="#attributes.name#" name="#attributes.name#">#attributes.value#</textarea>
 		</cfif>

@@ -92,44 +92,13 @@
 	<cfset variables.ormAdapter = event.getModelGlue().getOrmAdapter() />
 	
 	<cfset event.addCSSAssetFile( "ui/css/smoothness/jquery-ui-1.8.custom.css" ) />
-	
-	<cfoutput>
-	<cfsavecontent variable="buttonCSS">
-		<style type="text/css" media="all">
-			.uniForm .buttonHolder button {
-				background-color: none;
-				border: 1px solid ####D3D3D3;
-				font-size: 1em;
-			}
-		</style>
-	</cfsavecontent>
-	</cfoutput>
-	<cfset event.addCSSAssetCode( buttonCSS ) />
+	<cfset event.addCSSAssetFile( "multiSelect/css/jquery.multiselect.css" ) />
+	<cfset event.addCSSAssetFile( "scaffold/css/edit.css" ) />
 	
 	<cfset event.addJSAssetFile( "core/jquery-1.4.2.min.js" ) />
 	<cfset event.addJSAssetFile( "ui/js/jquery-ui-1.8.custom.min.js" ) />
-	
-	<cfoutput>
-	<cfsavecontent variable="buttonJS">
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				$(":submit").button();
-			} );
-		</script>
-	</cfsavecontent>
-	</cfoutput>
-	<cfset event.addJSAssetCode( buttonJS ) />
-	
-	<<cfif %arrayLen(structFindValue(Metadata.properties, "date"))% GT 0>>
-		<cfsavecontent variable="dateJS">
-		  <script type="text/javascript">
-		  	$(document).ready(function() { 
-				$("##frmMain .addDatePicker").datepicker();
-			});
-		  </script>
-		 </cfsavecontent>
-		 <cfset event.addJSAssetCode( dateJS ) />
-	 <</cfif>>
+	<cfset event.addJSAssetFile( "multiSelect/js/jquery.multiselect.min.js" ) />
+	<cfset event.addJSAssetFile( "scaffold/js/edit.js" ) />
 </cfsilent>
 	
 <cfoutput>

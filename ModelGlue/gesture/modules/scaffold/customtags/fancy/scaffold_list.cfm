@@ -22,112 +22,17 @@
 	<cfset caller.event.addCSSAssetFile( "ui/css/smoothness/jquery-ui-1.8.custom.css" ) />
 	<cfset caller.event.addCSSAssetFile( "dataTables/media/css/demo_page.css" ) />
 	<cfset caller.event.addCSSAssetFile( "dataTables/media/css/demo_table_jui.css" ) />
-	
-	<cfoutput>
-	<cfsavecontent variable="dataTablesCSS"> <!--- dataTables styling --->
-		<style type="text/css" media="all">
-			.dataTables_wrapper {
-				margin-bottom: 1em;
-				min-height: 0;
-			}
-			.dataTables_wrapper table {
-				width: 100%;
-			}
-			.dataTables_wrapper table th {
-				text-align: center;
-			}
-			.dataTables_wrapper table td.button {
-				text-align: center;
-			}
-			.dataTables_wrapper table a.viewLink {
-				background: none;
-			}
-			
-			.ui-button, .ui-dialog {
-				font-size: 1em;
-			}
-			.ui-button-text-only .ui-button-text {
-				padding: .2em .6em;
-			}
-			
-			.ctrlHolder .dataTables_wrapper .dataTables_length select {
-				border-style: none;
-				background-color: none;
-				float: none;
-				width: auto;
-			}
-			.ctrlHolder .dataTables_wrapper .dataTables_filter input {
-				background-color: none;
-				border-style: none;
-			}
-		</style>
-	</cfsavecontent>
-	</cfoutput>
-	
-	<cfset caller.event.addCSSAssetCode( dataTablesCSS ) />
+	<cfset caller.event.addCSSAssetFile( "scaffold/css/list.css" ) />
 	
 	<cfset caller.event.addJSAssetFile( "core/jquery-1.4.2.min.js" ) />
 	<cfset caller.event.addJSAssetFile( "ui/js/jquery-ui-1.8.custom.min.js" ) />
 	<cfset caller.event.addJSAssetFile( "dataTables/media/js/jquery.dataTables.min.js" ) />
-	
-	<cfoutput>
-	<cfsavecontent variable="dataTablesJS"> <!--- dataTables JavaScript configuration --->
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				
-				var th = $("###tableId# thead th");
-				var columns = [];
-				
-				th.each(function(index) {
-					if (index < th.length - 2)
-						columns.push( null );
-					else
-						columns.push( { "bSearchable": false, "bSortable": false } );
-				} );
-				
-				$("###tableId#").dataTable( {
-					"aoColumns": columns,
-					"bAutoWidth": false,
-					"bJQueryUI": true,
-					"fnDrawCallback": setButtons
-				} );
-				
-				$("td.delete a").live("click", function() {
-					var linkTarget = $(this).attr("href");
-					var entityName = "#attributes.name#";
-					
-					$("<div>Are you sure you wish to delete this " + entityName + "?</div>").appendTo("body").dialog( {
-						buttons: {
-							Cancel: function() {
-								$(this).dialog("close").remove();
-							},
-							OK: function() {
-								window.location.href = linkTarget;
-								$(this).dialog("close").remove();
-							}
-						},
-						modal: true,
-						title: "Delete " + entityName
-					} );
-					
-					return false;
-				} );
-				
-			} );
-			
-			function setButtons() {
-				$("td.button a, .addLink").button();
-			}
-		</script>
-	</cfsavecontent>
-	</cfoutput>
-	
-	<cfset caller.event.addJSAssetCode( dataTablesJS ) />
+	<cfset caller.event.addJSAssetFile( "scaffold/js/list.js" ) />
 
 </cfsilent>
 <cfoutput>
 <cfsavecontent variable="theTable">
-	<table id="#tableId#">
+	<table id="#tableId#" class="dataTable">
 	    <thead>
 		<tr>
 			 <cfloop list="#attributes.displayPropertyList#" index="thisProp">
