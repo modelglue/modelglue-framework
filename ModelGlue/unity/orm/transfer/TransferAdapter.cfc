@@ -109,6 +109,7 @@
 		<cfset md[fields[i].alias].sourceColumn = "" />
 		<cfset md[fields[i].alias].sourceKey = "" />
 		<cfset md[fields[i].alias].relationship = false />
+		<cfset md[fields[i].alias].relationshiptype = "" />
 		<cfset md[fields[i].alias].pluralRelationship = false />
 		<cfset md[fields[i].alias].label = dict.getValue("#arguments.table#.#fields[i].alias#.label") />
 						
@@ -135,6 +136,7 @@
 			<!--- Determine the source --->
 			<cfset determineSource(md[hasOne[i].alias], hasOne[i]) />
 			<cfset md[hasOne[i].alias].relationship = true />
+			<cfset md[hasOne[i].alias].relationshiptype = "many-to-one" />
 			<cfset arrayAppend(properties, md[hasOne[i].alias]) />
 	</cfloop>
 	
@@ -156,6 +158,11 @@
 			
 			<cfset field.alias = hasMany[i].alias />
 			<cfset field.relationship = true />
+			<cfif hasMany[i].manyToMany>
+				<cfset field.relationshiptype = "many-to-many" />
+			<cfelse>
+				<cfset field.relationshiptype = "one-to-many" />
+			</cfif>
 			<cfset field.pluralRelationship = true />
 			<cfset field.linkingRelationship = hasMany[i].manyToMany />
 			<cfset determineSource(field, hasMany[i]) />
