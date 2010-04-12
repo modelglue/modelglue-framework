@@ -107,6 +107,10 @@
 		<exclude name="**/*.xml.cfm" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
+		<exclude name="modelglueextensions/" />
+		<exclude name="modelgluesamples/" />
+		<exclude name="cfOrmAdapterTest/" />
+		<exclude name="ModelGlue/gesture/modules/orm/cform/" />
 	</patternset>
 
 	<!-- Whitespace-sensitive core CFML files in the project to be munged and distributed -->
@@ -127,6 +131,9 @@
 		<include name="**/*.htm" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
+		<exclude name="modelglueextensions/" />
+		<exclude name="modelgluesamples/" />
+		<exclude name="cfOrmAdapterTest/" />
 	</patternset>
 
 	<!-- Core XML files in the project to be munged and distributed -->
@@ -135,6 +142,9 @@
 		<include name="**/*.xml" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
+		<exclude name="modelglueextensions/" />
+		<exclude name="modelgluesamples/" />
+		<exclude name="cfOrmAdapterTest/" />
 	</patternset>
 
 	<!-- Core CSS and JavaScript files in the project to be munged and distributed -->
@@ -143,12 +153,16 @@
 		<include name="**/*.js" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
+		<exclude name="modelglueextensions/" />
+		<exclude name="modelgluesamples/" />
+		<exclude name="cfOrmAdapterTest/" />
 	</patternset>
 
 	<!-- All project files to be distributed -->
 	<patternset id="projectFiles">
 		<include name="**/*" />
 		<exclude name="modelgluedistributionfiles/" />
+		<exclude name="cfOrmAdapterTest/" />
 	</patternset>
 
 	<!-- Resource files to be distributed -->
