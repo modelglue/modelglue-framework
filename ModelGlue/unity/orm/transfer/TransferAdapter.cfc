@@ -481,10 +481,10 @@
 			<cfset criteria = structNew() />
 			<cfset sourceObject = listLast(property.sourceObject, ".") />
 
-			<cfset newValue = arguments.event.getValue(sourceObject) />
+			<cfset newValue = arguments.event.getValue(property.sourceKey) />
 		
 			<cfif len(newValue)>
-				<cfset criteria[property.sourceKey] = arguments.event.getValue(sourceObject) />
+				<cfset criteria[property.sourceKey] = arguments.event.getValue(property.sourceKey) />
 				
 				<cfset targetObject = read(property.sourceObject, criteria) />
 
@@ -628,14 +628,20 @@
 	<cfelse>
 		<cftry>
 			<cfif structKeyExists(arguments.record,"getParent#arguments.propertyName#")>
-				<cfset variables.sourceValue = evaluate("arguments.record.getParent##arguments.propertyName##()") />
+				<cfset sourceValue = evaluate("arguments.record.getParent#arguments.propertyName#()") />
 			<cfelse>
-				<cfset variables.sourceValue = evaluate("arguments.record.get##arguments.propertyName##()") />
+				<cfset sourceValue = evaluate("arguments.record.get#arguments.propertyName#()") />
 			<</cfif>
 			<cfcatch>
 			</cfcatch>
 		</cftry>
 	</cfif>
+	<cfif isDefined("sourceValue") and isObject(sourceValue)>
+		<cfset sourceValue = evaluate("sourceValue.get#arguments.sourceKey#()") />
+	<cfelse>
+		<cfset sourceValue = "" />
+	</cfif>
+
 	<cfreturn sourceValue />
 </cffunction>
 

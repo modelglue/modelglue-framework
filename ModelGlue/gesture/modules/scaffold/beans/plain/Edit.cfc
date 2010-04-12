@@ -73,7 +73,7 @@
 	<cfargument name="propertylist" type="string" required="true"/>
 	<cfargument name="suffix" type="string" required="true"/> 
 	<cfargument name="ormName" type="string" required="true"/> 
-	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Record,CFUniformConfig,xe.commit,xe.edit,xe.list", arguments.primaryKeyList ),  "textnocase" ) />
+	<cfset var copyToScopeList = listSort(listAppend("myself,#arguments.alias#Record,xe.commit,xe.edit,xe.list", arguments.primaryKeyList ),  "textnocase" ) />
 	<cfreturn  ('<cfsilent>
 <<cfoutput>>
 	<cfset event.copyToScope( variables, "#copyToScopeList#" )/>
