@@ -105,7 +105,7 @@
 </ul>
 </cfif>
 <br />
-<form action="##commitEvent##" class="edit">
+<form action="##commitEvent##" method="post" class="edit">
 <fieldset>
 	%makePrimaryKeyHiddenFields( Metadata.alias, Metadata.primaryKeyList )%
     <<cfloop list="%Metadata.orderedPropertyList%"  index="variables.thisProp">>

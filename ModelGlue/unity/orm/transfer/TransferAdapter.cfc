@@ -368,7 +368,17 @@
 <cffunction name="read" returntype="any" output="false" access="public">
 	<cfargument name="table" type="string" required="true" />
 	<cfargument name="primaryKeys" type="struct" required="true" />
-
+	
+	<cfset var metadata = getObjectMetadata(arguments.table) />
+	<cfset var i = "" />
+	
+	<!--- Set default primaryKeys if not supplied --->
+	<cfif structIsEmpty(arguments.primaryKeys)>
+		<cfloop from="1" to="#arrayLen(metadata.primaryKeys)#" index="i">
+			<cfset structInsert(arguments.primaryKeys, metadata.primaryKeys[i], 0) />
+		</cfloop>
+	</cfif>
+	
 	<cfreturn getTransfer().readByPropertyMap(arguments.table,arguments.primaryKeys) />
 
 </cffunction>
@@ -631,7 +641,7 @@
 				<cfset sourceValue = evaluate("arguments.record.getParent#arguments.propertyName#()") />
 			<cfelse>
 				<cfset sourceValue = evaluate("arguments.record.get#arguments.propertyName#()") />
-			<</cfif>
+			</cfif>
 			<cfcatch>
 			</cfcatch>
 		</cftry>

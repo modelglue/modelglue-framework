@@ -19,12 +19,12 @@
 		hidden makes the field always defined.  if this was not here, and you deleted this whole field
 		from the control, you would wind up deleting all child records during a genericCommit...
 		--->
-		<input type="hidden" name="#attributes.name#" value="" />
+		<input type="hidden" name="#attributes.label#|#attributes.name#" value="" />
 		
 		<div class="formfieldinputstack">
 			<cfloop query="attributes.valueQuery">
 				<label for="#attributes.name#_#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#">
-					<input type="checkbox" name="#attributes.name#_#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#" id="#attributes.name#_#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#" value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"<cfif listFindNoCase(attributes.selectedList, attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow])> checked</cfif>/>
+					<input type="checkbox" name="#attributes.label#|#attributes.name#" id="#attributes.name#_#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#" value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"<cfif listFindNoCase(attributes.selectedList, attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow])> checked</cfif>/>
 					#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#
 				</label><br />
 			</cfloop>
