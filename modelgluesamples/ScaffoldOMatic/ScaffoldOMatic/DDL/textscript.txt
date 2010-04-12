@@ -1,0 +1,28 @@
+SELECT Rank, Points, team.name AS TeamName, Captain, Competition.Name AS CompetitionName, StartDate, EndDate
+FROM Standing INNER JOIN Team ON Standing.TeamID = Team.TeamID
+	INNER JOIN Competition ON Competition.CompetitionID = Standing.CompetitionID
+
+
+
+    <cffunction name="load" output="false" access="public" returntype="query" hint="I load the standings query">
+		<cfargument name="TeamID" type="string" required="true"/>
+		<cfset var StandingQuery = "" />
+		
+		<cfquery name="StandingQuery" datasource="#variables.datasource#">
+			SELECT StandingID, Standing.TeamID, Standing.CompetitionID, Rank, Points, team.name AS TeamName, Captain, Competition.Name AS CompetitionName, StartDate, EndDate
+				FROM Standing INNER JOIN Team ON Standing.TeamID = Team.TeamID
+				INNER JOIN Competition ON Competition.CompetitionID = Standing.CompetitionID
+				
+				<cfif val( arguments.teamID ) GT 0>
+					WHERE Standing.TeamID = <cfqueryparam value="#val( arguments.teamID )#" cfsqltype="cf_sql_integer">
+				</cfif>
+				
+				ORDER BY Competition.Name, Rank
+		</cfquery>	
+		
+		<cfreturn StandingQuery />    	
+    </cffunction>
+    
+
+
+Rank^Rank,Points^Points,TeamName^TeamName,Captain^Captain,CompetitionName^CompetitionName,StartDate^StartDate,EndDate^EndDate

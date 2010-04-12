@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<Competition>
+		<CompetitionID>
+			<label>CompetitionID</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<scale>0</scale>
+			<notProvided>The CompetitionID field is required but was not provided.</notProvided>
+			<invalidType>The CompetitionID field does not contain valid data.  This field must be a numeric value.</invalidType>
+		</CompetitionID>
+		<Name>
+			<label>Name</label>
+			<comment/>
+			<maxlength>100</maxlength>
+			<scale>0</scale>
+			<notProvided>The Name field is required but was not provided.</notProvided>
+			<invalidType>The Name field does not contain valid data.  This field must be a string value.</invalidType>
+			<invalidLength>The Name field is too long.  This field must be no more than 100 bytes long.</invalidLength>
+		</Name>
+		<StartDate>
+			<label>StartDate</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<scale>0</scale>
+			<invalidType>The StartDate field does not contain valid data.  This field must be a date value.</invalidType>
+		</StartDate>
+		<EndDate>
+			<label>EndDate</label>
+			<comment/>
+			<maxlength>0</maxlength>
+			<scale>0</scale>
+			<invalidType>The EndDate field does not contain valid data.  This field must be a date value.</invalidType>
+		</EndDate>
+	</Competition>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Warning! This file is generated and will be overwritten whenever ModelGlue feels like it. Do Not Make Your Customizations Here!-->
+<modelglue>
+
+	<event-handlers>
+
+		<event-handler name="Team.List" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericList">
+					<argument name="criteria" value="" />
+					<argument name="object" value="Team" />
+					<argument name="queryName" value="TeamQuery" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="List.Team.cfm" append="true">
+					<value name="xe.delete" value="Team.Delete" overwrite="true" />
+					<value name="xe.edit" value="Team.Edit" overwrite="true" />
+					<value name="xe.list" value="Team.List" overwrite="true" />
+					<value name="xe.view" value="Team.View" overwrite="true" />
+				</view>
+			</views>
+		</event-handler>				
+
+		<event-handler name="Team.Edit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="TeamID" />
+					<argument name="object" value="Team" />
+					<argument name="recordName" value="TeamRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Form.Team.cfm" append="true">
+					<value name="xe.commit" value="Team.Commit" overwrite="true" />
+					<value name="xe.list" value="Team.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Team.View" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="TeamID" />
+					<argument name="object" value="Team" />
+					<argument name="recordName" value="TeamRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Display.Team.cfm" append="true">
+					<value name="xe.list" value="Team.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Team.Commit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericCommit">
+					<argument name="criteria" value="TeamID" />
+					<argument name="object" value="Team" />
+					<argument name="validationName" value="TeamValidation" />
+					<argument name="recordName" value="TeamRecord" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result name="commit" do="Team.List" redirect="true" preserveState="false" />
+				<result name="validationError" do="Team.Edit" redirect="false" append="TeamID" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Team.Delete" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericDelete">
+					<argument name="criteria" value="TeamID" />
+					<argument name="object" value="Team" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result do="Team.List" redirect="true" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Competition.List" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericList">
+					<argument name="criteria" value="" />
+					<argument name="object" value="Competition" />
+					<argument name="queryName" value="CompetitionQuery" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="List.Competition.cfm" append="true">
+					<value name="xe.delete" value="Competition.Delete" overwrite="true" />
+					<value name="xe.edit" value="Competition.Edit" overwrite="true" />
+					<value name="xe.list" value="Competition.List" overwrite="true" />
+					<value name="xe.view" value="Competition.View" overwrite="true" />
+				</view>
+			</views>
+		</event-handler>				
+
+		<event-handler name="Competition.Edit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="CompetitionID" />
+					<argument name="object" value="Competition" />
+					<argument name="recordName" value="CompetitionRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Form.Competition.cfm" append="true">
+					<value name="xe.commit" value="Competition.Commit" overwrite="true" />
+					<value name="xe.list" value="Competition.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Competition.View" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="CompetitionID" />
+					<argument name="object" value="Competition" />
+					<argument name="recordName" value="CompetitionRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Display.Competition.cfm" append="true">
+					<value name="xe.list" value="Competition.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Competition.Commit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericCommit">
+					<argument name="criteria" value="CompetitionID" />
+					<argument name="object" value="Competition" />
+					<argument name="validationName" value="CompetitionValidation" />
+					<argument name="recordName" value="CompetitionRecord" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result name="commit" do="Competition.List" redirect="true" preserveState="false" />
+				<result name="validationError" do="Competition.Edit" redirect="false" append="CompetitionID" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Competition.Delete" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericDelete">
+					<argument name="criteria" value="CompetitionID" />
+					<argument name="object" value="Competition" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result do="Competition.List" redirect="true" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Standing.List" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericList">
+					<argument name="criteria" value="" />
+					<argument name="object" value="Standing" />
+					<argument name="queryName" value="StandingQuery" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="List.Standing.cfm" append="true">
+					<value name="xe.delete" value="Standing.Delete" overwrite="true" />
+					<value name="xe.edit" value="Standing.Edit" overwrite="true" />
+					<value name="xe.list" value="Standing.List" overwrite="true" />
+					<value name="xe.view" value="Standing.View" overwrite="true" />
+				</view>
+			</views>
+		</event-handler>				
+
+		<event-handler name="Standing.Edit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="StandingID" />
+					<argument name="object" value="Standing" />
+					<argument name="recordName" value="StandingRecord" />
+				</message>
+				<message name="ModelGlue.genericList">
+					<argument name="object" value="Team" />
+					<argument name="queryName" value="TeamList" />
+					<argument name="criteria" value="" />
+				</message>
+				<message name="ModelGlue.genericList">
+					<argument name="object" value="Competition" />
+					<argument name="queryName" value="CompetitionList" />
+					<argument name="criteria" value="" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Form.Standing.cfm" append="true">
+					<value name="xe.commit" value="Standing.Commit" overwrite="true" />
+					<value name="xe.list" value="Standing.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Standing.View" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericRead">
+					<argument name="criteria" value="StandingID" />
+					<argument name="object" value="Standing" />
+					<argument name="recordName" value="StandingRecord" />
+				</message>
+			</broadcasts>
+			<views>
+				<view name="body" template="Display.Standing.cfm" append="true">
+					<value name="xe.list" value="Standing.List" overwrite="true" />
+				</view>
+			</views>
+			<results>
+			</results>
+		</event-handler>
+
+		<event-handler name="Standing.Commit" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericCommit">
+					<argument name="criteria" value="StandingID" />
+					<argument name="object" value="Standing" />
+					<argument name="validationName" value="StandingValidation" />
+					<argument name="recordName" value="StandingRecord" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result name="commit" do="Standing.List" redirect="true" preserveState="false" />
+				<result name="validationError" do="Standing.Edit" redirect="false" append="StandingID" preserveState="false" />
+			</results>
+		</event-handler>
+
+		<event-handler name="Standing.Delete" access="public" type="templatedOneColumnPage">
+			<broadcasts>
+				<message name="ModelGlue.genericDelete">
+					<argument name="criteria" value="StandingID" />
+					<argument name="object" value="Standing" />
+				</message>
+			</broadcasts>
+			<views>
+			</views>
+			<results>
+				<result do="Standing.List" redirect="true" preserveState="false" />
+			</results>
+		</event-handler>
+
+	</event-handlers>
+
+</modelglue>

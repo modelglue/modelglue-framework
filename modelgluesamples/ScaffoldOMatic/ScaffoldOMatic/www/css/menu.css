@@ -1,0 +1,48 @@
+#navcontainer
+{
+	font-family: Arial,Sans-Serif;
+	margin: 0 auto;
+	width: 70%;
+	border-bottom: 1px solid #BDC28C;
+}
+
+#navlist
+{
+	width: 60%;
+	text-align: center;
+	margin: 0 auto;
+	padding: 0;
+	text-indent: 0;
+	list-style-type: none;
+}
+
+#navlist li
+{
+	padding: 0;
+	margin: 0;
+	text-indent: 0;
+	display: inline;
+}
+
+#navlist li a
+{
+	letter-spacing: -1px;
+	text-decoration: none;
+	color: #66355C;
+	font-size: 1em;
+	padding: 0 2px;
+	border-top: .5em solid #BDC28C;
+}
+
+#navlist li a:hover,#navlist  a.current
+{
+	color: #2B1E36;
+	border-top: none;
+	font-size: 1.5em;
+}
+
+#navlist  a.current { color: #66355C; }
+
+#left li{
+	margin: 1em 0;	
+}

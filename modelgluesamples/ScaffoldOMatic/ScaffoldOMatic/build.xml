@@ -1,0 +1,39 @@
+<!--
+	Ant script to create new Model-Glue 3.0 applications
+	
+	If you're using CFEclipse, or you know how to use Ant (http://ant.apache.org), 
+	just run this file to create a ready-to-go Model-Glue application.
+	
+	To run it in CFEclipse, it's Alt-Shift-X -> Q
+	
+	Instructions:
+	
+	Set the "newApplicationName" property's value to the datasource name of
+	your new application directory.  The script will name the application 
+	(via <cfapplication>) the same thing - feel free to change it later.
+	
+	Set the "newApplicationDirectory" to the directory where you'd like your
+	new application to go.
+	
+	Run the script.
+-->	
+<project name="New Model-Glue Application" default="build" basedir="..">
+    <input message="Pick a name for your application:" addproperty="Mode" />
+
+	<property name="newApplicationName" value="${Mode}" />
+	<property name="newApplicationDirectory" value="f:/webroot/${Mode}/" />
+	
+	<!-- Where is the MG app template? -->
+	<property name="templateDirectory" value="./ScaffoldOMatic"/>
+		
+	<target name="build">
+		<copy todir="${newApplicationDirectory}">
+			<fileset dir="${templateDirectory}">
+				<exclude name="**/build.xml" />
+				<exclude name="**/settings.xml" />
+				<exclude name="**/.project" />
+			</fileset>
+		</copy>
+		<replace dir="${newApplicationDirectory}" token="ScaffoldOMatic" value="${newApplicationName}" />
+	</target>
+</project> 

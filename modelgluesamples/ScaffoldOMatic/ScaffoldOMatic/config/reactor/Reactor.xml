@@ -1,0 +1,21 @@
+<reactor>
+
+<objects>
+	<object name="Team"> 
+	</object>
+		
+		
+	<object name="Standing">
+		<hasOne name="Team">
+			<relate from="TeamID" to="TeamID" />
+		</hasOne>
+		<hasOne name="Competition">
+			<relate from="CompetitionID" to="CompetitionID" />
+		</hasOne>
+	</object>
+	
+	<object name="Competition">
+
+	</object>	
+</objects>	
+</reactor>

@@ -1,0 +1,1 @@
+<cfsilent><cfapplication name="ScaffoldOMatic" sessionmanagement="true"/></cfsilent>

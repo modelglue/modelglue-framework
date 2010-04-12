@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modelglue>
+
+<controllers>
+	<controller id="Controller" type="ScaffoldOMatic.controller.Controller">
+		<message-listener message="onRequestStart" />
+	<!-- 
+	<message-listener message="message" function="controllerFunction" />
+	-->
+	</controller>
+</controllers>
+	
+	<event-types>
+		<event-type name="templatedPage">
+			<after>
+				<views format="html">
+					<include name="Header" template="layout/Layout.Header.cfm" />
+					<include name="Menu" template="layout/Layout.Menu.cfm" />
+					<include name="Message" template="layout/Layout.MessageContent.cfm" />
+					<include name="Footer" template="layout/Layout.Footer.cfm" />
+					<include name="Page" template="layout/Master.OneOrTwoColumnPage.cfm" />
+				</views>
+			</after>		
+		</event-type>		
+	</event-types>
+
+
+<event-handlers>
+	
+	<event-handler name="Home" type="templatedPage">
+		<views>
+			<include name="Body" template="Display.Home.cfm" />
+
+		</views>
+	</event-handler>
+
+	<event-handler name="Error.Handler">
+		<views>
+			<include name="Body" template="Detail.Exception.cfm" />
+		</views>
+	</event-handler>
+
+	<event-handler name="Event.404">
+		<views>
+			<include name="Body" template="Detail.MissingEvent.cfm" />
+		</views>
+	</event-handler>
+	
+	<event-handler access="private" name="template.main">
+		<views>
+			<include name="Body" template="templates/main.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
+	
+</modelglue>
+
