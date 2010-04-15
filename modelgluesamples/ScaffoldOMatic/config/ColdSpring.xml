@@ -23,7 +23,7 @@
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
 	<property name="applicationMapping"><value>/ScaffoldOMatic</value></property>
-	<property name="viewMappings"><value>/ScaffoldOMatic/views</value></property>
+	<property name="viewMappings"><value>/ScaffoldOMatic/views,/ScaffoldOMatic/views/generated</value></property>
 	<property name="helperMappings"><value>/ScaffoldOMatic/helpers</value></property>
 	<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
 	
@@ -48,7 +48,7 @@
 				<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
 			</entry>
 			<entry key="uform">
-				<value>/modelglueextensions/jQuery/cfuniform/tags/forms/cfUniForm/</value>
+				<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
 			</entry>
 		</map>
 	</property>	
@@ -59,6 +59,29 @@
 <bean id="CFUniFormConfigBean" class="coldspring.beans.factory.config.MapFactoryBean">
 	<property name="SourceMap">
 		<map>
+			<entry key="loadDateUI"><value>true</value></entry>
+			<entry key="dateSetup">
+				<map>
+					<entry key="buttonImage"><value>'/modelglueextensions/cfuniform/commonassets/images/uni-form/calendar.png'</value></entry>
+				</map>
+			</entry>
+			<entry key="loadTimeUI"><value>true</value></entry>
+			<entry key="timeSetup">
+				<map>
+					<entry key="show24Hours"><value>true</value></entry>
+					<entry key="showSeconds"><value>false</value></entry>
+					<entry key="spinnerImage"><value>'/modelglueextensions/cfuniform/commonassets/images/spinnerDefault.png'</value></entry>
+				</map>
+			</entry>
+			<entry key="loadMaskUI"><value>true</value></entry>
+			<entry key="loadTextareaResize"><value>true</value></entry>
+			<entry key="textareaSetup">
+				<map>
+					<entry key="maxHeight"><value>800</value></entry>
+					<entry key="animate"><value>true</value></entry>
+					<entry key="animationSpeed"><value>'slow'</value></entry>
+				</map>
+			</entry>
 			<entry key="pathConfig">
 				<map>
 					<entry key="jQuery"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/jquery-1.3.2.min.js</value></entry>
@@ -72,28 +95,9 @@
 					<entry key="timeCSS"><value>/modelglueextensions/cfuniform/commonassets/css/jquery.timeentry.css</value></entry>
 					<entry key="timeJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.timeentry-1.4.6.min.js</value></entry>
 					<entry key="maskJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.maskedinput-1.2.2.min.js</value></entry>
-					<entry key="textareaJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.prettyComments-1.4.js</value></entry>
+					<entry key="textareaJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.prettyComments-1.4.pack.js</value></entry>
 					<entry key="ratingCSS"><value>/modelglueextensions/cfuniform/commonassets/css/jquery.rating.css</value></entry>
 					<entry key="ratingJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.rating-3.12.min.js</value></entry>
-				</map>
-			</entry>
-			<entry key="dateSetup">
-				<map>
-					<entry key="buttonImage"><value>'/modelglueextensions/cfuniform/commonassets/images/uni-form/calendar.png'</value></entry>
-				</map>
-			</entry>
-			<entry key="textareaSetup">
-				<map>
-					<entry key="maxHeight"><value>800</value></entry>
-					<entry key="animate"><value>true</value></entry>
-					<entry key="animationSpeed"><value>'slow'</value></entry>
-				</map>
-			</entry>
-			<entry key="timeSetup">
-				<map>
-					<entry key="show24Hours"><value>true</value></entry>
-					<entry key="showSeconds"><value>false</value></entry>
-					<entry key="spinnerImage"><value>'/modelglueextensions/cfuniform/commonassets/images/spinnerDefault.png'</value></entry>
 				</map>
 			</entry>
 		</map>
@@ -116,26 +120,6 @@
 </bean>
   
 <!-- Put definitions for your own beans and services here -->
-
-<bean id="ScaffoldTemplate.Grid" factory-bean="modelglue.scaffoldManager" factory-method="addScaffoldTemplate" lazy-init="false">  
-	<constructor-arg name="scaffoldBeanRegistry">  
-		<map>
-			<entry key="Grid"><ref bean="newScaffold.Grid" /></entry>
-		</map>
-	</constructor-arg>
-</bean>
-
-<bean id="newScaffold.Grid" class="coldspring.beans.factory.config.MapFactoryBean">
-	<property name="SourceMap">
-		<map>
-			<entry key="class"><value>ScaffoldOMatic.model.beans.Grid</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>true</value></event>
-			<entry key="prefix"><value>Grid.</value></entry>
-			<entry key="suffix"><value>.cfm</value></entry>
-		</map>
-	</property>
-</bean> 
 
 <!-- Override default scaffolds   -->
 <bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">

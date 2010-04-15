@@ -19,8 +19,8 @@
 			<label for="#attributes.name#_true"> Yes</label>
 			<input type="radio" id="#attributes.name#_false" name="#attributes.name#" value="false"<cfif isBoolean(attributes.value) and not attributes.value >checked="checked"</cfif>/>
 			<label for="#attributes.name#_false"> No</label>		
-		<cfelseif attributes.length LTE 65535>
-			<input type="text" class="input" id="#attributes.name#" name="#attributes.name#" value="<cfif attributes.type eq "date">#dateFormat(attributes.value, attributes.dateFormat)# #timeFormat(attributes.value, attributes.timeFormat)#<cfelse>#attributes.value#</cfif>" />
+		<cfelseif attributes.length LT 65535>
+			<input type="text" class="input" id="#attributes.name#" name="#attributes.name#" value="<cfif attributes.type eq "date">#trim( dateFormat(attributes.value, attributes.dateFormat) & ' ' & timeFormat(attributes.value, attributes.timeFormat) )#<cfelse>#attributes.value#</cfif>" />
 		<cfelse>
 			<textarea class="input" id="#attributes.name#" name="#attributes.name#">#attributes.value#</textarea>
 		</cfif>

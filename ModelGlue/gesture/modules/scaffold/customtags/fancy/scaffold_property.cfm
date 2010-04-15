@@ -22,8 +22,8 @@
 		<uform:radio label="No" value="0" isChecked="#isBoolean(attributes.value) and not attributes.value#" />
 	</uform:field>
 <cfelseif attributes.type eq "date">
-	<uform:field label="#attributes.label#" name="#attributes.name#" type="date" value="#dateFormat(attributes.value, attributes.dateFormat)#  #timeFormat(attributes.value, attributes.timeFormat)#" />
-<cfelseif attributes.length LTE 65535>
+	<uform:field label="#attributes.label#" name="#attributes.name#" type="date" value="#trim( dateFormat(attributes.value, attributes.dateFormat) & ' ' & timeFormat(attributes.value, attributes.timeFormat) )#" />
+<cfelseif attributes.length LT 65535>
 	<uform:field label="#attributes.label#" name="#attributes.name#" type="text" value="#attributes.value#" />
 <cfelse>
 	<uform:field label="#attributes.label#" name="#attributes.name#" type="textarea" value="#attributes.value#" />

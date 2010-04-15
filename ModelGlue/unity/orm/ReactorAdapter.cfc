@@ -223,7 +223,6 @@
 	<cfset result.properties = md />
 	<cfset result.orderedPropertyList = listSort(structKeyList(result.properties),"textnocase") /> 
 	<cfset variables._mdCache[arguments.table] = result />
-
 	<cfreturn result />
 </cffunction>
 
@@ -299,7 +298,9 @@
 			<cfset result = result & char />
 		</cfif>
 	</cfloop>
-
+	
+	<cfset result = replace(result, "_", "", "all") />
+	
 	<cfreturn result />	
 </cffunction>
 
@@ -450,39 +451,60 @@
 		<cfset arguments.event.makeEventBean(record) />
 	</cfif>
 		
-	<!--- Manage plural relationship properties --->
+	<!--- Manage relationship properties --->
 	<cfloop collection="#metadata.properties#" item="i">
+		<cfset property = metadata.properties[i] />
+		
 		<cfset deletionQueue = arrayNew(1) />
+		
+		<!--- Set singular relationship properties if the form contains the needed value --->
+		<cfif property.relationship eq true 
+					and not property.pluralrelationship
+					and arguments.event.valueExists("#property.sourceKey#")>
+			
+			<cfset criteria = structNew() />
+			<cfset criteria[property.sourceKey] = arguments.event.getValue(property.sourceKey) />
+			
+			<cfset targetObject = read(property.sourceObject, criteria) />
+			
+			<!--- If it's a natural relationship --->
+			<cfif structKeyExists(record, "set#property.sourceObject#")>
+				<cfinvoke component="#record#" method="set#property.sourceObject#">
+					<cfinvokeargument name="#property.sourceObject#" value="#targetObject#" />
+				</cfinvoke>
+			<cfelse>
+				<cfthrow type="modelglue.unity.orm.ReactorAdapter.NoManyToOneSetter" message="ReactorAdapter can't find a valid method to set the #property.sourceObject# property on #table#!" />
+			</cfif>
 		<!--- Only do this if the property is a plural relationship and the form contains the needed value --->
-		<cfif metadata.properties[i].relationship eq true 
-					and metadata.properties[i].pluralrelationship
-					and arguments.event.valueExists("#metadata.properties[i].alias#|#metadata.properties[i].sourceKey#")>
+		<cfelseif property.relationship eq true 
+					and property.pluralrelationship
+					and arguments.event.valueExists("#property.alias#|#property.sourceKey#")>
 			
 			<!--- Get an iterator of current child records --->
-			<cfinvoke component="#record#" method="get#metadata.properties[i].alias#Iterator" returnvariable="currentChildren" />
+			<cfinvoke component="#record#" method="get#property.alias#Iterator" returnvariable="currentChildren" />
 
 			<!--- What are the current childIds? --->
-			<cfset currentChildIds = currentChildren.getValueList(metadata.properties[i].sourceKey) />
+			<cfset currentChildIds = currentChildren.getValueList(property.sourceKey) />
 			
 			<!--- What children are selected in the form? --->
-			<cfset selectedChildIds = arguments.event.getValue("#metadata.properties[i].alias#|#metadata.properties[i].sourceKey#") />
+			<cfset selectedChildIds = arguments.event.getValue("#property.alias#|#property.sourceKey#") />
 			
 			<!--- Loop over the currentChildren deleting any unselected children --->
 			<cfloop condition="currentChildren.hasMore()">
 				<cfset childRecord = currentChildren.getNext() />
-				<cfinvoke component="#childRecord#" method="get#metadata.properties[i].sourceKey#" returnvariable="currentChildId">
+				<cfinvoke component="#childRecord#" method="get#property.sourceKey#" returnvariable="currentChildId">
 				
 				<cfif not listFindNoCase(selectedChildIds, currentChildId)>
 					
 					<!--- If it's a linking relationship, we want to remove the link:  queue criteria --->
-					<cfif metadata.properties[i].linkingRelationship>
+					<cfif property.linkingRelationship>
 						<cfset criteria = structNew() />
-						<cfset criteria[metadata.properties[i].sourceKey] = currentChildId />
+						<cfset criteria[property.sourceKey] = currentChildId />
 						<cfset arrayAppend(deletionQueue, criteria) />
 					<!--- Otherwise, we null the foreign key field in the target object --->
 					<cfelse>
-						<cfinvoke component="#childRecord#" method="set#metadata.properties[i].sourceTableForeignKey#">
-							<cfinvokeargument name="#metadata.properties[i].sourceTableForeignKey#" value="" />
+						<cfinvoke component="#childRecord#" method="set#property.sourceTableForeignKey#">
+							<cfinvokeargument name="#property.sourceTableForeignKey#" value="" />
 						</cfinvoke>
 						<cfset commit(table, record, false) />
 					</cfif>
@@ -497,7 +519,7 @@
 			<cfloop list="#selectedChildIds#" index="selectedChildId">
 				<cfif not listFindNoCase(currentChildIds, selectedChildId)>
 					<cfset criteria = structNew() />
-					<cfset criteria[metadata.properties[i].sourceKey] = selectedChildId />
+					<cfset criteria[property.sourceKey] = selectedChildId />
 					<cfset childRecord = currentChildren.add(argumentCollection=criteria) />
 				</cfif>
 			</cfloop>
@@ -520,7 +542,41 @@
 	<cfargument name="table" type="string" required="true" />
 	<cfargument name="primaryKeys" type="struct" required="true" />
 	<cfargument name="useTransaction" type="any" required="false" default="true" />
+	
 	<cfset var record = read(arguments.table, arguments.primaryKeys) />
+	<cfset var metadata = getObjectMetadata(arguments.table) />
+	<cfset var property = "" />
+	<cfset var i = "" />
+	<cfset var j = "" />
+	<cfset var children = "" />
+	<cfset var childRecord = "" />
+	<cfset var childId = "" />
+	<cfset var deletionQueue = "" />
+	<cfset var criteria = "" />
+	
+	<cfloop collection="#metadata.properties#" item="i">
+		<cfset property = metadata.properties[i] />
+		
+		<cfif property.relationship eq true and property.pluralrelationship>
+			<cfinvoke component="#record#" method="get#property.alias#Iterator" returnvariable="children" />
+			
+			<cfset deletionQueue = arrayNew(1) />
+			
+			<cfloop condition="#children.hasMore()#">
+				<cfset childRecord = children.getNext() />
+				<cfinvoke component="#childRecord#" method="get#property.sourceKey#" returnvariable="childId" />
+				
+				<cfset criteria = structNew() />
+				<cfset criteria[property.sourceKey] = childId />
+				<cfset arrayAppend(deletionQueue, criteria) />
+			</cfloop>
+			
+			<cfloop from="1" to="#arrayLen(deletionQueue)#" index="j">
+				<cfset children.delete(argumentCollection=deletionQueue[j], useTransaction=false) />
+			</cfloop>
+		</cfif>
+	</cfloop>
+	
 	<cfset record.delete(arguments.useTransaction) />
 </cffunction>
 

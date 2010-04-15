@@ -3,13 +3,20 @@
 	<cfargument name="thisProp" />
 	<cfargument name="viewLink" />
 	<cfargument name="propValue" />
+	<!--- TODO: These should be configurable via Coldspring somehow --->
+	<cfargument name="dateFormat" type="string" default="mm/dd/yyyy" />
+	<cfargument name="timeFormat" type="string" default="" />
 
 	<cfoutput>
 	<td<cfif listFirst(arguments.displayPropertyList) neq arguments.thisProp> class="criterion"</cfif>>
 		<cfif listFirst(arguments.displayPropertyList) eq arguments.thisProp>
 			<a href="#arguments.viewLink#" class="viewLink">
 		</cfif>
-		#arguments.propValue#
+		<cfif isDate(arguments.propValue)>
+			#trim( dateFormat(arguments.propValue, arguments.dateFormat) & " " & timeFormat(arguments.propValue, arguments.timeFormat) )#
+		<cfelse>
+			#arguments.propValue#
+		</cfif>
 		<cfif listFirst(arguments.displayPropertyList) eq arguments.thisProp>
 			</a>
 		</cfif>

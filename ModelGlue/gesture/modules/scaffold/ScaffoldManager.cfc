@@ -350,8 +350,8 @@
 	</cffunction>
 
 	<cffunction name="spaceCap" output="false" access="private" returntype="string" hint="I return a string with a space before each capital letter: author Mark W. Breneman (Mark@vividmedia.com) ">
-		<cfargument name="x" type="string" required="true"/>
-		<cfreturn REReplace(x, "([.^[:upper:]])", " \1","all") />
+		<cfargument name="x" type="string" required="true" />
+		<cfreturn Replace(REReplace(x, "([.^[:upper:]])", " \1", "all"), "_", "", "all") />
 	</cffunction>
 	
 	<cffunction name="makeQuerySourcedPrimaryKeyURLString" output="false" access="public" returntype="string" hint="I make a url string for the primary keys of this object">
@@ -398,7 +398,7 @@
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset PrimaryKeyCheck = listAppend( PrimaryKeyCheck, "#arguments._alias#Record.get#pk#()", "&") />
 		</cfloop>
-		<cfreturn "len( trim(" & PrimaryKeyCheck & ") )"/>
+		<cfreturn "len( trim(" & PrimaryKeyCheck & ") ) and val(" & PrimaryKeyCheck & ") neq 0" />
 	</cffunction>
 
 	<cffunction name="getIsNullable" output="false" access="public" returntype="string" hint="I return whether a property is nullable or not">

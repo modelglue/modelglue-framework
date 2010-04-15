@@ -14,10 +14,11 @@
 	<label for="#attributes.name#"><b>#attributes.label#:</b></label>
 	<span class="input">
 		<cfif attributes.type eq "date">
-			#dateFormat(attributes.value, attributes.dateFormat)# 
+			<cfset dateValue = dateFormat(attributes.value, attributes.dateFormat) />
 			<cfif len(attributes.timeFormat) neq 0>
-				#timeFormat(attributes.value, attributes.timeFormat)#
+				<cfset dateValue = dateValue & " " & timeFormat(attributes.value, attributes.timeFormat) />
 			</cfif>
+			#trim(dateValue)#
 		<cfelseif attributes.type eq "boolean">
 			#yesNoFormat(attributes.value)#
 		<cfelse>
