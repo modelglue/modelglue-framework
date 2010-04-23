@@ -238,9 +238,11 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	
 	private array function setCfcProperties(required struct md,array props=ArrayNew(1)) {
 		var i =1;
-		for (i=1; i <= ArrayLen(arguments.md.properties); i++) {
-			if (not ArrayContains(arguments.props,arguments.md.properties[i].name)) {
-				arrayAppend(arguments.props,arguments.md.properties[i]);
+		if(structKeyExists(arguments.md, "properties")) {
+			for (i=1; i <= ArrayLen(arguments.md.properties); i++) {
+				if (not ArrayContains(arguments.props,arguments.md.properties[i].name)) {
+					arrayAppend(arguments.props,arguments.md.properties[i]);
+				}
 			}
 		}
 		if (arguments.md.extends.fullname neq "WEB-INF.cftags.component") {
