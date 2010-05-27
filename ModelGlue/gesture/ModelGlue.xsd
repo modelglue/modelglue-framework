@@ -123,7 +123,7 @@
 				</xsd:annotation>
 			</xsd:attribute>
 			
-			<xsd:attribute name="template" type="xsd:string" use="optional">
+            <xsd:attribute name="location" type="xsd:string" use="optional">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[(Required for XML modules) - The path to the XML file to include.]]></xsd:documentation>
 				</xsd:annotation>
@@ -420,6 +420,7 @@
 			<xsd:sequence>
 	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
 	        	    <xsd:element name="include" type="viewIncludeType" />
+                    <xsd:element name="view" type="viewIncludeType" />
 				</xsd:choice>
 			</xsd:sequence>
 			
