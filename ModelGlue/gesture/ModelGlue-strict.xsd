@@ -12,7 +12,6 @@
 		<xsd:complexType>
 			<xsd:sequence>
 	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
-		            <xsd:element name="include" type="globalIncludeType" />
 		            <xsd:element ref="controllers"/>
 					<xsd:element ref="event-handlers"/>
 					<xsd:element ref="config" />
@@ -419,11 +418,48 @@
 		<xsd:complexType>
 			<xsd:sequence>
 	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
-	        	    <xsd:element name="include" type="viewIncludeType" />
-                    <xsd:element name="view" type="viewIncludeType" />
+                    <xsd:element ref="view" />
 				</xsd:choice>
 			</xsd:sequence>
 			
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="view">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a .CFM template to <cfinclude>, creating HTML that will be viewable by the user.
+			Model-Glue will search the mappings listed in the ViewMappings setting (defined in the application's ColdSpring.xml file) in order, searching for the template defined in the TEMPLATE attribute.]]></xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:complexType>
+	
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element ref="value" />
+				</xsd:choice>
+			</xsd:sequence>
+
+		    <xsd:attribute type="xsd:string" name="name" use="required">
+		    	<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The name by which the rendered content will be known in the ViewCollection]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute type="xsd:string" name="template" use="required">
+		    	<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The filename of a .CFM template inside one of the directories in the ViewMappings setting]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute type="xsd:string" name="append" use="optional">
+		    	<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "false") - If an include by this NAME has already been rendered, should the content from this include be appended to the existing content or should it overwrite the existing content? (False will overwrite, True will append.)]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+		
 		</xsd:complexType>
 		
 	</xsd:element>
@@ -543,74 +579,5 @@
 		</xsd:complexType>
 		
 	</xsd:element>
-	
-	<xsd:complexType name="globalIncludeType" mixed="true">
-		<xsd:annotation>
-			<xsd:documentation><![CDATA[Defines a path to another Model-Glue XML file to include.]]></xsd:documentation>
-		</xsd:annotation>
-	
-	    <xsd:attribute type="xsd:string" name="template" use="optional">
-	    	<xsd:annotation>
-				<xsd:documentation><![CDATA[(Required) - The path to the file to include. ColdFusion will use expandPath() to turn this into an absolute path to a file.]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-	</xsd:complexType>
-	
-	<xsd:complexType name="viewIncludeType" mixed="true">
-		<xsd:annotation>
-			<xsd:documentation><![CDATA[Defines a .CFM template to <cfinclude>, creating HTML that will be viewable by the user.
-			Model-Glue will search the mappings listed in the ViewMappings setting (defined in the application's ColdSpring.xml file) in order, searching for the template defined in the TEMPLATE attribute.]]></xsd:documentation>
-		</xsd:annotation>
-
-		<xsd:sequence>
-        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
-        	    <xsd:element ref="value" />
-			</xsd:choice>
-		</xsd:sequence>
-		
-	
-	    <xsd:attribute type="xsd:string" name="name" use="required">
-	    	<xsd:annotation>
-				<xsd:documentation><![CDATA[(Required) - The name by which the rendered content will be known in the ViewCollection]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		
-		<xsd:attribute type="xsd:string" name="template" use="required">
-	    	<xsd:annotation>
-				<xsd:documentation><![CDATA[(Required) - The filename of a .CFM template inside one of the directories in the ViewMappings setting]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		
-		<xsd:attribute type="xsd:string" name="append" use="optional">
-	    	<xsd:annotation>
-				<xsd:documentation><![CDATA[(Optional, default = "false") - If an include by this NAME has already been rendered, should the content from this include be appended to the existing content or should it overwrite the existing content? (False will overwrite, True will append.)]]></xsd:documentation>
-			</xsd:annotation>
-		</xsd:attribute>
-		
-		
-		
-	</xsd:complexType>
-	
-	<!-- 
-		Element snippets
-		
-		<xsd:element name="controller">
-		
-			<xsd:annotation>
-				<xsd:documentation><![CDATA[Defines a CFC that will act as a Controller in the application.]]></xsd:documentation>
-			</xsd:annotation>
-			
-			<xsd:complexType>
-				<xsd:complexContent>
-					<xsd:restriction base="xsd:anyType">
-					
-					</xsd:restriction>
-				</xsd:complexContent>
-			</xsd:complexType>
-			
-		</xsd:element>
-	
-	
-	 -->
 	
 </xsd:schema>

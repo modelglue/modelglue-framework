@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<modelglue>
+<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		   xmlns="http://www.model-glue.com/schema/gesture" 
+		   xsi:schemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue-strict.xsd">
 
 <controllers>
 	<controller id="Controller" type="modelglueapplicationtemplate.controller.Controller">
@@ -38,7 +40,7 @@
 			<result name="resultName" do="otherEvent" />
 		</results>
 		<views>
-			<include name="body" template="content.cfm" />
+			<view name="body" template="content.cfm" />
 		</views>
 	</event-handler> 
 	-->
@@ -50,7 +52,7 @@
 			<result do="template.main" />
 		</results>
 		<views>
-			<include name="body" template="pages/index.cfm" />
+			<view name="body" template="pages/index.cfm" />
 		</views>
 	</event-handler>
 
@@ -61,7 +63,7 @@
 			<result do="template.main" />
 		</results>
 		<views>
-			<include name="body" template="pages/exception.cfm" />
+			<view name="body" template="pages/exception.cfm" />
 		</views>
 	</event-handler>
 
@@ -72,14 +74,14 @@
 			<result do="template.main" />
 		</results>
 		<views>
-			<include name="body" template="pages/missingEvent.cfm" />
+			<view name="body" template="pages/missingEvent.cfm" />
 		</views>
 	</event-handler>
 	
 	<!-- Private events:  can't be accessed through a URL -->
 	<event-handler access="private" name="template.main">
 		<views>
-			<include name="main" template="templates/main.cfm" />
+			<view name="main" template="templates/main.cfm" />
 		</views>
 	</event-handler>
 </event-handlers>
