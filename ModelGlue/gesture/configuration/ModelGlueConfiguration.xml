@@ -320,82 +320,134 @@
 	
 <!--
 	ScaffoldManager (does the creation of scaffold bits)
---> 
-<bean id="modelglue.scaffoldManager" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
+-->
+
+<!-- Plain scaffolding -->
+
+<bean id="modelglue.scaffoldManager.plain" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
 	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
-	<constructor-arg name="scaffoldBeanRegistry">
-		<map>
-			<entry key="Commit"><ref bean="modelglue.scaffoldType.Commit" /></entry>
-			<entry key="Delete"><ref bean="modelglue.scaffoldType.Delete" /></entry>
-			<entry key="Edit"><ref bean="modelglue.scaffoldType.Edit" /></entry>
-			<entry key="List"><ref bean="modelglue.scaffoldType.List" /></entry>
-			<entry key="View"><ref bean="modelglue.scaffoldType.View" /></entry>
-		</map>
+	<constructor-arg name="scaffoldCustomTagMappingsList">
+		<list>
+				<ref bean="modelglue.scaffoldCustomTagMappings.plain" />
+		</list>
 	</constructor-arg>
-	<property name="modelGlue">
-		<ref bean="modelglue.ModelGlue" />
-	</property>
+	<constructor-arg name="scaffoldBeanRegistryList">
+		<list>
+				<ref bean="modelglue.scaffoldBeanRegistry.plain" />
+		</list>
+	</constructor-arg>	
+	<property name="modelGlue"><ref bean="modelglue.ModelGlue" /></property>
 </bean>
-	
-	
-<bean id="modelglue.scaffoldType.Commit" class="coldspring.beans.factory.config.MapFactoryBean">
+
+<bean id="modelglue.scaffoldCustomTagMappings.plain" class="coldspring.beans.factory.config.MapFactoryBean">
 	<property name="SourceMap">
 		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Commit</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>false</value></event>
-		</map>
-	</property>
-</bean>	
-	
-<bean id="modelglue.scaffoldType.Delete" class="coldspring.beans.factory.config.MapFactoryBean">
-	<property name="SourceMap">
-		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Delete</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>false</value></event>
-		</map>
-	</property>
-</bean>	
-	
-<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
-	<property name="SourceMap">
-		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Edit</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>true</value></event>
-			<entry key="prefix"><value>Form.</value></entry>
-			<entry key="suffix"><value>.cfm</value></entry>
-		</map>
-	</property>
-</bean>	
-	
-<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
-	<property name="SourceMap">
-		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.List</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>true</value></event>
-			<entry key="prefix"><value>List.</value></entry>
-			<entry key="suffix"><value>.cfm</value></entry>
-		</map>
-	</property>
-</bean>
-	
-<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
-	<property name="SourceMap">
-		<map>
-			<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.View</value></entry>
-			<event key="hasXMLGeneration"><value>true</value></event>
-			<event key="hasViewGeneration"><value>true</value></event>
-			<entry key="prefix"><value>Display.</value></entry>
-			<entry key="suffix"><value>.cfm</value></entry>
+			<entry key="mg">
+				<value>/ModelGlue/gesture/modules/scaffold/customtags/plain/</value>
+			</entry>
 		</map>
 	</property>
 </bean>
 
-	
-	
+<bean id="modelglue.scaffoldBeanRegistry.plain" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="Commit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Commit</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Delete">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Delete</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Edit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Edit</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Form.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="List">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.List</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>List.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="View">
+		<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.View</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Display.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+<!-- Fancy scaffolding -->
+
+<bean id="modelglue.scaffoldManager.fancy" parent="modelglue.scaffoldManager.plain">
+	<constructor-arg name="scaffoldCustomTagMappingsList">
+		<list>
+				<ref bean="modelglue.scaffoldCustomTagMappings.fancy" />
+		</list>
+	</constructor-arg>	
+	<constructor-arg name="scaffoldBeanRegistryList">
+		<list>
+				<ref bean="modelglue.scaffoldBeanRegistry.plain" />
+				<ref bean="modelglue.scaffoldBeanRegistry.fancy" />
+		</list>
+	</constructor-arg>	
+</bean>
+
+<bean id="modelglue.scaffoldCustomTagMappings.fancy" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="mg">
+				<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
+			</entry>
+			<entry key="uform">
+				<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+<bean id="modelglue.scaffoldBeanRegistry.fancy" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="Edit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.Edit</value></entry>
+				</map>
+			</entry>
+			<entry key="List">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.List</value></entry>
+				</map>
+			</entry>
+			<entry key="View">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.View</value></entry>
+				</map>
+			</entry>
+    </map>
+	</property>
+</bean>
+
 
 <!-- Reactor adapter/service -->
 <bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">

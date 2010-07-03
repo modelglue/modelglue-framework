@@ -1,17 +1,18 @@
 <cfcomponent output="false">
 	
-	<cfset variables._scaffoldBeanRegistry = structNew() />
 	<cffunction name="init" access="public" returntype="ScaffoldManager">
 		<cfargument name="ModelGlueConfiguration" type="struct" required="true"/>
-		<cfargument name="scaffoldBeanRegistry" type="struct" required="true"/>
+		<cfargument name="scaffoldBeanRegistryList" type="array" required="true"/>
+		<cfargument name="scaffoldCustomTagMappingsList" type="array" required="true"/>
 		<cfset  variables._MGConfig.scaffoldCFPath = arguments.ModelGlueConfiguration.getFullGeneratedViewMapping() />
 		<cfset  variables._MGConfig.expandedScaffoldFilePath= replace( expandPath( variables._MGConfig.scaffoldCFPath ), "\", "/", "all" )   />
 		<cfset  variables._MGConfig.scaffoldXMLFilePath= replace( expandPath( arguments.ModelGlueConfiguration.getScaffoldPath() ) , "\",  "/", "all")   />
 		<cfset  variables._MGConfig.shouldRescaffold= arguments.ModelGlueConfiguration.getRescaffold() />
-		<cfset  variables._MGConfig.scaffoldCustomTagMappings = arguments.ModelGlueConfiguration.getScaffoldCustomTagMappings() />
-		<cfset structAppend( variables._scaffoldBeanRegistry, unwind(arguments.scaffoldBeanRegistry) ) />
-		
-		<!--- Only bother hitting the disk if we are rescaffolding--->
+		<cfset  variables._MGConfig.scaffoldCustomTagMappings = unwind(arguments.scaffoldCustomTagMappingsList,false) />
+		<!--- Custom tag mappings in MG config override those in scaffolds --->
+		<cfset  structAppend( variables._MGConfig.scaffoldCustomTagMappings, arguments.ModelGlueConfiguration.getScaffoldCustomTagMappings() ) />
+		<cfset  variables._scaffoldBeanRegistry = unwind(arguments.scaffoldBeanRegistryList) />
+		<!--- Only bother hitting the disk if we are rescaffolding --->
 		<cfif variables._MGConfig.shouldRescaffold IS true>
 			<cfset makeSureConfigFileExists() />
 			<cfset makeSureViewMappingFolderExists() />
@@ -30,7 +31,7 @@
 	</cffunction>
 	
 	<cffunction name="generate" output="false" access="public" returntype="void" hint="I generate the scaffolds and load them into the model glue memory space">
-		<cfargument name="scaffolds" />	
+		<cfargument name="scaffolds" />
 		<cfset var scaffoldsXMLContent = "" />
 		<cfset var inflatedScaffoldArray = arrayNew( 1 ) />
 		<cfset var i = "" />
@@ -52,12 +53,12 @@
 			</cfif>
 		</cfloop>
 		
-		<cfset writeToDisk( variables._MGConfig.scaffoldXMLFilePath, scaffoldsXMLContent ) /> 
+		<cfset writeToDisk( variables._MGConfig.scaffoldXMLFilePath, scaffoldsXMLContent ) />
 		
 		<!--- Gen the Views --->
 		<cfloop from="1" to="#arrayLen( inflatedScaffoldArray )#" index="i">
 			<cfif inflatedScaffoldArray[i].hasViewGeneration IS true >
-				<cfset cftemplate(	inflatedScaffoldArray[i].loadMetadata(), 
+				<cfset cftemplate(	inflatedScaffoldArray[i].loadMetadata(),
 												getTemplateCustomTagImportScript() & inflatedScaffoldArray[i].loadViewTemplateWithMetadata(),
 												inflatedScaffoldArray[i].makeFullFilePathAndNameForView( variables._MGConfig.expandedScaffoldFilePath ) ) />
 			</cfif>
@@ -215,7 +216,7 @@
 		<cfset var content = makeTopOuterNode() &  makeBottomOuterNode() />
 		<cfif fileExists( variables._MGConfig.scaffoldXMLFilePath ) IS false>
 			<cffile action="write" file="#variables._MGConfig.scaffoldXMLFilePath#" output="#content#" />
-		</cfif> 
+		</cfif>
 	</cffunction>
 	
 	<cffunction name="makeSureViewMappingFolderExists" output="false" access="private" returntype="void" hint="I make sure the scaffold config file exists">
@@ -227,7 +228,8 @@
 	<cffunction name="makeTopOuterNode" output="false" access="private" returntype="string" hint="I return the top portion of the file">
 		<cfreturn ('<?xml version="1.0" encoding="UTF-8"?>
 <!-- Warning! This file is generated and will be overwritten whenever ModelGlue feels like it. Do Not Make Your Customizations Here!-->
-<modelglue>
+<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue-strict.xsd">
 
 	<event-handlers>
 ') />
@@ -269,7 +271,7 @@
 	<cffunction name="nukeConfigFile" output="false" access="public" returntype="void" hint="I get rid of the scaffold config file">
 		<cfif fileExists( variables._MGConfig.scaffoldXMLFilePath ) IS true>
 			<cffile action="delete" file="#variables._MGConfig.scaffoldXMLFilePath#" />
-		</cfif> 
+		</cfif>
 	</cffunction>
 
 	<cffunction name="getModelGlue" access="public" output="false" returntype="any">
@@ -280,15 +282,29 @@
 		<cfargument name="ModelGlue" type="ModelGlue.gesture.ModelGlue" required="true" />
 		<cfset variables._modelGlue = arguments.ModelGlue />
 	</cffunction>
-	
-	<cffunction name="unwind" output="false" access="private" returntype="struct" hint="I unwind scaffold templates and convert them to a datastructure">
-		<cfargument name="scaffoldTemplateRegistry" type="any" required="true"/>
-		<cfset var datastructure = structNew() />
-		<cfset var thisTemplate = "" />
-		<cfloop collection="#arguments.scaffoldTemplateRegistry#" item="thisTemplate">
-			<cfset datastructure[ thisTemplate ] = arguments.scaffoldTemplateRegistry[ thisTemplate ].getObject() /> 
+
+	<cffunction name="unwind" output="false" access="private" returntype="struct" hint="I unwind an array of registry structs and convert them to a single master struct">
+		<cfargument name="registryList" type="array" required="true"/>
+		<cfargument name="mergeEntries" type="boolean" required="false" default="true" hint="True: new entries are merged into existing ones. False: new entries replace existing ones."/>
+		<cfset var masterRegistry = structNew() />
+		<cfset var thisRegistry = "" />
+		<cfset var thisRegistryEntry = "" />
+		<cfset var i = 0 />
+		<cfloop index="i" from="1" to="#ArrayLen(arguments.registryList)#">
+			<cfset thisRegistry = arguments.registryList[i] />
+			<!--- If element is an object, assume it is a factory bean and get the value it contains --->
+			<cfif IsObject(thisRegistry)>
+				<cfset thisRegistry = thisRegistry.getObject() />
+			</cfif>
+			<cfloop collection="#thisRegistry#" item="thisRegistryEntry">
+				<cfif arguments.mergeEntries and StructKeyExists( masterRegistry, thisRegistryEntry ) and IsStruct( masterRegistry[ thisRegistryEntry ] ) >
+					<cfset StructAppend( masterRegistry[ thisRegistryEntry ], thisRegistry[ thisRegistryEntry ] ) />
+				<cfelse>
+					<cfset masterRegistry[ thisRegistryEntry ] = thisRegistry[ thisRegistryEntry ] />
+				</cfif>
+			</cfloop>
 		</cfloop>
-		<cfreturn datastructure />
+		<cfreturn masterRegistry />
 	</cffunction>
 	
 	<cffunction name="findAdvice" access="private" output="false" returntype="struct" hint="I am advice for the specific object. You can alter the behaviour of the scaffolding by configuring advice per object in coldspring.">
@@ -326,7 +342,7 @@
 			arguments.TemplateScript = Replace(arguments.TemplateScript, "!!END_CFTEMPLATE!!", ">", "all");
 			arguments.TemplateScript = Replace(arguments.TemplateScript, "!!VariableString!!", "##", "all");
 			
-		</cfscript>	
+		</cfscript>
 		
 		<!--- Save the transformed template to the scratchpad directory for parsing --->
 		<cffile action="write" addnewline="yes" file="#variables._MGConfig.expandedScaffoldFilePath#/#TemplateScratchpadName#" output="#TemplateScript#" fixnewline="no">
@@ -344,7 +360,7 @@
 			GeneratedScript = Replace(GeneratedScript, "!!EscapedCFVariableString!!", "####", "all");
 			GeneratedScript = Replace(GeneratedScript, "!!CFVariableString!!", "##", "all");
 			GeneratedScript = Replace(GeneratedScript, "!!EscapedVariableString!!", EscapedVariableString, "all");
-		</cfscript>	
+		</cfscript>
 
 		<cffile action="write" addnewline="no" file="#DestinationFilePath#" output="#GeneratedScript#" fixnewline="no">
 	</cffunction>
@@ -357,7 +373,7 @@
 	<cffunction name="makeQuerySourcedPrimaryKeyURLString" output="false" access="public" returntype="string" hint="I make a url string for the primary keys of this object">
 		<cfargument name="_alias" type="string" required="true"/>
 		<cfargument name="_primaryKeyList" type="string" required="true"/>
-		<cfset var urlString = "" />	
+		<cfset var urlString = "" />
 		<cfset var pk = "" />
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset urlString = listAppend( urlString, "&#pk#=###arguments._alias#Query.#pk###") />
@@ -368,7 +384,7 @@
 	<cffunction name="makeBeanSourcedPrimaryKeyURLString" output="false" access="public" returntype="string" hint="I make a url string for the primary keys of this object">
 		<cfargument name="_alias" type="string" required="true"/>
 		<cfargument name="_primaryKeyList" type="string" required="true"/>
-		<cfset var urlString = "" />	
+		<cfset var urlString = "" />
 		<cfset var pk = "" />
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset urlString = listAppend( urlString, "&#pk#=###arguments._alias#Record.get#pk#()##") />
@@ -379,7 +395,7 @@
 	<cffunction name="makePrimaryKeyHiddenFields" output="false" access="public" returntype="string" hint="I make hidden fields for the primary keys of this object">
 		<cfargument name="_alias" type="string" required="true"/>
 		<cfargument name="_primaryKeyList" type="string" required="true"/>
-		<cfset var hiddenFieldString = "" />	
+		<cfset var hiddenFieldString = "" />
 		<cfset var pk = "" />
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset hiddenFieldString = listAppend( hiddenFieldString, '
@@ -393,7 +409,7 @@
 	<cffunction name="makePrimaryKeyCheckForIsNew" output="false" access="public" returntype="string" hint="I make an evaluation to find out whether or not this is an existing record">
 		<cfargument name="_alias" type="string" required="true"/>
 		<cfargument name="_primaryKeyList" type="string" required="true"/>
-		<cfset var PrimaryKeyCheck = "" />	
+		<cfset var PrimaryKeyCheck = "" />
 		<cfset var pk = "" />
 		<cfloop list="#arguments._primaryKeyList#" index="pk">
 			<cfset PrimaryKeyCheck = listAppend( PrimaryKeyCheck, "#arguments._alias#Record.get#pk#()", "&") />
