@@ -31,8 +31,8 @@
 			<views>
 			</views>
 			<results>
-				<result name="commit" do="#arguments.alias#.List" redirect="true" preserveState="false" />
-				<result name="validationError" do="#arguments.alias#.Edit" redirect="false" append="#arguments.primaryKeyList#" preserveState="false" />
+				<result name="commit" do="#arguments.alias#.List" redirect="true" preservestate="false" />
+				<result name="validationError" do="#arguments.alias#.Edit" redirect="false" append="#arguments.primaryKeyList#" preservestate="false" />
 			</results>
 		</event-handler>
 '>

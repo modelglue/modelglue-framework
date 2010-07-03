@@ -29,7 +29,7 @@
 			<views>
 			</views>
 			<results>
-				<result do="#arguments.alias#.List" redirect="true" preserveState="false" />
+				<result do="#arguments.alias#.List" redirect="true" preservestate="false" />
 			</results>
 		</event-handler>
 '>
