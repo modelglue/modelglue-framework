@@ -19,22 +19,22 @@
 		<!-- Controls reloading -->
 		<property name="reloadPassword"><value>true</value></property>
 		<property name="reloadKey"><value>reload</value></property>
-	
+		
 		<!-- Where to find necessary files -->
 		<property name="configurationPath"><value>config/ModelGlue.xml.cfm</value></property>
 		<property name="applicationMapping"><value>/modelgluesamples/NewScaffolds</value></property>
-		<property name="viewMappings"><value>/modelgluesamples/NewScaffolds/views,/modelgluesamples/NewScaffolds/views/customized,/modelgluesamples/NewScaffolds/views/generated</value></property>
+		<property name="viewMappings"><value>/modelgluesamples/NewScaffolds/views,/modelgluesamples/NewScaffolds/views/customized</value></property>
 		<property name="helperMappings"><value>/modelgluesamples/NewScaffolds/helpers</value></property>
 		<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
 		
 		<!-- Generate unknown events when in development mode?  (reload=false) -->
 		<property name="generationEnabled"><value>false</value></property>
 		
-		<!--Â SetÂ theÂ defaultÂ cacheÂ timeoutÂ inÂ secondsÂ -->
-		<property name="defaultCacheTimeout"><value>60</value></property>Â Â 	
+		<!-- Set the default cache timeout in seconds -->
+		<property name="defaultCacheTimeout"><value>60</value></property>
 		
 		<!-- Scaffolding config -->
-		<!-- Turning this off will disable any scaffold generation. Turning this on requires the reload setting above to also be on.-->	
+		<!-- Turning this off will disable any scaffold generation. Turning this on requires the reload setting above to also be on.-->
 		<property name="rescaffold"><value>true</value></property>
 		<!-- Where do you want generated views to be saved to? -->
 		<property name="generatedViewMapping"><value>/modelgluesamples/NewScaffolds/views/generated</value></property>
@@ -42,20 +42,9 @@
 		<property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
 		<!-- What scaffold generation patterns should ModelGlue use if you do not specify in the <scaffold type=""> attribute? .-->
 		<property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
-		<!-- Mappings of custom tag prefixes to locations for importing into generated views -->
-		<property name="scaffoldCustomTagMappings">
-			<map>
-				<entry key="mg">
-					<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
-				</entry>
-				<entry key="uform">
-					<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
-				</entry>
-			</map>
-		</property>
 		<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
 	</bean>
-		
+	
 	<!-- CFUniform configuration -->
 	<bean id="CFUniFormConfigBean" class="coldspring.beans.factory.config.MapFactoryBean">
 		<property name="SourceMap">
@@ -104,43 +93,9 @@
 			</map>
 		</property>
 	</bean>
-
-	<!-- Override default scaffolds -->
-	<bean id="modelglue.scaffoldType.Edit" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.Edit</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>Form.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>	
-
-	<bean id="modelglue.scaffoldType.List" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.List</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>List.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>
-
-	<bean id="modelglue.scaffoldType.View" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.View</value></entry>
-				<event key="hasXMLGeneration"><value>true</value></event>
-				<event key="hasViewGeneration"><value>true</value></event>
-				<entry key="prefix"><value>Display.</value></entry>
-				<entry key="suffix"><value>.cfm</value></entry>
-			</map>
-		</property>
-	</bean>
+	
+	<!-- Select the scaffold manager to use -->
+	<alias alias="modelglue.scaffoldManager" name="modelglue.scaffoldManager.fancy" />
 	
 	<!-- CF9/ORM adapter/service -->
 	<alias alias="ormAdapter" name="ormAdapter.cfORM" />

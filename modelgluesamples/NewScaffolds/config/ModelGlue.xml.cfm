@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<modelglue>
+<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:noNamespaceSchemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue-strict.xsd">
 	<controllers>
 		<controller id="Controller" type="modelgluesamples.NewScaffolds.controller.Controller">
 			<message-listener message="onRequestStart" />
@@ -21,7 +22,7 @@
 			<broadcasts />
 			<results />
 			<views>
-				<include name="template" template="dspDisplayTemplate.cfm" />
+				<view name="template" template="dspDisplayTemplate.cfm" />
 			</views>
 		</event-handler>
 		
