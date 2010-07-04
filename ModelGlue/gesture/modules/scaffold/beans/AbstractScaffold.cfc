@@ -46,6 +46,7 @@
 	<cfargument name="eventType" required="false" default=""/>
 	<cfargument name="advice" required="false" default="#structNew()#"/>
 	<cfargument name="ormName" required="true"/>
+	<cfargument name="templateText" required="false" default=""/>
 	
 	<cfset var metadata = structNew() />
 	<cfset metadata.alias = arguments.alias />
@@ -66,6 +67,8 @@
 	<cfset beforeMetadataLoaded( metadata ) />
 	<cfset this.hasXMLGeneration = arguments.hasXMLGeneration />
 	<cfset this.hasViewGeneration = arguments.hasViewGeneration />
+	
+	<cfset variables._viewTemplate = arguments.templateText />
 	<cfreturn this />
 </cffunction>
 	
@@ -83,7 +86,7 @@
 </cffunction>
 
 <cffunction name="loadViewTemplate" output="false" access="public" returntype="string" hint="I make generated HTML according to my configured format for a specific scaffold.">
-	<cfreturn ('') />
+	<cfreturn variables._viewTemplate />
 </cffunction>
 
 <cffunction name="beforeMetadataLoaded" output="false" access="public" returntype="void" hint="I run when the metadata is being set into this instance. You can override this and monkey with the metadata">

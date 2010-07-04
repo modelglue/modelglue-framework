@@ -12,6 +12,7 @@
 		<!--- Custom tag mappings in MG config override those in scaffolds --->
 		<cfset  structAppend( variables._MGConfig.scaffoldCustomTagMappings, arguments.ModelGlueConfiguration.getScaffoldCustomTagMappings() ) />
 		<cfset  variables._scaffoldBeanRegistry = unwind(arguments.scaffoldBeanRegistryList) />
+		<cfset  loadScaffoldTemplateText(variables._scaffoldBeanRegistry) />
 		<!--- Only bother hitting the disk if we are rescaffolding --->
 		<cfif variables._MGConfig.shouldRescaffold IS true>
 			<cfset makeSureConfigFileExists() />
@@ -26,6 +27,19 @@
 		<cfset var thisTemplate= "" />
 		<cfloop collection="#unpackedRegistry#" item="thisTemplate">
 			<cfset variables._scaffoldBeanRegistry[ thisTemplate ] = unpackedRegistry[ thisTemplate ]  />
+		</cfloop>
+		<cfreturn arguments.scaffoldBeanRegistry />
+	</cffunction>
+	
+	<cffunction name="loadScaffoldTemplateText" output="false" access="private" returntype="struct" hint="Load any external template text for the scaffold bean registry">
+		<cfargument name="scaffoldBeanRegistry" type="struct" required="true"/>
+		<cfset var thisTemplateKey = "" />
+		<cfset var thisTemplate = "" />
+		<cfloop collection="#arguments.scaffoldBeanRegistry#" item="thisTemplateKey">
+			<cfset thisTemplate = arguments.scaffoldBeanRegistry[ thisTemplateKey ]  />
+			<cfif StructKeyExists(thisTemplate,"templatePath")>
+				<cffile action="read" file="#ExpandPath(thisTemplate.templatePath)#" variable="thisTemplate.templateText">
+			</cfif>
 		</cfloop>
 		<cfreturn arguments.scaffoldBeanRegistry />
 	</cffunction>

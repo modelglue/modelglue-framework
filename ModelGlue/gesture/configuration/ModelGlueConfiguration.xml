@@ -322,10 +322,15 @@
 	ScaffoldManager (does the creation of scaffold bits)
 -->
 
-<!-- Plain scaffolding -->
-
-<bean id="modelglue.scaffoldManager.plain" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
+<!-- Scaffold manager beans should use this template as a parent -->
+<bean id="modelglue.scaffoldManager.template" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
 	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
+	<property name="modelGlue"><ref bean="modelglue.ModelGlue" /></property>
+</bean>
+
+<!-- Plain scaffolding (default)-->
+
+<bean id="modelglue.scaffoldManager" parent="modelglue.scaffoldManager.template">
 	<constructor-arg name="scaffoldCustomTagMappingsList">
 		<list>
 				<ref bean="modelglue.scaffoldCustomTagMappings.plain" />
@@ -336,7 +341,6 @@
 				<ref bean="modelglue.scaffoldBeanRegistry.plain" />
 		</list>
 	</constructor-arg>	
-	<property name="modelGlue"><ref bean="modelglue.ModelGlue" /></property>
 </bean>
 
 <bean id="modelglue.scaffoldCustomTagMappings.plain" class="coldspring.beans.factory.config.MapFactoryBean">
@@ -369,6 +373,7 @@
 			<entry key="Edit">
 				<map>
 					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Edit</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/Edit.cfm</value></entry>
 					<event key="hasXMLGeneration"><value>true</value></event>
 					<event key="hasViewGeneration"><value>true</value></event>
 					<entry key="prefix"><value>Form.</value></entry>
@@ -378,6 +383,7 @@
 			<entry key="List">
 				<map>
 					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.List</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/List.cfm</value></entry>
 					<event key="hasXMLGeneration"><value>true</value></event>
 					<event key="hasViewGeneration"><value>true</value></event>
 					<entry key="prefix"><value>List.</value></entry>
@@ -385,8 +391,9 @@
 				</map>
 			</entry>
 			<entry key="View">
-		<map>
+				<map>
 					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.View</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/View.cfm</value></entry>
 					<event key="hasXMLGeneration"><value>true</value></event>
 					<event key="hasViewGeneration"><value>true</value></event>
 					<entry key="prefix"><value>Display.</value></entry>
@@ -399,7 +406,7 @@
 
 <!-- Fancy scaffolding -->
 
-<bean id="modelglue.scaffoldManager.fancy" parent="modelglue.scaffoldManager.plain">
+<bean id="modelglue.scaffoldManager.fancy" parent="modelglue.scaffoldManager.template">
 	<constructor-arg name="scaffoldCustomTagMappingsList">
 		<list>
 				<ref bean="modelglue.scaffoldCustomTagMappings.fancy" />
@@ -431,17 +438,17 @@
 		<map>
 			<entry key="Edit">
 				<map>
-					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.Edit</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/Edit.cfm</value></entry>
 				</map>
 			</entry>
 			<entry key="List">
 				<map>
-					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.List</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/List.cfm</value></entry>
 				</map>
 			</entry>
 			<entry key="View">
 				<map>
-					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.fancy.View</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/View.cfm</value></entry>
 				</map>
 			</entry>
     </map>

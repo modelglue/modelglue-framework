@@ -37,13 +37,5 @@
 	<cfreturn xml />
 </cffunction>
 
-
-<cffunction name="loadMetadata" output="false" access="public" returntype="struct" hint="I load the metadata for this scaffold">
-	<cfreturn variables._metadata />	
-</cffunction>	
-
-<cffunction name="loadViewTemplate" output="false" access="public" returntype="string" hint="I load the CFtemplate formatted representation for this view">
-	<cfreturn this />
-</cffunction>
 </cfcomponent>
 
