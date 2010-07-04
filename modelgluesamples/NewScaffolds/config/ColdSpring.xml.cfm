@@ -94,8 +94,8 @@
 		</property>
 	</bean>
 	
-	<!-- Select the scaffold manager to use -->
-	<alias alias="modelglue.scaffoldManager" name="modelglue.scaffoldManager.fancy" />
+	<!-- Override the plain scaffold manager with fancy settings -->
+	<bean id="modelglue.scaffoldManager" parent="modelglue.scaffoldManager.fancy" />
 	
 	<!-- CF9/ORM adapter/service -->
 	<alias alias="ormAdapter" name="ormAdapter.cfORM" />
