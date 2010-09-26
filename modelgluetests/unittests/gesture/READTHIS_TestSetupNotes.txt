@@ -1,0 +1,4 @@
+These unit tests no longer require special Virtual Host setups or /etc/hosts entries.
+
+The MG Remoting tests require the /modelgluesamples/buster application to be set up
+on the same site that the unit tests are being run from.
