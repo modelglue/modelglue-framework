@@ -1,4 +1,4 @@
-component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
+component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 	//this.coldspringPath = "ColdSpring.xml";
 	
 	function setup() {

@@ -1,5 +1,5 @@
-component extends="modelglue.gesture.test.ModelGlueAbstractTestCase" {
-	this.coldspringPath = "/MGCFORMAdapterTest/ColdSpring.xml";
+component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
+	this.coldspringPath = "/modelgluetests/unittests/MGCFORMAdapterTest/ColdSpring.xml";
 	
 	function setup() {
 		obj = "MainObject";

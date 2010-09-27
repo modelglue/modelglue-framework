@@ -1,6 +1,6 @@
-component extends="modelglue.gesture.eventrequest.test.TestEventContext" {
+component extends="modelgluetests.unittests.gesture.eventrequest.TestEventContext" {
 
-	this.coldspringPath = "/ModelGlue/gesture/eventrequest/test/ColdSpring.xml";
+	this.coldspringPath = "/modelgluetests/unittests/gesture/eventrequest/ColdSpring.xml";
 
 	function setup() {
 		request._modelglue.bootstrap.initializationRequest = false;
