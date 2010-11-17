@@ -191,15 +191,21 @@
 				</xsd:annotation>
 			</xsd:attribute>
 			
-			<xsd:attribute name="type" type="xsd:string" use="required">
+			<xsd:attribute name="type" type="xsd:string" use="optional">
 				<xsd:annotation>
-					<xsd:documentation><![CDATA[The CFC to use for a controller in the same format that you'd use in a CreateObject() call, such as "myapplication.controller.MyController"]]></xsd:documentation>
+					<xsd:documentation><![CDATA[The CFC to use for a controller in the same format that you'd use in a CreateObject() call, such as "myapplication.controller.MyController". Required if not using the 'bean' attribute.]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 			
 			<xsd:attribute name="beans" type="xsd:string" use="optional">
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[A bean (or comma delimited list, if more than one) as defined in ColdSpring.xml, that will be accessible to any cffunction in the controller. Replaces the need for getModelGlue().getBean() within controller methods.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="bean" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[If you wish to define the controller directly in your ColdSpring.xml you can tell ModelGlue the id of it here instead of providing a type.]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 				
@@ -414,12 +420,19 @@
 		</xsd:annotation>
 		
 		<xsd:complexType>
+		
 			<xsd:sequence>
 	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
 	        	    <xsd:element name="include" type="viewIncludeType" />
                     <xsd:element name="view" type="viewIncludeType" />
 				</xsd:choice>
 			</xsd:sequence>
+
+			<xsd:attribute name="format" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - Specifies what requestFormat this group of views should be rendered for. Defaults to "html".]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 			
 		</xsd:complexType>
 		
