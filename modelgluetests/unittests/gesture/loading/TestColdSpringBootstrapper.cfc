@@ -7,7 +7,7 @@
 	</cffunction>
 
 	<cffunction name="testCreateBeanFactory" returntype="void" access="public">
-		<cfset assertEquals("ModelGlue.gesture.ModelGlue", getMetadata(mg).name, "ModelGlue instance not created from bean factory.") />
+		<cfset assertEquals("ModelGlue.gesture.MemoizedModelGlue", getMetadata(mg).name, "ModelGlue instance not created from bean factory.") />
 	</cffunction>
 	
 	<cffunction name="testCreateBeanFactory_WithParent" returntype="void" access="public">

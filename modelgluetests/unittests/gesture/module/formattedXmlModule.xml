@@ -31,10 +31,14 @@
 			<result do="formatImplicitEventName" />
 		</results>
 		<views>
-			<include name="viewName" template="templateName" />
+			<include name="viewName" template="templateName">
+				<value name="valueName" value="valueValue" overwrite="false" />
+			</include>
 		</views>
 		<views format="explicitFormat">
-			<include name="formatViewName" template="formatTemplateName" />
+			<include name="formatViewName" template="formatTemplateName">
+				<value name="formatValueName" value="formatValueValue" overwrite="false" />
+			</include>
 		</views>
 	</event-handler>
 </event-handlers>

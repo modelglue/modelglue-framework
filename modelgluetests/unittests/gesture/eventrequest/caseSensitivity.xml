@@ -1,0 +1,20 @@
+<modelglue>
+
+<controllers>
+
+	<controller id="controller" type="ModelGlue.gesture.eventrequest.test.Controller">
+		<message-listener message="caseTest" />
+	</controller>
+
+</controllers>
+
+<event-handlers>
+	<event-handler name="home">
+		<broadcasts>
+			<message name="CASETEST" />
+		</broadcasts>
+	</event-handler>
+
+</event-handlers>
+
+</modelglue>

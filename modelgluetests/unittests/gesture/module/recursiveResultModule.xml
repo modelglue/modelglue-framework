@@ -1,0 +1,24 @@
+<modelglue>
+
+<event-types>
+	<event-type name="test">
+		<after>
+			<results>
+				<result name="test" do="home" />
+			</results>
+		</after>
+	</event-type>
+</event-types>
+
+<event-handlers>
+	<event-handler name="home">
+		<results>
+			<result do="test" />
+		</results>
+	</event-handler>
+
+	<event-handler name="test" type="test">
+	</event-handler>
+</event-handlers>
+
+</modelglue>

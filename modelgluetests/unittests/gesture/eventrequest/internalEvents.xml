@@ -1,0 +1,17 @@
+<modelglue>
+
+<controllers>
+
+	<controller id="controller" type="ModelGlue.gesture.eventrequest.test.Controller">
+		<message-listener message="onRequestStart" />
+		<message-listener message="onQueueComplete" />
+		<message-listener message="onRequestEnd" />
+	</controller>
+
+</controllers>
+
+<event-handlers>
+	<event-handler name="home" />
+</event-handlers>
+
+</modelglue>

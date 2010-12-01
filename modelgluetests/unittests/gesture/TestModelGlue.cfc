@@ -1,7 +1,7 @@
 <cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
 
 <cffunction name="createModelGlueNoInit" access="private">
-	<cfreturn createObject("component", "ModelGlue.gesture.ModelGlue") />
+	<cfreturn createObject("component", "ModelGlue.gesture.MemoizedModelGlue") />
 </cffunction>
 
 <cffunction name="createUnconfiguredModelGlue" access="private">
@@ -106,7 +106,7 @@
 	<cfset mg = createModelGlue() />
 	<cfset mg.handleRequest() />
 	
-	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.ModelGlue", "ModelGlue not in app scope!") />
+	<cfset assertTrue(getMetadata(application.modelglue).name eq "ModelGlue.gesture.MemoizedModelGlue", "ModelGlue not in app scope!") />
 </cffunction>
 
 <cffunction name="testPhase_Population" returntype="void" access="public">

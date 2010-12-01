@@ -16,7 +16,7 @@
 	
 	<cfset pop.populate(ctx, source) />
 	
-    <cfset assertEquals("someValue", ctx.getValue("someKey"), "value not in context") />
+	<cfset assertTrue(ctx.getValue("someKey") eq "someValue", "value not in context") />
 </cffunction>
 
 <cffunction name="testUrlBasedPopulator" output="false" returntype="void" access="public">
@@ -29,7 +29,7 @@
 	
 	<cfset pop.populate(ctx) />
 	
-    <cfset assertEquals("someUrlValue", ctx.getValue("someKey"), "value not in context") />
+	<cfset assertTrue(ctx.getValue("someKey") eq "someUrlValue", "value not in context") />
 </cffunction>
 
 <cffunction name="testFormBasedPopulator" output="false" returntype="void" access="public">
@@ -40,7 +40,7 @@
 	
 	<cfset pop.populate(ctx) />
 	
-	<cfset assertEquals("someFormValue", ctx.getValue("someKey"), "value not in context") />
+	<cfset assertTrue(ctx.getValue("someKey") eq "someFormValue", "value not in context") />
 </cffunction>
 
 </cfcomponent>

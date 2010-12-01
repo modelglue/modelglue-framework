@@ -1,12 +1,12 @@
 <cfcomponent extends="mxunit.framework.TestCase"> 
 
-<cffunction name="createHelperInjector" output="false" access="private" returntype="any">
+<cffunction name="createHelperInjector" output="false" access="public" returntype="any">
 	<cfset var helperInjector = createObject("component", "ModelGlue.gesture.helper.HelperInjector").init() />
 	<cfset helperInjector.setBeanInjector(createBeanInjector()) />
 	<cfreturn helperInjector />
 </cffunction>
 
-<cffunction name="createBeanInjector" output="false" access="private" returntype="any">
+<cffunction name="createBeanInjector" output="false" access="public" returntype="any">
 	<cfset var bf = createObject("component", "coldspring.beans.DefaultXmlBeanFactory").init() />
 	<cfset bf.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	

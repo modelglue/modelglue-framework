@@ -11,9 +11,13 @@
 	
 	<cffunction name="createBootstrapper" access="private">
 		<cfargument name="coldspringPath" default="#this.coldspringPath#">
+		<cfargument name="modelGlueBeanName" default="modelglue.ModelGlue">
+		
 		<cfset var bootstrapper = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper")>
+		
 		<cfset bootstrapper.coldspringPath = arguments.coldspringPath>
 		<cfset bootstrapper.coreColdspringPath = arguments.coldspringPath>
+		<cfset bootstrapper.modelGlueBeanName = arguments.modelGlueBeanName>
 		
 		<cfset request._modelglue.bootstrap.bootstrapper = bootstrapper />
 		<cfset request._modelglue.bootstrap.initializationRequest = true />
@@ -25,6 +29,7 @@
 	
 	<cffunction name="createModelGlueIfNotDefined" access="private">
 		<cfargument name="coldspringPath" default="#this.coldspringPath#">
+		
 		<cfif isSimpleValue(mg)>
 			<cfset createModelGlue(coldspringPath)>
 		</cfif>

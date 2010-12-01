@@ -1,6 +1,7 @@
 <beans>
 
 <import resource="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
+<import resource="/ModelGlue/gesture/module/test/MemoizedXMLModuleLoaderDefinition.xml" />
 
 <bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
 	<property name="defaultEvent">
@@ -13,7 +14,7 @@
 		<value>true</value>
 	</property>
 	<property name="primaryModule">
-		<value>/modelgluetests/unittests/gesture/primaryModule.xml</value>
+		<value></value>
 	</property>
 	<property name="defaultTemplate">
 		<value>defaultTemplateValue</value>
@@ -21,9 +22,7 @@
 	<property name="eventValue">
 		<value>event</value>
 	</property>
-	<property name="helperMappings">
-		<value>/I/Am/A/HelperMapping</value>
-	</property>
 </bean>
+
 	
 </beans> 

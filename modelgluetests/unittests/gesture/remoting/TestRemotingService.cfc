@@ -66,7 +66,7 @@
 		<cfset local.validresponse = "{""event"":""get.empty""}" />
 
 		<!---The compare() will result in a 0 if good -- trim() used to prevent test failure due to trailing whitespace in HTTP content --->
-		<cfset assertEquals(local.validresponse,trim(local.cfhttp.filecontent)) />	
+		<cfset assertFalse(compare(trim(local.cfhttp.filecontent),local.validresponse),"#local.cfhttp.filecontent#" ) />	
 		
 	</cffunction>
 			
