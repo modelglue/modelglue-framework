@@ -36,6 +36,11 @@
 	<cfset this.eventHandlers = structNew() />
 	
 	<!---
+		The registry of event types in Model-Glue. 
+	--->
+	<cfset this.eventTypes = structNew() />
+	
+	<!---
 		The phases of an event request.
 	--->
 	<cfset this.phases = arrayNew(1) />
@@ -310,8 +315,6 @@
 <cffunction name="addEventHandler" output="false" returntype="ModelGlue.gesture.ModelGlue" hint="I add an event handler.">
 	<cfargument name="eventHandler" type="ModelGlue.gesture.eventhandler.EventHandler" required="true" hint="The event handler to add." />
 	
-	<cfset var i = "" />
-	
 	<cfset this.eventHandlers[arguments.eventHandler.name] = arguments.eventHandler />
 	
 	<cfreturn this />
@@ -335,6 +338,5 @@
 	
 	<cfreturn variables._logRenderer.renderLog(arguments.eventContext) />
 </cffunction>
-
 
 </cfcomponent>

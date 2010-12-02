@@ -41,7 +41,7 @@
 
             <!-- load properties -->
 
-            <property file="deploy.properties" />
+            <property file="build.properties" />
 
  
 

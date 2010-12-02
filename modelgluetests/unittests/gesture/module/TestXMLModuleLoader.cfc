@@ -24,7 +24,7 @@
 	<cfset mg.getInternalBeanFactory().loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/test/simpleXmlModule.xml") />
+	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/simpleXmlModule.xml") />
 	
 	<!--- Test controller loading --->
 	<cfset ctrl = mg.getController("controller") />
@@ -137,7 +137,7 @@
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 	
-	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/gesture/module/test/recursiveResultModule.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/module/recursiveResultModule.xml")>
 	
 	<cfset structClear(url) />
 	

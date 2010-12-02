@@ -10,7 +10,7 @@
 </controllers>
 
 <event-handlers>
-
+	<event-handler name="home" />
 	<!--
 		Setting extensible to true would not ordinarily be required here,
 		but in the context of the unit test, this module loads *before*

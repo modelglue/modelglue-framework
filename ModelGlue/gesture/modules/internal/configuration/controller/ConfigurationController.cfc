@@ -4,7 +4,6 @@
 	<cfargument name="event" />
 	
 	<cfset var mg = "" />
-	<cfset var cfg = "" />
 	<cfset var loader = "" />
 	<cfset var loadedModules = structNew() />
 	
@@ -13,11 +12,10 @@
 	
 	<cfset arguments.event.addTraceStatement("Configuration", "Loading Initial XML Module") />
 	<cfset mg = getModelGlue() />
-	<cfset cfg = mg.getInternalBean("modelglue.ModelGlueConfiguration") />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
-	<cfset loader.load(mg, cfg.getPrimaryModule(), loadedModules) />
+	<cfset loader.load(mg, mg.getConfigSetting("primaryModule"), loadedModules) />
 	<cfset this.loaded = true />
 </cffunction>
 

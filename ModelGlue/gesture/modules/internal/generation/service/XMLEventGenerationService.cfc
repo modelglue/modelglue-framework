@@ -225,7 +225,7 @@
 	</cfif>
 	
 	<!--- Add listener function --->
-	<cfset listenerNode = xmlSearch(xml, "//controllers/controller/message-listener[@message = '#messageNameFor(eventName)#' and @function = '#listenerFunctionNameFor(eventName)#' ]") />
+	<cfset listenerNode = xmlSearch(xml, "//controllers/controller/message-listener[translate(@message, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(messageNameFor(eventName))#' and translate(@function, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(listenerFunctionNameFor(eventName))#' ]") />
 	<cfif not arrayLen(listenerNode)>
 		<cfset arrayAppend(controllerNode.xmlChildren, xmlElemNew(xml, "message-listener")) />
 		<cfset listenerNode = controllerNode.xmlChildren[arrayLen(controllerNode.xmlChildren)] />
@@ -298,7 +298,7 @@
 	<cfset ehsNode = xml.xmlRoot.xmlChildren[arrayLen(xml.xmlRoot.xmlChildren)] />
 
 	<!--- If we don't have a match --->
-	<cfset ehNode = xmlSearch(xml, "//event-handlers/event-handler[@name='#eventName#']")>
+	<cfset ehNode = xmlSearch(xml, "//event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(eventName)#']")>
 	<cfif not arrayLen(ehNode)>
 		<cfset ehNodes = xmlSearch(xml, "//event-handlers/event-handler")>
 

@@ -6,7 +6,7 @@
 	<cfargument name="moduleLoaderFactory" require="true" hint="I am the factory through which module loaders may be attained." />
 	<cfargument name="modules" type="array" required="true" hint="I am the list of XML modules to load as part of this phase." />
 	
-	<cfset variables._moduleLoader = arguments.moduleLoaderFactory.create("XML") />
+	<cfset variables._moduleLoaderFactory = arguments.moduleLoaderFactory />
 	<cfset variables._modules = arguments.modules />	
 </cffunction>
 
@@ -22,7 +22,7 @@
 	<cfset var i = "" />
 	
 	<cfloop from="1" to="#arrayLen(variables._modules)#" index="i">
-		<cfset variables._moduleLoader.load(modelglue, variables._modules[i]) />
+		<cfset variables._moduleLoaderFactory.create("XML").load(modelglue, variables._modules[i]) />
 	</cfloop>
 </cffunction>
 

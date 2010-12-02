@@ -2,7 +2,7 @@
 
 <controllers>
 
-	<controller id="controller" type="ModelGlue.gesture.eventrequest.test.Controller">
+	<controller id="controller" type="modelgluetests.unittests.gesture.eventrequest.Controller">
 		<message-listener message="caseTest" />
 	</controller>
 

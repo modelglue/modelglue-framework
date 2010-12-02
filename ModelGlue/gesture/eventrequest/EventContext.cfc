@@ -35,7 +35,7 @@
 		<cfelse>
 			<cfset variables._requestPhases = arguments.requestPhases />
 		</cfif>
-			
+
 		<cfset variables._modelGlue = arguments.modelglue />
 	<cfelse>
 		<!--- External maps of listeners and handlers --->
@@ -77,6 +77,7 @@
 <cffunction name="setEventHandlerMap" output="false" hint="I set the map of event handlers registered with Model-Glue.">
 	<cfargument name="eventHandlerMap" type="struct" hint="The event handlers map." />
 	<cfset variables._eventHandlers = arguments.eventHandlerMap />	
+	<cfreturn variables._eventHandlers  />
 </cffunction>
 
 <cffunction name="setViewRenderer" output="false" hint="I set the instance of the view renderer to use when a request is made to render a view.">
@@ -200,7 +201,7 @@
 	<cfset var view = "" />
 	<cfset var ehTracker = 0 />
 	<cfset var maxQueuedEventsPerRequest = variables._modelGlue.getConfigSetting("maxQueuedEventsPerRequest")>
-	
+
 	<cfif not isStruct(variables._nextEventHandler)>
 		<!--- Nothing to do! --->
 		<cfreturn />
@@ -233,12 +234,13 @@
 		<cfset ehTracker = ehTracker + 1>
 	</cfloop>
 
-	<!--- If we need to signal completion, do so. --->
-	<cfif structKeyExists(arguments, "signalCompletion")
-				and structKeyExists(variables._eventHandlers, "modelGlue.onQueueComplete")		
-	>
+	<!--- If we need to signal completion, do so. First try to find the onQueueComplete event in the event handlers struct (for speed). --->
+	<cfif structKeyExists(arguments, "signalCompletion") and structKeyExists(variables._eventHandlers, "modelGlue.onQueueComplete")>
 		<cfset executeEventHandler(variables._eventHandlers["modelglue.onQueueComplete"]) />
-	</cfif>	
+	<!--- If it's not there, use the hasEventHandler/getEventHandler methods to support lazy loading. --->
+	<cfelseif structKeyExists(arguments, "signalCompletion") and variables._modelGlue.hasEventHandler("modelGlue.onQueueComplete")>
+		<cfset executeEventHandler(variables._modelGlue.getEventHandler("modelglue.onQueueComplete")) />
+	</cfif>
 	
 	<!--- Render all views queued - moved inline after tooling heavy load situations.
 	<cfif not isSimpleValue(variables._nextView)>
@@ -275,12 +277,19 @@
 	<cfset var message = "" />
 	<cfset var results = "" />
 	<cfset var result = "" />
-	
+	<cfset var nextEvent = "" />
 	<cfset var i = "" />
 	<cfset var j = "" />
 	<cfset var requestFormat = getValue("requestFormat", variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var cacheKey = "" />
-		
+	<!--- Straight Hacking this now because these get out of sync when the runtime changes --->
+	<cfset structAppend(  variables._listeners, variables._modelGlue.messageListeners ) />
+	<cfset structAppend( variables._eventHandlers, variables._modelGlue.eventHandlers) />
+	
+<!---	<cfset variables._listeners = variables._modelGlue.messageListeners />
+	<cfset variables._eventHandlers = variables._modelGlue.eventHandlers />
+--->	<!--- End Hack --->
+	
 	<cfset variables._currentEventHandler = arguments.eventHandler />
 	
 	<cfset this.addTraceStatement("Event Handler", "Execute ""#arguments.eventHandler.name#""", "<event-handler name=""#arguments.eventHandler.name#"">") /> 
@@ -305,8 +314,38 @@
 						<cfinvokeargument name="event" value="#this#" />
 					</cfinvoke>
 				</cfloop>
+			<cfelse>
+<!---				Something did not exist
+				<cfdump var="#message#">
+				<cfdump var="#variables._listeners#">
+				<cfdump var="#variables._eventHandlers#">
+				EventContext.cfc
+				<cftry>
+				<cfthrow type="Fuck" message="Fuck" detail="fuck" /> 
+				<cfcatch type="Fuck">
+					<cfdump var="#cfcatch#">
+				</cfcatch>
+				</cftry>
+				<cfabort>
+				--->
+				<!---  
+				At this point I am not sure why this does not exist. It would seem as if the listener doesn't make it over to the Event context.
+				
+				Some things to look into:
+				
+				What can we do about the way we are populating the model glue CFC with the data?
+				What are the various ways we can trigger the loading of something?
+				
+				-EventHandlerName : Loads Messages (which need controllers )
+				-Listener Name (should this already be populated?)
+				
+				
+				Ideas: Unwind the XML config and compartmentalize it so we can query it later
+						Continue on with the path we are taking and try to find a stale reference
+						
+				 --->
+				
 			</cfif>
-			
 		</cfif>
 	</cfloop>
 		
@@ -326,7 +365,12 @@
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
 						<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, queueing event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" />") /> 
-						<cfset addEventHandler(variables._eventHandlers[arguments.eventHandler.results[results[i]][j].event]) />
+						<cfif structKeyExists( variables._eventHandlers, arguments.eventHandler.results[results[i]][j].event ) IS true>
+							<cfset nextEvent = variables._eventHandlers[ arguments.eventHandler.results[results[i]][j].event ] />
+						<cfelse>
+							<cfset nextEvent = variables._modelGlue.getEventHandler( arguments.eventHandler.results[results[i]][j].event ) />
+						</cfif>
+						<cfset addEventHandler( nextEvent ) />
 					</cfif>
 					
 				</cfif>
@@ -348,7 +392,12 @@
 						<cfset forward(eventName:result.event, preserveState:result.preserveState, addToken:false, append:result.append, anchor:result.anchor) />
 					<cfelse>
 						<cfset this.addTraceStatement("Result", "Implicit result queing event ""#result.event#""", "<result do=""#result.event#"" />") /> 
-						<cfset addEventHandler(variables._eventHandlers[results[i].event]) />
+						<cfif structKeyExists( variables._eventHandlers, results[i].event ) IS true>
+							<cfset nextEvent = variables._eventHandlers[ results[i].event ] />
+						<cfelse>
+							<cfset nextEvent = variables._modelGlue.getEventHandler( results[i].event ) />
+						</cfif>
+						<cfset addEventHandler( nextEvent ) />
 					</cfif>
 					
 				</cfif>
@@ -699,7 +748,7 @@
   <cfargument name="message" type="any" />
   <cfargument name="tag" type="string" default="" />
   <cfargument name="traceType" type="string" default="OK" />
-
+	<cfset createobject("java", "java.lang.System").out.println( message ) />	
 	<cfset arguments.time = getTickCount() />
 	
 	<cfset variables._logWriter.write(this, arguments) />

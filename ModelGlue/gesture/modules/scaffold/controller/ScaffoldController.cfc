@@ -21,4 +21,21 @@
 	
 </cffunction>
 
+<cffunction name="generateScaffolds" output="false" access="public" returntype="void" hint="">
+	<cfargument name="event">
+	
+	<cfset var moduleLoaderArray = getModelGlue().getModuleLoaderArray() />
+	<cfset var moduleIndex = 0 />
+	<cfset var moduleLoader = "" />
+	<cfset var scaffolds = arrayNew(1) />
+	
+	<cfif getModelGlue().getConfigSetting("reload") is true and getModelGlue().getConfigSetting("rescaffold") is true>
+		<cfloop from="1" to="#arrayLen(moduleLoaderArray)#" index="moduleIndex">
+			<cfset moduleLoader = moduleLoaderArray[moduleIndex] />
+			
+			<cfset moduleLoader.loadScaffolds(getModelGlue()) />
+		</cfloop>
+	</cfif>
+</cffunction>
+
 </cfcomponent>

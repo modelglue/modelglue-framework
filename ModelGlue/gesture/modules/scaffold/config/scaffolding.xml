@@ -1,10 +1,9 @@
 <modelglue>
 
-<!-- Note: This module must be loaded _AFTER_ the configuration module so that the primary module is loaded before appendGeneratedViewMapping is called -->  
-
 <controllers>
 	<controller id="modelglue.scaffoldController" type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController">
-		<message-listener message="modelglue.readyForModuleLoading" function="appendGeneratedViewMapping" />
+		<message-listener message="modelglue.modulesLoaded" function="appendGeneratedViewMapping" />
+		<message-listener message="modelglue.readyForModuleLoading" function="generateScaffolds" />
 	</controller>
 </controllers>
 

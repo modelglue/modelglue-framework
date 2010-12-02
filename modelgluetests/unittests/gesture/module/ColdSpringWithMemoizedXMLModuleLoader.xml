@@ -1,7 +1,7 @@
 <beans>
 
 <import resource="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
-<import resource="/ModelGlue/gesture/module/test/MemoizedXMLModuleLoaderDefinition.xml" />
+<import resource="/modelgluetests/unittests/gesture/module/MemoizedXMLModuleLoaderDefinition.xml" />
 
 <bean id="modelglue.ModelGlueConfiguration" class="ModelGlue.gesture.configuration.ModelGlueConfiguration">
 	<property name="defaultEvent">

@@ -129,6 +129,8 @@
 			<include name="view" template="view.cfm" />
 		</views>
 	</event-handler>
+	
+	<event-handler name="home" />
 
 </event-handlers>
 

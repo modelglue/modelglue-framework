@@ -1,4 +1,5 @@
 <cfsilent>
+<cfsetting showDebugOutput="false">
 <!---
 	If you want to run multiple MG applications under the same
 	application name, change this value to something unique

@@ -1,6 +1,6 @@
 <beans>
 
-<bean id="modelglue.ModelGlue" class="ModelGlue.gesture.ModelGlue">
+<bean id="modelglue.ModelGlue" class="ModelGlue.gesture.MemoizedModelGlue">
 	<!-- 
 		Configuration to use.
 		
@@ -49,8 +49,8 @@
 				</constructor-arg>
 				<constructor-arg name="modules">
 					<list>
-						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
 						<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
 					</list>
 				</constructor-arg>
 			</bean>
@@ -164,7 +164,8 @@
 	that loaded controllers / event handlers from a database, you can implement
 	it and register it here.
 -->
-<bean id="modelglue.ModuleLoaderFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+<bean id="modelglue.ModuleLoaderFactory" class="ModelGlue.gesture.module.XMLModuleLoaderFactory">
+	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
 	<constructor-arg name="registeredClasses">
 		<map>
 			<entry key="XML">
@@ -251,7 +252,7 @@
 -->
 <bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer">
 	<property name="modelGlue">
-		<ref bean="modelGlue.ModelGlue" />
+		<ref bean="modelglue.ModelGlue" />
 	</property>
 </bean>
 
@@ -266,7 +267,7 @@
 	<constructor-arg name="JSPrefix"><value>&lt;script type="text/javascript" src="</value></constructor-arg>
 	<constructor-arg name="JSSuffix"><value>"&gt;&lt;/script&gt;</value></constructor-arg>
 	<property name="modelGlue">
-		<ref bean="modelGlue.ModelGlue" />
+		<ref bean="modelglue.ModelGlue" />
 	</property>
 </bean>
 

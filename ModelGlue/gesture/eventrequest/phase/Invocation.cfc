@@ -44,8 +44,9 @@
 	I don't really like having to put this here, but it works. 
 	--->
 	<cfset arguments.eventContext.prepareForInvocation() />
-
-	<cfif structKeyExists(modelglue.eventHandlers, initialEventHandlerName)>
+	<!--- This looks weird, but the ability to check a structure is a lot faster than what the hasEventHandler routine has to do. 
+		Since CF short-circuits, we can do this and get the performance if the event handler is already loaded, and still protect our lazy loading scheme --->
+	<cfif structKeyExists(modelglue.eventHandlers, initialEventHandlerName) OR modelglue.hasEventHandler( initialEventHandlerName )>
 		<cfset initialEventHandler = modelglue.getEventHandler(initialEventHandlerName) />
 
 		<!--- Initial user-requested event must be marked public. --->

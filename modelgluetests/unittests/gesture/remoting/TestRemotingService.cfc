@@ -15,7 +15,7 @@
 			<cfcatch><cfset local.cfhttp.filecontent = "" /></cfcatch>
 		</cftry>		
 	</cffunction>
-			
+
 	<cffunction name="testJSONRemotingCall" access="public" returntype="void">  
 		<cfset var local = StructNew() />
 

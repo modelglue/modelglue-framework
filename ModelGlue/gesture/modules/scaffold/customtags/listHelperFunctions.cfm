@@ -31,7 +31,9 @@
 	<cfargument name="viewEvent" />
 	<cfargument name="editEvent" />
 	<cfargument name="deleteEvent" />
-
+	<cfset var viewLink = "" />
+	<cfset var thisProp = "" />
+	<cfset var pk = "" />
 	<cfoutput>
 	<tr>	
 	    <cfloop list="#arguments.displayPropertyList#"  index="thisProp">

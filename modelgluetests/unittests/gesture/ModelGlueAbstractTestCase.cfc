@@ -38,15 +38,12 @@
 	
 	<cffunction name="createModelGlue" access="private">
 		<cfargument name="coldspringPath" default="#this.coldspringPath#">
-		<cfset variables.mg = createBootstrapper(coldspringPath).
-					createModelGlue()>
-					
-		<!--- load "test" application event definitions --->
-		<cfset mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML").load( mg, expandPath("/modelgluetests/unittests/gesture/primaryModule.xml") ) />
-
+		
+		<cfset variables.mg = createBootstrapper(coldspringPath).createModelGlue()>
+		
 		<cfset request._modelglue.bootstrap.framework = mg />
 		
-		<cfreturn  mg>	
+		<cfreturn mg>
 	</cffunction>
 
 </cfcomponent>

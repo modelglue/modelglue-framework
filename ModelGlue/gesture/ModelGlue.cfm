@@ -46,7 +46,7 @@
 			<cfset boot.modelglueVersionIndicator = ModelGlue_VERSION_INDICATOR />
 			<cfset boot.primaryModulePath = ModelGlue_CONFIG_PATH />
 			<cfset boot.parentBeanFactory = ModelGlue_PARENT_BEAN_FACTORY />
-
+			<cfset boot.modelGlueBeanName = "modelglue.ModelGlue" />
 			<cfset mg = boot.storeModelGlue() />
 		<cfelse>
 			<cfset mg = application[ModelGlue_APP_KEY] />
