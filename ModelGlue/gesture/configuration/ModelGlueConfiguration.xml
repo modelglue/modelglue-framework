@@ -1,0 +1,490 @@
+<beans>
+
+<bean id="modelglue.ModelGlue" class="ModelGlue.gesture.MemoizedModelGlue">
+	<!-- 
+		Configuration to use.
+		
+		This should be defined in your application's local ColdSpring.xml file.
+		
+		If it's not, the definition provided later in this file will be used instead.
+	-->
+	<property name="modelGlueConfiguration">
+		<ref bean="modelGlue.ModelGlueConfiguration" />
+	</property>
+	
+	<!--
+		Array of Populators.  These populate the event values from form, url, etc.
+		
+		Values are populated in the order defined:  last populator values overwrite prior!
+	-->
+	<property name="eventPopulators">
+		<list>
+			<!-- Low-level bootstraps use request. -->
+			<ref bean="modelGlue.requestPopulator" />
+			<ref bean="modelGlue.urlPopulator" />
+			<ref bean="modelGlue.formPopulator" />
+		</list>
+	</property>
+	
+	<!-- Event Context creation is bottlenecked through a factory to allow for proper configuration and testing -->
+	<property name="eventContextFactory">
+		<ref bean="modelglue.eventContextFactory"/>
+	</property>
+	
+		
+	<property name="scaffoldManager">
+		<ref bean="modelglue.scaffoldManager" />
+	</property>
+	
+	<!--
+		Array of EventRequestPhase implementations.
+		
+		These will be executed in the order defined.
+	-->
+	<property name="requestPhases">
+		<list>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Initialization">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Population">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/generation/config/generation.xml</value>
+						<value>/ModelGlue/gesture/modules/asset/config/asset.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/configuration/config/configuration.xml</value>
+						<value>/ModelGlue/gesture/modules/internal/utility/config/utility.xml</value>
+						<value>/ModelGlue/gesture/modules/scaffold/config/scaffolding.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
+			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation">
+				<constructor-arg name="moduleLoaderFactory">
+					<ref bean="modelglue.ModuleLoaderFactory" />
+				</constructor-arg>
+				<constructor-arg name="modules">
+					<list>
+						<value>/ModelGlue/gesture/modules/internal/invocation/config/invocation.xml</value>
+					</list>
+				</constructor-arg>
+			</bean>
+			<!-- Haven't found a use for it.
+			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
+			-->
+		</list>
+	</property>
+	
+	<!-- Bean Populator to use -->
+	<property name="beanPopulator">
+		<ref bean="modelglue.beanPopulator" />
+	</property>
+
+	<!-- IoC Adapter to use -->
+	<property name="iocAdapter">
+		<ref bean="modelglue.iocAdapter" />
+	</property>
+
+	<!-- Cache Adapter to use -->
+	<property name="cacheAdapter">
+		<ref bean="modelglue.cacheAdapter" />
+	</property>
+
+	<!-- 
+		View Renderer to use.
+	-->
+	<property name="viewRenderer">
+		<ref bean="modelglue.viewRenderer" />
+	</property>
+
+	<!-- 
+		Asset Manager to use.
+	-->
+	<property name="assetManager">
+		<ref bean="modelglue.assetManager" />
+	</property>
+
+	<!-- 
+		State Persister to use
+	-->
+	<property name="statePersister">
+		<ref bean="modelglue.statePersister" />
+	</property>
+
+	<!-- 
+		Log Writer to use
+	-->
+	<property name="logWriter">
+		<ref bean="modelglue.logWriter" />
+	</property>
+	
+	<!-- 
+		Log Renderer to use
+	-->
+	<property name="logRenderer">
+		<ref bean="modelglue.logRenderer" />
+	</property>
+	
+		<!-- 
+		Validation Service to use
+	-->
+	<property name="validationService">
+		<ref bean="modelglue.validationService" />
+	</property>
+</bean>
+
+<!-- 
+	Injector that performs "beans"-scope injection and autowiring for controllers and helper components.
+-->
+<bean id="modelglue.beanInjector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
+
+<!--
+	Factory responsible for creating ModuleLoader implementations.
+	
+	If you wanted to define your own type of module loader, such as one
+	that loaded controllers / event handlers from a database, you can implement
+	it and register it here.
+-->
+<bean id="modelglue.ModuleLoaderFactory" class="ModelGlue.gesture.module.XMLModuleLoaderFactory">
+	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
+	<constructor-arg name="registeredClasses">
+		<map>
+			<entry key="XML">
+				<map><entry key="class"><value>ModelGlue.gesture.module.XMLModuleLoader</value></entry></map>
+			</entry>
+		</map>
+	</constructor-arg>
+</bean>
+
+<!--
+	Factory responsible for creating EventHandler implementations.
+
+	If you wanted to define your own type of event handler, you can implement
+	it.  It need not be registered here:  simply calling the create() method
+	with the type name will instantiate it.  See TypeDefaultingMapBasedFactory.
+-->
+<bean id="modelglue.EventHandlerFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+	<constructor-arg name="createSingletons">
+		<value>false</value>
+	</constructor-arg>
+	<constructor-arg name="registeredClasses">
+		<map>
+			<entry key="EventHandler">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.eventhandler.EventHandler</value></entry>
+				</map>
+			</entry>
+		</map>
+	</constructor-arg>
+</bean>
+
+<!--
+	Default URL manager to use.
+-->
+<bean id="modelglue.UrlManager" class="ModelGlue.gesture.eventrequest.url.UrlManager">
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+	
+<!--
+	URL Populator to use.
+-->
+<bean id="modelGlue.urlPopulator" class="ModelGlue.gesture.eventrequest.population.UrlPopulator">
+	<property name="urlManager">
+		<ref bean="modelglue.UrlManager" />
+	</property>
+</bean>
+
+<!--
+	Form Populator to use.
+-->
+<bean id="modelGlue.formPopulator" class="ModelGlue.gesture.eventrequest.population.FormPopulator" />
+
+<!--
+	Request Populator to use.
+-->
+<bean id="modelGlue.requestPopulator" class="ModelGlue.gesture.eventrequest.population.RequestPopulator" />
+
+<!--
+	Bean Populator to use (fuels makeEventBean())
+-->
+<bean id="modelGlue.beanPopulator" class="ModelGlue.gesture.externaladapters.beanpopulation.CollectionBeanPopulator" />
+	
+<!--
+	Session facade
+-->
+<bean id="modelglue.sessionFacade" class="ModelGlue.gesture.externaladapters.session.AdobeColdFusionSessionFacade" />
+
+<!--
+	IoC Adapter to use
+-->
+<bean id="modelGlue.iocAdapter" class="ModelGlue.gesture.externaladapters.ioc.ColdSpringAdapter" />
+
+<!--
+	Cache Adapter to use
+-->
+<bean id="modelGlue.cacheAdapter" class="ModelGlue.gesture.externaladapters.contentcaching.SimpleTimedCache">
+	<constructor-arg name="sweepInterval"><value>10</value></constructor-arg>
+</bean>
+
+<!--
+	View renderer
+-->
+<bean id="modelglue.viewRenderer" class="ModelGlue.gesture.view.ViewRenderer">
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+
+<!--
+	Asset manager
+-->
+<bean id="modelglue.assetManager" class="ModelGlue.gesture.modules.asset.manager.AssetManager">
+	<constructor-arg name="CSSPrefix"><value>&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
+	<constructor-arg name="CSSSuffix"><value>" /&gt;</value></constructor-arg>
+	<constructor-arg name="IECSSPrefix"><value>&lt;!--[if lte ie 8]&gt;&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
+	<constructor-arg name="IECSSSuffix"><value>" /&gt;&lt;![endif]--&gt;</value></constructor-arg>
+	<constructor-arg name="JSPrefix"><value>&lt;script type="text/javascript" src="</value></constructor-arg>
+	<constructor-arg name="JSSuffix"><value>"&gt;&lt;/script&gt;</value></constructor-arg>
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+
+<!--
+	State persister
+-->
+<bean id="modelglue.statePersister" class="ModelGlue.gesture.eventrequest.statepersistence.SessionBasedStatePersister">
+	<constructor-arg name="sessionFacade"><ref bean="modelglue.sessionFacade" /></constructor-arg>
+</bean>
+
+<!--
+	Helper injector
+-->
+<bean id="modelglue.helperInjector" class="ModelGlue.gesture.helper.HelperInjector">
+	<property name="beanInjector"><ref bean="modelglue.beanInjector" /></property>
+</bean>
+
+<!--
+	Event generator (does the creation of controllers, event-handler XML, etc. bits)
+-->
+<bean id="modelglue.eventGenerator" class="ModelGlue.gesture.modules.internal.generation.service.XMLEventGenerationService">
+	<constructor-arg name="modelglue"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+</bean>
+<!--
+	Validation Service used by ORMAdapter. Can be overridden
+-->
+<bean id="modelglue.ValidationService" class="ModelGlue.gesture.modules.orm.ValidationService">
+	<property name="framework"><ref bean="modelglue.ModelGlue" /></property>
+</bean>
+
+<!-- 
+	Renderer that renders the ModelGlue Log.
+-->
+<bean id="modelglue.logRenderer" class="ModelGlue.gesture.eventrequest.log.LogRenderer" />
+
+	
+<bean id="modelglue.eventContextFactory" class="ModelGlue.gesture.eventrequest.EventContextFactory">
+	<property name="modelGlue"><ref bean="modelglue.ModelGlue"/></property>
+	<property name="statePersister"><ref bean="modelglue.statePersister"/></property>
+	<property name="viewRenderer"><ref bean="modelglue.viewRenderer"/></property>
+	<property name="beanPopulator"><ref bean="modelglue.beanPopulator"/></property>
+	<property name="logWriter"><ref bean="modelglue.logWriter"/></property>
+	<property name="objectPath"><value>ModelGlue.gesture.eventrequest.EventContext</value></property>
+</bean>	
+<!-- 
+	Writer that writes the that renders the ModelGlue Log.
+-->
+<bean id="modelglue.logWriter" class="ModelGlue.gesture.eventrequest.log.LogWriter">
+	<constructor-arg name="debugMode"><bean factory-bean="modelglue.modelGlueConfiguration" factory-method="getDebug" /></constructor-arg>
+</bean>		
+	
+<!--
+	ScaffoldManager (does the creation of scaffold bits)
+-->
+
+<!-- Scaffold manager beans should use this template as a parent -->
+<bean id="modelglue.scaffoldManager.template" class="ModelGlue.gesture.modules.scaffold.ScaffoldManager">
+	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
+	<property name="modelGlue"><ref bean="modelglue.ModelGlue" /></property>
+</bean>
+
+<!-- Plain scaffolding (default)-->
+
+<bean id="modelglue.scaffoldManager" parent="modelglue.scaffoldManager.template">
+	<constructor-arg name="scaffoldCustomTagMappingsList">
+		<list>
+				<ref bean="modelglue.scaffoldCustomTagMappings.plain" />
+		</list>
+	</constructor-arg>
+	<constructor-arg name="scaffoldBeanRegistryList">
+		<list>
+				<ref bean="modelglue.scaffoldBeanRegistry.plain" />
+		</list>
+	</constructor-arg>	
+</bean>
+
+<bean id="modelglue.scaffoldCustomTagMappings.plain" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="mg">
+				<value>/ModelGlue/gesture/modules/scaffold/customtags/plain/</value>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+<bean id="modelglue.scaffoldBeanRegistry.plain" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="Commit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Commit</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Delete">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Delete</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>false</value></event>
+				</map>
+			</entry>
+			<entry key="Edit">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.Edit</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/Edit.cfm</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Form.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="List">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.List</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/List.cfm</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>List.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="View">
+				<map>
+					<entry key="class"><value>ModelGlue.gesture.modules.scaffold.beans.plain.View</value></entry>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/plain/View.cfm</value></entry>
+					<event key="hasXMLGeneration"><value>true</value></event>
+					<event key="hasViewGeneration"><value>true</value></event>
+					<entry key="prefix"><value>Display.</value></entry>
+					<entry key="suffix"><value>.cfm</value></entry>
+				</map>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+<!-- Fancy scaffolding -->
+
+<bean id="modelglue.scaffoldManager.fancy" parent="modelglue.scaffoldManager.template">
+	<constructor-arg name="scaffoldCustomTagMappingsList">
+		<list>
+				<ref bean="modelglue.scaffoldCustomTagMappings.fancy" />
+		</list>
+	</constructor-arg>	
+	<constructor-arg name="scaffoldBeanRegistryList">
+		<list>
+				<ref bean="modelglue.scaffoldBeanRegistry.plain" />
+				<ref bean="modelglue.scaffoldBeanRegistry.fancy" />
+		</list>
+	</constructor-arg>	
+</bean>
+
+<bean id="modelglue.scaffoldCustomTagMappings.fancy" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="mg">
+				<value>/ModelGlue/gesture/modules/scaffold/customtags/fancy/</value>
+			</entry>
+			<entry key="uform">
+				<value>/modelglueextensions/cfuniform/tags/forms/cfUniForm/</value>
+			</entry>
+		</map>
+	</property>
+</bean>
+
+<bean id="modelglue.scaffoldBeanRegistry.fancy" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="Edit">
+				<map>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/Edit.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="List">
+				<map>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/List.cfm</value></entry>
+				</map>
+			</entry>
+			<entry key="View">
+				<map>
+					<entry key="templatePath"><value>/ModelGlue/gesture/modules/scaffold/templates/fancy/View.cfm</value></entry>
+				</map>
+			</entry>
+    </map>
+	</property>
+</bean>
+
+
+<!-- Reactor adapter/service -->
+<bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">
+	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+	<constructor-arg name="reactor"><ref bean="ormService.Reactor" /></constructor-arg>
+</bean>
+<bean id="ormService.Reactor" class="reactor.reactorFactory">
+	<constructor-arg name="configuration"><ref bean="reactorConfiguration" /></constructor-arg>
+</bean>
+
+
+<!-- Transfer adapter/service -->
+<bean id="ormAdapter.Transfer" class="ModelGlue.unity.orm.transfer.TransferAdapter">
+	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+	<constructor-arg name="transfer"><ref bean="ormService.Transfer" /></constructor-arg>
+</bean>
+
+<bean id="ormService.Transfer" class="transfer.TransferFactory">
+	 <constructor-arg name="configuration"><ref bean="transferConfiguration" /></constructor-arg>
+</bean>
+
+<!-- CF9/ORM adapter/service -->
+<bean id="ormAdapter.cfORM" class="ModelGlue.gesture.modules.orm.cform.cfORMAdapter">
+	<constructor-arg name="framework"><ref bean="modelglue.ModelGlue" /></constructor-arg>
+	<constructor-arg name="ormService"><ref bean="ormService.cfORM" /></constructor-arg>
+</bean>
+
+<bean id="ormService.cfORM" class="ModelGlue.gesture.modules.orm.cform.cfORMService">
+	 <!-- <constructor-arg name="configuration"><ref bean="cformConfiguration" /></constructor-arg> -->
+</bean>
+
+</beans>

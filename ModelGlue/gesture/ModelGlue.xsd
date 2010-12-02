@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
+	<xsd:element name="modelglue" >
+		
+        <xsd:annotation>
+			<xsd:documentation><![CDATA[Declares the root of a Model-Glue XML file.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+		            <xsd:element name="include" type="globalIncludeType" />
+		            <xsd:element ref="controllers"/>
+					<xsd:element ref="event-handlers"/>
+					<xsd:element ref="config" />
+					<xsd:element ref="event-types" />
+					<xsd:element ref="module" />
+					<xsd:element ref="scaffold" />
+					
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+    </xsd:element>
+	
+	<xsd:element name="controllers">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a list of <controller> tags.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:restriction base="xsd:anyType">
+					<xsd:sequence>
+			        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			        	    <xsd:element ref="controller" />
+						</xsd:choice>
+					</xsd:sequence>
+				</xsd:restriction>
+			</xsd:complexContent>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="event-handlers">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a list of child tags that define the events in the application.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="event-handler" />
+	        	    <xsd:element ref="scaffold" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="defaulttype" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - Set to a default event-type to be applied to all event-handler child tags that do not have a TYPE attribute defined.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+		
+	</xsd:element>
+	
+	
+	<xsd:element name="config">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Used in Model-Glue XML fragments to define additional settings and by legacy Model-Glue 1.x applications to define settings. This tag was largely unused in Model-Glue 2, but may be used in Model-Glue 3 to define actionpacks.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="setting" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="event-types">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a collection of event types.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:restriction base="xsd:anyType">
+					<xsd:sequence>
+			        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			        	    <xsd:element ref="event-type" />
+						</xsd:choice>
+					</xsd:sequence>
+				</xsd:restriction>
+			</xsd:complexContent>
+		</xsd:complexType>
+		
+		
+	</xsd:element>
+	
+	<xsd:element name="module">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Introduces a set of external definitions into the current Model-Glue XML file. This tag works similarly to the <include> tag, except that all <module> tags are processed before <include> tags. This tag is intended for the loading of actionpacks in Model-Glue 3. ]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+
+			<xsd:attribute name="type" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - The type of module to load. Currently the only supported type is "XML".]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+            <xsd:attribute name="location" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required for XML modules) - The path to the XML file to include.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>		
+		
+	</xsd:element>
+	
+	<xsd:element name="scaffold">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Automatically defines and creates user interface for listing and editing data from a database table. By default, creates object.list, object.view, object.edit, object.commit, and object.delete event-handlers, where object is the value of the OBJECT attribute. This list of event-handlers to create is controlled by the TYPE attribute.
+
+			In Model-Glue 2, only <scaffold> tags that are children of the <event-handlers> tag are processed. In Model-Glue 3, all <scaffold> tags are processed regardless of where they appear in the XML file.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="broadcasts" />
+	        	    <xsd:element ref="results" />
+	        	    <xsd:element ref="views" />
+				</xsd:choice>
+			</xsd:sequence>
+			
+			<xsd:attribute name="object" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The name of the database table to scaffold]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="type" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, defaults to "list,view,edit,commit,delete") - What types of event-handlers to create]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="propertylist" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(optional) - Comma separated list of object properties to use in scaffolds.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="event-type" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(optional) - Comma separated list of event-types to add to the resulting event-handler tags.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="controller">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a CFC that will act as a Controller in the application.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="message-listener" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="id" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[A unique name for this controller. A Model-Glue application where multiple controllers are added with the same name will currently confuse the framework (as of 2.0 Beta 1). This will eventually be resolved.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="type" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[The CFC to use for a controller in the same format that you'd use in a CreateObject() call, such as "myapplication.controller.MyController". Required if not using the 'bean' attribute.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="beans" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[A bean (or comma delimited list, if more than one) as defined in ColdSpring.xml, that will be accessible to any cffunction in the controller. Replaces the need for getModelGlue().getBean() within controller methods.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="bean" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[If you wish to define the controller directly in your ColdSpring.xml you can tell ModelGlue the id of it here instead of providing a type.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+		
+		
+	</xsd:element>
+	
+	<xsd:element name="message-listener">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Relates a <cffunction> inside of a Controller CFC to a message that is broadcast via a <message> tag inside of an <event-handler>'s <broadcasts> block.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:restriction base="xsd:anyType">
+					<xsd:attribute name="message" type="xsd:string" use="required">
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[(Required) - The name of a message for which to listen, defined by the <message> tag's NAME attribute.]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					
+					<xsd:attribute name="function" type="xsd:string" use="optional">
+						<xsd:annotation>
+							<xsd:documentation><![CDATA[(Optional) - The name of a public <cffunction> on the related Controller CFC to execute whenever a <message> is broadcast whose NAME attribute matches the value of the MESSAGE attribute. If no value is provided for Function, the name of the message will be used as Function.]]></xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:restriction>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="event-type">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a custom event type.  Makes applying configuration selectively to specific events quite easy.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="before" />
+	        	    <xsd:element ref="after" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - A unique name for the event type.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="event-handler">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines an event or "page" in the application.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="broadcasts" />
+	        	    <xsd:element ref="results" />
+	        	    <xsd:element ref="views" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - A unique name for the event handler. This defines how the event will be accessed through the URL, such as "index.cfm?event=!MyEvent". If an <event-handler> is added whose NAME attribute is in use by another event-handler, it will overwrite the previous event-handler, except in the case of the predefined modelglue.onRequestStart, modelglue.onQueueComplete, and modelglue.onRequestEnd event-handlers. In this case, any messages, views, or results defined will be added to the predefined event handlers.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="access" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, defaults to "public") - If set to "private," the event handler cannot be accessed directly through the URL.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="type" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - Set to an event-type to be run before and/or after the event, depending on how the event-type is set up.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="broadcasts">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a list of <message> tags. The <message> tags will be broadcast in the order in which they are defined.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="message" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="results">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a list of <result> tags.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="result" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="result">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines an additional event-handler to execute as part of the current request.  Can use the NAME attribute to determine whether or not a certain result should be executed, and the REDIRECT attribute to abort the current request and redirect to a different event handler.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+
+			<xsd:attribute name="do" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The NAME attribute of an event handler to add to this request.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>			
+			<xsd:attribute name="name" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - If not set ''or set to an empty string'', the event handler declared in the DO attribute will always be added to the request.  If not empty, the event handler declared will only execute if a function in a Controller CFC uses the addResult() method of the Event API to add a result with the value of the NAME attribute.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="redirect" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "false") - If true, a redirect will immediately redirect the entire request to the event handler declared in the DO attribute.  All state value will be maintained if session is enabled.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="append" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "") -  Used to define a list of value names (from the viewstate) that should be appended to the URL.  ]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="preservestate" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "true") - If set to false and REDIRECT is set to true, then all state values will removed before redirecting to the event handler declared in the DO attribute.  If using this be sure that session management is enabled.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="reset" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "false") - If set to true, any previously declared results of the same name will be erased.  This is only useful for redefining results added by scaffolds.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="after">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Part of a typed event.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="broadcasts" />
+	        	    <xsd:element ref="results" />
+	        	    <xsd:element ref="views" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="before">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Part of a typed event.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="broadcasts" />
+	        	    <xsd:element ref="results" />
+	        	    <xsd:element ref="views" />
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	
+	<xsd:element name="views">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Contains a list of <include> tags. The <include> tags will be run in the order in which they are defined.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+		
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element name="include" type="viewIncludeType" />
+                    <xsd:element name="view" type="viewIncludeType" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="format" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - Specifies what requestFormat this group of views should be rendered for. Defaults to "html".]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="value">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[A string value to set into the ViewState before the .CFM template in the current include is rendered. Its value may be accessed through the ViewState object in the View API.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - Defines the name of the argument.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="value" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - Defines the value of this argument.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="overwrite" type="xsd:string" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional, default = "false") - If set to true, this value will overwrite an existing same-named value in the ViewState.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="message">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a message to be broadcast during the execution on an event handler. Messages are broadcast in the order in which they are defined.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence>
+	        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	    <xsd:element ref="argument" />
+				</xsd:choice>
+			</xsd:sequence>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The name of the message. The same message may be broadcast multiple times during a single event handler, with or without different sets of arguments. Any message-listener tags whose MESSAGE attribute value matches the value of attribute will execute the function registered via their FUNCTION attribute.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+	
+	</xsd:element>
+	
+	<xsd:element name="setting">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			Used in Model-Glue XML fragments to define additional settings and by legacy Model-Glue 1.x applications to define settings.
+
+			This tag was largely unused in Model-Glue 2, but may be used in Model-Glue 3 to define actionpacks.
+			
+			==== Special Behavior ====
+			
+			A setting tag with a NAME attribute value of "viewMappings" will append its value to the list of existing viewMappings.
+			
+			A setting tag with a NAME attribute value of "helperMappings" will append its value to the list of existing helperMappings.
+			
+			A setting tag with a NAME attribute value of "beanMappings" will (ColdSpring) load the file defined into the BeanFactory or (ChiliBeans) append its value to the list of existing beanMappings.
+			
+			All other settings are simply set.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The name of the setting to set]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="value" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - The value of the setting]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:element name="argument">
+		
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[A string value passed to a function registered to listen for a given message as part of the function's Event argument. Its value can be acessed through the Event API's getArgument() method.]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+
+			<xsd:attribute name="name" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - Defines the name of the argument.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+			<xsd:attribute name="value" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Required) - Defines the value of this argument.]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+			
+				
+		</xsd:complexType>
+		
+	</xsd:element>
+	
+	<xsd:complexType name="globalIncludeType" mixed="true">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a path to another Model-Glue XML file to include.]]></xsd:documentation>
+		</xsd:annotation>
+	
+	    <xsd:attribute type="xsd:string" name="template" use="optional">
+	    	<xsd:annotation>
+				<xsd:documentation><![CDATA[(Required) - The path to the file to include. ColdFusion will use expandPath() to turn this into an absolute path to a file.]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	
+	<xsd:complexType name="viewIncludeType" mixed="true">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[Defines a .CFM template to <cfinclude>, creating HTML that will be viewable by the user.
+			Model-Glue will search the mappings listed in the ViewMappings setting (defined in the application's ColdSpring.xml file) in order, searching for the template defined in the TEMPLATE attribute.]]></xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:sequence>
+        	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+        	    <xsd:element ref="value" />
+			</xsd:choice>
+		</xsd:sequence>
+		
+	
+	    <xsd:attribute type="xsd:string" name="name" use="required">
+	    	<xsd:annotation>
+				<xsd:documentation><![CDATA[(Required) - The name by which the rendered content will be known in the ViewCollection]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		
+		<xsd:attribute type="xsd:string" name="template" use="required">
+	    	<xsd:annotation>
+				<xsd:documentation><![CDATA[(Required) - The filename of a .CFM template inside one of the directories in the ViewMappings setting]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		
+		<xsd:attribute type="xsd:string" name="append" use="optional">
+	    	<xsd:annotation>
+				<xsd:documentation><![CDATA[(Optional, default = "false") - If an include by this NAME has already been rendered, should the content from this include be appended to the existing content or should it overwrite the existing content? (False will overwrite, True will append.)]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		
+		
+		
+	</xsd:complexType>
+	
+	<!-- 
+		Element snippets
+		
+		<xsd:element name="controller">
+		
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[Defines a CFC that will act as a Controller in the application.]]></xsd:documentation>
+			</xsd:annotation>
+			
+			<xsd:complexType>
+				<xsd:complexContent>
+					<xsd:restriction base="xsd:anyType">
+					
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			
+		</xsd:element>
+	
+	
+	 -->
+	
+</xsd:schema>

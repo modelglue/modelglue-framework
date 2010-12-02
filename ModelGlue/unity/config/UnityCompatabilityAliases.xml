@@ -1,0 +1,13 @@
+<beans>
+	<!--
+		aliases to allow this code to work with MG3:
+		- map old modelGlueConfiguration to new modelglue.ModelGlueConfiguration
+		- provide ModelGlue alias for legacy references that inject the framework into controllers
+	-->
+	<alias alias="modelglue.modelGlueConfiguration" name="modelGlueConfiguration"/>
+	<alias alias="ModelGlue" name="modelglue.ModelGlue"/>
+	
+	<!-- this is just so the <alias> declarations are picked up - a bug in ColdSpring -->
+	<bean id="_I_am_required_to_workaround_a_ColdSpring_bug" class="i.do.not.need.to.exist"/>
+	
+</beans>
