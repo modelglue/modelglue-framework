@@ -175,10 +175,15 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfloop from="1" to="#arrayLen(arguments.broadcastsXml.xmlChildren)#" index="i">
 		<cfloop from="1" to="#NumberOfParsedXMLConfigs#" index="j">
 			<cfset controllerDefinitionArray = xmlSearch(variables.parsedXMLArray[j], "/modelglue/controllers/controller[message-listener[translate(@message, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.broadcastsXml.xmlChildren[i].xmlAttributes.name)#']]")>
-			
 			<cfloop from="1" to="#arrayLen( controllerDefinitionArray )#" index="k">
-				<cfparam name="controllerDefinitionArray[k].xmlAttributes.id" default="#controllerDefinitionArray[k].xmlAttributes.type#" />
-				<cfif arguments.modelglue.controllerIsAlreadyLoaded( controllerDefinitionArray[k].XmlAttributes.id ) IS false>
+				<cfif NOT structKeyExists(controllerDefinitionArray[k].xmlAttributes, "id")>
+					<cfif structKeyExists(controllerDefinitionArray[k].xmlAttributes, "type")>
+						<cfset controllerDefinitionArray[k].xmlAttributes.id = controllerDefinitionArray[k].xmlAttributes.type />
+					<cfelse>
+						 <cfset controllerDefinitionArray[k].xmlAttributes.id = "ctlr_" & createuuid() />
+					</cfif>
+				</cfif>
+				<cfif arguments.modelglue.controllerIsAlreadyLoaded( controllerDefinitionArray[k].xmlAttributes.id ) IS false>
 					<cfset makeController(arguments.modelglue, controllerDefinitionArray[k] ) />
 				</cfif>
 			</cfloop>
