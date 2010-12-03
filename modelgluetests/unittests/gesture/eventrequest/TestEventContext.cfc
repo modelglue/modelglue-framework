@@ -534,7 +534,7 @@
 	
 	<cfset var trace = ec.getTrace() />
 	<cfset var thread = "" />
-	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].time eq ec.getCreated(), "initial trace statement incorrect: #trace[1].time# eq #ec.getCreated()#")>
+	<cfset assertTrue(arrayLen(trace) eq 1 and trace[1].type eq "Creation", "initial trace statement incorrect: #trace[1].type# eq Creation")>
 	<cfset thread = CreateObject("java", "java.lang.Thread")>
 
 	<cfset thread.sleep(100)>	
