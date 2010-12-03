@@ -748,7 +748,6 @@
   <cfargument name="message" type="any" />
   <cfargument name="tag" type="string" default="" />
   <cfargument name="traceType" type="string" default="OK" />
-	<cfset createobject("java", "java.lang.System").out.println( message ) />	
 	<cfset arguments.time = getTickCount() />
 	
 	<cfset variables._logWriter.write(this, arguments) />
