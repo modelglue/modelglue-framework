@@ -665,6 +665,24 @@
 	<cfset structClear(url) />
 </cffunction>
 
+<!--- EVENT TYPE BROADCAST TEST --->
+<cffunction name="testEventTypeBroadCast" returntype="void" access="public">
+	<cfset var mg = createModelGlue(this.coldspringPath) />
+	<cfset var ec = "" />
+	
+	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/eventHandlerName.xml")>
+	
+	<cfset structClear(url) />
+	
+	<cfset url.event = "typeTest" />
+	
+	<cfset ec = mg.handleRequest() />
+	
+	<cfset assertTrue( ec.exists("testMessage"), "The testMessage function was not invoked" ) />
+	
+	<cfset structClear(url) />
+</cffunction>
+
 <!--- CASE SENSITIVITY TESTS --->
 <cffunction name="testMessageListenerCaseSensitivity" returntype="void" access="public">
 	<cfset var mg = createModelGlue(this.coldspringPath) />
@@ -736,7 +754,7 @@
 	<cfset url.requestFormat = "format" />
 	
 	<cfset ec = mg.handleRequest() />
-	
+
 	<cfset assertEquals( "format,none", ec.getValue("messageFormats"), "The message with the format of ""format"" should be broadcast first" ) />
 	
 	<cfset structClear(url) />

@@ -474,21 +474,22 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 			<!--- Load any broadcasts if we have any  and respect the possibility of multiple views blocks (like for requestformats ). --->
 			<cfif structKeyExists(moduleBlock, "broadcasts") IS true>
 				<cfloop from="1" to="#arrayLen(moduleBlock.broadcasts)#" index="i">
-					<cfset loadMessages(eh, moduleBlock.broadcasts[i]) />
+					<cfset loadMessages( eh, moduleBlock.broadcasts[i] ) />
+					<cfset loadControllersForBroadcastXML( arguments.modelglue, moduleBlock.broadcasts[i] ) />
 				</cfloop>
 			</cfif>
 			
 			<!--- Load any results if we have any  and respect the possibility of multiple views blocks (like for requestformats ) --->
 			<cfif structKeyExists(moduleBlock, "results") IS true>
 				<cfloop from="1" to="#arrayLen(moduleBlock.results)#" index="i">
-					<cfset loadResults(arguments.modelglue, eh, moduleBlock.results[i]) />
+					<cfset loadResults( arguments.modelglue, eh, moduleBlock.results[i] ) />
 				</cfloop>
 			</cfif>
 			
 			<!--- Load any views if we have any and respect the possibility of multiple views blocks (like for requestformats ) --->
 			<cfif structKeyExists(moduleBlock, "views") IS true>
 				<cfloop from="1" to="#arrayLen(moduleBlock.views)#" index="i">
-					<cfset loadViews(eh, moduleBlock.views[i]) />
+					<cfset loadViews( eh, moduleBlock.views[i] ) />
 				</cfloop>
 			</cfif>
 		</cfif>

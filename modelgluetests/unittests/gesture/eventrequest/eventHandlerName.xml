@@ -1,13 +1,32 @@
 <modelglue>
 
 <controllers>
+
+	<controller id="Controller" type="modelgluetests.unittests.gesture.eventrequest.Controller">
+		<message-listener message="testMessage" />
+	</controller>
+
 </controllers>
+
+<event-types>
+
+	<event-type name="testType">
+		<before>
+			<broadcasts>
+				<message name="testMessage" />
+			</broadcasts>
+		</before>
+	</event-type>
+
+</event-types>
 
 <event-handlers>
 
 	<event-handler name="home" />
 	
 	<event-handler name="test" />
+	
+	<event-handler name="typeTest" type="testType" />
 
 </event-handlers>
 

@@ -42,4 +42,10 @@
 	<cfset arguments.event.setValue("caseTest", "caseTest invoked") />
 </cffunction>
 
+<cffunction name="testMessage" access="public" output="false" returntype="void">
+	<cfargument name="event" type="any" required="true" />
+	
+	<cfset arguments.event.setValue("testMessage", "testMessage invoked") />
+</cffunction>
+
 </cfcomponent>
