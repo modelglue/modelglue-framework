@@ -18,12 +18,7 @@
 		Values are populated in the order defined:  last populator values overwrite prior!
 	-->
 	<property name="eventPopulators">
-		<list>
-			<!-- Low-level bootstraps use request. -->
-			<ref bean="modelGlue.requestPopulator" />
-			<ref bean="modelGlue.urlPopulator" />
-			<ref bean="modelGlue.formPopulator" />
-		</list>
+		<ref bean="modelglue.PopulatorList" factory-method="getObject" />
 	</property>
 	
 	<!-- Event Context creation is bottlenecked through a factory to allow for proper configuration and testing -->
@@ -38,60 +33,10 @@
 	
 	<!--
 		Array of EventRequestPhase implementations.
-		
 		These will be executed in the order defined.
 	-->
 	<property name="requestPhases">
-		<list>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Initialization">
-				<constructor-arg name="moduleLoaderFactory">
-					<ref bean="modelglue.ModuleLoaderFactory" />
-				</constructor-arg>
-				<constructor-arg name="modules">
-					<list>
-						<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
-						<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
-					</list>
-				</constructor-arg>
-			</bean>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Population">
-				<constructor-arg name="moduleLoaderFactory">
-					<ref bean="modelglue.ModuleLoaderFactory" />
-				</constructor-arg>
-				<constructor-arg name="modules">
-					<list>
-						<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
-						<value>/ModelGlue/gesture/modules/internal/generation/config/generation.xml</value>
-						<value>/ModelGlue/gesture/modules/asset/config/asset.xml</value>
-					</list>
-				</constructor-arg>
-			</bean>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Configuration">
-				<constructor-arg name="moduleLoaderFactory">
-					<ref bean="modelglue.ModuleLoaderFactory" />
-				</constructor-arg>
-				<constructor-arg name="modules">
-					<list>
-						<value>/ModelGlue/gesture/modules/internal/configuration/config/configuration.xml</value>
-						<value>/ModelGlue/gesture/modules/internal/utility/config/utility.xml</value>
-						<value>/ModelGlue/gesture/modules/scaffold/config/scaffolding.xml</value>
-					</list>
-				</constructor-arg>
-			</bean>
-			<bean class="ModelGlue.gesture.eventrequest.phase.Invocation">
-				<constructor-arg name="moduleLoaderFactory">
-					<ref bean="modelglue.ModuleLoaderFactory" />
-				</constructor-arg>
-				<constructor-arg name="modules">
-					<list>
-						<value>/ModelGlue/gesture/modules/internal/invocation/config/invocation.xml</value>
-					</list>
-				</constructor-arg>
-			</bean>
-			<!-- Haven't found a use for it.
-			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
-			-->
-		</list>
+		<ref bean="modelglue.PhaseList" factory-method="getObject" />
 	</property>
 	
 	<!-- Bean Populator to use -->
@@ -149,6 +94,79 @@
 	-->
 	<property name="validationService">
 		<ref bean="modelglue.validationService" />
+	</property>
+</bean>
+
+<!-- Note: this is a template bean definition for use as a parent to other bean definitions. It should never be instantiated! -->
+<bean id="modelglue.AbstractRequestPhase" abstract="true">
+	<constructor-arg name="moduleLoaderFactory">
+		<ref bean="modelglue.ModuleLoaderFactory" />
+	</constructor-arg>
+</bean>
+
+<bean id="modelglue.InitializationPhase" class="ModelGlue.gesture.eventrequest.phase.Initialization" parent="modelglue.AbstractRequestPhase">
+	<constructor-arg name="modules">
+		<list>
+			<value>/ModelGlue/gesture/modules/internal/initialization/config/initialization.xml</value>
+			<value>/ModelGlue/gesture/modules/orm/config/ModelGlue.xml</value>
+		</list>
+	</constructor-arg>
+</bean>
+	
+<bean id="modelglue.PopulationPhase" class="ModelGlue.gesture.eventrequest.phase.Population" parent="modelglue.AbstractRequestPhase">
+	<constructor-arg name="modules">
+		<list>
+			<value>/ModelGlue/gesture/modules/internal/population/config/population.xml</value>
+			<value>/ModelGlue/gesture/modules/internal/generation/config/generation.xml</value>
+			<value>/ModelGlue/gesture/modules/asset/config/asset.xml</value>
+		</list>
+	</constructor-arg>
+</bean>
+
+<bean id="modelglue.ConfigurationPhase" class="ModelGlue.gesture.eventrequest.phase.Configuration" parent="modelglue.AbstractRequestPhase">
+	<constructor-arg name="modules">
+		<list>
+			<value>/ModelGlue/gesture/modules/internal/configuration/config/configuration.xml</value>
+			<value>/ModelGlue/gesture/modules/internal/utility/config/utility.xml</value>
+			<value>/ModelGlue/gesture/modules/scaffold/config/scaffolding.xml</value>
+		</list>
+	</constructor-arg>
+</bean>
+	
+<bean id="modelglue.InvocationPhase" class="ModelGlue.gesture.eventrequest.phase.Invocation" parent="modelglue.AbstractRequestPhase">
+	<constructor-arg name="modules">
+		<list>
+			<value>/ModelGlue/gesture/modules/internal/invocation/config/invocation.xml</value>
+		</list>
+	</constructor-arg>
+</bean>
+	
+<bean id="modelglue.PhaseList" class="coldspring.beans.factory.config.ListFactoryBean">
+	<property name="SourceList">
+		<!--
+			Array of EventRequestPhase implementations.
+			These will be executed in the order defined.
+		-->
+		<list>
+			<ref bean="modelglue.InitializationPhase" />
+			<ref bean="modelglue.PopulationPhase" />
+			<ref bean="modelglue.ConfigurationPhase" />
+			<ref bean="modelglue.InvocationPhase" />
+			<!-- Haven't found a use for it.
+			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
+			-->
+		</list>
+	</property>
+</bean>
+
+<bean id="modelglue.PopulatorList" class="coldspring.beans.factory.config.ListFactoryBean">
+	<property name="SourceList">
+		<list>
+			<!-- Low-level bootstraps use request. -->
+			<ref bean="modelGlue.requestPopulator" />
+			<ref bean="modelGlue.urlPopulator" />
+			<ref bean="modelGlue.formPopulator" />
+		</list>
 	</property>
 </bean>
 
