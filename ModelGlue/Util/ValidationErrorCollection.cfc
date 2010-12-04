@@ -39,7 +39,7 @@
 </cffunction>
 
 <cffunction name="Merge" returntype="void" access="public" output="false" hint="I merge another collection's errors into this one.">
-  <cfargument name="Col" type="ValidationErrorCollection" required="true" hint="I am the collection to merge.">
+  <cfargument name="Col" type="any" required="true" hint="I am the collection to merge.">
   
   <cfset var i = "" />
   <cfset var j = "" />
