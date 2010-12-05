@@ -1,0 +1,27 @@
+<modelglue>
+	<event-handlers>
+		<event-handler name="renderAsset">
+			<views>
+				<view name="assetview" template="view.cfm">
+					<value name="js" value="blank.js" />
+				</view>	
+			</views>
+		</event-handler>
+		<event-handler name="renderJSandCssAssets">
+			<views>
+				<view name="assetview" template="view.cfm">
+					<value name="js" value="blank.js" />
+					<value name="css" value="blank.css" />
+				</view>	
+			</views>
+		</event-handler>		
+		<event-handler name="renderMissingAsset">
+			<views>
+				<view name="assetview" template="view.cfm">
+					<value name="js" value="missing.js" />
+				</view>	
+			</views>
+		</event-handler>
+	</event-handlers>
+
+</modelglue>

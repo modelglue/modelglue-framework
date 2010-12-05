@@ -278,16 +278,41 @@
 	Asset manager
 -->
 <bean id="modelglue.assetManager" class="ModelGlue.gesture.modules.asset.manager.AssetManager">
-	<constructor-arg name="CSSPrefix"><value>&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
-	<constructor-arg name="CSSSuffix"><value>" /&gt;</value></constructor-arg>
-	<constructor-arg name="IECSSPrefix"><value>&lt;!--[if lte ie 8]&gt;&lt;link type="text/css" rel="stylesheet" media="all" href="</value></constructor-arg>
-	<constructor-arg name="IECSSSuffix"><value>" /&gt;&lt;![endif]--&gt;</value></constructor-arg>
-	<constructor-arg name="JSPrefix"><value>&lt;script type="text/javascript" src="</value></constructor-arg>
-	<constructor-arg name="JSSuffix"><value>"&gt;&lt;/script&gt;</value></constructor-arg>
+	<constructor-arg name="Templates">
+		<map>
+		<entry key="CSS">
+			<value><![CDATA[<link type="text/css" rel="stylesheet" media="all" href="{{path}}" />]]></value>
+		</entry>
+		<entry key="IECSS">
+			<value><![CDATA[<!--[if lte ie 8]><link type="text/css" rel="stylesheet" media="all" href="{{path}}" /><![endif]-->]]></value>
+		</entry>
+		<entry key="JS">
+			<value><![CDATA[<script type="text/javascript" src="{{path}}"></script>]]></value>
+		</entry>
+		<!-- if you don't want a comment to appear in the html when an asset is not found, pass an empty string here  -->
+		<entry key="ASSETNOTFOUND">
+			<value><![CDATA[<!--ERROR: AssetManager could not locate asset {{path}} -->]]></value>
+		</entry>
+			
+		</map>
+	</constructor-arg>
+	<constructor-arg name="AssetHosts">
+		<list>
+			<!-- list your asset domains here eg: <value>http://static1.mydomain.com</value> -->
+		</list>
+	</constructor-arg>
+	<!-- In dev you'll probably want this the same as above. In production this will probably be a single host unless you have
+		 a wildcard ssl certificate, eg *.mydomain.com	-->
+	<constructor-arg name="AssetHostsSSL">
+		<list>
+			<!-- as above, but for ssl -->
+		</list>
+	</constructor-arg>
 	<property name="modelGlue">
 		<ref bean="modelglue.ModelGlue" />
 	</property>
 </bean>
+
 
 <!--
 	State persister

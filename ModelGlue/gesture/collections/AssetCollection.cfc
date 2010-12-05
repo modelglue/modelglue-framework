@@ -1,6 +1,8 @@
 <cfcomponent displayName="AssetCollection" output="false" hint="I am a collection of CSS/JS assets.">
 
 <cffunction name="init" output="false" returntype="any" hint="I build a new AssetCollection.">
+	<cfargument name="event" />
+	<cfset variables.event = arguments.event />
 	<cfset variables.assetsRendered = false />
 	
 	<cfset variables.CSSAssets = arrayNew(1) />
@@ -34,7 +36,9 @@
 	<cfargument name="path" type="string" required="true" />
 	<cfargument name="name" type="string" required="false" />
 	<cfargument name="ieOnly" type="boolean" required="false" />
-	
+
+	<cfset arguments.event = variables.event />
+		
 	<cfif not structKeyExists(variables.assetPaths, arguments.path)>
 		<cfset structInsert(variables.assetPaths, arguments.path, arguments.path) />
 		<cfset arrayAppend(variables["#arguments.type#Assets"], variables.assetManager.getAssetFileTag(argumentCollection=arguments)) />

@@ -14,7 +14,7 @@
 	
 	<cfset variables._state = createObject("component", "ModelGlue.gesture.collections.MapCollection").init(values) />
 	<cfset variables._viewCollection = createObject("component", "ModelGlue.gesture.collections.ViewCollection").init() />
-	<cfset variables._assetCollection = createObject("component", "ModelGlue.gesture.collections.AssetCollection").init() />
+	<cfset variables._assetCollection = createObject("component", "ModelGlue.gesture.collections.AssetCollection").init(this) />
 	<cfset variables._readyForExecution = false />
 	<cfset variables._initialEvent = "" />
 	<cfset variables._currentEventHandler = "" />
