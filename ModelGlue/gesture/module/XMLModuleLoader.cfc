@@ -11,7 +11,6 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
  --->
 
 <cffunction name="init" output="false">
-	<cfset variables.eventTypes = structNew() />
 	<cfset variables.parsedXMLArray = arrayNew(1) />
 	
 	<cfset this.createdon = timeformat( now(), "hh:mm:ss:l") />
@@ -81,6 +80,10 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 		</cfloop>
 	</cfif>
 	
+</cffunction>
+
+<cffunction name="clearConfig" output="false" access="public" returntype="void" hint="I clear the cached XML configuration">
+	<cfset variables.parsedXMLArray = arrayNew(1) />
 </cffunction>
 
 <!--- 	Date: 8/23/2010  Usage: I load the config --->
@@ -385,12 +388,12 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 		</cfif>
 		
 		<!--- If the event-handler already exists, get a reference to it --->
-		<cfif arguments.modelglue.hasEventHandler(arguments.ehXml.xmlAttributes.name)>
+		<cfif structKeyExists(arguments.modelglue.eventHandlers, arguments.ehXml.xmlAttributes.name)>
 			<cfset ehInst =  arguments.modelglue.eventHandlers[arguments.ehXml.xmlAttributes.name] />
 		</cfif>
 		
-		<!--- If the event-handler doesnt' exist, or it's not an "extensible" event-handler, create a new eh object--->
-		<cfif not arguments.modelglue.hasEventHandler(arguments.ehXml.xmlAttributes.name) or not ehInst.extensible>
+		<!--- If the event-handler doesn't exist, or it's not an "extensible" event-handler, create a new eh object--->
+		<cfif not structKeyExists(arguments.modelglue.eventHandlers, arguments.ehXml.xmlAttributes.name) or not ehInst.extensible>
 			<cfset ehInst = ehFactory.create(ehClass) />
 		</cfif>
 		

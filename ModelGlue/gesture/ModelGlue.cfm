@@ -4,7 +4,6 @@
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_PATH" default="./config/ColdSpring.xml" />
 <cfparam name="ModelGlue_CORE_COLDSPRING_PATH" default="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
-<cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES" default="#structNew()#" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES" default="#structNew()#" />
 <cfparam name="ModelGlue_VERSION_INDICATOR" default="GESTURE" />
@@ -34,20 +33,31 @@
 					or (
 							application[ModelGlue_APP_KEY].configuration.reload
 					)>
-			<cfset request._modelglue.bootstrap.initializationRequest = true />
+			<cfif not structKeyExists(application, ModelGlue_APP_KEY)
+						or (
+								structKeyExists(url, application[ModelGlue_APP_KEY].configuration.reloadKey)
+								and url[application[ModelGlue_APP_KEY].configuration.reloadKey] eq application[ModelGlue_APP_KEY].configuration.reloadPassword
+						)
+						or not structKeyExists(application[ModelGlue_APP_KEY].configuration, "reloadBeanFactory")
+						or application[ModelGlue_APP_KEY].configuration.reloadBeanFactory>
+				<cfset request._modelglue.bootstrap.initializationRequest = true />
 
-			<cfset boot = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />
+				<cfset boot = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper") />
 
-			<cfset boot.applicationKey = ModelGlue_APP_KEY />
-			<cfset boot.coldspringPath = ModelGlue_LOCAL_COLDSPRING_PATH />
-			<cfset boot.defaultColdSpringAttributes = ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES />
-			<cfset boot.defaultColdSpringProperties = ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES />
-			<cfset boot.coreColdspringPath = ModelGlue_CORE_COLDSPRING_PATH />
-			<cfset boot.modelglueVersionIndicator = ModelGlue_VERSION_INDICATOR />
-			<cfset boot.primaryModulePath = ModelGlue_CONFIG_PATH />
-			<cfset boot.parentBeanFactory = ModelGlue_PARENT_BEAN_FACTORY />
-			<cfset boot.modelGlueBeanName = "modelglue.ModelGlue" />
-			<cfset mg = boot.storeModelGlue() />
+				<cfset boot.applicationKey = ModelGlue_APP_KEY />
+				<cfset boot.coldspringPath = ModelGlue_LOCAL_COLDSPRING_PATH />
+				<cfset boot.defaultColdSpringAttributes = ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES />
+				<cfset boot.defaultColdSpringProperties = ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES />
+				<cfset boot.coreColdspringPath = ModelGlue_CORE_COLDSPRING_PATH />
+				<cfset boot.modelglueVersionIndicator = ModelGlue_VERSION_INDICATOR />
+				<cfset boot.primaryModulePath = ModelGlue_CONFIG_PATH />
+				<cfset boot.parentBeanFactory = ModelGlue_PARENT_BEAN_FACTORY />
+				<cfset boot.modelGlueBeanName = "modelglue.ModelGlue" />
+				<cfset mg = boot.storeModelGlue() />
+			<cfelse>
+				<cfset mg = application[ModelGlue_APP_KEY] />
+				<cfset mg.reset() />
+			</cfif>
 		<cfelse>
 			<cfset mg = application[ModelGlue_APP_KEY] />
 		</cfif>

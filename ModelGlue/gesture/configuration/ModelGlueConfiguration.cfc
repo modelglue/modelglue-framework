@@ -4,6 +4,7 @@
     <cfset variables._instance.defaultEvent = "Home" />
     <cfset variables._instance.missingEvent = "page.missing" />
     <cfset variables._instance.reload = "true" />
+    <cfset variables._instance.reloadBeanFactory = "true" />
     <cfset variables._instance.debug = "true" />
     <cfset variables._instance.reloadPassword = "true" />
     <cfset variables._instance.applicationMapping = "" />
@@ -56,11 +57,19 @@
 </cffunction>
 
 <cffunction name="setReload" returntype="void" output="false" access="public">
-	<cfargument name="Reload"  type="boolean" />
+	<cfargument name="Reload" type="boolean" />
 	<cfset variables._instance.Reload = arguments.Reload />
 </cffunction>
 <cffunction name="getReload" returntype="boolean" output="false">
 	<cfreturn variables._instance.Reload />
+</cffunction>
+
+<cffunction name="setReloadBeanFactory" returntype="void" output="false" access="public">
+	<cfargument name="ReloadBeanFactory" type="boolean" />
+	<cfset variables._instance.ReloadBeanFactory = arguments.ReloadBeanFactory />
+</cffunction>
+<cffunction name="getReloadBeanFactory" returntype="boolean" output="false">
+	<cfreturn variables._instance.ReloadBeanFactory />
 </cffunction>
 
 <cffunction name="setRescaffold" returntype="void" output="false" access="public">

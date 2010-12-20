@@ -118,4 +118,21 @@
 	<cfset arrayAppend( variables.ModuleLoaderArray, arguments.ModuleLoader ) />
 </cffunction>
 
+<cffunction name="reset" output="false" access="public" returntype="void" hint="I reset the state of Model-Glue to perform a 'soft' reload">
+	<cfset var index = 0 />
+	
+	<cfset structClear(this.messageListeners) />
+	<cfset structClear(this.controllers) />
+	<cfset structClear(this.eventHandlers) />
+	<cfset structClear(this.eventTypes) />
+	
+	<cfloop from="1" to="#arrayLen(this.phases)#" index="index">
+		<cfset this.phases[index].loaded = false />
+	</cfloop>
+	
+	<cfloop from="1" to="#arrayLen(variables.ModuleLoaderArray)#" index="index">
+		<cfset variables.ModuleLoaderArray[index].clearConfig() />
+	</cfloop>
+</cffunction>
+
 </cfcomponent>
