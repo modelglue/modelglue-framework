@@ -52,8 +52,8 @@
 		<cfset var assetHtml = "" /> 
 		<cfset var assetKey = hash("#arguments.type#_#yesnoformat(secure)#_#arguments.path#") />
 		<cfset var data = structnew() />
-		<cfset var aseetMappingAdvice = arguments.event.getValue("AssetMappingAdvice") />
-		<cfset var assetMappings = listToArray(listappend(aseetMappingAdvice, arrayToList(variables._modelGlue.configuration.assetMappings))) /> <!--- yuck! --->
+		<cfset var assetMappingAdvice = arguments.event.getValue("AssetMappingAdvice") />
+		<cfset var assetMappings = listToArray(listappend(assetMappingAdvice, arrayToList(variables._modelGlue.configuration.assetMappings))) />
 		<cfset var hasProtocol = false />
 		<cfset var assetFound = false />
 
