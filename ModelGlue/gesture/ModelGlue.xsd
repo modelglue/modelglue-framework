@@ -296,6 +296,12 @@
 					<xsd:documentation><![CDATA[(Optional) - Set to an event-type to be run before and/or after the event, depending on how the event-type is set up.]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
+			
+			<xsd:attribute name="extensible" type="xsd:boolean" use="optional">
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[(Optional) - Allow extension by other event-handlers with the same name]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 				
 		</xsd:complexType>
 		
