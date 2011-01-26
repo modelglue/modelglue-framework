@@ -212,8 +212,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 <cffunction name="findControllerDefinition" output="false" hint="Loads controller from controller block.">
 	<cfargument name="configurationXML" />
 	<cfargument name="ControllerName" type="string" default="" />
-	
-	<cfreturn xmlSearch( configurationXML, "/modelglue/controllers/controller[@id='#arguments.ControllerName#']" ) />
+	<cfreturn xmlSearch( configurationXML, "/modelglue/controllers/controller[@id='#arguments.ControllerName#' or @name='#arguments.ControllerName#']" ) />
 </cffunction>
 
 <cffunction name="locateAndMakeController" output="false" hint="Loads Controller from controller block.">
