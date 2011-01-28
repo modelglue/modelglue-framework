@@ -65,6 +65,7 @@ then this file is a working copy and not part of a release build.
 		</cfif>
 
 		<cfset variables._modelGlue = arguments.modelglue />
+		<cfset addTraceStatement("Core", "This is #arguments.modelglue.versionInfo.versionLabel# (#arguments.modelglue.versionInfo.versionNumber#)") />
 	<cfelse>
 		<!--- External maps of listeners and handlers --->
 		<cfset variables._listeners = arguments.messageListeners />

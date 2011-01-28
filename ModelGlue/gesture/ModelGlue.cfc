@@ -37,6 +37,7 @@ then this file is a working copy and not part of a release build.
 <cfproperty name="initialized" type="boolean" hint="Is ModelGlue initialized (present in the Application scope) and not needing reconfiguraion? " />
 
 <cffunction name="init" output="false" hint="Constructor.">
+    <cfset var frameworkPropertiesPath = GetDirectoryFromPath(GetCurrentTemplatePath()) & "/framework.properties" >
 	<cfset this.initialized = false />
 	<cfset variables._internalBeanFactory = "" />	
 	<cfset variables._ormService = "" />
@@ -82,7 +83,12 @@ then this file is a working copy and not part of a release build.
 		Configuration settings.
 	--->
 	<cfset this.configuration = structNew() />
-	
+
+    <!---
+        Framework properties.
+    --->
+    <cfset this.versionInfo = getVersionInfoFromFrameworkProperties(getFrameworkProperties(frameworkPropertiesPath)) />
+
 	<cfreturn this />
 </cffunction>
 
@@ -246,6 +252,39 @@ then this file is a working copy and not part of a release build.
 	<cfargument name="name" output="false" hint="The name / id of the bean to retrieve." />
 	
 	<cfreturn getBean(arguments.name) />
+</cffunction>
+
+<cffunction name="getVersion" access="public" returntype="string" output="false" hint="Gets the version number for the framework">
+    <cfreturn this.versionInfo.versionNumber />
+</cffunction>
+
+<cffunction name="getVersionInfoFromFrameworkProperties" access="public" returntype="struct" output="false">
+    <cfargument name="frameworkProperties" type="any" required="true" hint="Java Properties object"/>
+    <cfset var versionInfo = StructNew() />
+    <cfset versionInfo.versionLabel = getFrameworkPropertyValue(frameworkProperties,"versionLabel","Model-Glue:Gesture code checkout") />
+    <cfset versionInfo.versionNumber = getFrameworkPropertyValue(frameworkProperties,"versionNumber","Unknown version") />
+    <cfreturn versionInfo />
+</cffunction>
+
+<cffunction name="getFrameworkPropertyValue" access="private" returntype="string" output="false">
+    <cfargument name="frameworkProperties" type="any" required="true" hint="Java Properties object"/>
+    <cfargument name="propertyName" type="string" required="true"/>
+    <cfargument name="defaultValue" type="string" required="true"/>
+    <cfset var propertyValue = arguments.frameworkProperties.getProperty(arguments.propertyName,arguments.defaultValue) />
+    <!--- Check whether the value is really an unexpanded build token variable --->
+    <cfif propertyValue eq "@#propertyName#@">
+        <cfreturn arguments.defaultValue />
+    </cfif>
+    <cfreturn propertyValue />
+</cffunction>
+
+<cffunction name="getFrameworkProperties" access="public" returntype="any" output="false" hint="Get a Java Properties object containing the framework's build information">
+    <cfargument name="filename" type="string" required="true" />
+    <cfset var local = StructNew() />
+    <cfset local.fileStream = CreateObject("java","java.io.FileInputStream").init(arguments.filename) />
+    <cfset local.frameworkProperties = CreateObject("java","java.util.Properties").init() />
+    <cfset local.frameworkProperties.load(local.fileStream) />
+    <cfreturn local.frameworkProperties />
 </cffunction>
 
 <!--- EVENT INVOCATION --->
