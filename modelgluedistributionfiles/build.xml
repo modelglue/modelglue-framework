@@ -235,11 +235,9 @@
 			</fileset>
 			<filterchain>
 				<replacetokens>
-					<token key="versionCopyright" value="${version.copyright}" />
 					<token key="versionLabel" value="${version.label}" />
 					<token key="versionNumber" value="${version.number}" />
 				</replacetokens>
-				<fixcrlf eol="${profile.eol}" />
 			</filterchain>
 		</copy>
 	</target>
@@ -248,9 +246,6 @@
 	<target name="mungeCoreCfmlFilesWhitespaceSensitive" depends="build,mungeDirectory,profileProperties,versionProperties">
 		<antcall target="mungeExportFiles">
 			<reference refid="coreCfmlFilesWhitespaceSensitive" torefid="sourcePattern" />
-			<param name="headerCommentBegin" value="&lt;!---" />
-			<param name="headerCommentEnd" value="---&gt;" />
-			<param name="addEOLtoLastLineIfMissing" value="false" /> 
 		</antcall>
 	</target>
 
@@ -258,8 +253,6 @@
 	<target name="mungeCoreCfmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties,mungeCoreCfmlFilesWhitespaceSensitive">
 		<antcall target="mungeExportFiles">
 			<reference refid="coreCfmlFiles" torefid="sourcePattern" />
-			<param name="headerCommentBegin" value="&lt;!---" />
-			<param name="headerCommentEnd" value="---&gt;${line.separator}${line.separator}" />
 		</antcall>
 	</target>
 
@@ -267,8 +260,6 @@
 	<target name="mungeCoreHtmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
 		<antcall target="mungeExportFiles">
 			<reference refid="coreHtmlFiles" torefid="sourcePattern" />
-			<param name="headerCommentBegin" value="&lt;!--" />
-			<param name="headerCommentEnd" value="--&gt;${line.separator}${line.separator}" />
 		</antcall>
 	</target>
 
@@ -276,8 +267,6 @@
 	<target name="mungeCoreXmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
 		<antcall target="mungeExportFiles">
 			<reference refid="coreXmlFiles" torefid="sourcePattern" />
-			<param name="headerCommentBegin" value="&lt;!--" />
-			<param name="headerCommentEnd" value="--&gt;${line.separator}${line.separator}" />
 		</antcall>
 	</target>
 
@@ -285,28 +274,20 @@
 	<target name="mungeCoreCssJavaScriptFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
 		<antcall target="mungeExportFiles">
 			<reference refid="coreCssJavaScriptFiles" torefid="sourcePattern" />
-			<param name="headerCommentBegin" value="/*" />
-			<param name="headerCommentEnd" value="*/${line.separator}${line.separator}" />
 		</antcall>
 	</target>
 	
 	<!-- Generic export file munger target. Normally invoked via antcall to set munging properties (see examples above) -->
 	<target name="mungeExportFiles">
-		<property name="addEOLtoLastLineIfMissing" value="true" />
 		<copy todir="${local.mungeDirectory}">
 			<fileset dir="${local.exportDirectory}">
 				<patternset refid="sourcePattern" />
 			</fileset>
 			<filterchain>
-				<concatfilter prepend="${profile.resourceDirectory}/header.txt" />
 				<replacetokens>
-					<token key="headerCommentBegin" value="${headerCommentBegin}" />
-					<token key="headerCommentEnd" value="${headerCommentEnd}" />
-					<token key="versionCopyright" value="${version.copyright}" />
 					<token key="versionLabel" value="${version.label}" />
 					<token key="versionNumber" value="${version.number}" />
 				</replacetokens>
-				<fixcrlf eol="${profile.eol}" fixlast="${addEOLtoLastLineIfMissing}" />
 			</filterchain>
 		</copy>
 	</target>

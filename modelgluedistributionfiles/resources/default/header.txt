@@ -1,7 +1,7 @@
 @headerCommentBegin@
 LICENSE INFORMATION:
 
-@versionCopyright@
+Copyright 2011, Joe Rinehart, Dan Wilson
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not 
 use this file except in compliance with the License. 
@@ -20,4 +20,7 @@ VERSION INFORMATION:
 This file is part of @versionLabel@ (@versionNumber@).
 
 The version number in parentheses is in the format versionNumber.subversion.revisionNumber.
+
+If the version number appears as 'versionNumber' surrounded by @ symbols
+then this file is a working copy and not part of a release build.
 @headerCommentEnd@
