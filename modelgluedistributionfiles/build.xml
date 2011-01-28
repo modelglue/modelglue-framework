@@ -100,47 +100,16 @@
 	
 	<!-- Patternsets for matching different file types in the project -->
 	
-	<!-- Core CFML files in the project to be munged and distributed -->
-	<patternset id="coreCfmlFiles">
+	<!-- Files in the project to be munged and distributed -->
+	<patternset id="projectFilesToMunge">
 		<include name="**/*.cfm" />
 		<include name="**/*.cfc" />
-		<exclude name="**/*.xml.cfm" />
-		<exclude name="modelglueapplicationtemplate/" />
-		<exclude name="modelgluedistributionfiles/" />
-	</patternset>
-
-	<!-- Whitespace-sensitive core CFML files in the project to be munged and distributed -->
-	<patternset id="coreCfmlFilesWhitespaceSensitive">
-		<!-- Framework files -->
-		<include name="ModelGlue/gesture/ModelGlue.cfm" />
-		<include name="ModelGlue/gesture/view/ViewRenderer.cfm" />
-		<!-- Unit tests -->
-		<include name="ModelGlue/gesture/eventrequest/test/format/formatView.cfm" />
-		<include name="ModelGlue/gesture/eventrequest/test/format/view.cfm" />
-		<include name="ModelGlue/gesture/view/test/views/testFormatView.cfm" />
-		<include name="ModelGlue/gesture/view/test/views/testOuterView.cfm" />
-		<include name="ModelGlue/gesture/view/test/views/testView.cfm" />
-	</patternset>
-
-	<!-- Core HTML files in the project to be munged and distributed -->
-	<patternset id="coreHtmlFiles">
-		<include name="**/*.htm" />
-		<exclude name="modelglueapplicationtemplate/" />
-		<exclude name="modelgluedistributionfiles/" />
-	</patternset>
-
-	<!-- Core XML files in the project to be munged and distributed -->
-	<patternset id="coreXmlFiles">
 		<include name="**/*.xsl" />
 		<include name="**/*.xml" />
-		<exclude name="modelglueapplicationtemplate/" />
-		<exclude name="modelgluedistributionfiles/" />
-	</patternset>
-
-	<!-- Core CSS and JavaScript files in the project to be munged and distributed -->
-	<patternset id="coreCssJavaScriptFiles">
+		<include name="**/*.htm" />
 		<include name="**/*.css" />
 		<include name="**/*.js" />
+		<include name="ModelGlue/gesture/framework.properties" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
 	</patternset>
@@ -225,7 +194,7 @@
 
 	<!-- Munge and copy all files for distribution -->
 	<target name="mungeAndCopyFiles"
-		depends="mungeResourceFiles,mungeCoreCfmlFiles,mungeCoreHtmlFiles,mungeCoreCssJavaScriptFiles,copyUnmungedProjectFiles" />
+		depends="mungeResourceFiles,mungeProjectFiles,copyUnmungedProjectFiles" />
 
 	<!-- Munge resource files for distribution -->
 	<target name="mungeResourceFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
@@ -242,46 +211,11 @@
 		</copy>
 	</target>
 
-	<!-- Munge whitespace-sensitive core CFML files for distribution -->
-	<target name="mungeCoreCfmlFilesWhitespaceSensitive" depends="build,mungeDirectory,profileProperties,versionProperties">
-		<antcall target="mungeExportFiles">
-			<reference refid="coreCfmlFilesWhitespaceSensitive" torefid="sourcePattern" />
-		</antcall>
-	</target>
-
-	<!-- Munge core CFML files for distribution -->
-	<target name="mungeCoreCfmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties,mungeCoreCfmlFilesWhitespaceSensitive">
-		<antcall target="mungeExportFiles">
-			<reference refid="coreCfmlFiles" torefid="sourcePattern" />
-		</antcall>
-	</target>
-
-	<!-- Munge core HTML files for distribution -->
-	<target name="mungeCoreHtmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
-		<antcall target="mungeExportFiles">
-			<reference refid="coreHtmlFiles" torefid="sourcePattern" />
-		</antcall>
-	</target>
-
-	<!-- Munge core XML files for distribution -->
-	<target name="mungeCoreXmlFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
-		<antcall target="mungeExportFiles">
-			<reference refid="coreXmlFiles" torefid="sourcePattern" />
-		</antcall>
-	</target>
-
-	<!-- Munge core CSS and JavaScript files for distribution -->
-	<target name="mungeCoreCssJavaScriptFiles" depends="build,mungeDirectory,profileProperties,versionProperties">
-		<antcall target="mungeExportFiles">
-			<reference refid="coreCssJavaScriptFiles" torefid="sourcePattern" />
-		</antcall>
-	</target>
-	
-	<!-- Generic export file munger target. Normally invoked via antcall to set munging properties (see examples above) -->
-	<target name="mungeExportFiles">
+	<!-- Munge project files for distribution -->
+	<target name="mungeProjectFiles">
 		<copy todir="${local.mungeDirectory}">
 			<fileset dir="${local.exportDirectory}">
-				<patternset refid="sourcePattern" />
+				<patternset refid="projectFilesToMunge" />
 			</fileset>
 			<filterchain>
 				<replacetokens>
