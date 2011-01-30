@@ -3,16 +3,16 @@ LICENSE INFORMATION:
 
 Copyright 2011, Joe Rinehart, Dan Wilson
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not 
-use this file except in compliance with the License. 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License.
 
-You may obtain a copy of the License at 
+You may obtain a copy of the License at
 
-	http://www.apache.org/licenses/LICENSE-2.0 
-	
+	http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
-CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
@@ -27,8 +27,8 @@ then this file is a working copy and not part of a release build.
 
 
 component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
-	this.coldspringPath = "/modelgluetests/unittests/MGCFORMAdapterTest/ColdSpring.xml";
-	
+	this.coldspringPath = "/modelgluetests/unittests/cfOrmAdapterTest/ColdSpring.xml";
+
 	function setup() {
 		obj = "MainObject";
 		col = "mainid";
@@ -43,34 +43,34 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 		ormAdapter = createObject("component",adapterPath).init(mg,ormService);
 		//debug(getMetaData(mg));
 	}
-	
+
 	function getORMServiceShouldReturnORMService() {
 		assertEquals(servicePath,getMetaData(ormAdapter.getORMService()).name);
 	}
-	
+
 	/**
-	* @mxunit:expectedException "coldspring.NoSuchBeanDefinitionException" 
+	* @mxunit:expectedException "coldspring.NoSuchBeanDefinitionException"
 	*/
 	function listWithMissingGWBeanShouldThrow() {
 		mg.getBean("gwBean").throws("coldspring.NoSuchBeanDefinitionException");
 		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
-	
+
 	/**
-	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" 
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod"
 	*/
 	function listWithMissingGWMethodOnObjectShouldThrow() {
 		list = ormAdapter.list(gatewayMethod="customList",table="MainObject");
 	}
 
 	/**
-	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod" 
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformAdapter.badGatewayMethod"
 	*/
 	function listWithExistingGWBeanButMissingMethodShouldThrow() {
 		mg.getBean("gwBean").returns(mock());
 		list = ormAdapter.list(gatewayMethod="customList",gatewayBean="gwBean",table="MainObject");
 	}
-	
+
 
 	function listWithExistingGWMethodAndBeanShouldReturnResult() {
 		gw = mock();
@@ -140,7 +140,7 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 	}
 
 	/**
-	* @mxunit_expectedException "ModelGlue.gesture.orm.cform.cformService.enitityNotFound" 
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.enitityNotFound"
 	*/
 	function newWithMissingEntityNameThrows() {
 		ormService.new(obj).returns(expected);
@@ -168,7 +168,7 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 		ormService.read("badObj",crit).throws("ModelGlue.gesture.orm.cform.cformService.enitityNotFound");
 		theObj = ormAdapter.read("badObj",crit);
 	}
-	
+
 	function validateReturnsEmptyErrorCollection() {
 		errors = ormAdapter.validate(obj,"");
 		assertEquals("ModelGlue.Util.ValidationErrorCollection",getMetaData(errors).name);
@@ -189,7 +189,7 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 	}
 
 	// private methods for injectMethod and extra setup
-	
+
 	private function returnsArray() {
 		return [];
 	}
@@ -197,7 +197,7 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 	private function returnsNull() {
 		return JavaCast("null", 0);
 	}
-	
+
 	private function createProperties(aDate) {
 		var props = {};
 		props.ormtype_string = "string";

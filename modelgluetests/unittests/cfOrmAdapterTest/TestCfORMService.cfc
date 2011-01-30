@@ -3,16 +3,16 @@ LICENSE INFORMATION:
 
 Copyright 2011, Joe Rinehart, Dan Wilson
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not 
-use this file except in compliance with the License. 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License.
 
-You may obtain a copy of the License at 
+You may obtain a copy of the License at
 
-	http://www.apache.org/licenses/LICENSE-2.0 
-	
+	http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
-CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
@@ -28,7 +28,7 @@ then this file is a working copy and not part of a release build.
 
 component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 	//this.coldspringPath = "ColdSpring.xml";
-	
+
 	function setup() {
 		servicePath = "ModelGlue.gesture.modules.orm.cform.cfORMService";
 		ormService = createObject("component",variables.servicePath).init();
@@ -37,70 +37,70 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 		crit = {mainid=1};
 		listName = "listObject";
 	}
-	
+
 	function readWithEntityNameReturnsExistingObject() {
 		obj = ormService.read(entityName,{mainId=1});
-		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.MainObject",obj);
 		assertEquals(1,obj.getMainId());
 	}
-	
+
 	function readWithComponentPathAndLastItemIsEntityNameReturnsExistingObject() {
 		obj = ormService.read("model.MainObject",{mainId=1});
-		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.MainObject",obj);
 		assertEquals(1,obj.getMainId());
 	}
-	
+
 	function readWithComponentPathReturnsExistingObject() {
 		obj = ormService.read("model.entityName",{somethingDifferentId=1});
-		assertEquals("model.entityName",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.entityName",obj);
 		assertEquals(1,obj.getsomethingDifferentId());
 	}
-	
+
 	function readWithCompositeKeyReturnsExistingObject() {
 		obj = ormService.read("compositeKeyObject",{key1=1,key2="a"});
-		assertEquals("model.compositeKeyObject",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.compositeKeyObject",obj);
 		assertEquals("b",obj.getAProperty());
 	}
 
 	/**
-	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.entityNotFound" 
+	* @mxunit:expectedException "ModelGlue.gesture.orm.cform.cformService.entityNotFound"
 	*/
 	function readThrowsOnMissingObject()  {
 		obj = ormService.read(entityName,{mainId=10000});
 	}
-	
+
 	/**
-	* @mxunit:expectedException "Application" 
+	* @mxunit:expectedException "Application"
 	*/
 	function readThrowsIfMoreThanOneRecordFound()  {
 		obj = ormService.read("compositeKeyObject",{key1=1});
 	}
-	
+
 	function newWithEntityNameReturnsNewObject() {
 		obj = ormService.new(entityName);
-		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.MainObject",obj);
 		assertTrue(IsNull(obj.getMainId()),"The mainId property should be NULL for a new object but isn't.");
 	}
-	
+
 	function newWithComponentPathNameReturnsNewObject() {
 		obj = ormService.new("model.MainObject");
-		assertEquals("model.MainObject",getMetaData(obj).name);
+		assertComponentNameEndsWith("model.MainObject",obj);
 		assertTrue(IsNull(obj.getMainId()),"The mainId property should be NULL for a new object but isn't.");
 	}
-	
+
 	/**
-	* @mxunit_expectedException "Application" 
+	* @mxunit:expectedException "Application"
 	*/
 	function newThrowsIfEntityDoesNotExist() {
 		obj = ormService.new("blahblah");
 	}
-	
-	function lisReturnsQueryByDefault() {
+
+	function listReturnsQueryByDefault() {
 		list = ormService.list(listName);
 		assertEquals(true,isQuery(list));
 	}
 
-	function lisReturnsArrayIfAsked() {
+	function listReturnsArrayIfAsked() {
 		list = ormService.list(entityName=listName,returnType="array");
 		assertEquals(true,isArray(list));
 	}
@@ -147,5 +147,9 @@ component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
 		objDeleted = entityLoadByPK(listName,pk);
 		assertEquals(true,isNull(objDeleted));
 	}
-	
+
+    private function assertComponentNameEndsWith(required string expectedComponentName,required any actualComponent) {
+        var actualComponentName = getMetaData(arguments.actualComponent).name;
+        assertEquals(arguments.expectedComponentName,Right(actualComponentName,Len(arguments.expectedComponentName)),"Entity name");
+    }
 }
