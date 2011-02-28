@@ -358,6 +358,56 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfreturn xmlSearch( arguments.parsedXMLConfig, "/modelglue/event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.eventHandlerName)#']" ) />
 </cffunction>
 
+<cffunction name="listEventHandlers" output="false" hint="Lists event-handlers from <event-handlers> blocks.">
+	<cfset var NumberOfParsedXMLConfigs = arrayLen( variables.parsedXMLArray ) />
+	<cfset var i = "" />
+	<cfset var j = "" />
+	<cfset var eventHandlerDefinitions = arrayNew(1) />
+	<cfset var eventHandlers = arrayNew(1) />
+	<cfset var eventHandlerName = "" />
+	
+	<cfloop from="1" to="#NumberOfParsedXMLConfigs#" index="i">
+		<cfset eventHandlerDefinitions = xmlSearch( variables.parsedXMLArray[i], "/modelglue/event-handlers/event-handler" ) />
+		
+		<cfloop from="1" to="#arrayLen(eventHandlerDefinitions)#" index="j">
+			<cfset eventHandlerName = eventHandlerDefinitions[j].xmlAttributes.name />
+			
+			<cfif NOT findNoCase("modelglue.", eventHandlerName)>
+				<cfset arrayAppend(eventHandlers, eventHandlerName) />
+			</cfif>
+		</cfloop>
+	</cfloop>
+	
+	<cfset arraySort(eventHandlers, "textnocase") />
+	
+	<cfreturn eventHandlers />
+</cffunction>
+
+<cffunction name="listEventTypes" output="false" hint="Lists event types from <event-types> blocks.">
+	<cfset var NumberOfParsedXMLConfigs = arrayLen( variables.parsedXMLArray ) />
+	<cfset var i = "" />
+	<cfset var j = "" />
+	<cfset var eventTypeDefinitions = arrayNew(1) />
+	<cfset var eventTypes = arrayNew(1) />
+	<cfset var eventTypeName = "" />
+	
+	<cfloop from="1" to="#NumberOfParsedXMLConfigs#" index="i">
+		<cfset eventTypeDefinitions = xmlSearch( variables.parsedXMLArray[i], "/modelglue/event-types/event-type" ) />
+		
+		<cfloop from="1" to="#arrayLen(eventTypeDefinitions)#" index="j">
+			<cfset eventTypeName = eventTypeDefinitions[j].xmlAttributes.name />
+			
+			<cfif NOT findNoCase("modelglue.", eventTypeName)>
+				<cfset arrayAppend(eventTypes, eventTypeName) />
+			</cfif>
+		</cfloop>
+	</cfloop>
+	
+	<cfset arraySort(eventTypes, "textnocase") />
+	
+	<cfreturn eventTypes />
+</cffunction>
+
 <cffunction name="locateAndMakeEventHandler" output="false" hint="Loads event-handlers from <event-handlers> block.">
 	<cfargument name="modelglue" />
 	<cfargument name="eventHandlerName" type="string" default="" />
