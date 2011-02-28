@@ -30,11 +30,14 @@ then this file is a working copy and not part of a release build.
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>New Scaffolding Sample</title>
+	<title>New Scaffolding Sample</title>
+	#event.getCSSAssets()#
 </head>
 <body>
-<h1>New Scaffolding Sample</h1>
-#viewcollection.getView("body")#
+	<h1>New Scaffolding Sample</h1>
+	#viewCollection.getView("menu")#
+	#viewCollection.getView("body")#
+	#event.getJSAssets()#
 </body>
 </html>
 </cfoutput>

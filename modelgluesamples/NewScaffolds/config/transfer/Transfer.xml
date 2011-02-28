@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transfer>
+<objectDefinitions>
+	
+	<object name="Country" table="Country">
+		<id name="CountryId" type="numeric" />
+		<property name="CountryCode" type="string" />
+		<property name="CountryName" type="string" />
+		<property name="SortSequence" type="numeric" />
+		<onetomany name="Languages" lazy="true">
+			<link to="CountryLanguage" column="CountryId"/>
+			<collection type="struct">
+				<key property="LanguageName"/>
+			</collection>
+		</onetomany>
+	</object>
+	
+	<object name="CountryLanguage" table="CountryLanguage">
+		<compositeid>
+			<parentonetomany class="Country" />
+			<parentonetomany class="Language" />
+		</compositeid>
+		<property name="LanguageName" type="string" />
+	</object>
+	
+	<object name="Language" table="Lang">
+		<id name="LanguageId" type="numeric" />
+		<property name="LanguageName" type="string" />
+		<onetomany name="Countries" lazy="true">
+			<link to="CountryLanguage" column="LanguageId"/>
+			<collection type="struct">
+				<key property="LanguageName"/>
+			</collection>
+		</onetomany>
+	</object>
+	
+	<object name="Province" table="Province">
+		<id name="ProvinceId" type="numeric" />
+		<property name="ProvinceName" type="string" />
+		<property name="SortSequence" type="numeric" />
+		<manytoone name="Provinces">
+			<link to="Country" column="CountryId"/>
+		</manytoone>
+	</object>
+	
+</objectDefinitions>
+</transfer>

@@ -23,14 +23,14 @@
 		<!-- Where to find necessary files -->
 		<property name="configurationPath"><value>config/ModelGlue.xml.cfm</value></property>
 		<property name="applicationMapping"><value>/modelgluesamples/NewScaffolds</value></property>
-		<property name="viewMappings"><value>/modelgluesamples/NewScaffolds/views,/modelgluesamples/NewScaffolds/views/customized</value></property>
+		<property name="viewMappings"><value>/modelgluesamples/NewScaffolds/views,/modelgluesamples/NewScaffolds/views/customized,/modelglueextensions/modelglue</value></property>
 		<property name="helperMappings"><value>/modelgluesamples/NewScaffolds/helpers</value></property>
-		<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
+		<property name="assetMappings"><value>/modelglueextensions/jQuery,/modelglueextensions/modelglue,/modelgluesamples/NewScaffolds/css</value></property>
 		
 		<!-- Generate unknown events when in development mode?  (reload=false) -->
-		<property name="generationEnabled"><value>false</value></property>
+		<property name="generationEnabled"><value>true</value></property>
 		
-		<!-- Set the default cache timeout in seconds -->
+		<!-- Set the default cache timeout in seconds -->
 		<property name="defaultCacheTimeout"><value>60</value></property>
 		
 		<!-- Scaffolding config -->
@@ -43,55 +43,6 @@
 		<!-- What scaffold generation patterns should ModelGlue use if you do not specify in the <scaffold type=""> attribute? .-->
 		<property name="defaultScaffolds"><value>list,edit,view,commit,delete</value></property>
 		<!-- See documentation or ModelGlueConfiguration.cfc for additional options. -->
-	</bean>
-	
-	<!-- CFUniform configuration -->
-	<bean id="CFUniFormConfigBean" class="coldspring.beans.factory.config.MapFactoryBean">
-		<property name="SourceMap">
-			<map>
-				<entry key="loadDateUI"><value>true</value></entry>
-				<entry key="dateSetup">
-					<map>
-						<entry key="buttonImage"><value>'/modelglueextensions/cfuniform/commonassets/images/uni-form/calendar.png'</value></entry>
-					</map>
-				</entry>
-				<entry key="loadTimeUI"><value>true</value></entry>
-				<entry key="timeSetup">
-					<map>
-						<entry key="show24Hours"><value>true</value></entry>
-						<entry key="showSeconds"><value>false</value></entry>
-						<entry key="spinnerImage"><value>'/modelglueextensions/cfuniform/commonassets/images/spinnerDefault.png'</value></entry>
-					</map>
-				</entry>
-				<entry key="loadMaskUI"><value>true</value></entry>
-				<entry key="loadTextareaResize"><value>true</value></entry>
-				<entry key="textareaSetup">
-					<map>
-						<entry key="maxHeight"><value>800</value></entry>
-						<entry key="animate"><value>true</value></entry>
-						<entry key="animationSpeed"><value>'slow'</value></entry>
-					</map>
-				</entry>
-				<entry key="pathConfig">
-					<map>
-						<entry key="jQuery"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/jquery-1.3.2.min.js</value></entry>
-						<entry key="renderer"><value>/modelglueextensions/cfuniform/tags/forms/renderValidationErrors.cfm</value></entry>
-						<entry key="uniformCSS"><value>/modelglueextensions/cfuniform/commonassets/css/uni-form.css</value></entry>
-						<entry key="uniformCSSie"><value>/modelglueextensions/cfuniform/commonassets/css/uni-form-ie.css</value></entry>
-						<entry key="uniformJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/uni-form.jquery.js</value></entry>
-						<entry key="validationJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.validate-1.6.0.min.js</value></entry>
-						<entry key="dateCSS"><value>/modelglueextensions/cfuniform/commonassets/css/datepick/jquery.datepick.css</value></entry>
-						<entry key="dateJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.datepick-3.7.5.min.js</value></entry>
-						<entry key="timeCSS"><value>/modelglueextensions/cfuniform/commonassets/css/jquery.timeentry.css</value></entry>
-						<entry key="timeJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.timeentry-1.4.6.min.js</value></entry>
-						<entry key="maskJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.maskedinput-1.2.2.min.js</value></entry>
-						<entry key="textareaJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.prettyComments-1.4.pack.js</value></entry>
-						<entry key="ratingCSS"><value>/modelglueextensions/cfuniform/commonassets/css/jquery.rating.css</value></entry>
-						<entry key="ratingJS"><value>/modelglueextensions/cfuniform/commonassets/scripts/jQuery/forms/jquery.rating-3.12.min.js</value></entry>
-					</map>
-				</entry>
-			</map>
-		</property>
 	</bean>
 	
 	<!-- Override the plain scaffold manager with fancy settings -->
