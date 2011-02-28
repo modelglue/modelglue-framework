@@ -22,9 +22,9 @@
 
 	<!-- Where to find necessary files -->
 	<property name="configurationPath"><value>config/ModelGlue.xml</value></property>
-	<property name="applicationMapping"><value>/ScaffoldOMatic</value></property>
-	<property name="viewMappings"><value>/ScaffoldOMatic/views,/ScaffoldOMatic/views/generated</value></property>
-	<property name="helperMappings"><value>/ScaffoldOMatic/helpers</value></property>
+	<property name="applicationMapping"><value>/modelgluesamples/ScaffoldOMatic</value></property>
+	<property name="viewMappings"><value>/modelgluesamples/ScaffoldOMatic/views,/modelgluesamples/ScaffoldOMatic/views/generated</value></property>
+	<property name="helperMappings"><value>/modelgluesamples/ScaffoldOMatic/helpers</value></property>
 	<property name="assetMappings"><value>/modelglueextensions/jQuery</value></property>
 	
 	<!-- Generate unknown events when in development mode?  (reload=false) -->
@@ -37,7 +37,7 @@
 	<!-- Turning this off will disable any scaffold generation. Turning this on requires the reload setting above to also be on.-->	
 	<property name="rescaffold"><value>true</value></property>
 	<!-- Where do you want generated views to be saved to? -->
-	<property name="generatedViewMapping"><value>/ScaffoldOMatic/views/generated</value></property>
+	<property name="generatedViewMapping"><value>/modelgluesamples/ScaffoldOMatic/views/generated</value></property>
 	<!--This directory structure should already exists. ModelGlue will create the Scaffolds.xml file and overwrite as needed.-->
 	<property name="scaffoldPath"><value>config/scaffolds/Scaffolds.xml</value></property>
 	<!-- What scaffold generation patterns should ModelGlue use if you do not specify in the <scaffold type=""> attribute? .-->
@@ -185,11 +185,11 @@
 	<alias alias="ormAdapter" name="ormAdapter.Reactor" />
 	<alias alias="ormService" name="ormService.Reactor" />
 	<bean id="reactorConfiguration" class="reactor.config.config">
-		<constructor-arg name="pathToConfigXml"><value>/ScaffoldOMatic/config/reactor/Reactor.xml</value></constructor-arg>
+		<constructor-arg name="pathToConfigXml"><value>/modelgluesamples/ScaffoldOMatic/config/reactor/Reactor.xml</value></constructor-arg>
 		<property name="project"><value>test</value></property>
 		<property name="dsn"><value>ScaffoldOMatic</value></property>
 		<property name="type"><value>mysql</value></property>
-		<property name="mapping"><value>/ScaffoldOMatic/model/data/reactor</value></property>
+		<property name="mapping"><value>/modelgluesamples/ScaffoldOMatic/model/data/reactor</value></property>
 		<property name="mode"><value>development</value></property>
 	</bean>
 </beans>
