@@ -46,6 +46,7 @@ then this file is a working copy and not part of a release build.
 	<cfset event.addCSSAssetFile( "ui/css/smoothness/jquery-ui-1.8.custom.css" ) />
 	<cfset event.addCSSAssetFile( "multiSelect/css/jquery.multiselect.css" ) />
 	<cfset event.addCSSAssetFile( "scaffold/css/edit.css" ) />
+	<cfset event.addCSSAssetFile( "menu.css" ) />
 	
 	<cfset event.addJSAssetFile( "core/jquery-1.4.2.min.js" ) />
 	<cfset event.addJSAssetFile( "ui/js/jquery-ui-1.8.custom.min.js" ) />

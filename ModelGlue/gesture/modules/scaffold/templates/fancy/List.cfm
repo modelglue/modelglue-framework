@@ -30,6 +30,7 @@ then this file is a working copy and not part of a release build.
 <cfsilent>
 	<cfset event.copyToScope( variables, "myself,%Metadata.alias%Query,xe.delete,xe.edit,xe.list,xe.view,%Metadata.primaryKeyList%" )/>
 	<cfset editEvent = myself & xe.edit />
+	<cfset event.addCSSAssetFile( "menu.css" ) />
 </cfsilent>
 <cfoutput>
 <div id="breadcrumb">%spaceCap( Metadata.alias )% / <a href="#editEvent#">Add New %spaceCap( Metadata.alias )%</a></div>

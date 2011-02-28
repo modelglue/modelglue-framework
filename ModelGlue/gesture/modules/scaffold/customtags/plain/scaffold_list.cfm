@@ -102,7 +102,7 @@ then this file is a working copy and not part of a release build.
 	<label for="#attributes.name#"><b>#attributes.label#:</b></label>
 </cfif>
 <cfif attributes.onEditForm>
-	#attributes.label#
+	<!--- #attributes.label# --->
 	#theTable#
 <cfelse>
 	#theTable#

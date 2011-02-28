@@ -31,6 +31,7 @@ then this file is a working copy and not part of a release build.
 	<cfset event.copyToScope( variables, "myself,%Metadata.alias%record,xe.list") />
 	<cfset variables.listEvent = myself & xe.list  />
 	<cfset variables.ormAdapter = event.getModelGlue().getOrmAdapter() />
+	<cfset event.addCSSAssetFile( "menu.css" ) />
 </cfsilent>
 <cfoutput>
 <div id="breadcrumb"><a href="#listEvent#">%spaceCap( Metadata.alias )%</a> / View %spaceCap( Metadata.alias )%</div>

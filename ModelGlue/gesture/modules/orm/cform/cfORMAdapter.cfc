@@ -158,7 +158,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 						for (childIndex=1; childIndex <= ArrayLen(selectedChildIds); childIndex++) { 
 							criteria[property.sourceKey] = selectedChildIds[childIndex];
 							var targetObject = read(property.sourceObject, criteria);
-							if (not IsNull(targetObject)) {
+							if (not IsNull(targetObject) && not IsNull(children)) {
 								if (property._collectiontype IS "array") {
 									// collection is an array
 									evaluate("record.add#property._singularname#(targetObject)");

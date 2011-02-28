@@ -26,7 +26,12 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent output="false" extends="ModelGlue.gesture.controller.Controller">
+<cfcomponent output="false" extends="ModelGlue.gesture.controller.Controller" beans="CFUniFormConfigBean">
+
+<cffunction name="loadCFUniformConfig" output="false" access="public" returntype="void" hint="">
+	<cfargument name="event" />
+	<cfset event.setValue("CFUniformConfig", duplicate( beans.CFUniFormConfigBean ) ) />
+</cffunction>
 
 <cffunction name="appendGeneratedViewMapping" output="false" access="public" returntype="void" hint="I append the generatedViewMapping to the viewMappings if needed">
 	<cfargument name="event" />

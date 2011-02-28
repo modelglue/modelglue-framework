@@ -43,7 +43,7 @@ hidden makes the field always defined.  if this was not here, and you deleted th
 from the control, you would wind up deleting all child records during a genericCommit...
 --->
 <input type="hidden" name="#attributes.label#|#attributes.name#" value="" />
-<uform:field name="#attributes.label#|#attributes.name#" type="select" label="#attributes.label#" selectSize="3" inputClass="multiSelect">
+<uform:field name="#attributes.label#|#attributes.name#" type="select" label="#attributes.label#" selectSize="3" inputClass="multiselect">
 <cfloop query="attributes.valueQuery">
 	<uform:option display="#attributes.valueQuery[attributes.childDescProperty][attributes.valueQuery.currentRow]#" 
 		value="#attributes.valueQuery[attributes.name][attributes.valueQuery.currentRow]#"

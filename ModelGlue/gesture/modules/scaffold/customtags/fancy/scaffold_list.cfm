@@ -111,8 +111,8 @@ then this file is a working copy and not part of a release build.
 		#theTable#
 	</uform:field>
 <cfelse>
-<div>
-	#theTable#
-</div>
+	<div>
+		#theTable#
+	</div>
 </cfif>
 </cfoutput>
