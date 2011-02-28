@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	
-	$('#frmMain .multiSelect').each(function() {
+	$('#frmMain .multiselect').each(function() {
 		var label = $.trim( $(this).prev('label').text() );
 		
-		$(this).css('width', '33%').multiSelect({
+		$(this).css('width', '33%').multiselect({
 			checkAllText: 'Select all',
 			noneSelectedText: 'Select ' + label,
 			onOpen: function() {

@@ -5,7 +5,26 @@
 				type="ModelGlue.gesture.modules.internal.generation.controller.GenerationController"
 	>
 		<message-listener message="modelglue.modulesLoaded" function="generateEvent" />
+		<message-listener message="modelglue.needCFUniformConfig" function="loadCFUniformConfig" />
+		<message-listener message="modelglue.needEventGenerationConfig" function="loadEventGenerationConfig" />
+		<message-listener message="modelglue.needEventHandlerNames" function="getEventHandlerNames" />
+		<message-listener message="modelglue.needEventTypeNames" function="getEventTypeNames" />
 	</controller>
 </controllers>
+
+
+<event-handlers>
+	<event-handler name="modelglue.generateEvent">
+		<broadcasts>
+			<message name="ModelGlue.needCFUniformConfig" />
+			<message name="ModelGlue.needEventGenerationConfig" />
+			<message name="ModelGlue.needEventHandlerNames" />
+			<message name="ModelGlue.needEventTypeNames" />
+		</broadcasts>
+		<views>
+			<view name="main" template="generateEvent.cfm" />
+		</views>
+	</event-handler>
+</event-handlers>
 
 </modelglue>

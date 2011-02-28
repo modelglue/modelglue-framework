@@ -329,11 +329,35 @@
 </bean>
 
 <!--
-	Event generator (does the creation of controllers, event-handler XML, etc. bits)
+	Event generator & configuration (does the creation of controllers, event-handler XML, etc. bits)
 -->
 <bean id="modelglue.eventGenerator" class="ModelGlue.gesture.modules.internal.generation.service.XMLEventGenerationService">
 	<constructor-arg name="modelglue"><ref bean="modelglue.ModelGlue" /></constructor-arg>
 </bean>
+<bean id="modelglue.eventGeneratorConfig" class="coldspring.beans.factory.config.MapFactoryBean">
+	<property name="SourceMap">
+		<map>
+			<entry key="eventType"><value>templatedPage</value></entry>
+			<entry key="generateView"><value>true</value></entry>
+			<entry key="viewLocationFunction"><value>listFirst(eventName, ".")</value></entry>
+			<entry key="viewLocationPrefix"><value></value></entry>
+			<entry key="viewLocationSuffix"><value></value></entry>
+			<entry key="viewFileFunction"><value>listLast(eventName, ".")</value></entry>
+			<entry key="viewFilePrefix"><value></value></entry>
+			<entry key="viewFileSuffix"><value>.cfm</value></entry>
+			<entry key="generateMessageListener"><value>true</value></entry>
+			<entry key="controllerFileFunction"><value>uCase(left(listFirst(eventName, "."), 1)) &amp; right(listFirst(eventName, "."), len(listFirst(eventName, ".")) - 1)</value></entry>
+			<entry key="controllerFilePrefix"><value></value></entry>
+			<entry key="controllerFileSuffix"><value>Controller.cfc</value></entry>
+			<entry key="messageListenerFunction"><value>listLast(eventName, ".")</value></entry>
+			<entry key="messageListenerPrefix"><value></value></entry>
+			<entry key="messageListenerSuffix"><value></value></entry>
+			<entry key="resultEvent"><value></value></entry>
+			<entry key="resultRedirect"><value>true</value></entry>
+		</map>
+	</property>
+</bean>
+
 <!--
 	Validation Service used by ORMAdapter. Can be overridden
 -->
@@ -498,7 +522,6 @@
     </map>
 	</property>
 </bean>
-
 
 <!-- Reactor adapter/service -->
 <bean id="ormAdapter.Reactor" class="ModelGlue.unity.orm.ReactorAdapter">

@@ -3,9 +3,13 @@
 	border: 1px solid #D3D3D3;
 	font-size: 1em;
 }
-.ctrlHolder .ui-multiselect-options .ui-multiselect-checkboxes label {
+.ui-multiselect-checkboxes label {
 	float: none;
 	line-height: 1.3;
 	margin: 0;
 	width: auto;
+}
+.ui-multiselect-checkboxes label input {
+	margin-bottom: 6px;
+	margin-right: 6px;
 }

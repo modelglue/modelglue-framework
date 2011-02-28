@@ -1,0 +1,35 @@
+body {
+	margin: 1em auto;
+	width: 800px;
+}
+
+#eventGenerationForm .inlineLabels label, #eventGenerationForm .inlineLabels .label {
+	width: 40%;
+}
+
+#eventGenerationForm .inlineLabels .selectInput, #eventGenerationForm .inlineLabels select,
+	#eventGenerationForm .inlineLabels .textInput, #eventGenerationForm .inlineLabels .fileUpload {
+	width: 57%;
+}
+
+#eventGenerationForm .ui-multiselect {
+	border-width: 2px;
+	padding-left: 0;
+}
+
+#eventGenerationForm .ui-widget, .ui-autocomplete {
+	font-size: .8em;
+}
+
+#eventGenerationForm fieldset {
+	margin-bottom: 0;
+}
+
+#eventGenerationForm .buttonHolder .ui-button {
+	font-weight: bold;
+}
+
+#eventGenerationForm .ui-multiselect-checkboxes label input {
+	margin-bottom: 6px;
+	margin-right: 6px;
+}

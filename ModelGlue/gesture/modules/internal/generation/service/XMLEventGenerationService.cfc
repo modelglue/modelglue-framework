@@ -48,13 +48,13 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="getControllerPackage" access="private" output="false">
 	<cfset var string = "" />
-
+	
 	<!--- too lazy for a regex right now...if anyone wants to contrib to mg, here's a chance --->
 	<cfset string = replace(variables.mg.configuration.generationControllerPath, "/", ".", "all") />
 	<cfif left(string, 1) eq ".">
 		<cfset string = right(string, len(string) - 1) />
 	</cfif>
-		
+	
 	<cfreturn string />
 </cffunction>
 
@@ -66,101 +66,123 @@ then this file is a working copy and not part of a release build.
 	</cfif>
 </cffunction>
 
+<cffunction name="getViewInclude" output="false">
+	<cfargument name="config" />
+	
+	<cfset var viewPath = "" />
+	
+	<cfif len(arguments.config.viewLocation)>
+		<cfset viewPath = viewPath & arguments.config.viewLocation & "/" />
+	</cfif>
+	
+	<cfset viewPath = viewPath & arguments.config.viewFileName />
+	
+	<cfreturn viewPath />
+</cffunction>
+
+<cffunction name="getViewPath" output="false">
+	<cfargument name="config" />
+	
+	<cfreturn expandPath(variables.viewPath & "/" & getViewInclude(arguments.config)) />
+</cffunction>
+
 <cffunction name="generateEvent" access="public" output="false">
 	<cfargument name="context" hint="The currently executing event context." />
 	<cfargument name="eventName" default="#arguments.context.getValue(arguments.context.getValue("eventValue"))#" hint="The name of the event to generate.  Defaults to eventValue in arguments.context." />
 	
-	<cfset var type = context.getValue("type", "") />
+	<cfset var eventValues = arguments.context.getAll() />
+	<cfset var generationConfig = structNew() />
 	
-	<!---
-	<cflog text="Config file: #getConfigFile()#" />
-	<cflog text="Controller path: #controllerPathNameFor(eventName)#" />
-	<cflog text="Controller className: #controllerClassNameFor(eventName)#" />
-	<cflog text="ViewInclude: #viewIncludeFor(eventName)#" />
-	<cflog text="ViewFile: #viewFileFor(eventName)#" />
-	<cfabort />
-	--->
+	<cfset generationConfig.eventName = arguments.eventName />
+	<cfset arguments.context.copyToScope(generationConfig, "generateMessageListener,messageListenerName,controllerFileName,controllerFunctionName,generateView,viewLocation,viewFileName,type,resultEvent,resultRedirect") />
 	
-	<cfset generateController(eventName) />
-	<cfset generateEventHandler(eventName, type) />
-	<cfset generateView(eventName) />
+	<cfif generationConfig.generateMessageListener>
+		<cfset generateController(generationConfig) />
+	</cfif>
+	
+	<cfif generationConfig.generateView>
+		<cfset generateView(generationConfig) />
+	</cfif>
+	
+	<cfif generationConfig.generateMessageListener or generationConfig.generateView>
+		<cfset generateEventHandler(generationConfig) />
+	</cfif>
 </cffunction>
 
 <!--- CONTENT GENERATORS --->
 <cffunction name="generateView" outut="false" hint="Writes default view for a given event.">
-	<cfargument name="eventName">
-	<cfset var viewFile = viewFileFor(eventName) />
+	<cfargument name="config" />
+	
+	<cfset var viewFile = getViewPath(arguments.config) />
+	
 	<!--- Let's not overwrite existing stuff, ok? --->
 	<cfif not fileExists(viewFile)>
-		<cfset write(viewFile, generateViewContent(eventName)) />
+		<cfset write(viewFile, generateViewContent(arguments.config)) />
 	</cfif>
 </cffunction>
 
 <cffunction name="generateViewContent" output="false" hint="Generates default view content for a given event.">
-	<cfargument name="eventName">
+	<cfargument name="config" />
 	
 	<cfset var content = "" />
 	
-	<cfoutput>
-	<cfsavecontent variable="content"><=-- Put HTML and CFML output code you'd like a user to see here. --->
-<p>I'm a generated view for the "#arguments.eventName#" event.<p>
+	<cfsavecontent variable="content"><cfoutput><=-- Put HTML and CFML output code you'd like a user to see here. --->
+<p>I'm a generated view for the "#arguments.config.eventName#" event.<p>
 
-<p>To edit me, open #viewFileFor(arguments.eventName)#.</p>
-	</cfsavecontent>
-	</cfoutput>
+<p>To edit me, open #getViewPath(arguments.config)#.</p></cfoutput></cfsavecontent>
 	
 	<cfreturn clean(content) />
 </cffunction>
 
 <cffunction name="generateController" output="false" hint="Generates new controller (if necessary) and adds listener function to it.">
-	<cfargument name="eventName" />
-
-	<cfset var controllerFile = controllerPathNameFor(eventName) />
-	<cfset var controllerType = controllerClassNameFor(eventName) />
+	<cfargument name="config" />
+	
+	<cfset var controllerFile = controllerPathNameFor(arguments.config.controllerFileName) />
+	<cfset var controllerType = controllerClassNameFor(arguments.config.controllerFileName) />
 	<cfset var ctrlInst = "" />
 	
 	<cfif not fileExists(controllerFile)>
-		<cfset createController(eventName, controllerFile) />
+		<cfset createController(arguments.config, controllerFile) />
 	<cfelse>
-		<cfset ctrlInst = createObject("component", controllerClassNameFor(eventName)) />
+		<cfset ctrlInst = createObject("component", controllerType) />
 		
-		<cfif not controllerHasFunction(ctrlInst, listenerFunctionNameFor(eventName))>
-			<cfset createListenerFunction(ctrlInst, listenerFunctionNameFor(eventName), eventName, controllerFile) />
+		<cfif not controllerHasFunction(ctrlInst, arguments.config.controllerFunctionName)>
+			<cfset createListenerFunction(ctrlInst, controllerFile, arguments.config) />
 		</cfif>
 	</cfif>
 	
-	<cfset createListenerXML(getConfigFile(), controllerType, eventName) />
+	<cfset createListenerXML(getConfigFile(), controllerType, arguments.config) />
 </cffunction>
 
 <cffunction name="createController" output="false">
-	<cfargument name="eventName" />
-	<cfargument name="filename" />
+	<cfargument name="config" />
+	<cfargument name="fileName" />
 
 	<cfset var content = "" />
 	
-	<cfoutput>
-	<cfsavecontent variable="content"><cgcomponent output="false" hint="I am a Model-Glue controller." extends="ModelGlue.gesture.controller.Controller">
+	<cfsavecontent variable="content"><cfoutput><cgcomponent output="false" hint="I am a Model-Glue controller." extends="ModelGlue.gesture.controller.Controller">
 
 	<cgfunction name="init" access="public" output="false" hint="Constructor">
+		<cgargument name="framework" />
+
+		<cgset super.init(framework) />
+
 		<cgreturn this />
 	</cgfunction>
 
-#createListenerFunctionContent(eventName)#
+#createListenerFunctionContent(arguments.config)#
 
-</cgcomponent>
-	</cfsavecontent>
-	</cfoutput>
-
+</cgcomponent></cfoutput></cfsavecontent>
+	
 	<cfset content = clean(content) />
 	
-	<cfset write(arguments.filename, content) />
+	<cfset write(arguments.fileName, content) />
 </cffunction>
 
 <cffunction name="createListenerFunction" output="false">
 	<cfargument name="controller" />
-	<cfargument name="function" />
-	<cfargument name="eventName" />
 	<cfargument name="filename" />
+	<cfargument name="config" />
 	
 	<cfset var filecontent = "" />
 	<cfset var content = "" />
@@ -168,13 +190,9 @@ then this file is a working copy and not part of a release build.
 	
 	<cffile action="read" file="#filename#" variable="filecontent">
 	
-	<cfoutput>
-	<cfsavecontent variable="content">
-#createListenerFunctionContent(eventName)#
+	<cfsavecontent variable="content"><cfoutput>#createListenerFunctionContent(arguments.config)#
 
-</cgcomponent>
-	</cfsavecontent>
-	</cfoutput>
+</cgcomponent></cfoutput></cfsavecontent>
 	
 	<cfset content = clean(content) />
 
@@ -184,24 +202,19 @@ then this file is a working copy and not part of a release build.
 </cffunction>
 
 <cffunction name="createListenerFunctionContent" output="false">
-	<cfargument name="eventName" />
+	<cfargument name="config" />
 	
-	<cfset var function = listenerFunctionNameFor(eventName) />
 	<cfset var content = "" />
 	
-	<cfoutput>
-	<cfsavecontent variable="content">
-	<cgfunction name="#function#" output="false" hint="I am a message listener function generated for the ""#eventName#"" event.">
+	<cfsavecontent variable="content"><cfoutput>	<cgfunction name="#arguments.config.controllerFunctionName#" output="false" hint="I am a message listener function generated for the ""#arguments.config.eventName#"" event.">
 		<cgargument name="event" />
-		
+
 		<=--- 
 			Put "behind the scenes" query, form validation, and model interaction code here.
-			  
+
 			Use event.getValue("name") to get variables from the FORM and URL scopes.
 		--->
-	</cgfunction>
-	</cfsavecontent>
-	</cfoutput>
+	</cgfunction></cfoutput></cfsavecontent>
 	
 	<cfreturn content />
 </cffunction>
@@ -209,59 +222,57 @@ then this file is a working copy and not part of a release build.
 <cffunction name="createListenerXML" output="false">
 	<cfargument name="targetFile" />
 	<cfargument name="controllerType" />
-	<cfargument name="eventName" />
+	<cfargument name="config" />
 	
 	<cfset var xmlString = "" />
 	<cfset var xml = "" />
-	<cfset var controllersNode = "" />
-	<cfset var controllerNode = "" />
-	<cfset var listenerNode = "" />
 	<cfset var xmlContent = "" />
+	<cfset var line = chr(13) & chr(10) />
+	<cfset var tab = chr(9) />
+	<cfset var isDirty = false />
 	
-	<cffile action="read" file="#targetFile#" variable="xmlString" />
+	<cffile action="read" file="#arguments.targetFile#" variable="xmlString" />
 	
 	<cftry>	
 		<cfset xml = xmlParse(xmlString) />
 		<cfcatch>
 			<cfthrow type="XMLEventGenerationService.InvalidModelGlueXML"
-							 message="Can't generate <controller> into #targetFile# - it's not valid XML!"
+							 message="Can't generate <controller> into #arguments.targetFile# - it's not valid XML!"
 			/>
 		</cfcatch>
 	</cftry>
 	
 	<!--- Get / Make <controllers> block --->
-	<cfset controllersNode = xmlSearch(xml, "//controllers") />
-	<cfif not arrayLen(controllersNode)>
-		<cfif arrayLen(xml.xmlRoot.xmlChildren)>
-			<cfset arrayInsertAt(xml.xmlRoot.xmlChildren, 1, xmlElemNew(xml, "controllers")) />
-		<cfelse>
-			<cfset arrayAppend(xml.xmlRoot.xmlChildren, xmlElemNew(xml, "controllers")) />
-		</cfif>
+	<cfif not arrayLen(xmlSearch(xml, "//controllers"))>
+		<cfset xmlContent = "#line##line##tab#<controllers>#line##tab#</controllers>" />
+		<cfset xmlString = REReplaceNoCase(xmlString, "(<modelglue[^>]+>)", "\1#xmlContent#") />
+		<cfset isDirty = true />
 	</cfif>
-	<cfset controllersNode = xml.xmlRoot.controllers[1] />
 	
 	<!--- See if we already have a controller for this type --->
-	<cfset controllerNode = xmlSearch(xml, "//controllers/controller[@TYPE = '#arguments.controllerType#' or @type = '#arguments.controllerType#' ]") />
-
-	<cfif arrayLen(controllerNode)>
-		<cfset controllerNode = controllerNode[1] />
-	<cfelse>
-		<cfset arrayAppend(controllersNode.xmlChildren, xmlElemNew(xml, "controller")) />
-		<cfset controllerNode = controllersNode.xmlChildren[arrayLen(controllersNode.xmlChildren)] />
-		<cfset controllerNode.xmlAttributes["type"] = controllerType />
-		<cfset controllerNode.xmlAttributes["id"] = listLast(controllerType, ".") />
+	<cfif isDirty or not arrayLen(xmlSearch(xml, "//controllers/controller[@TYPE = '#arguments.controllerType#' or @type = '#arguments.controllerType#' ]"))>
+		<cfset xmlContent = '#line##tab##tab##line##tab##tab#<controller id="#listLast(arguments.controllerType, ".")#" type="#arguments.controllerType#">#line##tab##tab#</controller>' />
+		<cfset xmlString = REReplaceNoCase(xmlString, "[\n\r\t]+(</controllers>)", "#xmlContent##line##tab##tab##line##tab#\1") />
+		<cfset isDirty = true />
 	</cfif>
 	
 	<!--- Add listener function --->
-	<cfset listenerNode = xmlSearch(xml, "//controllers/controller/message-listener[translate(@message, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(messageNameFor(eventName))#' and translate(@function, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(listenerFunctionNameFor(eventName))#' ]") />
-	<cfif not arrayLen(listenerNode)>
-		<cfset arrayAppend(controllerNode.xmlChildren, xmlElemNew(xml, "message-listener")) />
-		<cfset listenerNode = controllerNode.xmlChildren[arrayLen(controllerNode.xmlChildren)] />
-		<cfset listenerNode.xmlAttributes["message"] = messageNameFor(eventName) />
-		<cfset listenerNode.xmlAttributes["function"] = listenerFunctionNameFor(eventName) />
-	</cfif>
+	<cfif isDirty or not arrayLen(xmlSearch(xml, "//controllers/controller/message-listener[translate(@message, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.config.messageListenerName)#' and translate(@function, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.config.controllerFunctionName)#' ]"))>
+		<cfset xmlContent = '#line##tab##tab##tab#<message-listener message="#arguments.config.messageListenerName#"' />
 		
-	<cfset writeXml(targetFile, xml) />
+		<cfif arguments.config.messageListenerName neq arguments.config.controllerFunctionName>
+			<cfset xmlContent = xmlContent & ' function="#arguments.config.controllerFunctionName#"' />
+		</cfif>
+		
+		<cfset xmlContent = xmlContent & ' />' />
+		 
+		<cfset xmlString = REReplaceNoCase(xmlString, "[\n\r\t]+(</controller>)", "#xmlContent##line##tab##tab#\1") />
+		<cfset isDirty = true />
+	</cfif>
+	
+	<cfif isDirty>
+		<cfset write(targetFile, xmlString) />
+	</cfif>
 </cffunction>
 
 <cffunction name="controllerHasFunction" output="false">
@@ -289,21 +300,15 @@ then this file is a working copy and not part of a release build.
 </cffunction>
 
 <cffunction name="generateEventHandler" output="false">
-	<cfargument name="eventName" />
-	<cfargument name="type" />
+	<cfargument name="config" />
 	
 	<cfset var targetFile = getConfigFile() />
 	<cfset var xmlString = "" />
 	<cfset var xml = "" />
-	<cfset var ehsNode = "" />
-	<cfset var ehNodes = "" />
-	<cfset var ehNode = "" />
-	<cfset var bNode = "" />
-	<cfset var mNode = "" />
-	<cfset var rNode = "" />
-	<cfset var vNode = "" />
-	<cfset var iNode = "" />
-	<cfset var i = "" />
+	<cfset var xmlContent = "" />
+	<cfset var line = chr(13) & chr(10) />
+	<cfset var tab = chr(9) />
+	<cfset var isDirty = false />
 	
 	<!--- Get all event handlers --->
 	
@@ -313,125 +318,88 @@ then this file is a working copy and not part of a release build.
 		<cfset xml = xmlParse(xmlString) />
 		<cfcatch>
 			<cfthrow type="XMLEventGenerationService.InvalidModelGlueXML"
-							 message="Can't generate <controller> into #targetFile# - it's not valid XML!"
+							 message="Can't generate <event-handler> into #targetFile# - it's not valid XML!"
 			/>
 		</cfcatch>
 	</cftry>
 	
 	<!--- Get / Make <event-handlers> block --->
-	<cfset ehsNode = xmlSearch(xml, "//event-handlers") />
-	<cfif not arrayLen(ehsNode)>
-		<cfset arrayAppend(xml.xmlRoot.xmlChildren, xmlElemNew(xml, "event-handlers")) />
-	</cfif>
-	<cfset ehsNode = xml.xmlRoot.xmlChildren[arrayLen(xml.xmlRoot.xmlChildren)] />
-
-	<!--- If we don't have a match --->
-	<cfset ehNode = xmlSearch(xml, "//event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(eventName)#']")>
-	<cfif not arrayLen(ehNode)>
-		<cfset ehNodes = xmlSearch(xml, "//event-handlers/event-handler")>
-
-		<!--- Go until we're alphabetically greater or we're at end --->
-		<cfloop from="1" to="#arrayLen(ehNodes)#" index="i">
-			<cfif structKeyExists(ehNodes[i].xmlAttributes, "name") and compareNoCase(ehNodes[i].xmlAttributes.name, eventName) gte 0>
-				<cfbreak />	
-			</cfif>
-		</cfloop>
+	<cfif not arrayLen(xmlSearch(xml, "//event-handlers"))>
+		<cfset xmlContent = "#line##line##tab#<event-handlers>#line##tab#</event-handlers>" />
 		
-		<cfif i gt arrayLen(ehNodes) and arrayLen(ehNodes)>
-			<cfset i = arrayLen(ehNodes) />
-		</cfif>
-		
-		<!--- Write event-handler tag --->
-		<cfif i eq 1>
-			<cfset arrayAppend(ehsNode.xmlChildren, xmlElemNew(xml, "event-handler")) />
-			<cfset ehNode = ehsNode.xmlChildren[arrayLen(ehsNode.xmlChildren)] />
+		<cfif REFindNoCase("</event-types>", xmlString)>
+			<cfset xmlString = REReplaceNoCase(xmlString, "(</event-types>)", "\1#xmlContent#") />
+		<cfelseif REFindNoCase("</controllers>", xmlString)>
+			<cfset xmlString = REReplaceNoCase(xmlString, "(</controllers>)", "\1#xmlContent#") />
 		<cfelse>
-			<cfset arrayInsertAt(ehsNode.xmlChildren, i, xmlElemNew(xml, "event-handler")) />
-			<cfset ehNode = ehsNode.xmlChildren[i] />
+			<cfset xmlString = REReplaceNoCase(xmlString, "(<modelglue[^>]+>)", "\1#xmlContent#") />
 		</cfif>
 		
-		<cfset ehNode.xmlAttributes["name"] = eventName />
+		<cfset isDirty = true />
+	</cfif>
+	
+	<!--- If we don't have a match --->
+	<cfif isDirty or not arrayLen(xmlSearch(xml, "//event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.config.eventName)#']"))>
+		<cfset xmlContent = '#line##tab##tab##line##tab##tab#<event-handler name="#arguments.config.eventName#"' />
 		
-		<cfif len(type)>
-			<cfset ehNode.xmlAttributes["type"] = type />
-		</cfif>		
-
-		<cfset bNode = xmlElemNew(xml, "broadcasts") />
-		<cfset mNode = xmlElemNew(xml, "message") />
-		<cfset mNode.xmlAttributes["name"] = messageNameFor(eventName) />
-
-		<cfset arrayAppend(bNode.xmlChildren, mNode) />
+		<cfif len(arguments.config.type)>
+			<cfset xmlContent = xmlContent & ' type="#arguments.config.type#"' />
+		</cfif>
 		
-		<cfset rNode = xmlElemNew(xml, "results") />
-
-		<cfset vNode = xmlElemNew(xml, "views") />
-		<cfset iNode = xmlElemNew(xml, "include") />
-		<cfset iNode.xmlAttributes["name"] = "body" />
-		<cfset iNode.xmlAttributes["template"] = viewIncludeFor(eventName) />
-
-		<cfset arrayAppend(vNode.xmlChildren, iNode) />
+		<cfset xmlContent = xmlContent & '>' />
 		
-		<cfset arrayAppend(ehNode.xmlChildren, bNode) />
-		<cfset arrayAppend(ehNode.xmlChildren, rNode) />
-		<cfset arrayAppend(ehNode.xmlChildren, vNode) />
+		<cfif arguments.config.generateMessageListener>
+			<cfset xmlContent = xmlContent & '#line##tab##tab##tab#<broadcasts>#line##tab##tab##tab##tab#<message name="#arguments.config.messageListenerName#" />#line##tab##tab##tab#</broadcasts>' />
+		</cfif>
+		
+		<cfif len(arguments.config.resultEvent)>
+			<cfset xmlContent = xmlContent & '#line##tab##tab##tab#<results>#line##tab##tab##tab##tab#<result do="#arguments.config.resultEvent#"' />
+			
+			<cfif arguments.config.resultRedirect>
+				<cfset xmlContent = xmlContent & ' redirect="true"' />
+			</cfif>
+			
+			<cfset xmlContent = xmlContent & ' />#line##tab##tab##tab#</results>' />
+		</cfif>
+		
+		<cfif arguments.config.generateView>
+			<cfset xmlContent = xmlContent & '#line##tab##tab##tab#<views>#line##tab##tab##tab##tab#<view name="body" template="#getViewInclude(arguments.config)#" />#line##tab##tab##tab#</views>' />
+		</cfif>
+		
+		<cfset xmlContent = xmlContent & '#line##tab##tab#</event-handler>' />
+		<cfset xmlString = REReplaceNoCase(xmlString, "[\n\r\t]+(</event-handlers>)", "#xmlContent##line##tab##tab##line##tab#\1") />
+		<cfset isDirty = true />
 	</cfif> 
 	
-	<cfset writeXml(targetFile, xml) />
+	<cfif isDirty>
+		<cfset write(targetFile, xmlString) />
+	</cfif>
 </cffunction>
 
 <!--- CONVENTIONAL NAME HELPERS --->
-<cffunction name="listenerFunctionNameFor" output="false">
-	<cfargument name="string" />
-
-	<cfset var result = "" />
-	<cfset var term="" />
-	
-	<cfif listLen(arguments.string, ".") gt 1>
-		<cfset arguments.string = listDeleteAt(arguments.string, 1, ".") />
-		
-		<cfloop list="#arguments.string#" index="term" delimiters=".">
-			<cfif len(result)>
-				<cfset result = result & uCase(left(term, 1)) & right(term, len(term) - 1) />
-			<cfelse>
-				<cfset result = term />
-			</cfif>	
-		</cfloop>
-	<cfelse>
-		<cfreturn arguments.string />
-	</cfif>
-		
-	<cfreturn result />
-</cffunction>
-
 <cffunction name="controllerPathNameFor" output="false">
 	<cfargument name="string" />
 
 	<cfset var result = "" />
-	<cfset var term= "" />
 	
-	<cfset var noun = listFirst(arguments.string, ".") />
-	
-	<cfif listLen(arguments.string, ".") gt 1>
-		<cfset result = "#uCase(left(noun, 1))##right(noun, len(noun) - 1)#Controller" />
+	<cfif len(arguments.string)>
+		<cfset result = arguments.string />
 	<cfelse>
-		<cfset result = "Controller" />
+		<cfset result = "Controller.cfc" />
 	</cfif>
 	
-	<cfset result = "#getControllerDirectory()#/#result#.cfc" />
-		
+	<cfset result = "#getControllerDirectory()#/#result#" />
+	
 	<cfreturn result />
 </cffunction>
 
 <cffunction name="controllerClassNameFor" output="false">
 	<cfargument name="string" />
-
+	
 	<cfset var result = "" />
-	<cfset var term= "" />
 	
-	<cfset var noun = listFirst(arguments.string, ".") />
-	
-	<cfif listLen(arguments.string, ".") gt 1>
-		<cfset result = "#uCase(left(noun, 1))##right(noun, len(noun) - 1)#Controller" />
+	<cfif len(arguments.string)>
+		<cfset result = listFirst(arguments.string, ".") />
 	<cfelse>
 		<cfset result = "Controller" />
 	</cfif>
@@ -439,24 +407,6 @@ then this file is a working copy and not part of a release build.
 	<cfset result = "#getControllerPackage()#.#result#" />
 		
 	<cfreturn result />
-</cffunction>
-
-<cffunction name="messageNameFor" output="false">
-	<cfargument name="string" />
-
-	<cfreturn arguments.string />
-</cffunction>
-
-<cffunction name="viewIncludeFor" output="false">
-	<cfargument name="string" />
-	
-	<cfreturn replaceNoCase(string, ".", "/", "all") & ".cfm" />
-</cffunction>
-
-<cffunction name="viewFileFor" output="false">
-	<cfargument name="string" />
-	
-	<cfreturn expandPath(variables.viewPath & "/" & viewIncludeFor(string)) />
 </cffunction>
 
 </cfcomponent>
