@@ -78,9 +78,9 @@ then this file is a working copy and not part of a release build.
 		<cfset var fullPath = "" />
 		<cfset var secure = isSecureRequest() />
 		<cfset var assetHtml = "" /> 
-		<cfset var assetKey = hash("#arguments.type#_#yesnoformat(secure)#_#arguments.path#") />
 		<cfset var data = structnew() />
 		<cfset var assetMappingAdvice = arguments.event.getValue("AssetMappingAdvice") />
+		<cfset var assetKey = hash("#arguments.type#_#yesnoformat(secure)#_#arguments.path#_#assetMappingAdvice#") />
 		<cfset var assetMappings = listToArray(listappend(assetMappingAdvice, arrayToList(variables._modelGlue.configuration.assetMappings))) />
 		<cfset var hasProtocol = false />
 		<cfset var assetFound = false />
