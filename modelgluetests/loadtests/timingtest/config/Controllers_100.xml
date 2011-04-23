@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	    xsi:noNamespaceSchemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue.xsd" >
+		<controllers>
+		
+	        <controller id="Controller1" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething1" />
+		    </controller>
+		
+	        <controller id="Controller2" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething2" />
+		    </controller>
+		
+	        <controller id="Controller3" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething3" />
+		    </controller>
+		
+	        <controller id="Controller4" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething4" />
+		    </controller>
+		
+	        <controller id="Controller5" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething5" />
+		    </controller>
+		
+	        <controller id="Controller6" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething6" />
+		    </controller>
+		
+	        <controller id="Controller7" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething7" />
+		    </controller>
+		
+	        <controller id="Controller8" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething8" />
+		    </controller>
+		
+	        <controller id="Controller9" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething9" />
+		    </controller>
+		
+	        <controller id="Controller10" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething10" />
+		    </controller>
+		
+	        <controller id="Controller11" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething11" />
+		    </controller>
+		
+	        <controller id="Controller12" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething12" />
+		    </controller>
+		
+	        <controller id="Controller13" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething13" />
+		    </controller>
+		
+	        <controller id="Controller14" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething14" />
+		    </controller>
+		
+	        <controller id="Controller15" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething15" />
+		    </controller>
+		
+	        <controller id="Controller16" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething16" />
+		    </controller>
+		
+	        <controller id="Controller17" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething17" />
+		    </controller>
+		
+	        <controller id="Controller18" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething18" />
+		    </controller>
+		
+	        <controller id="Controller19" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething19" />
+		    </controller>
+		
+	        <controller id="Controller20" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething20" />
+		    </controller>
+		
+	        <controller id="Controller21" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething21" />
+		    </controller>
+		
+	        <controller id="Controller22" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething22" />
+		    </controller>
+		
+	        <controller id="Controller23" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething23" />
+		    </controller>
+		
+	        <controller id="Controller24" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething24" />
+		    </controller>
+		
+	        <controller id="Controller25" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething25" />
+		    </controller>
+		
+	        <controller id="Controller26" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething26" />
+		    </controller>
+		
+	        <controller id="Controller27" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething27" />
+		    </controller>
+		
+	        <controller id="Controller28" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething28" />
+		    </controller>
+		
+	        <controller id="Controller29" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething29" />
+		    </controller>
+		
+	        <controller id="Controller30" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething30" />
+		    </controller>
+		
+	        <controller id="Controller31" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething31" />
+		    </controller>
+		
+	        <controller id="Controller32" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething32" />
+		    </controller>
+		
+	        <controller id="Controller33" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething33" />
+		    </controller>
+		
+	        <controller id="Controller34" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething34" />
+		    </controller>
+		
+	        <controller id="Controller35" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething35" />
+		    </controller>
+		
+	        <controller id="Controller36" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething36" />
+		    </controller>
+		
+	        <controller id="Controller37" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething37" />
+		    </controller>
+		
+	        <controller id="Controller38" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething38" />
+		    </controller>
+		
+	        <controller id="Controller39" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething39" />
+		    </controller>
+		
+	        <controller id="Controller40" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething40" />
+		    </controller>
+		
+	        <controller id="Controller41" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething41" />
+		    </controller>
+		
+	        <controller id="Controller42" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething42" />
+		    </controller>
+		
+	        <controller id="Controller43" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething43" />
+		    </controller>
+		
+	        <controller id="Controller44" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething44" />
+		    </controller>
+		
+	        <controller id="Controller45" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething45" />
+		    </controller>
+		
+	        <controller id="Controller46" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething46" />
+		    </controller>
+		
+	        <controller id="Controller47" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething47" />
+		    </controller>
+		
+	        <controller id="Controller48" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething48" />
+		    </controller>
+		
+	        <controller id="Controller49" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething49" />
+		    </controller>
+		
+	        <controller id="Controller50" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething50" />
+		    </controller>
+		
+	        <controller id="Controller51" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething51" />
+		    </controller>
+		
+	        <controller id="Controller52" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething52" />
+		    </controller>
+		
+	        <controller id="Controller53" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething53" />
+		    </controller>
+		
+	        <controller id="Controller54" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething54" />
+		    </controller>
+		
+	        <controller id="Controller55" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething55" />
+		    </controller>
+		
+	        <controller id="Controller56" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething56" />
+		    </controller>
+		
+	        <controller id="Controller57" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething57" />
+		    </controller>
+		
+	        <controller id="Controller58" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething58" />
+		    </controller>
+		
+	        <controller id="Controller59" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething59" />
+		    </controller>
+		
+	        <controller id="Controller60" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething60" />
+		    </controller>
+		
+	        <controller id="Controller61" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething61" />
+		    </controller>
+		
+	        <controller id="Controller62" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething62" />
+		    </controller>
+		
+	        <controller id="Controller63" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething63" />
+		    </controller>
+		
+	        <controller id="Controller64" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething64" />
+		    </controller>
+		
+	        <controller id="Controller65" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething65" />
+		    </controller>
+		
+	        <controller id="Controller66" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething66" />
+		    </controller>
+		
+	        <controller id="Controller67" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething67" />
+		    </controller>
+		
+	        <controller id="Controller68" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething68" />
+		    </controller>
+		
+	        <controller id="Controller69" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething69" />
+		    </controller>
+		
+	        <controller id="Controller70" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething70" />
+		    </controller>
+		
+	        <controller id="Controller71" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething71" />
+		    </controller>
+		
+	        <controller id="Controller72" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething72" />
+		    </controller>
+		
+	        <controller id="Controller73" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething73" />
+		    </controller>
+		
+	        <controller id="Controller74" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething74" />
+		    </controller>
+		
+	        <controller id="Controller75" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething75" />
+		    </controller>
+		
+	        <controller id="Controller76" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething76" />
+		    </controller>
+		
+	        <controller id="Controller77" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething77" />
+		    </controller>
+		
+	        <controller id="Controller78" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething78" />
+		    </controller>
+		
+	        <controller id="Controller79" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething79" />
+		    </controller>
+		
+	        <controller id="Controller80" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething80" />
+		    </controller>
+		
+	        <controller id="Controller81" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething81" />
+		    </controller>
+		
+	        <controller id="Controller82" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething82" />
+		    </controller>
+		
+	        <controller id="Controller83" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething83" />
+		    </controller>
+		
+	        <controller id="Controller84" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething84" />
+		    </controller>
+		
+	        <controller id="Controller85" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething85" />
+		    </controller>
+		
+	        <controller id="Controller86" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething86" />
+		    </controller>
+		
+	        <controller id="Controller87" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething87" />
+		    </controller>
+		
+	        <controller id="Controller88" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething88" />
+		    </controller>
+		
+	        <controller id="Controller89" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething89" />
+		    </controller>
+		
+	        <controller id="Controller90" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething90" />
+		    </controller>
+		
+	        <controller id="Controller91" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething91" />
+		    </controller>
+		
+	        <controller id="Controller92" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething92" />
+		    </controller>
+		
+	        <controller id="Controller93" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething93" />
+		    </controller>
+		
+	        <controller id="Controller94" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething94" />
+		    </controller>
+		
+	        <controller id="Controller95" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething95" />
+		    </controller>
+		
+	        <controller id="Controller96" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething96" />
+		    </controller>
+		
+	        <controller id="Controller97" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething97" />
+		    </controller>
+		
+	        <controller id="Controller98" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething98" />
+		    </controller>
+		
+	        <controller id="Controller99" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething99" />
+		    </controller>
+		
+	        <controller id="Controller100" type="timingtest.controller.Controller">
+    		    <message-listener message="needSomething" function="doSomething100" />
+		    </controller>
+		
+		</controllers>
+	</modelglue>
+	
