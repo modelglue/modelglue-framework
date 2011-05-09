@@ -85,9 +85,9 @@ then this file is a working copy and not part of a release build.
 		<cfset arguments.eventContext.addEventHandler(initialEventHandler) />
 	<cfelseif find("&", urlDecode(initialEventHandlerName) ) GT 0 AND unwindAndForward(urlDecode(initialEventHandlerName), arguments.eventContext) IS true>
 		<!--- unwindAndForward will never return true. It will redirect before it returns anything. If it can not redirect, then this branch will fail and the other branches will evaluate --->
-	<cfelseif structKeyExists(modelglue.eventHandlers, modelglue.configuration.missingEvent)>
+	<cfelseif modelglue.hasEventHandler(modelglue.configuration.missingEvent)>
 		<cfset arguments.eventContext.setValue("missingEvent", initialEventHandlerName) />
-		<cfset arguments.eventContext.addEventHandler(modelglue.eventHandlers[modelglue.configuration.missingEvent]) />
+		<cfset arguments.eventContext.addEventHandler(modelglue.getEventHandler(modelglue.configuration.missingEvent)) />
 	<cfelse>
 		<cfthrow message="Model-Glue:  There is no known event handler for ""#initialEventHandlerName#""." />
 	</cfif>	
