@@ -99,15 +99,16 @@ then this file is a working copy and not part of a release build.
 <cffunction name="testAssetRendingWithCFHtmlHeadViaSubRequest" returntype="void" access="public">
 	<cfset remote_uri = "http://#CGI.SERVER_NAME#:#CGI.SERVER_PORT#/modelgluetests/unittests/gesture/modules/asset/RunEvent.cfc?method=handleEvent&event=renderAsset" />
 	<cfhttp url="#remote_uri#">
-	<cfset assertTrue(trim(cfhttp.Filecontent) EQ trim(jsStringWithoutHost), "Expected '#htmleditformat(jsStringWithoutHost)#' but got '#htmleditformat(cfhttp.Filecontent)#'") />
+	<cfset assertTrue(trim(cfhttp.Filecontent) EQ trim(jsStringWithoutHost), 'Expected ' & htmleditformat(jsStringWithoutHost) & ' but got ' & htmleditformat(cfhttp.Filecontent) ) />
+	<!---<cfset assertTrue(trim(cfhttp.Filecontent) EQ trim(jsStringWithoutHost), "Expected '' but got '#htmleditformat(cfhttp.Filecontent)#'") />--->
 </cffunction>
 
 <cffunction name="createModelGlueIfNotDefined" returntype="any" access="private">
-	<cfset super.createModelGlueIfNotDefined(this.coldspringPath) />
 	<cfset var loader = "" />
 	<cfset var obj = "" />
 	<cfset var beanFactory = "" />
 	<cfset var ec ="" />
+	<cfset super.createModelGlueIfNotDefined(this.coldspringPath) />
 	<cfset arrayAppend(mg.configuration.assetmappings, "/modelgluetests/unittests/gesture/modules/asset") />
 	<cfset arrayAppend(mg.configuration.viewmappings, "/modelgluetests/unittests/gesture/modules/asset") />
 	<cfset beanFactory = mg.getInternalBeanFactory() />

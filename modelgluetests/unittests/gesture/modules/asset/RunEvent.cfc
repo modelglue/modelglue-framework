@@ -31,7 +31,10 @@ then this file is a working copy and not part of a release build.
 	<cffunction name="handleEvent" access="remote">
 		<cfset var cspath = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
 		<cfset var bootstrapper = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper")>
-		
+		<cfset var loader = "" />
+		<cfset var obj = "" />
+		<cfset var beanFactory = "" />
+		<cfset var ec ="" />
 		<cfset bootstrapper.coldspringPath = cspath>
 		<cfset bootstrapper.coreColdspringPath = cspath>
 		<cfset bootstrapper.modelGlueBeanName = "modelglue.ModelGlue">
@@ -43,11 +46,6 @@ then this file is a working copy and not part of a release build.
 		
 		<cfset mg = bootstrapper.createModelGlue() />
 		<cfset request._modelglue.bootstrap.framework = mg />
-		
-		<cfset var loader = "" />
-		<cfset var obj = "" />
-		<cfset var beanFactory = "" />
-		<cfset var ec ="" />
 		<cfset arrayAppend(mg.configuration.assetmappings, "/modelgluetests/unittests/gesture/modules/asset") />
 		<cfset arrayAppend(mg.configuration.viewmappings, "/modelgluetests/unittests/gesture/modules/asset") />
 		<cfset beanFactory = mg.getInternalBeanFactory() />
