@@ -204,7 +204,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	
 	private struct function generateObjectMetadata(required string entityName) {
 		var md = {};
-		var entity = EntityNew(arguments.entityName);
+		var entity = EntityNew(ListGetAt( arguments.entityName, ListLen( arguments.entityName, "."), "."));
 		var omd = getMetadata(entity);
 		md.ormName = variables._ormName;
 		md.alias = arguments.entityName;
@@ -223,7 +223,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	
 	private struct function generateObjectPKInfo(required string entityName) {
 		var pki = {pkName="",labelProperty=""};
-		var entity = EntityNew(arguments.entityName);
+		var entity = EntityNew(ListGetAt( arguments.entityName, ListLen( arguments.entityName, "."), "."));
 		var md = getMetadata(entity);
 		var props = setCfcProperties(md);
 		var i =1;
