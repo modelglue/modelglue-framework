@@ -208,7 +208,9 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 			<cfset controllerDefinitionArray = xmlSearch(variables.parsedXMLArray[j], "/modelglue/controllers/controller[message-listener[translate(@message, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.broadcastsXml.xmlChildren[i].xmlAttributes.name)#']]")>
 			<cfloop from="1" to="#arrayLen( controllerDefinitionArray )#" index="k">
 				<cfif NOT structKeyExists(controllerDefinitionArray[k].xmlAttributes, "id")>
-					<cfif structKeyExists(controllerDefinitionArray[k].xmlAttributes, "type")>
+					<cfif structKeyExists(controllerDefinitionArray[k].xmlAttributes, "name")>
+						<cfset controllerDefinitionArray[k].xmlAttributes.id = controllerDefinitionArray[k].xmlAttributes.name />
+					<cfelseif structKeyExists(controllerDefinitionArray[k].xmlAttributes, "type")>
 						<cfset controllerDefinitionArray[k].xmlAttributes.id = controllerDefinitionArray[k].xmlAttributes.type />
 					<cfelse>
 						 <cfset controllerDefinitionArray[k].xmlAttributes.id = "ctlr_" & createuuid() />
@@ -271,10 +273,11 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfset var listXml = "" />
 	<cfset var j = "" />
 		
-	<cfparam name="arguments.ctrlXml.xmlAttributes.type" default="" />
-	<cfparam name="arguments.ctrlXml.xmlAttributes.bean" default="" />
-	<cfparam name="arguments.ctrlXml.xmlAttributes.id" default="#arguments.ctrlXml.xmlAttributes.type#" />
-	<cfparam name="arguments.ctrlXml.xmlAttributes.beans" default="" />
+		<cfparam name="arguments.ctrlXml.xmlAttributes.type" default="" />
+		<cfparam name="arguments.ctrlXml.xmlAttributes.bean" default="" />
+		<cfparam name="arguments.ctrlXml.xmlAttributes.name" default="#arguments.ctrlXml.xmlAttributes.type#" />
+		<cfparam name="arguments.ctrlXml.xmlAttributes.id" default="#arguments.ctrlXml.xmlAttributes.name#" />
+		<cfparam name="arguments.ctrlXml.xmlAttributes.beans" default="" />
 	<cfif len(arguments.ctrlXml.xmlAttributes.bean)>
 		<cfset ctrlInst = arguments.modelGlue.getBean(arguments.ctrlXml.xmlAttributes.bean) />
 	<cfelse>
