@@ -110,6 +110,7 @@
 		<include name="**/*.css" />
 		<include name="**/*.js" />
 		<include name="ModelGlue/gesture/framework.properties" />
+		<exclude name="cfOrmAdapterTest/" />
 		<exclude name="modelglueapplicationtemplate/" />
 		<exclude name="modelgluedistributionfiles/" />
 	</patternset>
@@ -117,6 +118,7 @@
 	<!-- All project files to be distributed -->
 	<patternset id="projectFiles">
 		<include name="**/*" />
+		<exclude name="cfOrmAdapterTest/" />
 		<exclude name="modelgluedistributionfiles/" />
 	</patternset>
 
