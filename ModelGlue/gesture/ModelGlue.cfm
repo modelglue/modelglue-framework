@@ -96,7 +96,7 @@ then this file is a working copy and not part of a release build.
 <cfif not request._modelglue.bootstrap.blockEvent>
 	<cfset ec = mg.handleRequest() />
 </cfif>
-
+<cfcontent reset="yes" />
 </cfsilent><cfif not request._modelglue.bootstrap.blockEvent><cfoutput>#ec.getLastRendereredView()#</cfoutput>
 
 <cfif mg.configuration.debug neq "false" and mg.configuration.debug neq "none">
