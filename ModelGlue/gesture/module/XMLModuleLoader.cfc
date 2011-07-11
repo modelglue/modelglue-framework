@@ -452,7 +452,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfset var ehClass = "EventHandler">
 	
 	<!--- Make some sensible defaults --->
-	<cfparam name="arguments.ehXml.xmlAttributes.type" default="#arguments.defaultType#" />
+	<cfparam name="arguments.ehXml.xmlAttributes.type" default="" />
 	<cfparam name="arguments.ehXml.xmlAttributes.access" default="public" />
 	<cfparam name="arguments.ehXml.xmlAttributes.cache" default="false" />
 	<cfparam name="arguments.ehXml.xmlAttributes.cacheKey" default="" />
@@ -460,8 +460,12 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfparam name="arguments.ehXml.xmlAttributes.cacheTimeout" default="0" />
 	<cfparam name="arguments.ehXml.xmlAttributes.extensible" default="false" />
 	
-	<cfset isXmlType = arguments.modelglue.hasEventType(arguments.ehXml.xmlAttributes.type) or find(",", arguments.ehXml.xmlAttributes.type) />
+	<cfif arguments.defaultType IS NOT ehClass>
+		<cfset arguments.ehXml.xmlAttributes.type = listPrepend(arguments.ehXml.xmlAttributes.type, arguments.defaultType ) />
+	</cfif>
 	
+	<cfset isXmlType = arguments.modelglue.hasEventType(arguments.ehXml.xmlAttributes.type) or find(",", arguments.ehXml.xmlAttributes.type) />
+
 	<cftry>
 		<cfif not isXmlType>
 			<cfset ehClass = arguments.ehXml.xmlAttributes.type />
@@ -549,7 +553,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfset var typename = "" />
 	<cfset var moduleBlock = "" />
 	<cfset var i = "" />
-	
+
 	<cfloop list="#arguments.types#" index="typename">
 		<cfif arguments.modelglue.hasEventType(typeName)>
 			<cfset moduleBlock = arguments.modelglue.eventTypes[typeName][block] />
