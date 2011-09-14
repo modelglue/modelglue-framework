@@ -18,7 +18,16 @@
 	   <cfargument name="event" type="any" required="true" />
 	   
 	   <cfset var listenCount = arguments.event.getValue( "listenCount", "0" ) />
+	   <cfset var beanName = "" />
 	   <cfset arguments.event.setValue( "listenCount", listenCount+1 ) />
+
+	   <cfloop item="beanName" collection="#beans#">
+		<cfset arguments.event.setValue( "lastBeanName", beanName ) />
+		<cfif StructKeyExists(beans[beanName],"getDSN")>
+			<cfset arguments.event.setValue( "lastBeanDSN", beans[beanName].getDSN() ) />
+		</cfif>
+	   </cfloop>
+	
 	   
 	</cffunction>
 	

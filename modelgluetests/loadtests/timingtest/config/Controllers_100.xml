@@ -1,408 +1,408 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	    xsi:noNamespaceSchemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue.xsd" >
-		<controllers>
+	<controllers>
 		
-	        <controller id="Controller1" type="timingtest.controller.Controller">
+	        <controller id="Controller1" type="timingtest.controller.Controller" beans="datasource1">
     		    <message-listener message="needSomething" function="doSomething1" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller2" type="timingtest.controller.Controller">
+	        <controller id="Controller2" type="timingtest.controller.Controller" beans="datasource2">
     		    <message-listener message="needSomething" function="doSomething2" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller3" type="timingtest.controller.Controller">
+	        <controller id="Controller3" type="timingtest.controller.Controller" beans="datasource3">
     		    <message-listener message="needSomething" function="doSomething3" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller4" type="timingtest.controller.Controller">
+	        <controller id="Controller4" type="timingtest.controller.Controller" beans="datasource4">
     		    <message-listener message="needSomething" function="doSomething4" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller5" type="timingtest.controller.Controller">
+	        <controller id="Controller5" type="timingtest.controller.Controller" beans="datasource5">
     		    <message-listener message="needSomething" function="doSomething5" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller6" type="timingtest.controller.Controller">
+	        <controller id="Controller6" type="timingtest.controller.Controller" beans="datasource6">
     		    <message-listener message="needSomething" function="doSomething6" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller7" type="timingtest.controller.Controller">
+	        <controller id="Controller7" type="timingtest.controller.Controller" beans="datasource7">
     		    <message-listener message="needSomething" function="doSomething7" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller8" type="timingtest.controller.Controller">
+	        <controller id="Controller8" type="timingtest.controller.Controller" beans="datasource8">
     		    <message-listener message="needSomething" function="doSomething8" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller9" type="timingtest.controller.Controller">
+	        <controller id="Controller9" type="timingtest.controller.Controller" beans="datasource9">
     		    <message-listener message="needSomething" function="doSomething9" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller10" type="timingtest.controller.Controller">
+	        <controller id="Controller10" type="timingtest.controller.Controller" beans="datasource10">
     		    <message-listener message="needSomething" function="doSomething10" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller11" type="timingtest.controller.Controller">
+	        <controller id="Controller11" type="timingtest.controller.Controller" beans="datasource11">
     		    <message-listener message="needSomething" function="doSomething11" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller12" type="timingtest.controller.Controller">
+	        <controller id="Controller12" type="timingtest.controller.Controller" beans="datasource12">
     		    <message-listener message="needSomething" function="doSomething12" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller13" type="timingtest.controller.Controller">
+	        <controller id="Controller13" type="timingtest.controller.Controller" beans="datasource13">
     		    <message-listener message="needSomething" function="doSomething13" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller14" type="timingtest.controller.Controller">
+	        <controller id="Controller14" type="timingtest.controller.Controller" beans="datasource14">
     		    <message-listener message="needSomething" function="doSomething14" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller15" type="timingtest.controller.Controller">
+	        <controller id="Controller15" type="timingtest.controller.Controller" beans="datasource15">
     		    <message-listener message="needSomething" function="doSomething15" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller16" type="timingtest.controller.Controller">
+	        <controller id="Controller16" type="timingtest.controller.Controller" beans="datasource16">
     		    <message-listener message="needSomething" function="doSomething16" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller17" type="timingtest.controller.Controller">
+	        <controller id="Controller17" type="timingtest.controller.Controller" beans="datasource17">
     		    <message-listener message="needSomething" function="doSomething17" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller18" type="timingtest.controller.Controller">
+	        <controller id="Controller18" type="timingtest.controller.Controller" beans="datasource18">
     		    <message-listener message="needSomething" function="doSomething18" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller19" type="timingtest.controller.Controller">
+	        <controller id="Controller19" type="timingtest.controller.Controller" beans="datasource19">
     		    <message-listener message="needSomething" function="doSomething19" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller20" type="timingtest.controller.Controller">
+	        <controller id="Controller20" type="timingtest.controller.Controller" beans="datasource20">
     		    <message-listener message="needSomething" function="doSomething20" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller21" type="timingtest.controller.Controller">
+	        <controller id="Controller21" type="timingtest.controller.Controller" beans="datasource21">
     		    <message-listener message="needSomething" function="doSomething21" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller22" type="timingtest.controller.Controller">
+	        <controller id="Controller22" type="timingtest.controller.Controller" beans="datasource22">
     		    <message-listener message="needSomething" function="doSomething22" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller23" type="timingtest.controller.Controller">
+	        <controller id="Controller23" type="timingtest.controller.Controller" beans="datasource23">
     		    <message-listener message="needSomething" function="doSomething23" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller24" type="timingtest.controller.Controller">
+	        <controller id="Controller24" type="timingtest.controller.Controller" beans="datasource24">
     		    <message-listener message="needSomething" function="doSomething24" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller25" type="timingtest.controller.Controller">
+	        <controller id="Controller25" type="timingtest.controller.Controller" beans="datasource25">
     		    <message-listener message="needSomething" function="doSomething25" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller26" type="timingtest.controller.Controller">
+	        <controller id="Controller26" type="timingtest.controller.Controller" beans="datasource26">
     		    <message-listener message="needSomething" function="doSomething26" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller27" type="timingtest.controller.Controller">
+	        <controller id="Controller27" type="timingtest.controller.Controller" beans="datasource27">
     		    <message-listener message="needSomething" function="doSomething27" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller28" type="timingtest.controller.Controller">
+	        <controller id="Controller28" type="timingtest.controller.Controller" beans="datasource28">
     		    <message-listener message="needSomething" function="doSomething28" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller29" type="timingtest.controller.Controller">
+	        <controller id="Controller29" type="timingtest.controller.Controller" beans="datasource29">
     		    <message-listener message="needSomething" function="doSomething29" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller30" type="timingtest.controller.Controller">
+	        <controller id="Controller30" type="timingtest.controller.Controller" beans="datasource30">
     		    <message-listener message="needSomething" function="doSomething30" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller31" type="timingtest.controller.Controller">
+	        <controller id="Controller31" type="timingtest.controller.Controller" beans="datasource31">
     		    <message-listener message="needSomething" function="doSomething31" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller32" type="timingtest.controller.Controller">
+	        <controller id="Controller32" type="timingtest.controller.Controller" beans="datasource32">
     		    <message-listener message="needSomething" function="doSomething32" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller33" type="timingtest.controller.Controller">
+	        <controller id="Controller33" type="timingtest.controller.Controller" beans="datasource33">
     		    <message-listener message="needSomething" function="doSomething33" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller34" type="timingtest.controller.Controller">
+	        <controller id="Controller34" type="timingtest.controller.Controller" beans="datasource34">
     		    <message-listener message="needSomething" function="doSomething34" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller35" type="timingtest.controller.Controller">
+	        <controller id="Controller35" type="timingtest.controller.Controller" beans="datasource35">
     		    <message-listener message="needSomething" function="doSomething35" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller36" type="timingtest.controller.Controller">
+	        <controller id="Controller36" type="timingtest.controller.Controller" beans="datasource36">
     		    <message-listener message="needSomething" function="doSomething36" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller37" type="timingtest.controller.Controller">
+	        <controller id="Controller37" type="timingtest.controller.Controller" beans="datasource37">
     		    <message-listener message="needSomething" function="doSomething37" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller38" type="timingtest.controller.Controller">
+	        <controller id="Controller38" type="timingtest.controller.Controller" beans="datasource38">
     		    <message-listener message="needSomething" function="doSomething38" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller39" type="timingtest.controller.Controller">
+	        <controller id="Controller39" type="timingtest.controller.Controller" beans="datasource39">
     		    <message-listener message="needSomething" function="doSomething39" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller40" type="timingtest.controller.Controller">
+	        <controller id="Controller40" type="timingtest.controller.Controller" beans="datasource40">
     		    <message-listener message="needSomething" function="doSomething40" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller41" type="timingtest.controller.Controller">
+	        <controller id="Controller41" type="timingtest.controller.Controller" beans="datasource41">
     		    <message-listener message="needSomething" function="doSomething41" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller42" type="timingtest.controller.Controller">
+	        <controller id="Controller42" type="timingtest.controller.Controller" beans="datasource42">
     		    <message-listener message="needSomething" function="doSomething42" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller43" type="timingtest.controller.Controller">
+	        <controller id="Controller43" type="timingtest.controller.Controller" beans="datasource43">
     		    <message-listener message="needSomething" function="doSomething43" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller44" type="timingtest.controller.Controller">
+	        <controller id="Controller44" type="timingtest.controller.Controller" beans="datasource44">
     		    <message-listener message="needSomething" function="doSomething44" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller45" type="timingtest.controller.Controller">
+	        <controller id="Controller45" type="timingtest.controller.Controller" beans="datasource45">
     		    <message-listener message="needSomething" function="doSomething45" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller46" type="timingtest.controller.Controller">
+	        <controller id="Controller46" type="timingtest.controller.Controller" beans="datasource46">
     		    <message-listener message="needSomething" function="doSomething46" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller47" type="timingtest.controller.Controller">
+	        <controller id="Controller47" type="timingtest.controller.Controller" beans="datasource47">
     		    <message-listener message="needSomething" function="doSomething47" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller48" type="timingtest.controller.Controller">
+	        <controller id="Controller48" type="timingtest.controller.Controller" beans="datasource48">
     		    <message-listener message="needSomething" function="doSomething48" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller49" type="timingtest.controller.Controller">
+	        <controller id="Controller49" type="timingtest.controller.Controller" beans="datasource49">
     		    <message-listener message="needSomething" function="doSomething49" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller50" type="timingtest.controller.Controller">
+	        <controller id="Controller50" type="timingtest.controller.Controller" beans="datasource50">
     		    <message-listener message="needSomething" function="doSomething50" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller51" type="timingtest.controller.Controller">
+	        <controller id="Controller51" type="timingtest.controller.Controller" beans="datasource51">
     		    <message-listener message="needSomething" function="doSomething51" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller52" type="timingtest.controller.Controller">
+	        <controller id="Controller52" type="timingtest.controller.Controller" beans="datasource52">
     		    <message-listener message="needSomething" function="doSomething52" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller53" type="timingtest.controller.Controller">
+	        <controller id="Controller53" type="timingtest.controller.Controller" beans="datasource53">
     		    <message-listener message="needSomething" function="doSomething53" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller54" type="timingtest.controller.Controller">
+	        <controller id="Controller54" type="timingtest.controller.Controller" beans="datasource54">
     		    <message-listener message="needSomething" function="doSomething54" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller55" type="timingtest.controller.Controller">
+	        <controller id="Controller55" type="timingtest.controller.Controller" beans="datasource55">
     		    <message-listener message="needSomething" function="doSomething55" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller56" type="timingtest.controller.Controller">
+	        <controller id="Controller56" type="timingtest.controller.Controller" beans="datasource56">
     		    <message-listener message="needSomething" function="doSomething56" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller57" type="timingtest.controller.Controller">
+	        <controller id="Controller57" type="timingtest.controller.Controller" beans="datasource57">
     		    <message-listener message="needSomething" function="doSomething57" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller58" type="timingtest.controller.Controller">
+	        <controller id="Controller58" type="timingtest.controller.Controller" beans="datasource58">
     		    <message-listener message="needSomething" function="doSomething58" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller59" type="timingtest.controller.Controller">
+	        <controller id="Controller59" type="timingtest.controller.Controller" beans="datasource59">
     		    <message-listener message="needSomething" function="doSomething59" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller60" type="timingtest.controller.Controller">
+	        <controller id="Controller60" type="timingtest.controller.Controller" beans="datasource60">
     		    <message-listener message="needSomething" function="doSomething60" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller61" type="timingtest.controller.Controller">
+	        <controller id="Controller61" type="timingtest.controller.Controller" beans="datasource61">
     		    <message-listener message="needSomething" function="doSomething61" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller62" type="timingtest.controller.Controller">
+	        <controller id="Controller62" type="timingtest.controller.Controller" beans="datasource62">
     		    <message-listener message="needSomething" function="doSomething62" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller63" type="timingtest.controller.Controller">
+	        <controller id="Controller63" type="timingtest.controller.Controller" beans="datasource63">
     		    <message-listener message="needSomething" function="doSomething63" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller64" type="timingtest.controller.Controller">
+	        <controller id="Controller64" type="timingtest.controller.Controller" beans="datasource64">
     		    <message-listener message="needSomething" function="doSomething64" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller65" type="timingtest.controller.Controller">
+	        <controller id="Controller65" type="timingtest.controller.Controller" beans="datasource65">
     		    <message-listener message="needSomething" function="doSomething65" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller66" type="timingtest.controller.Controller">
+	        <controller id="Controller66" type="timingtest.controller.Controller" beans="datasource66">
     		    <message-listener message="needSomething" function="doSomething66" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller67" type="timingtest.controller.Controller">
+	        <controller id="Controller67" type="timingtest.controller.Controller" beans="datasource67">
     		    <message-listener message="needSomething" function="doSomething67" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller68" type="timingtest.controller.Controller">
+	        <controller id="Controller68" type="timingtest.controller.Controller" beans="datasource68">
     		    <message-listener message="needSomething" function="doSomething68" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller69" type="timingtest.controller.Controller">
+	        <controller id="Controller69" type="timingtest.controller.Controller" beans="datasource69">
     		    <message-listener message="needSomething" function="doSomething69" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller70" type="timingtest.controller.Controller">
+	        <controller id="Controller70" type="timingtest.controller.Controller" beans="datasource70">
     		    <message-listener message="needSomething" function="doSomething70" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller71" type="timingtest.controller.Controller">
+	        <controller id="Controller71" type="timingtest.controller.Controller" beans="datasource71">
     		    <message-listener message="needSomething" function="doSomething71" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller72" type="timingtest.controller.Controller">
+	        <controller id="Controller72" type="timingtest.controller.Controller" beans="datasource72">
     		    <message-listener message="needSomething" function="doSomething72" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller73" type="timingtest.controller.Controller">
+	        <controller id="Controller73" type="timingtest.controller.Controller" beans="datasource73">
     		    <message-listener message="needSomething" function="doSomething73" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller74" type="timingtest.controller.Controller">
+	        <controller id="Controller74" type="timingtest.controller.Controller" beans="datasource74">
     		    <message-listener message="needSomething" function="doSomething74" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller75" type="timingtest.controller.Controller">
+	        <controller id="Controller75" type="timingtest.controller.Controller" beans="datasource75">
     		    <message-listener message="needSomething" function="doSomething75" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller76" type="timingtest.controller.Controller">
+	        <controller id="Controller76" type="timingtest.controller.Controller" beans="datasource76">
     		    <message-listener message="needSomething" function="doSomething76" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller77" type="timingtest.controller.Controller">
+	        <controller id="Controller77" type="timingtest.controller.Controller" beans="datasource77">
     		    <message-listener message="needSomething" function="doSomething77" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller78" type="timingtest.controller.Controller">
+	        <controller id="Controller78" type="timingtest.controller.Controller" beans="datasource78">
     		    <message-listener message="needSomething" function="doSomething78" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller79" type="timingtest.controller.Controller">
+	        <controller id="Controller79" type="timingtest.controller.Controller" beans="datasource79">
     		    <message-listener message="needSomething" function="doSomething79" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller80" type="timingtest.controller.Controller">
+	        <controller id="Controller80" type="timingtest.controller.Controller" beans="datasource80">
     		    <message-listener message="needSomething" function="doSomething80" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller81" type="timingtest.controller.Controller">
+	        <controller id="Controller81" type="timingtest.controller.Controller" beans="datasource81">
     		    <message-listener message="needSomething" function="doSomething81" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller82" type="timingtest.controller.Controller">
+	        <controller id="Controller82" type="timingtest.controller.Controller" beans="datasource82">
     		    <message-listener message="needSomething" function="doSomething82" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller83" type="timingtest.controller.Controller">
+	        <controller id="Controller83" type="timingtest.controller.Controller" beans="datasource83">
     		    <message-listener message="needSomething" function="doSomething83" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller84" type="timingtest.controller.Controller">
+	        <controller id="Controller84" type="timingtest.controller.Controller" beans="datasource84">
     		    <message-listener message="needSomething" function="doSomething84" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller85" type="timingtest.controller.Controller">
+	        <controller id="Controller85" type="timingtest.controller.Controller" beans="datasource85">
     		    <message-listener message="needSomething" function="doSomething85" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller86" type="timingtest.controller.Controller">
+	        <controller id="Controller86" type="timingtest.controller.Controller" beans="datasource86">
     		    <message-listener message="needSomething" function="doSomething86" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller87" type="timingtest.controller.Controller">
+	        <controller id="Controller87" type="timingtest.controller.Controller" beans="datasource87">
     		    <message-listener message="needSomething" function="doSomething87" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller88" type="timingtest.controller.Controller">
+	        <controller id="Controller88" type="timingtest.controller.Controller" beans="datasource88">
     		    <message-listener message="needSomething" function="doSomething88" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller89" type="timingtest.controller.Controller">
+	        <controller id="Controller89" type="timingtest.controller.Controller" beans="datasource89">
     		    <message-listener message="needSomething" function="doSomething89" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller90" type="timingtest.controller.Controller">
+	        <controller id="Controller90" type="timingtest.controller.Controller" beans="datasource90">
     		    <message-listener message="needSomething" function="doSomething90" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller91" type="timingtest.controller.Controller">
+	        <controller id="Controller91" type="timingtest.controller.Controller" beans="datasource91">
     		    <message-listener message="needSomething" function="doSomething91" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller92" type="timingtest.controller.Controller">
+	        <controller id="Controller92" type="timingtest.controller.Controller" beans="datasource92">
     		    <message-listener message="needSomething" function="doSomething92" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller93" type="timingtest.controller.Controller">
+	        <controller id="Controller93" type="timingtest.controller.Controller" beans="datasource93">
     		    <message-listener message="needSomething" function="doSomething93" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller94" type="timingtest.controller.Controller">
+	        <controller id="Controller94" type="timingtest.controller.Controller" beans="datasource94">
     		    <message-listener message="needSomething" function="doSomething94" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller95" type="timingtest.controller.Controller">
+	        <controller id="Controller95" type="timingtest.controller.Controller" beans="datasource95">
     		    <message-listener message="needSomething" function="doSomething95" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller96" type="timingtest.controller.Controller">
+	        <controller id="Controller96" type="timingtest.controller.Controller" beans="datasource96">
     		    <message-listener message="needSomething" function="doSomething96" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller97" type="timingtest.controller.Controller">
+	        <controller id="Controller97" type="timingtest.controller.Controller" beans="datasource97">
     		    <message-listener message="needSomething" function="doSomething97" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller98" type="timingtest.controller.Controller">
+	        <controller id="Controller98" type="timingtest.controller.Controller" beans="datasource98">
     		    <message-listener message="needSomething" function="doSomething98" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller99" type="timingtest.controller.Controller">
+	        <controller id="Controller99" type="timingtest.controller.Controller" beans="datasource99">
     		    <message-listener message="needSomething" function="doSomething99" />
-		    </controller>
+		</controller>
 		
-	        <controller id="Controller100" type="timingtest.controller.Controller">
+	        <controller id="Controller100" type="timingtest.controller.Controller" beans="datasource100">
     		    <message-listener message="needSomething" function="doSomething100" />
-		    </controller>
+		</controller>
 		
-		</controllers>
-	</modelglue>
+	</controllers>
+</modelglue>
 	

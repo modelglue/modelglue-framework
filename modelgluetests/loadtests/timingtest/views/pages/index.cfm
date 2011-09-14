@@ -15,6 +15,8 @@
 		<br>
 		<b>#event.getEventHandlerName()#</b><br>
 		Number of 'needSomething' Listener Invocations: #event.getValue('listenCount','0')#<br>
+		Last bean name: #event.getValue('lastBeanName')#<br>
+		Last bean DSN: #event.getValue('lastBeanDSN')#<br>
 		Start time: #request.startTime# <br>
 		End time: #endTime#<br>
 		Total time: #totalTime# ms
