@@ -4,6 +4,7 @@
 	<controller id="modelglue.scaffoldController" type="ModelGlue.gesture.modules.scaffold.controller.ScaffoldController">
 		<message-listener message="modelglue.modulesLoaded" function="appendGeneratedViewMapping" />
 		<message-listener message="modelglue.readyForModuleLoading" function="generateScaffolds" />
+		<message-listener message="modelglue.readyForModuleLoading" function="loadScaffolds" />
 		<message-listener message="modelglue.needCFUniformConfig" function="loadCFUniformConfig" />
 	</controller>
 </controllers>

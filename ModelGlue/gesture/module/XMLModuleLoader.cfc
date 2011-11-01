@@ -819,7 +819,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	<cfreturn allScaffolds />
 </cffunction>
 
-<cffunction name="loadScaffolds" output="false" hint="I load the scaffold tags">
+<cffunction name="generateScaffolds" output="false" hint="I generate the scaffold config XML">
 	<cfargument name="modelglue" />
 	
 	<cfset var scaffoldsXML = getScaffoldBlocks() />
@@ -861,6 +861,10 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	</cfloop>
 	
 	<cfset arguments.modelglue.getScaffoldManager().generate( scaffoldsArray ) />
+</cffunction>
+
+<cffunction name="loadScaffolds" output="false" hint="I load the scaffold tags">
+	<cfargument name="modelglue" />
 	
 	<cfif fileExists( expandPath( arguments.modelglue.getConfigSetting('scaffoldPath') ) ) IS true>
 		<cfset load( arguments.modelglue, expandPath( arguments.modelglue.getConfigSetting('scaffoldPath') ) ) />
