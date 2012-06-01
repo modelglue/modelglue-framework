@@ -344,6 +344,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 	
 	<cfset var NumberOfParsedXMLConfigs = arrayLen( variables.parsedXMLArray ) />
 	<cfset var i = "" />
+
 	
 	<cfloop from="1" to="#NumberOfParsedXMLConfigs#" index="i">
 		<cfif arrayLen( findEventHandlerDefinition(variables.parsedXMLArray[i], arguments.eventHandlerName ) ) GT 0>
@@ -357,8 +358,15 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 <cffunction name="findEventHandlerDefinition" output="false" hint="Loads event-handlers from <event-handlers> block.">
 	<cfargument name="parsedXMLConfig" type="any" required="true"/>
 	<cfargument name="eventHandlerName" type="string" default="" />
-	
-	<cfreturn xmlSearch( arguments.parsedXMLConfig, "/modelglue/event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.eventHandlerName)#']" ) />
+	<cfset var EventHandlerDefinitionFoundArray = ArrayNew(1) />
+		<cftry>
+			<cfset EventHandlerDefinitionFoundArray = xmlSearch( arguments.parsedXMLConfig, "/modelglue/event-handlers/event-handler[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '#lCase(arguments.eventHandlerName)#']" ) />
+			<cfcatch type="expression">
+				<cfset EventHandlerDefinitionFoundArray = ArrayNew(1) />
+			</cfcatch>
+		</cftry>
+
+	<cfreturn EventHandlerDefinitionFoundArray />
 </cffunction>
 
 <cffunction name="listEventHandlers" output="false" hint="Lists event-handlers from <event-handlers> blocks.">
