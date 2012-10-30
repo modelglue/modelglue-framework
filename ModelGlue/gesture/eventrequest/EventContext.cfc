@@ -327,7 +327,7 @@ then this file is a working copy and not part of a release build.
 	<cfloop from="1" to="#arrayLen(arguments.eventHandler.messages)#" index="i">
 		<cfset message = arguments.eventHandler.messages[i] />
 		
-		<cfif len(requestFormat) and (not len(message.format) or message.format is requestFormat)>
+		<cfif len(requestFormat) and (not len(message.format) or ListFindNoCase(message.format, requestFormat) GT 0 )>
 			
 			<cfset variables._currentMessage = message />
 			
@@ -343,37 +343,6 @@ then this file is a working copy and not part of a release build.
 						<cfinvokeargument name="event" value="#this#" />
 					</cfinvoke>
 				</cfloop>
-			<cfelse>
-<!---				Something did not exist
-				<cfdump var="#message#">
-				<cfdump var="#variables._listeners#">
-				<cfdump var="#variables._eventHandlers#">
-				EventContext.cfc
-				<cftry>
-				<cfthrow type="Fuck" message="Fuck" detail="fuck" /> 
-				<cfcatch type="Fuck">
-					<cfdump var="#cfcatch#">
-				</cfcatch>
-				</cftry>
-				<cfabort>
-				--->
-				<!---  
-				At this point I am not sure why this does not exist. It would seem as if the listener doesn't make it over to the Event context.
-				
-				Some things to look into:
-				
-				What can we do about the way we are populating the model glue CFC with the data?
-				What are the various ways we can trigger the loading of something?
-				
-				-EventHandlerName : Loads Messages (which need controllers )
-				-Listener Name (should this already be populated?)
-				
-				
-				Ideas: Unwind the XML config and compartmentalize it so we can query it later
-						Continue on with the path we are taking and try to find a stale reference
-						
-				 --->
-				
 			</cfif>
 		</cfif>
 	</cfloop>
@@ -387,7 +356,7 @@ then this file is a working copy and not part of a release build.
 			<cfloop from="1" to="#arrayLen(arguments.eventHandler.results[results[i]])#" index="j">
 				<cfset result = arguments.eventHandler.results[results[i]][j] />
 				
-				<cfif len(requestFormat) and (not len(result.format) or result.format is requestFormat)>
+				<cfif len(requestFormat) and (not len(result.format) or ListFindNoCase(result.format, requestFormat) GT 0 )>
 					
 					<cfif result.redirect>
 						<cfset this.addTraceStatement("Result", "Explicit result ""#result.name#"" added, redirecting to event event ""#result.event#""", "<result name=""#result.name#"" do=""#result.event#"" redirect=""#true#"" />") /> 
@@ -414,7 +383,7 @@ then this file is a working copy and not part of a release build.
 		<cfloop from="1" to="#arrayLen(results)#" index="i">
 				<cfset result = results[i] />
 				
-				<cfif len(requestFormat) and (not len(result.format) or result.format is requestFormat)>
+				<cfif len(requestFormat) and (not len(result.format) or ListFindNoCase(result.format, requestFormat) GT 0)>
 					
 					<cfif result.redirect>
 						<cfset this.addTraceStatement("Result", "Implicit result redirecting to event ""#result.event#""", "<result do=""#result.event#"" redirect=""true"" />") /> 
@@ -435,10 +404,10 @@ then this file is a working copy and not part of a release build.
 		
 	<!--- Reset results --->
 	<cfset resetResults() />
-	
+
 	<!--- Queue views.  --->
 	<cfloop from="1" to="#arrayLen(arguments.eventHandler.views)#" index="i">
-		<cfif len(requestFormat) and (not len(arguments.eventHandler.views[i].format) or arguments.eventHandler.views[i].format is requestFormat)>
+		<cfif len(requestFormat) and (not len(arguments.eventHandler.views[i].format) or ListFindNoCase(arguments.eventHandler.views[i].format, requestFormat) GT 0 )>
 			<cfset queueView(arguments.eventHandler.views[i]) />
 		</cfif>
 	</cfloop>
