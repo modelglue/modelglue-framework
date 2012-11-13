@@ -101,6 +101,10 @@ then this file is a working copy and not part of a release build.
 			<cfset fullpath = arguments.path />
 			<cfset hasProtocol = true />
 			<cfset assetFound = true />
+			
+		<cfelseif left( arguments.path, 1 ) EQ "/">
+			<cfset fullpath = arguments.path />
+			<cfset assetFound = true />
 
 		<!--- loop over mappings to try and find the asset --->
 		<cfelse>
