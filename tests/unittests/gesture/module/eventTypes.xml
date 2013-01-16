@@ -1,7 +1,7 @@
 <modelglue>
 	
 <controllers>
-	<controller id="controller" type="modelgluetests.unittests.gesture.module.Controller">
+	<controller id="controller" type="ModelGlue.tests.unittests.gesture.module.Controller">
 		<message-listener message="messageName" function="listener" />
 	</controller>
 </controllers>

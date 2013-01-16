@@ -29,11 +29,11 @@ then this file is a working copy and not part of a release build.
 <cfcomponent extends="mxunit.framework.TestCase" hint="Tests the various ModelGlue.cfm templates.">
 
 <cffunction name="testGestureModelGlueTemplate" returntype="void" access="public">
-	<cfset var expectedMgXmlPath = "/modelgluetests/unittests/gesture/ModelGlue.xml" />
-	<cfset var expectedCsXmlPath = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
-	<cfset var ModelGlue_CORE_COLDSPRING_PATH = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
-	<cfset var ModelGlue_LOCAL_COLDSPRING_PATH = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
-	<cfset var ModelGlue_CONFIG_PATH = "/modelgluetests/unittests/gesture/ModelGlue.xml" />
+	<cfset var expectedMgXmlPath = "/ModelGlue/tests/unittests/gesture/ModelGlue.xml" />
+	<cfset var expectedCsXmlPath = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml" />
+	<cfset var ModelGlue_CORE_COLDSPRING_PATH = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml" />
+	<cfset var ModelGlue_LOCAL_COLDSPRING_PATH = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml" />
+	<cfset var ModelGlue_CONFIG_PATH = "/ModelGlue/tests/unittests/gesture/ModelGlue.xml" />
 	<cfset structDelete(application, "_modelglue") />
 	
  	<cftry>

@@ -26,7 +26,7 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 <!--- 
 
 	Note: These tests are really complex. If you want to try and be more performant, use the method createModelGlueIfNotDefined( this.coldSpringPath)
@@ -38,7 +38,7 @@ then this file is a working copy and not part of a release build.
 	 
  --->
 
-<!--- <cfset this.coldspringPath = "/modelgluetests/unittests/gesture/module/ColdSpringWithMemoizedXMLModuleLoader.xml"> --->
+<!--- <cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/module/ColdSpringWithMemoizedXMLModuleLoader.xml"> --->
 
 <cffunction name="testLoading" returntype="void" access="public">
 	<cfset var mg = createModelGlue(this.coldspringPath) />
@@ -46,10 +46,10 @@ then this file is a working copy and not part of a release build.
 	<cfset var ctrl = "" />	
 	<cfset var obj  = "" />
 	<cfset var controllerVars = "" />
-	<cfset mg.getInternalBeanFactory().loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset mg.getInternalBeanFactory().loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	<cfset mg.getInternalBeanFactory().loadBeans(expandPath( this.coldSpringPath )) />
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/IncludePlusModulePlusSimpleXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/IncludePlusModulePlusSimpleXmlModule.xml") />
 	<cfset assertTrue( arrayLen( mg.getModuleLoaderArray() ) IS 1, "The XML Config Didn't return what we wanted [#arrayLen( mg.getModuleLoaderArray() )#]") />
 	<!--- Test controller loading --->
 	<cfset ctrl = mg.getController("controller") />
@@ -57,7 +57,7 @@ then this file is a working copy and not part of a release build.
 	<cfset obj = mg.getEventListeners("messageName") />
 	<cfset assertTrue(arrayLen(obj) eq 1, "Incorrect number of listeners found (should be 1, was #arrayLen(obj)#)") />
 	<cfset obj = obj[1] />
-	<cfset assertTrue(GetMetadata(obj.target).name eq "modelgluetests.unittests.gesture.module.Controller", "Controller not of right type") />
+	<cfset assertTrue(GetMetadata(obj.target).name eq "ModelGlue.tests.unittests.gesture.module.Controller", "Controller not of right type") />
 	<cfset assertTrue(obj.listenerFunction eq "listener", "listener function not right name") />
 	
 	<!--- Test controller bean injection / autowiring --->
@@ -110,10 +110,10 @@ then this file is a working copy and not part of a release build.
 	<cfset var ctrl = "" />
 		
 	<cfset beanFactory = mg.getInternalBeanFactory() />	
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/includeStyleMasterXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/includeStyleMasterXmlModule.xml") />
 	
 	<cfset ctrl = mg.getController("controller") />
 	<cfset assertTrue(mg.hasEventListener("messageName"), "No listeners for messageName found") />
@@ -129,11 +129,11 @@ then this file is a working copy and not part of a release build.
 	<cfset var ctrl = "" />
 	
 	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/masterXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/masterXmlModule.xml") />
 	
 	<cfset ctrl = mg.getController("controller") />
 	<cfset assertTrue(mg.hasEventListener("messageName"), "No listeners for messageName found") />
@@ -149,7 +149,7 @@ then this file is a working copy and not part of a release build.
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/recursiveXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/recursiveXmlModule.xml") />
 	
 	<!--- Not going into an infinite loop = passing. --->	
 </cffunction>
@@ -161,11 +161,11 @@ then this file is a working copy and not part of a release build.
 	<cfset var beanFactory = "" />
 	
 	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/simpleXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/simpleXmlModule.xml") />
 
 	<cfset assertTrue(mg.getConfigSetting("arbitrarySetting") eq "arbitrarySettingValue", "arbitrary setting not set") />
 </cffunction>
@@ -179,14 +179,14 @@ then this file is a working copy and not part of a release build.
 	<cfset var viewMappings = 0 />
 	
 	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 
 	<cfset viewMappings = mg.getConfigSetting("viewMappings") />
 	<cfset ArrayAppend(viewMappings, "initialViewMapping") />
 	<cfset mg.setConfigSetting("viewMappings", viewMappings) />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/simpleXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/simpleXmlModule.xml") />
 	<cfset assertTrue( arrayToList( mg.getConfigSetting("viewMappings") ) eq "initialViewMapping,viewMappingsValue", "viewMappingsValue not appended (was: '#arrayToList( mg.getConfigSetting("viewMappings") )#')") />
 	
 	<cfset viewRenderer = mg.getInternalBean("modelglue.viewRenderer") />
@@ -202,13 +202,13 @@ then this file is a working copy and not part of a release build.
 	<cfset var viewMappings = arrayNew(1) />
 	<cfset arrayAppend( viewMappings, "initialViewMapping" ) />
 	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
 	<cfset mg.setConfigSetting("viewMappings", viewMappings) />
 	
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/simpleXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/simpleXmlModule.xml") />
 	
 	<cfset obj = mg.getBean("mapCollection") />
 
@@ -223,7 +223,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var beanFactory = "" />
 	
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/extensibleXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/extensibleXmlModule.xml") />
 	
 	<cfset obj = mg.getEventHandler("eventHandlerWithExtensibleNotSet") />
 	<cfset assertTrue( obj.extensible IS false, "Extensible setting did not default to false") />
@@ -246,7 +246,7 @@ then this file is a working copy and not part of a release build.
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
 	
 	<cfset assertTrue( mg.getConfigSetting("helperMappings") IS "/I/Am/A/HelperMapping", "No initial helper mapping found, this is a config problem probably" ) />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/module/viewMappingInSettingsXmlModule.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/module/viewMappingInSettingsXmlModule.xml") />
 	<cfset assertTrue( mg.getConfigSetting("helperMappings") IS "/I/Am/A/HelperMapping,/I/Am/A/Helper/Mapping,/So/Am/I", "Helper mappings from config block not added correctly We got ""#mg.getConfigSetting("helperMappings")#"" ")>
 	<!--- If we don't throw error, we made it. --->
 </cffunction>

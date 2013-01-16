@@ -26,7 +26,7 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent  extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+<cfcomponent  extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 	<!--- Created by John Mason, mason@fusionlink.com--->
 	<!--- Date: Jul 24, 2009--->
 	<!---Uses the 'buster' test dummy app to unit test the remoting services--->

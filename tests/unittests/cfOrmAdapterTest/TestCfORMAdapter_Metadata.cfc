@@ -26,7 +26,7 @@ then this file is a working copy and not part of a release build.
 */
 
 
-component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
+component extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase" {
 	
 	function setup() {
 		servicePath = "ModelGlue.gesture.modules.orm.cform.cfORMService";

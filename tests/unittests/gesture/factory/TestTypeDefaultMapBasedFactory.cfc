@@ -32,9 +32,9 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="testCreateByTypeName" returntype="void" access="public">
 	<cfset var fac = createObject("component", "ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory").init() />
-	<cfset var inst = fac.create("modelgluetests.unittests.gesture.factory.ImplOne") />
+	<cfset var inst = fac.create("ModelGlue.tests.unittests.gesture.factory.ImplOne") />
 
-	<cfset assertTrue(getMetadata(inst).name eq "modelgluetests.unittests.gesture.factory.ImplOne", "correct type not instantiated") />	
+	<cfset assertTrue(getMetadata(inst).name eq "ModelGlue.tests.unittests.gesture.factory.ImplOne", "correct type not instantiated") />
 </cffunction>
 
 <cffunction name="testCreateByAlias" returntype="void" access="public">
@@ -43,22 +43,22 @@ then this file is a working copy and not part of a release build.
 	<cfset var inst1 = ""/>
 	<cfset var inst2 = ""/>
 
-	<cfset map.implOne = {class="modelgluetests.unittests.gesture.factory.ImplOne"} />
-	<cfset map.implTwo = {class="modelgluetests.unittests.gesture.factory.ImplTwo"} />
+	<cfset map.implOne = {class="ModelGlue.tests.unittests.gesture.factory.ImplOne"} />
+	<cfset map.implTwo = {class="ModelGlue.tests.unittests.gesture.factory.ImplTwo"} />
 	
 	<cfset fac.init(map) />
 	
 	<cfset inst1 = fac.create("implOne") />
 	<cfset inst2 = fac.create("implTwo") />
 	
-	<cfset assertTrue(getMetadata(inst1).name eq "modelgluetests.unittests.gesture.factory.ImplOne", "correct type not instantiated") />	
-	<cfset assertTrue(getMetadata(inst2).name eq "modelgluetests.unittests.gesture.factory.ImplTwo", "correct type not instantiated") />	
+	<cfset assertTrue(getMetadata(inst1).name eq "ModelGlue.tests.unittests.gesture.factory.ImplOne", "correct type not instantiated") />
+	<cfset assertTrue(getMetadata(inst2).name eq "ModelGlue.tests.unittests.gesture.factory.ImplTwo", "correct type not instantiated") />
 </cffunction>
 
 <cffunction name="testSingleton" returntype="void" access="public">
 	<cfset var fac = createObject("component", "ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory").init() />
-	<cfset var inst1 = fac.create("modelgluetests.unittests.gesture.factory.ImplOne") />
-	<cfset var inst2 = fac.create("modelgluetests.unittests.gesture.factory.ImplOne") />
+	<cfset var inst1 = fac.create("ModelGlue.tests.unittests.gesture.factory.ImplOne") />
+	<cfset var inst2 = fac.create("ModelGlue.tests.unittests.gesture.factory.ImplOne") />
 
 	<cfset assertTrue(System.identityHashCode(inst1) eq System.identityHashCode(inst2), "Two refs should be same instance!") />	
 </cffunction>
@@ -72,7 +72,7 @@ then this file is a working copy and not part of a release build.
 	
 	<cfset fac.init(constructorArgs=args) />
 	
-	<cfset inst = fac.create("modelgluetests.unittests.gesture.factory.ImplOne") />
+	<cfset inst = fac.create("ModelGlue.tests.unittests.gesture.factory.ImplOne") />
 
 	<cfset assertTrue(inst.arg eq "argValue", "constructor arg not set!") />	
 </cffunction>

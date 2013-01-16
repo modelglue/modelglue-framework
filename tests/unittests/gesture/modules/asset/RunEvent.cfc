@@ -29,7 +29,7 @@ then this file is a working copy and not part of a release build.
 ﻿<cfcomponent>
 
 	<cffunction name="handleEvent" access="remote">
-		<cfset var cspath = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
+		<cfset var cspath = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml" />
 		<cfset var bootstrapper = createObject("component", "ModelGlue.gesture.loading.ColdSpringBootstrapper")>
 		<cfset var loader = "" />
 		<cfset var obj = "" />
@@ -46,13 +46,13 @@ then this file is a working copy and not part of a release build.
 		
 		<cfset mg = bootstrapper.createModelGlue() />
 		<cfset request._modelglue.bootstrap.framework = mg />
-		<cfset arrayAppend(mg.configuration.assetmappings, "/modelgluetests/unittests/gesture/modules/asset") />
-		<cfset arrayAppend(mg.configuration.viewmappings, "/modelgluetests/unittests/gesture/modules/asset") />
+		<cfset arrayAppend(mg.configuration.assetmappings, "/ModelGlue/tests/unittests/gesture/modules/asset") />
+		<cfset arrayAppend(mg.configuration.viewmappings, "/ModelGlue/tests/unittests/gesture/modules/asset") />
 		<cfset beanFactory = mg.getInternalBeanFactory() />
-		<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
-		<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/modules/asset/CS_AssetManagerBeans.xml")) />
+		<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+		<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/modules/asset/CS_AssetManagerBeans.xml")) />
 		<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-		<cfset loader.load(mg, "/modelgluetests/unittests/gesture/modules/asset/EventWithAsset.xml") />		
+		<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/modules/asset/EventWithAsset.xml") />
 
 		<cfset ec = mg.handleRequest() />
 		

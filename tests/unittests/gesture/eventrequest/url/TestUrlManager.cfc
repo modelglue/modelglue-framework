@@ -26,9 +26,9 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 	
-	<cfset this.coldspringPath = "/modelgluetests/unittests/gesture/eventrequest/url/ColdSpring.xml">
+	<cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/eventrequest/url/ColdSpring.xml">
 	
 	<cffunction name="setUp" output="false" access="public" returntype="any" hint="">
 		<cfset createModelGlueIfNotDefined(this.coldspringPath) />
