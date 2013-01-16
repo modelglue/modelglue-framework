@@ -1,5 +1,0 @@
-<beans>
-	<bean id="injector" class="ModelGlue.gesture.externaladapters.beaninjection.ColdSpringBeanInjector" />
-	<bean id="bean" class="modelgluetests.unittests.gesture.externaladapters.beaninjection.Bean" />
-	<bean id="bean2" class="modelgluetests.unittests.gesture.externaladapters.beaninjection.Bean2" />
-</beans>

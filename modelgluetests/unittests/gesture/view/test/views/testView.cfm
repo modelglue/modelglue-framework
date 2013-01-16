@@ -1,1 +1,0 @@
-<cfoutput>#event.getValue("viewContents")#</cfoutput>

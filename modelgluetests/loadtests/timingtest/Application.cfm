@@ -1,1 +1,0 @@
-<cfsilent><cfapplication name="MGTimingTest" sessionmanagement="true"/></cfsilent>

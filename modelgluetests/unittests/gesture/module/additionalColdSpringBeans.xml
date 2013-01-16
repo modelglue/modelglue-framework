@@ -1,5 +1,0 @@
-<beans>
-
-<bean id="mapCollection" class="ModelGlue.gesture.collections.MapCollection" />
-
-</beans>
