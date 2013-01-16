@@ -1,0 +1,23 @@
+<modelglue>
+
+<controllers>
+	<controller	type="ModelGlue.gesture.modules.internal.population.controller.PopulationController">
+		<message-listener message="modelglue.contextPopulationNeeded" function="loadPreservedState" />	
+		<message-listener message="modelglue.contextPopulationNeeded" function="populateEventContext" />	
+	</controller>
+</controllers>
+
+<event-handlers>
+	<event-handler name="modelglue.onEventContextCreation">
+		<broadcasts>
+			<message name="modelglue.contextPopulationNeeded" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onEventContextPopulation">
+		<broadcasts>
+			<message name="modelglue.onEventContextPopulation" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+
+</modelglue>

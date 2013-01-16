@@ -1,4 +1,4 @@
-﻿<cfoutput>
+<cfoutput>
 	<cfsaveContent variable="controllers"><?xml version="1.0" encoding="UTF-8"?>
 	<modelglue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	    xsi:noNamespaceSchemaLocation="http://www.model-glue.com/schema/gesture/ModelGlue-loose.xsd" >

@@ -1,0 +1,61 @@
+<modelglue>
+
+<controllers>
+	<controller id="modelglueinternal.initializationController"
+				type="ModelGlue.gesture.modules.internal.initialization.controller.InitializationController"
+				beans="modelglue.HelperInjector"
+	>
+		<message-listener message="modelglue.loadFrameworkIntoScope" function="loadFrameworkIntoScope" />	
+		<message-listener message="onApplicationStart" function="loadHelpers" />	
+	</controller>
+</controllers>
+
+<event-handlers>
+	<event-handler name="modelglue.onApplicationInitialization">
+		<broadcasts>
+			<message name="modelglue.loadFrameworkIntoScope" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onApplicationStoredInScope">
+		<broadcasts>
+			<message name="modelglue.onApplicationStoredInScope" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onApplicationStart">
+		<broadcasts>
+			<message name="onApplicationStart" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onSessionStartPreRequest">
+		<broadcasts>
+			<message name="onSessionStartPreRequest" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onSessionStart">
+		<broadcasts>
+			<message name="onSessionStart" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onSessionEnd">
+		<broadcasts>
+			<message name="onSessionEnd" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onRequestStart" extensible="true">
+		<broadcasts>
+			<message name="onRequestStart" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onRequestEnd" extensible="true">
+		<broadcasts>
+			<message name="onRequestEnd" />
+		</broadcasts>
+	</event-handler>
+	<event-handler name="modelglue.onQueueComplete" extensible="true">
+		<broadcasts>
+			<message name="onQueueComplete" />
+		</broadcasts>
+	</event-handler>
+</event-handlers>
+
+</modelglue>
