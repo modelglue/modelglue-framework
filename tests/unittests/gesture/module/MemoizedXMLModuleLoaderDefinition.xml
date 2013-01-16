@@ -1,0 +1,14 @@
+<beans>
+
+<bean id="modelglue.ModuleLoaderFactory" class="ModelGlue.gesture.factory.TypeDefaultingMapBasedFactory">
+	<constructor-arg name="modelGlueConfiguration"><ref bean="modelglue.modelGlueConfiguration" /></constructor-arg>
+	<constructor-arg name="registeredClasses">
+		<map>
+			<entry key="XML">
+				<map><entry key="class"><value>ModelGlue.gesture.module.MemoizedXMLModuleLoader</value></entry></map>
+			</entry>
+		</map>
+	</constructor-arg>
+</bean>
+	
+</beans> 

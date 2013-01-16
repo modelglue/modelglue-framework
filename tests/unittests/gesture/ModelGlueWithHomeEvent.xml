@@ -1,0 +1,9 @@
+<modelglue>
+	<event-handlers>
+		<event-handler name="home">
+			<views>
+				<include name="viewName" template="templateName" cache="true" />
+			</views>
+		</event-handler>
+	</event-handlers>
+</modelglue>

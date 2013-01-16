@@ -1,0 +1,15 @@
+body, td  {
+	font-family: "Trebuchet MS", verdana, arial, sans-serif; 
+	font-size:14px;
+}
+
+#banner {
+	font-size:30px;
+}
+
+#footer {
+	font-size:10pt;
+	color:#999;	
+	text-align:center;
+	clear:both;
+}

@@ -1,0 +1,35 @@
+<beans>
+
+
+<bean id="assetManager.withoutHosts" class="modelgluetests.unittests.gesture.modules.asset.AssetManagerWrapper">
+	<constructor-arg name="AssetHosts">
+		<list></list>
+	</constructor-arg>
+	<constructor-arg name="AssetHostsSSL">
+		<list></list>
+	</constructor-arg>
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+
+<bean id="assetManager.withHosts" class="modelgluetests.unittests.gesture.modules.asset.AssetManagerWrapper">
+	<constructor-arg name="AssetHosts">
+		<list>
+			<value>http://a.domain.com</value>
+			<value>http://b.domain.com</value>
+		</list>
+	</constructor-arg>
+	<constructor-arg name="AssetHostsSSL">
+		<list>
+			<value>https://c.domain.com</value>
+			<value>https://d.domain.com</value>
+		</list>
+	</constructor-arg>
+	<property name="modelGlue">
+		<ref bean="modelglue.ModelGlue" />
+	</property>
+</bean>
+
+	
+</beans> 
