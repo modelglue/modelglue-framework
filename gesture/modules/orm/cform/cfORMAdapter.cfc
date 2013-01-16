@@ -204,7 +204,7 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 	
 	private struct function generateObjectMetadata(required string entityName) {
 		var md = {};
-		var entity = EntityNew(ListGetAt( arguments.entityName, ListLen( arguments.entityName, "."), "."));
+		var entity = EntityNew(ListLast( arguments.entityName, "."));
 		var omd = getMetadata(entity);
 		md.ormName = variables._ormName;
 		md.alias = arguments.entityName;
@@ -318,6 +318,9 @@ component extends="ModelGlue.unity.orm.AbstractORMAdapter" hint="I am a concrete
 			}
 			if (StructKeyExists(p,"fieldtype") and ListFindNoCase("one-to-many,many-to-many",p.fieldtype)) {
 				prop.pluralrelationship = true;
+				if( structKeyExists( p, "type") IS false){
+					throw("ORM.Entity.Does.Not.Have.Type", "You need to define a type attribute for the relationship " & p.cfc 	)
+				}
 				prop._collectionType = p.type;
 				if (p.type eq "struct") {
 					prop._structKeyColumn = p.structKeyColumn;

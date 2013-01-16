@@ -37,13 +37,8 @@ component output="false" hint="I am the ColdFusion ORM service." {
 			obj = entityLoad(ListLast(arguments.entityName,"."),arguments.pkStruct,true);
 	    }
 	    catch (any e){
-			var md = getComponentMetadata(arguments.entityName);
-			if (structKeyExists(md,"entityName")) {
-				obj = entityLoad(md.entityName,arguments.pkStruct,true);
-			} else {
 				throw (type="ModelGlue.gesture.orm.cform.cformService.entityNameNotFound",message="You tried to read an entity with an entity of type #arguments.entityName#, but that is not a valid entityName or the component that it points to does not have an entityName attribute.");
 			}
-	    }
 		if (isNull(obj)) {
 			throw (type="ModelGlue.gesture.orm.cform.cformService.entityNotFound",message="An entity of type #arguments.entityName# could not be found with the specified criteria");
 		}
@@ -60,10 +55,29 @@ component output="false" hint="I am the ColdFusion ORM service." {
 	}
 	
 	any function list(required string entityName, struct filterCriteria=StructNew(), string sortOrder="", string returnType="query") {
-		var list = EntityLoad(arguments.entityName,arguments.filterCriteria,arguments.sortOrder);
+		var specificCriteria = {};
+		var EntityModel = EntityNew(entityName);
+		var x = "";
+		for( x IN arguments.filterCriteria){
+			if( EntityModel.hasSimpleProperty(x)  ){
+				specificCriteria[x] = arguments.filterCriteria[x];
+			}
+		}
+
+		try {
+			var list = EntityLoad(arguments.entityName,specificCriteria,arguments.sortOrder);
 		if (arguments.returnType eq "query") {
 			list = EntitytoQuery(list);
 		} 
+	    }
+	    catch (any e){
+			writeDump( e );
+			writeDump( specificCriteria );
+			writeDump(EntityLoad(arguments.entityname));
+			writeDump( arguments );
+			abort;
+	    }
+
 		return list;
 	}
 	

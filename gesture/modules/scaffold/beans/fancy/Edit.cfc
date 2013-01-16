@@ -44,13 +44,12 @@ then this file is a working copy and not part of a release build.
 	<cfset var thisProp = "" />
 	<cfset var knownRelationships = "" />
 	<cfset var xml = "" />
-	
 	<cfloop collection="#arguments.properties#" item="thisProp">
 		<cfif arguments.properties[thisProp].relationship IS true AND listfind( knownRelationships, thisProp ) IS false>
 			<cfset relationshipMessages = '#relationshipMessages#
 				<message name="ModelGlue.genericList">
-					<argument name="object" value="#arguments.properties[thisProp].sourceObject#" />
-					<argument name="queryName" value="#arguments.properties[thisProp].sourceObject#List" />
+					<argument name="object" value="#arguments.properties[thisProp].name#" />
+					<argument name="queryName" value="#arguments.properties[thisProp].name#List" />
 					<argument name="criteria" value="" />
 				</message>'>
 		<cfset knownRelationships = listAppend(knownRelationships, thisProp) />
