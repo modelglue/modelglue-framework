@@ -311,10 +311,11 @@ then this file is a working copy and not part of a release build.
 	<cfset var j = "" />
 	<cfset var requestFormat = getValue("requestFormat", variables._modelGlue.getConfigSetting("requestFormatValue")) />
 	<cfset var cacheKey = "" />
+	<cfset var thisListenerTarget = "" />
 	<!--- Straight Hacking this now because these get out of sync when the runtime changes --->
 	<cfset structAppend(  variables._listeners, variables._modelGlue.messageListeners ) />
 	<cfset structAppend( variables._eventHandlers, variables._modelGlue.eventHandlers) />
-	
+
 <!---	<cfset variables._listeners = variables._modelGlue.messageListeners />
 	<cfset variables._eventHandlers = variables._modelGlue.eventHandlers />
 --->	<!--- End Hack --->
@@ -332,14 +333,14 @@ then this file is a working copy and not part of a release build.
 			<cfset variables._currentMessage = message />
 			
 			<cfset this.addTraceStatement("Message Broadcast", "Broadcasting ""#message.name#""", "<message name=""#message.name#"">") /> 
-			
+
 			<cfif structKeyExists(variables._listeners, message.name)>
 				<cfloop from="1" to="#arrayLen(variables._listeners[message.name])#" index="j">
-					<cfset this.addTraceStatement("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(variables._listeners[message.name][j].target).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") /> 
-					<!---
-					<cfset variables._listeners[message.name][j].invokeListener(this) />
-					--->
-					<cfinvoke component="#variables._listeners[message.name][j].target#" method="#variables._listeners[message.name][j].listenerFunction#">
+
+					<cfset thisListenerTarget = variables._modelGlue.controllers[ variables._listeners[message.name][j].target ] />
+					<cfset this.addTraceStatement("Message Listener", "Invoking #variables._listeners[message.name][j].listenerFunction# in #getMetadata(thisListenerTarget).name#", "<message-listener message=""#message.name#"" function=""#variables._listeners[message.name][j].listenerFunction#"" />") />
+
+					<cfinvoke component="#thisListenerTarget#" method="#variables._listeners[message.name][j].listenerFunction#">
 						<cfinvokeargument name="event" value="#this#" />
 					</cfinvoke>
 				</cfloop>

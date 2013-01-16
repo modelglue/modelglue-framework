@@ -321,7 +321,7 @@ then this file is a working copy and not part of a release build.
 <!--- EVENT LISTENER MANAGEMENT --->
 <cffunction name="addEventListener" output="false" returntype="ModelGlue.gesture.ModelGlue" hint="Adds a component and a function in that component (by name, so it need not be defined at time of add) to be fired in response to a message name.">
 	<cfargument name="messageName" type="string" required="true" hint="The message name to listen for." />
-	<cfargument name="listenerInstance" type="any" required="true" hint="The component that wishes to act as a listener." />
+	<cfargument name="ControllerID" type="any" required="true" hint="The componentID that wishes to act as a listener." />
 	<cfargument name="listenerFunctionName" type="string" required="true" hint="The name of the listener function to fire.  A warning (but not an exception) will be added to the EventRequest if it's not defined at time of invocation." />
 	
 	<cfset var listener = createObject("component", "ModelGlue.gesture.eventhandler.MessageListener") />
@@ -331,13 +331,13 @@ then this file is a working copy and not part of a release build.
 		<cfset this.messageListeners[arguments.messageName] = arrayNew(1) />
 	</cfif>
 	
-	<cfset listener.target = arguments.listenerInstance />
+	<cfset listener.target = arguments.ControllerID />
 	<cfset listener.listenerFunction = arguments.listenerFunctionName />
 	
 	<!--- Check for the existence of a message-listener function of the same name in the same target controller, and return out if found --->
 	<cfloop from="1" to="#arrayLen(this.messageListeners[arguments.messageName])#" index="listenerIndex">
 		<cfif listener.listenerFunction is this.messageListeners[arguments.messageName][listenerIndex].listenerFunction
-			and getMetadata(listener.target).name is getMetadata(this.messageListeners[arguments.messageName][listenerIndex].target).name>
+			AND hasController(listener.target) AND getMetadata(getController(listener.target)).name is getMetadata(getController(this.messageListeners[arguments.messageName][listenerIndex].target) ).name>
 			<cfreturn this />
 		</cfif>
 	</cfloop>
@@ -363,9 +363,8 @@ then this file is a working copy and not part of a release build.
 <cffunction name="addController" output="false" returntype="void" hint="Registers a controller with the framework.">
 	<cfargument name="controllerId" type="string" hint="Unique ID.  Will replace existing controller in the controller registry, but _not_ existing event listeners!">
 	<cfargument name="controllerInstance" type="any" />
-	
+
 	<cfset this.controllers[arguments.controllerId] = arguments.controllerInstance />
-	
 	<!--- Add the "helpers" scope. --->
 	<cfif not structKeyExists(arguments.controllerInstance, "helpers")>
 		<cfset arguments.controllerInstance.setHelpers(this.helpers) />
@@ -374,8 +373,12 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="getController" output="false" returntype="any" hint="Gets a controller by id.">
 	<cfargument name="controllerId" type="string" />
-	
 	<cfreturn this.controllers[arguments.controllerId] />
+</cffunction>
+
+<cffunction name="hasController" output="false" returntype="boolean" hint="I look for a specific controller in the Model Glue scope">
+	<cfargument name="controllerID" type="string" required="true"/>
+	<cfreturn structKeyExists( this.controllers, arguments.controllerID ) />
 </cffunction>
 
 <!--- EVENT HANDLER MANAGEMENT --->
