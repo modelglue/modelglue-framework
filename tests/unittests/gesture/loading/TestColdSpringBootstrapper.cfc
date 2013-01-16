@@ -26,9 +26,9 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 		
-	<cfset this.coldspringPath = "/modelgluetests/unittests/gesture/loading/ColdSpring.xml">
+	<cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/loading/ColdSpring.xml">
 
 	<cffunction name="setUp">
 		<cfset createModelGlueIfNotDefined() />	
@@ -44,7 +44,7 @@ then this file is a working copy and not part of a release build.
 		<cfset var bf = "" />
 		<cfset var bean = "" />
 		
-		<cfset parentBeanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/loading/ParentBeans.xml")) />
+		<cfset parentBeanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/loading/ParentBeans.xml")) />
 		<cfset boot.parentBeanFactory = parentBeanFactory />
 		
 		<cfset bf = boot.createBeanFactory() />

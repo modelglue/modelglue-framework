@@ -2,13 +2,13 @@
 
 <config>
 
-	<setting name="viewMappings" value="/modelgluetests/unittests/gesture/eventrequest/format" />
+	<setting name="viewMappings" value="/ModelGlue/tests/unittests/gesture/eventrequest/format" />
 
 </config>
 
 <controllers>
 
-	<controller id="FormatController" type="modelgluetests.unittests.gesture.eventrequest.format.FormatController">
+	<controller id="FormatController" type="ModelGlue.tests.unittests.gesture.eventrequest.format.FormatController">
 		<message-listener message="addNamedResult" />
 		<message-listener message="addFormatNamedResult" />
 		<message-listener message="message" />

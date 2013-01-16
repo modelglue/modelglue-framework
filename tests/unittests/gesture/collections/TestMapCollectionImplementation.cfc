@@ -26,7 +26,7 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 
 <cffunction name="createMapCollectionNoInit" access="private" hint="Creates a basic MapCollection to test without running init().">
 	<cfreturn createObject("component", "ModelGlue.gesture.collections.MapCollection") />

@@ -13,7 +13,7 @@
 		<value>true</value>
 	</property>
 	<property name="primaryModule">
-		<value>/modelgluetests/unittests/gesture/primaryModule.xml</value>
+		<value>/ModelGlue/tests/unittests/gesture/primaryModule.xml</value>
 	</property>
 	<property name="defaultTemplate">
 		<value>defaultTemplateValue</value>

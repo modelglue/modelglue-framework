@@ -1,7 +1,7 @@
 <beans>
 
 
-<bean id="assetManager.withoutHosts" class="modelgluetests.unittests.gesture.modules.asset.AssetManagerWrapper">
+<bean id="assetManager.withoutHosts" class="ModelGlue.tests.unittests.gesture.modules.asset.AssetManagerWrapper">
 	<constructor-arg name="AssetHosts">
 		<list></list>
 	</constructor-arg>
@@ -13,7 +13,7 @@
 	</property>
 </bean>
 
-<bean id="assetManager.withHosts" class="modelgluetests.unittests.gesture.modules.asset.AssetManagerWrapper">
+<bean id="assetManager.withHosts" class="ModelGlue.tests.unittests.gesture.modules.asset.AssetManagerWrapper">
 	<constructor-arg name="AssetHosts">
 		<list>
 			<value>http://a.domain.com</value>

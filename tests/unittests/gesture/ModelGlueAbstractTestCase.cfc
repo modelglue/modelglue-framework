@@ -28,7 +28,7 @@ then this file is a working copy and not part of a release build.
 
 <cfcomponent extends="mxunit.framework.TestCase">
 
-	<cfset this.coldspringPath = "/modelgluetests/unittests/gesture/ColdSpring.xml" />
+	<cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml" />
 	<cfset variables.mg = "">
 
 	<cffunction name="setUp" returntype="void" access="public" hint="put things here that you want to run before each test">

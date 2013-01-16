@@ -47,7 +47,7 @@ then this file is a working copy and not part of a release build.
 	recurse="true" 
 	excludes="#excludes#"
 	returnvariable="Results"
-	componentpath="modelgluetests.unittests.gesture"><!---  <-- Fill this in! This is the root component path for your tests. if your tests are at {webroot}/app1/test, then your componentpath will be app1.test   --->
+	componentpath="ModelGlue.tests.unittests.gesture"><!---  <-- Fill this in! This is the root component path for your tests. if your tests are at {webroot}/app1/test, then your componentpath will be app1.test   --->
 
 <cfsetting showdebugoutput="true">
 

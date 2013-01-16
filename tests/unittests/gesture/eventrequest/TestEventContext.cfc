@@ -26,13 +26,13 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.collections.TestMapCollectionImplementation">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.collections.TestMapCollectionImplementation">
 
-<cfset this.coldspringPath = "/modelgluetests/unittests/gesture/eventrequest/ColdSpring.xml">
+<cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/eventrequest/ColdSpring.xml">
 
 <cffunction name="setUp" output="false" access="public" returntype="any" hint="">
 	<cfset request._modelglue.bootstrap.initializationRequest = false />
-    <cfset request._modelglue.bootstrap.initializationLockPrefix = "/modelgluetests/unittests/gesture/.modelglue" />
+    <cfset request._modelglue.bootstrap.initializationLockPrefix = "/ModelGlue/tests/unittests/gesture/.modelglue" />
     <cfset request._modelglue.bootstrap.initializationLockTimeout = 10 />
 	<cfset createModelGlueIfNotDefined(this.coldspringPath) />
 </cffunction>
@@ -58,7 +58,7 @@ then this file is a working copy and not part of a release build.
 
 	<cfset vr = createObject("component", "ModelGlue.gesture.view.ViewRenderer").init() />
 	<cfset vr.setModelGlue( mg ) />
-	<cfset vr.addViewMapping("/modelgluetests/unittests/gesture/view/test/views") />
+	<cfset vr.addViewMapping("/ModelGlue/tests/unittests/gesture/view/test/views") />
 
 		<!--- Simulating a bootstrapping request --->
 	<cfset request._modelglue.bootstrap.initializationRequest = true />
@@ -518,7 +518,7 @@ then this file is a working copy and not part of a release build.
 <cffunction name="testForwardToUrl" access="public" returntype="void">
 	<cfset var cfhttp = "" />
 	<cfset var msg = createUUID() />
-	<cfset var path = "http://#cgi.server_name#:#cgi.server_port#/modelgluetests/unittests/gesture/eventrequest/" />
+	<cfset var path = "http://#cgi.server_name#:#cgi.server_port#/ModelGlue/tests/unittests/gesture/eventrequest/" />
 	<cfset var urlpathdestination = "#path#/ForwardToUrlDestination.cfm?msg=#msg#" />
 
 	<cfhttp url="#path#ForwardToUrlEndpoint.cfm?url=#urlEncodedFormat(urlpathdestination)#"  />
@@ -588,7 +588,7 @@ then this file is a working copy and not part of a release build.
 <!--- BEAN POPULATION TEST --->
 <cffunction name="testMakeEventBeanAllFields" access="public" returntype="void">
 	<cfset var ec = createEventContext() />
-	<cfset var bean = createObject("component", "modelgluetests.unittests.gesture.externaladapters.beanpopulation.Bean").init() />
+	<cfset var bean = createObject("component", "ModelGlue.tests.unittests.gesture.externaladapters.beanpopulation.Bean").init() />
 
 	<cfset ec.setValue("implicitProp", "implicitPropValue") />
 	<cfset ec.setValue("explicitProp", "explicitPropValue") />
@@ -601,7 +601,7 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="testMakeEventBeanWithExplicitlyListedFields" access="public" returntype="void">
 	<cfset var ec = createEventContext() />
-	<cfset var bean = createObject("component", "modelgluetests.unittests.gesture.externaladapters.beanpopulation.Bean").init() />
+	<cfset var bean = createObject("component", "ModelGlue.tests.unittests.gesture.externaladapters.beanpopulation.Bean").init() />
 
 	<cfset ec.setValue("explicitProp", "explicitPropValue") />
 
@@ -616,7 +616,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/eventHandlerName.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/eventHandlerName.xml")>
 
 	<cfset structClear(url) />
 
@@ -631,7 +631,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/eventHandlerName.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/eventHandlerName.xml")>
 
 	<cfset structClear(url) />
 
@@ -649,7 +649,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/internalEvents.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/internalEvents.xml")>
 
 	<cfset structClear(url) />
 
@@ -666,7 +666,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/internalEvents.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/internalEvents.xml")>
 
 	<cfset structClear(url) />
 
@@ -684,7 +684,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/eventHandlerExtensibility.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/eventHandlerExtensibility.xml")>
 
 	<cfset structClear(url) />
 
@@ -701,7 +701,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/eventHandlerName.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/eventHandlerName.xml")>
 
 	<cfset structClear(url) />
 
@@ -719,7 +719,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/caseSensitivity.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/caseSensitivity.xml")>
 
 	<cfset structClear(url) />
 
@@ -735,7 +735,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var ec = "" />
 	<cfset var handlerName = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/caseSensitivity.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/caseSensitivity.xml")>
 
 	<cfset structClear(url) />
 
@@ -759,7 +759,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -777,7 +777,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -795,7 +795,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -813,7 +813,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -831,7 +831,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -849,7 +849,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -867,7 +867,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 
@@ -885,7 +885,7 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createModelGlue(this.coldspringPath) />
 	<cfset var ec = "" />
 
-	<cfset mg.setConfigSetting("primaryModule", "/modelgluetests/unittests/gesture/eventrequest/format/formatOrder.xml")>
+	<cfset mg.setConfigSetting("primaryModule", "/ModelGlue/tests/unittests/gesture/eventrequest/format/formatOrder.xml")>
 
 	<cfset structClear(url) />
 

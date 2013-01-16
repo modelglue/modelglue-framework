@@ -26,8 +26,8 @@ then this file is a working copy and not part of a release build.
 */
 
 
-component extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" {
-	this.coldspringPath = "/modelgluetests/unittests/cfOrmAdapterTest/ColdSpring.xml";
+component extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase" {
+	this.coldspringPath = "/ModelGlue/tests/unittests/cfOrmAdapterTest/ColdSpring.xml";
 
 	function setup() {
 		obj = "MainObject";

@@ -26,7 +26,7 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
+<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
 
 <cffunction name="createModelGlueNoInit" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.MemoizedModelGlue") />
@@ -87,7 +87,7 @@ then this file is a working copy and not part of a release build.
 <cffunction name="testAddDuplicateEventListenerFromDifferentComponent" returntype="void" access="public">
 	<cfset var mg = createUnconfiguredModelGlue() />
 	<cfset var listeners = "" />
-	<cfset var component = createObject( "component", "modelgluetests.unittests.gesture.TestModelGlueTemplate" ) />
+	<cfset var component = createObject( "component", "ModelGlue.tests.unittests.gesture.TestModelGlueTemplate" ) />
 	
 	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
 	

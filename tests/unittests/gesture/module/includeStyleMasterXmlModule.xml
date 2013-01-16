@@ -1,5 +1,5 @@
 <modelglue>
 
-<include template="/modelgluetests/unittests/gesture/module/simpleXmlModule.xml" />
+<include template="/ModelGlue/tests/unittests/gesture/module/simpleXmlModule.xml" />
 
 </modelglue>

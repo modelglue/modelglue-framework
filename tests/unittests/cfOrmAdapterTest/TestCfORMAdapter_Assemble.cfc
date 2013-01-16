@@ -26,9 +26,9 @@ then this file is a working copy and not part of a release build.
 */
 
 
-component extends="modelgluetests.unittests.gesture.eventrequest.TestEventContext" {
+component extends="ModelGlue.tests.unittests.gesture.eventrequest.TestEventContext" {
 
-	this.coldspringPath = "/modelgluetests/unittests/gesture/eventrequest/ColdSpring.xml";
+	this.coldspringPath = "/ModelGlue/tests/unittests/gesture/eventrequest/ColdSpring.xml";
 
 	function setup() {
 		request._modelglue.bootstrap.initializationRequest = false;

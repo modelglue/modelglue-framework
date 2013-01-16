@@ -26,14 +26,14 @@ then this file is a working copy and not part of a release build.
 --->
 
 
-﻿<cfcomponent extends="modelgluetests.unittests.gesture.ModelGlueAbstractTestCase">
+﻿<cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase">
 
-<cfset this.coldspringPath = "/modelgluetests/unittests/gesture/ColdSpring.xml">
+<cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/ColdSpring.xml">
 <!--- regular expressions to match --->
-<cfset jsStringWithoutHost = '<script type="text/javascript" src="/modelgluetests/unittests/gesture/modules/asset/blank.js"></script>' />
-<cfset cssStringWithoutHost = '<link type="text/css" rel="stylesheet" media="all" href="/modelgluetests/unittests/gesture/modules/asset/blank.css" />' />
-<cfset jsStringWithHost = '<script type="text/javascript" src="http://.\.domain\.com/modelgluetests/unittests/gesture/modules/asset/blank\.js"></script>' />
-<cfset cssStringWithHost = '<link type="text/css" rel="stylesheet" media="all" href="http://.\.domain\.com/modelgluetests/unittests/gesture/modules/asset/blank\.css" />' />
+<cfset jsStringWithoutHost = '<script type="text/javascript" src="/ModelGlue/tests/unittests/gesture/modules/asset/blank.js"></script>' />
+<cfset cssStringWithoutHost = '<link type="text/css" rel="stylesheet" media="all" href="/ModelGlue/tests/unittests/gesture/modules/asset/blank.css" />' />
+<cfset jsStringWithHost = '<script type="text/javascript" src="http://.\.domain\.com/ModelGlue/tests/unittests/gesture/modules/asset/blank\.js"></script>' />
+<cfset cssStringWithHost = '<link type="text/css" rel="stylesheet" media="all" href="http://.\.domain\.com/ModelGlue/tests/unittests/gesture/modules/asset/blank\.css" />' />
 <cfset assetMissingString = '<!--ERROR: AssetManager could not locate asset missing\.js -->' />
 
 <cffunction name="setup">
@@ -97,7 +97,7 @@ then this file is a working copy and not part of a release build.
 </cffunction>
 
 <cffunction name="testAssetRendingWithCFHtmlHeadViaSubRequest" returntype="void" access="public">
-	<cfset remote_uri = "http://#CGI.SERVER_NAME#:#CGI.SERVER_PORT#/modelgluetests/unittests/gesture/modules/asset/RunEvent.cfc?method=handleEvent&event=renderAsset" />
+	<cfset remote_uri = "http://#CGI.SERVER_NAME#:#CGI.SERVER_PORT#/ModelGlue/tests/unittests/gesture/modules/asset/RunEvent.cfc?method=handleEvent&event=renderAsset" />
 	<cfhttp url="#remote_uri#">
 	<cfset assertTrue(trim(cfhttp.Filecontent) EQ trim(jsStringWithoutHost), 'Expected ' & htmleditformat(jsStringWithoutHost) & ' but got ' & htmleditformat(cfhttp.Filecontent) ) />
 	<!---<cfset assertTrue(trim(cfhttp.Filecontent) EQ trim(jsStringWithoutHost), "Expected '' but got '#htmleditformat(cfhttp.Filecontent)#'") />--->
@@ -109,13 +109,13 @@ then this file is a working copy and not part of a release build.
 	<cfset var beanFactory = "" />
 	<cfset var ec ="" />
 	<cfset super.createModelGlueIfNotDefined(this.coldspringPath) />
-	<cfset arrayAppend(mg.configuration.assetmappings, "/modelgluetests/unittests/gesture/modules/asset") />
-	<cfset arrayAppend(mg.configuration.viewmappings, "/modelgluetests/unittests/gesture/modules/asset") />
+	<cfset arrayAppend(mg.configuration.assetmappings, "/ModelGlue/tests/unittests/gesture/modules/asset") />
+	<cfset arrayAppend(mg.configuration.viewmappings, "/ModelGlue/tests/unittests/gesture/modules/asset") />
 	<cfset beanFactory = mg.getInternalBeanFactory() />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
-	<cfset beanFactory.loadBeans(expandPath("/modelgluetests/unittests/gesture/modules/asset/CS_AssetManagerBeans.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/externaladapters/beaninjection/ColdSpring.xml")) />
+	<cfset beanFactory.loadBeans(expandPath("/ModelGlue/tests/unittests/gesture/modules/asset/CS_AssetManagerBeans.xml")) />
 	<cfset loader = mg.getInternalBean("modelglue.ModuleLoaderFactory").create("XML") />
-	<cfset loader.load(mg, "/modelgluetests/unittests/gesture/modules/asset/EventWithAsset.xml") />
+	<cfset loader.load(mg, "/ModelGlue/tests/unittests/gesture/modules/asset/EventWithAsset.xml") />
 </cffunction>
 
 

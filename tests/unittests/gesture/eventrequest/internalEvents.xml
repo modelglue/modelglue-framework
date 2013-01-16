@@ -2,7 +2,7 @@
 
 <controllers>
 
-	<controller id="controller" type="modelgluetests.unittests.gesture.eventrequest.Controller">
+	<controller id="controller" type="ModelGlue.tests.unittests.gesture.eventrequest.Controller">
 		<message-listener message="onRequestStart" />
 		<message-listener message="onQueueComplete" />
 		<message-listener message="onRequestEnd" />
