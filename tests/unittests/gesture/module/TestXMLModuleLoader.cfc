@@ -60,7 +60,7 @@ then this file is a working copy and not part of a release build.
 	<cfset obj = mg.getEventListeners("messageName") />
 	<cfset assertTrue(arrayLen(obj) eq 1, "Incorrect number of listeners found (should be 1, was #arrayLen(obj)#)") />
 	<cfset obj = obj[1] />
-	<cfset assertEquals("ModelGlue.tests.unittests.gesture.module.Controller", GetMetadata(obj.target).name, "Controller not of right type") />
+	<cfset assertEquals("ModelGlue.tests.unittests.gesture.module.Controller", GetMetadata(mg.getController(obj.target)).name, "Controller not of right type") />
 	<cfset assertTrue(obj.listenerFunction eq "listener", "listener function not right name") />
 
 	<!--- Test controller bean injection / autowiring --->

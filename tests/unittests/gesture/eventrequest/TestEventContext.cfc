@@ -27,7 +27,7 @@ then this file is a working copy and not part of a release build.
 
 
 <cfcomponent extends="ModelGlue.tests.unittests.gesture.collections.TestMapCollectionImplementation">
-
+<cfset this.helpers = {} /><!---We are using this component to mock a controller, so this has to be there.--->
 <cfset this.coldspringPath = "/ModelGlue/tests/unittests/gesture/eventrequest/ColdSpring.xml">
 
 <cffunction name="setUp" output="false" access="public" returntype="any" hint="">
@@ -95,6 +95,10 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="createValue" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.eventhandler.Value") />
+</cffunction>
+
+<cffunction name="createController" access="private">
+	<cfreturn createObject("component", "ModelGlue.gesture.controller.Controller") />
 </cffunction>
 
 <!--- EVENT QUEUE TESTS --->
@@ -179,10 +183,11 @@ then this file is a working copy and not part of a release build.
 	<cfset var msg = createMessage() />
 	<cfset var listeners = structNew() />
 	<cfset var listener = createListener() />
-
+	<cfset var controllerID = "fakecontroller" />
+	<cfset mg.addController( controllerID, this ) /><!---we are using this test component because we faked a few functions on it--->
 	<cfset eh1.name = "eh1" />
 
-	<cfset listener.target = this />
+	<cfset listener.target = controllerID />
 	<cfset listener.listenerFunction = "listener_testExecuteEventHandler_ListenerInvocation" />
 	<cfset msg.name = "message" />
 	<cfset listeners[msg.name] = arrayNew(1) />
@@ -190,7 +195,8 @@ then this file is a working copy and not part of a release build.
 	<cfset eh1.addMessage(msg) />
 
 	<cfset listener = createListener() />
-	<cfset listener.target = this />
+
+	<cfset listener.target = controllerID />
 	<cfset listener.listenerFunction = "listener_testExecuteEventHandler_ListenerInvocation_byFormat" />
 	<cfset msg = createMessage() />
 	<cfset msg.name = "explicitFormatMessage" />
@@ -242,19 +248,20 @@ then this file is a working copy and not part of a release build.
 	<cfset var eventHandlers = structNew() />
 	<cfset var result1 = createResult() />
 	<cfset var result2 = createResult() />
-
+	<cfset var controllerID = "controllerID" />
+	<cfset mg.addController( controllerID, this ) />
 	<!--- Set up listeners --->
-	<cfset listener1.target = this />
+	<cfset listener1.target = controllerID />
 	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg1.name = "message1" />
 	<cfset makePublic(this,"listener1_testExecuteEventHandler_ResultQueueing") />
 
-	<cfset listener2.target = this />
+	<cfset listener2.target = controllerID />
 	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg2.name = "message2" />
 	<cfset makePublic(this,"listener2_testExecuteEventHandler_ResultQueueing") />
 
-	<cfset listener3.target = this />
+	<cfset listener3.target = controllerID />
 	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg3.name = "message3" />
 	<cfset makePublic(this,"listener3_testExecuteEventHandler_ResultQueueing") />
@@ -320,21 +327,22 @@ then this file is a working copy and not part of a release build.
 	<cfset var eventHandlers = structNew() />
 	<cfset var result1 = createResult() />
 	<cfset var result2 = createResult() />
-
+	<cfset var controllerID = "controllerID" />
+	<cfset mg.addController( controllerID, this ) />
 	<!--- Set up listeners --->
-	<cfset listener1.target = this />
+	<cfset listener1.target = "controllerID" />
 	<cfset listener1.listenerFunction = "listener1_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg1.name = "message1" />
 	<cfset msg1.format = "explicitFormat" />
 	<cfset makePublic(this,"listener1_testExecuteEventHandler_ResultQueueing") />
 
-	<cfset listener2.target = this />
+	<cfset listener2.target = "controllerID" />
 	<cfset listener2.listenerFunction = "listener2_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg2.name = "message2" />
 	<cfset msg2.format = "explicitFormat" />
 	<cfset makePublic(this,"listener2_testExecuteEventHandler_ResultQueueing") />
 
-	<cfset listener3.target = this />
+	<cfset listener3.target = "controllerID" />
 	<cfset listener3.listenerFunction = "listener3_testExecuteEventHandler_ResultQueueing" />
 	<cfset msg3.name = "message3" />
 	<cfset msg3.format = "explicitFormat" />

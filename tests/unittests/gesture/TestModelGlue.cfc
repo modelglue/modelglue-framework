@@ -27,7 +27,7 @@ then this file is a working copy and not part of a release build.
 
 
 <cfcomponent extends="ModelGlue.tests.unittests.gesture.ModelGlueAbstractTestCase" hint="Tests EventHandler, Message, View, and Result CFCs.">
-
+<cfset this.helpers = {} /><!---We are using this component to mock a controller, so this has to be there.--->
 <cffunction name="createModelGlueNoInit" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.MemoizedModelGlue") />
 </cffunction>
@@ -38,6 +38,10 @@ then this file is a working copy and not part of a release build.
 
 <cffunction name="createEventHandler" access="private">
 	<cfreturn createObject("component", "ModelGlue.gesture.eventhandler.EventHandler") />
+</cffunction>
+
+<cffunction name="createController" access="private">
+	<cfreturn createObject("component", "ModelGlue.gesture.controller.Controller") />
 </cffunction>
 
 
@@ -66,10 +70,12 @@ then this file is a working copy and not part of a release build.
 <cffunction name="testAddDuplicateEventListenerFromSameComponent" returntype="void" access="public">
 	<cfset var mg = createUnconfiguredModelGlue() />
 	<cfset var listeners = "" />
-	
+	<cfset var controllerID = "ControllerID" />
+	<cfset var controller = createController() />
+	<cfset mg.addController( controllerID, controller ) />
 	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
 	
-	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	<cfset mg.addEventListener("message", controllerID, "stub_listenerFunction1") />
 	
 	<cfset assertTrue(mg.hasEventListener("message"), "no listener for ""message"" after add!") />
 	
@@ -77,10 +83,10 @@ then this file is a working copy and not part of a release build.
 	<cfset assertTrue(arrayLen(listeners) eq 1, "should have 1 listener after add") />
 	<cfset assertTrue(getMetadata(listeners[1]).name eq "ModelGlue.gesture.eventhandler.MessageListener", "a MessageListener instance should exist after add") />
 
-	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	<cfset mg.addEventListener("message", controllerID, "stub_listenerFunction1") />
 	
 	<cfset listeners = mg.getEventListeners("message") />
-	<cfset assertTrue(arrayLen(listeners) eq 1, "should still have 1 listener after duplicate add") />
+	<cfset assertTrue(arrayLen(listeners) eq 1, "should still have 1 listener not [#arrayLen(listeners)#] after duplicate add") />
 	
 </cffunction>
 
@@ -88,10 +94,15 @@ then this file is a working copy and not part of a release build.
 	<cfset var mg = createUnconfiguredModelGlue() />
 	<cfset var listeners = "" />
 	<cfset var component = createObject( "component", "ModelGlue.tests.unittests.gesture.TestModelGlueTemplate" ) />
+	<cfset var controllerID = "ControllerID" />
+	<cfset var controller = createController() />
+	<cfset var otherControllerID = "OtherControllerID" />
+	<cfset mg.addController( controllerID, controller ) />
+	<cfset mg.addController( otherControllerID, this ) /><!---This needs to be a different component entirely--->
 	
 	<cfset assertFalse(mg.hasEventListener("message"), "should have no listener for ""message"" before adding listener!") />
 	
-	<cfset mg.addEventListener("message", this, "stub_listenerFunction1") />
+	<cfset mg.addEventListener("message", controllerID, "stub_listenerFunction1") />
 	
 	<cfset assertTrue(mg.hasEventListener("message"), "no listener for ""message"" after add!") />
 	
@@ -99,10 +110,10 @@ then this file is a working copy and not part of a release build.
 	<cfset assertTrue(arrayLen(listeners) eq 1, "should have 1 listener after add") />
 	<cfset assertTrue(getMetadata(listeners[1]).name eq "ModelGlue.gesture.eventhandler.MessageListener", "a MessageListener instance should exist after add") />
 
-	<cfset mg.addEventListener("message", component, "stub_listenerFunction1") />
+	<cfset mg.addEventListener("message", otherControllerID, "stub_listenerFunction1") />
 	
 	<cfset listeners = mg.getEventListeners("message") />
-	<cfset assertTrue(arrayLen(listeners) eq 2, "should have 2 listeners after add from separate component") />
+	<cfset assertTrue(arrayLen(listeners) eq 2, "should have 2 listeners after add from separate component, not [#arrayLen(listeners)#]") />
 	
 </cffunction>
 
