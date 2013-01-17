@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
 
-This file is part of @versionLabel@ (@versionNumber@).
+This file is part of Model-Glue 'Gesture' 3.2 RC2 (3.2.460).
 
 The version number in parentheses is in the format versionNumber.subversion.revisionNumber.
 
