@@ -590,7 +590,7 @@ then this file is a working copy and not part of a release build.
 	<cfset assertTrue(trace[startingTraceCount+1].traceType eq "traceTypeVal", "traceTypeVal incorrect") />
 	<cfset ec.addTraceStatement("Unicorn", structNew(), "UnicornTagVal", "UnicornTypeVal") />
 	<cfset trace = ec.getTrace() />
-	<cfset assertTrue(trace[startingTraceCount+2].message CONTAINS "cfdump", "Complex value didn't get dumped")>
+	<cfset assertTrue(trace[startingTraceCount+2].message CONTAINS "dump", "Complex value didn't get dumped")>
 </cffunction>
 
 <!--- BEAN POPULATION TEST --->
