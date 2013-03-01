@@ -17,7 +17,7 @@ specific language governing permissions and limitations under the License.
 
 VERSION INFORMATION:
 
-This file is part of @versionLabel@ (@versionNumber@).
+This file is part of @versionLabel@ (@version@).
 
 The version number in parentheses is in the format versionNumber.subversion.revisionNumber.
 
@@ -34,13 +34,12 @@ then this file is a working copy and not part of a release build.
 <cffunction name="getController" output="false" returntype="any" hint="Gets a controller by id.">
 	<cfargument name="controllerID" type="string" />
 	
-	<cfset var NumberOfLoaders = arrayLen( variables.ModuleLoaderArray ) />
 	<cfset var i = "" />
 	
 	<cfif structKeyExists( this.controllers, arguments.controllerID ) IS false AND controllerWasDefined( arguments.controllerId ) IS true>
 		<cflock type="exclusive" name="ControllerCreationLock_#arguments.controllerID#" timeout="10" throwontimeout="true">
 			<cfif structKeyExists( this.controllers, arguments.controllerID ) IS false AND controllerWasDefined( arguments.controllerId ) IS true>
-				<cfloop from="1" to="#NumberOfLoaders#" index="i">
+				<cfloop from="1" to="#arrayLen( variables.ModuleLoaderArray )#" index="i">
 					<cfset variables.ModuleLoaderArray[ i ].locateAndMakeController( this, arguments.controllerID ) />
 				</cfloop>
 			</cfif>
@@ -59,12 +58,11 @@ then this file is a working copy and not part of a release build.
 <cffunction name="controllerWasDefined" output="false" access="private" returntype="boolean" hint="I look for a specific controller in the registered module loaders">
 	<cfargument name="controllerID" type="string" required="true"/>
 	
-	<cfset var NumberOfLoaders = arrayLen( variables.ModuleLoaderArray ) />
 	<cfset var i = "" />
 
 	<cflock type="exclusive" name="ControllerSearchLock_#arguments.controllerID#" timeout="10" throwontimeout="true">
 		<!--- Try to find the controller definition in the registered modules --->
-		<cfloop from="1" to="#NumberOfLoaders#" index="i">
+		<cfloop from="1" to="#arrayLen( variables.ModuleLoaderArray )#" index="i">
 			<cfif variables.ModuleLoaderArray[ i ].hasControllerDefinition( arguments.controllerID ) IS true>
 				<cfreturn true />
 			</cfif>
@@ -77,7 +75,6 @@ then this file is a working copy and not part of a release build.
 <cffunction name="getEventHandler" output="false" hint="I get an event handler by name.  If one doesn't exist, a struct key not found error is thrown - this is a heavy hit method, so it's about speed, not being nice.">
 	<cfargument name="eventHandlerName" type="string" required="true" hint="The event handler to return." />
 	
-	<cfset var NumberOfLoaders = arrayLen( variables.ModuleLoaderArray ) />
 	<cfset var i = "" />
 
 	<cfif structKeyExists( this.eventHandlers, arguments.eventHandlerName ) IS false>
@@ -85,7 +82,7 @@ then this file is a working copy and not part of a release build.
 			<cfif structKeyExists( this.eventHandlers, arguments.eventHandlerName ) IS false AND eventHandlerWasDefined( arguments.eventHandlerName ) IS true>
 				<cflock type="exclusive" name="EventHandlerCreationLock_#arguments.eventHandlerName#" timeout="10" throwontimeout="true">
 					<cfif structKeyExists( this.eventHandlers, arguments.eventHandlerName ) IS false AND eventHandlerWasDefined( arguments.eventHandlerName ) IS true>
-						<cfloop from="1" to="#NumberOfLoaders#" index="i">
+						<cfloop from="1" to="#arrayLen( variables.ModuleLoaderArray )#" index="i">
 							<cfset variables.ModuleLoaderArray[ i ].locateAndMakeEventHandler( this, arguments.eventHandlerName ) />
 						</cfloop>
 					</cfif>
@@ -106,13 +103,12 @@ then this file is a working copy and not part of a release build.
 <cffunction name="eventHandlerWasDefined" output="false" hint="Does an event handler by the given name exist?">
 	<cfargument name="eventHandlerName" type="string" required="true" hint="The event handler in question." />
 
-	<cfset var NumberOfLoaders = arrayLen( variables.ModuleLoaderArray ) />
 	<cfset var i = "" />
 	<cfif structKeyExists( this.eventHandlers, arguments.eventHandlerName ) IS false>
 		<cflock type="exclusive" name="eventHandlerWasDefined_EventHandlerSearchLock_#arguments.eventHandlerName#" timeout="10" throwontimeout="true">
 			<cfif structKeyExists( this.eventHandlers, arguments.eventHandlerName ) IS false>
 				<!--- Try to find the event handler definition in the registered modules --->
-				<cfloop from="1" to="#NumberOfLoaders#" index="i">
+				<cfloop from="1" to="#arrayLen( variables.ModuleLoaderArray )#" index="i">
 					<cfif variables.ModuleLoaderArray[ i ].hasEventHandlerDefinition( arguments.eventHandlerName ) IS true>
 						<cfreturn true />
 					</cfif>

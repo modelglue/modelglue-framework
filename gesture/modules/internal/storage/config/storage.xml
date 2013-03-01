@@ -1,0 +1,21 @@
+<modelglue>
+
+<controllers>
+	<controller id="modelglueinternal.storageController"
+				type="ModelGlue.gesture.modules.internal.storage.controller.StorageController"
+				beans="modelglue.HelperInjector"
+	>
+		<message-listener message="modelglue.loadFrameworkIntoScope" function="loadFrameworkIntoScope" />
+	</controller>
+</controllers>
+
+<event-handlers>
+	<event-handler name="modelglue.onApplicationStorageRequested">
+		<broadcasts>
+			<message name="modelglue.loadFrameworkIntoScope" />
+		</broadcasts>
+	</event-handler>
+
+</event-handlers>
+
+</modelglue>

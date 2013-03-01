@@ -140,7 +140,14 @@
 		</list>
 	</constructor-arg>
 </bean>
-	
+<bean id="modelglue.StoragePhase" class="ModelGlue.gesture.eventrequest.phase.Storage" parent="modelglue.AbstractRequestPhase">
+	<constructor-arg name="modules">
+		<list>
+			<value>/ModelGlue/gesture/modules/internal/storage/config/storage.xml</value>
+		</list>
+	</constructor-arg>
+</bean>
+
 <bean id="modelglue.PhaseList" class="coldspring.beans.factory.config.ListFactoryBean">
 	<property name="SourceList">
 		<!--
@@ -152,6 +159,7 @@
 			<ref bean="modelglue.PopulationPhase" />
 			<ref bean="modelglue.ConfigurationPhase" />
 			<ref bean="modelglue.InvocationPhase" />
+			<ref bean="modelglue.StoragePhase" />
 			<!-- Haven't found a use for it.
 			<bean class="ModelGlue.gesture.eventrequest.phase.Termination" />
 			-->
