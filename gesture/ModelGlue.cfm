@@ -29,6 +29,7 @@ then this file is a working copy and not part of a release build.
 <cfparam name="ModelGlue_CONFIG_PATH" default="" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_PATH" default="./config/ColdSpring.xml" />
 <cfparam name="ModelGlue_CORE_COLDSPRING_PATH" default="/ModelGlue/gesture/configuration/ModelGlueConfiguration.xml" />
+<cfparam name="ModelGlue_RESET_CONTENT" default="true" />
 <cfparam name="ModelGlue_PARENT_BEAN_FACTORY" default="" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_ATTRIBUTES" default="#structNew()#" />
 <cfparam name="ModelGlue_LOCAL_COLDSPRING_DEFAULT_PROPERTIES" default="#structNew()#" />
@@ -96,7 +97,7 @@ then this file is a working copy and not part of a release build.
 <cfif not request._modelglue.bootstrap.blockEvent>
 	<cfset ec = mg.handleRequest() />
 </cfif>
-<cfcontent reset="yes" />
+<cfcontent reset="#ModelGlue_RESET_CONTENT IS true#" />
 </cfsilent><cfif not request._modelglue.bootstrap.blockEvent><cfoutput>#ec.getLastRendereredView()#</cfoutput>
 
 <cfif mg.configuration.debug neq "false" and mg.configuration.debug neq "none">

@@ -13,7 +13,7 @@
 <event-handlers>
 	<event-handler name="modelglue.onApplicationInitialization">
 		<broadcasts>
-			<message name="modelglue.loadFrameworkIntoScope" />
+			<!--<message name="modelglue.loadFrameworkIntoScope" />-->
 		</broadcasts>
 	</event-handler>
 	<event-handler name="modelglue.onApplicationStoredInScope">
