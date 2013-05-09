@@ -33,14 +33,15 @@ then this file is a working copy and not part of a release build.
 
 	<cfset var mg = "" />
 	<cfset var boot = "" />
-	<cfset event.addTraceStatement("Storage", "trying to store something") >
 	<cfif request._modelglue.bootstrap.initializationRequest>
+		<cfset event.addTraceStatement("Storage", "trying to store something") >
 		<cfset mg = request._modelglue.bootstrap.framework />
 		<cfset boot = request._modelglue.bootstrap.bootstrapper />
 		
 		<cfset application[boot.applicationKey] = mg />
+		<cfset event.addTraceStatement("Storage", "should have stored something, #boot.applicationKey#") >
 	</cfif>
-	<cfset event.addTraceStatement("Storage", "should have stored something, #boot.applicationKey#") >
+	
 	<cfset this.loaded = true />
 </cffunction>
 
