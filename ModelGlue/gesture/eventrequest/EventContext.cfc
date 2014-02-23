@@ -172,6 +172,7 @@
 			
 				<cfif isObject(getCurrentEventHandler()) and getCurrentEventHandler().name neq exceptionEventHandler and variables._modelGlue.hasEventHandler(exceptionEventHandler)>
 					<cfset addEventHandler(variables._modelGlue.getEventHandler(exceptionEventHandler)) />
+					<cfset addEventHandler(variables._modelGlue.getEventHandler("modelglue.onQueueComplete")) />
 					<cfset executeEventQueue() />
 				<cfelse>
 					<cfrethrow />
