@@ -1,0 +1,6 @@
+<modelglue>
+
+<module location="/ModelGlue/tests/unittests/gesture/module/simpleXmlModule.xml" />
+<include template="/ModelGlue/tests/unittests/gesture/module/formattedXmlModule.xml" />
+
+</modelglue>

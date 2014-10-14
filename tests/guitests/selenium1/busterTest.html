@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>busterTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">busterTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/modelgluesamples/buster/index.cfm</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Buster, the Model-Glue crash test dummy.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>getLink</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=#ajaxData b</td>
+	<td>Ajax get result:</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>{&quot;users&quot;:{&quot;COLUMNS&quot;:[&quot;NAME&quot;],&quot;DATA&quot;:[[&quot;Person-1&quot;],[&quot;Person-2&quot;],[&quot;Person-3&quot;],[&quot;Person-4&quot;],[&quot;Person-5&quot;],[&quot;Person-6&quot;],[&quot;Person-7&quot;],[&quot;Person-8&quot;],[&quot;Person-9&quot;],[&quot;Person-10&quot;],[&quot;Person-11&quot;],[&quot;Person-12&quot;]]}}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>postLink</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForText</td>
+	<td>css=#ajaxData b</td>
+	<td>Ajax post result:</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>{&quot;users&quot;:{&quot;COLUMNS&quot;:[&quot;NAME&quot;],&quot;DATA&quot;:[[&quot;Person-1&quot;],[&quot;Person-2&quot;],[&quot;Person-3&quot;],[&quot;Person-4&quot;],[&quot;Person-5&quot;],[&quot;Person-6&quot;],[&quot;Person-7&quot;],[&quot;Person-8&quot;],[&quot;Person-9&quot;],[&quot;Person-10&quot;],[&quot;Person-11&quot;],[&quot;Person-12&quot;]]}}</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

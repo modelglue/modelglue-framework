@@ -1,0 +1,12 @@
+<modelglue>
+
+<controllers>
+	<controller	type="ModelGlue.gesture.modules.internal.utility.controller.UtilityController">
+		<message-listener message="modelglue.disableModelGlueDebugging" function="disableDebugging" />	
+	</controller>
+</controllers>
+
+<event-handlers>
+</event-handlers>
+
+</modelglue>

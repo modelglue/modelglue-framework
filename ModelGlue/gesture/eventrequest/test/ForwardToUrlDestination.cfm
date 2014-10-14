@@ -1,1 +1,0 @@
-<cfoutput>#url.msg#</cfoutput>
