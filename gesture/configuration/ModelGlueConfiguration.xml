@@ -195,7 +195,7 @@
 	<constructor-arg name="registeredClasses">
 		<map>
 			<entry key="XML">
-				<map><entry key="class"><value>ModelGlue.gesture.module.XMLModuleLoader</value></entry></map>
+				<map><entry key="class"><value>ModelGlue.gesture.module.MemoizedXMLModuleLoader</value></entry></map>
 			</entry>
 		</map>
 	</constructor-arg>

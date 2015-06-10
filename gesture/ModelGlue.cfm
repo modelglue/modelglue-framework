@@ -83,7 +83,6 @@ then this file is a working copy and not part of a release build.
 				<cfset mg = boot.storeModelGlue() />
 			<cfelse>
 				<cfset mg = application[ModelGlue_APP_KEY] />
-				<cfset mg.reset() />
 			</cfif>
 		<cfelse>
 			<cfset mg = application[ModelGlue_APP_KEY] />

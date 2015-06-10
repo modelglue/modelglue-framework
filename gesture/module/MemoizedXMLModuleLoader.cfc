@@ -68,21 +68,21 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 		
 			
 		<!--- We load "down the chain" first so that higher-level event handlers override lower-level. --->
-		<cfset modules = xmlSearch(parsedXML, "/modelglue/module") />
+		<cfset modules = duplicate( xmlSearch(parsedXML, "/modelglue/module") ) />
 		<cfloop from="1" to="#arrayLen(modules)#" index="i">
 			<cfparam name="modules[i].xmlAttributes.type" default="XML" />
 			<cfset loader = moduleLoaderFactory.create(modules[i].xmlAttributes.type) />
 			<cfset loader.load(arguments.modelglue, modules[i].xmlAttributes.location, arguments.loadedModules) />
 		</cfloop>
 		
-		<cfset includes = xmlSearch(parsedXML, "/modelglue/include") />
+		<cfset includes = duplicate( xmlSearch(parsedXML, "/modelglue/include") ) />
 		<cfloop from="1" to="#arrayLen(includes)#" index="i">
 			<cfset loader = moduleLoaderFactory.create("XML") />
 			<cfset loader.load(arguments.modelglue, includes[i].xmlAttributes.template, arguments.loadedModules) />
 		</cfloop>
 	
 		<!--- Load settings since these aren't going to be cached --->
-		<cfset settingBlocks = xmlSearch(parsedXML, "/modelglue/config") />
+		<cfset settingBlocks = duplicate( xmlSearch(parsedXML, "/modelglue/config") ) />
 	
 		<cfloop from="1" to="#arrayLen(settingBlocks)#" index="i">
 			<cfset loadSettings(arguments.modelglue, settingBlocks[i]) />
@@ -138,7 +138,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 <cffunction name="findControllerDefinition" output="false" hint="Loads controller from controller block.">
 	<cfargument name="configurationXML" />
 	<cfargument name="ControllerName" type="string" default="" />
-	<cfreturn xmlSearch( configurationXML, "/modelglue/controllers/controller[@id='#arguments.ControllerName#']" ) />
+	<cfreturn duplicate( xmlSearch( configurationXML, "/modelglue/controllers/controller[@id='#arguments.ControllerName#']" ) ) />
 </cffunction>
 
 <cffunction name="locateAndMakeController" output="false" hint="Loads Controller from controller block.">
@@ -240,7 +240,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 <cffunction name="findEventHandlerDefinition" output="false" hint="Loads event-handlers from <event-handlers> block.">
 	<cfargument name="configurationXML" />
 	<cfargument name="eventHandlerName" type="string" default="" />
-	<cfreturn xmlSearch( arguments.configurationXML, "/modelglue/event-handlers/event-handler[@name='#arguments.eventHandlerName#']" )/>
+	<cfreturn duplicate( xmlSearch( arguments.configurationXML, "/modelglue/event-handlers/event-handler[@name='#arguments.eventHandlerName#']" ) )/>
 </cffunction>
 
 <cffunction name="locateAndMakeEventHandler" output="false" hint="Loads event-handlers from <event-handlers> block.">
@@ -322,14 +322,14 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 		</cfif>
 		
 		<!--- Load messages --->
-		<cfset childXml = xmlSearch(arguments.ehXml, "broadcasts") />
+		<cfset childXml = duplicate( xmlSearch(arguments.ehXml, "broadcasts") ) />
 		
 		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
 			<cfset loadMessages(ehInst, childXml[i]) />
 		</cfloop>
 		
 		<!--- Load results --->
-		<cfset childXml = xmlSearch(arguments.ehXml, "results") />
+		<cfset childXml = duplicate( xmlSearch(arguments.ehXml, "results") ) />
 		
 		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
 			<cfset loadResults(ehInst, childXml[i]) />
@@ -337,7 +337,7 @@ Lastly, we need to rip out the configuration for this ModuleLoader and just have
 		
 		
 		<!--- Load views --->
-		<cfset childXml = xmlSearch(arguments.ehXml, "views") />
+		<cfset childXml = duplicate( xmlSearch(arguments.ehXml, "views") ) />
 		
 		<cfloop from="1" to="#arrayLen(childXml)#" index="i">
 			<cfset loadViews(ehInst, childXml[i]) />
