@@ -29,6 +29,9 @@ then this file is a working copy and not part of a release build.
 <cfcomponent displayName="ViewRenderer" output="false" hint="I am responsible for rendering views.">
 
 <cffunction name="init" access="public" returnType="any" output="false" hint="I build a new view renderer.">
+  <!--- use this struct to cache where different view files are located. --->
+  <cfset variables.cachedViewLocations = {}/>
+  
   <cfreturn this />
 </cffunction>
 
@@ -67,14 +70,22 @@ then this file is a working copy and not part of a release build.
 	  </cfif>
 	</cfloop>
 
-	<cfset includeFound = false />
-	<cfloop from="1" to="#arrayLen(_viewMappings)#" index="i">
-		<cfset template = _viewMappings[i] & "/" & arguments.view.template />
-		<cfif fileExists(expandPath(template))>
-			<cfset includeFound = true />
-			<cfbreak />
-		</cfif>	
-	</cfloop>
+	<!--- first look in the cache to see if we've already found this view template. If so, use the path in the cache --->
+	<cfif structKeyExists(variables.cachedViewLocations, arguments.view.template)>
+		<cfset includeFound = true/>
+		<cfset template = variables.cachedViewLocations[arguments.view.template]/>
+	<cfelse>
+		<!--- else it wasn't in the cache, so see if we can find it on disk in any of the view mapping directories --->
+		<cfloop from="1" to="#arrayLen(_viewMappings)#" index="i">
+			<cfset template = _viewMappings[i] & "/" & arguments.view.template />
+			<cfif fileExists(expandPath(template))>
+				<cfset includeFound = true />
+				<!--- now that we've found it, cache it so we don't have to look for it next time --->
+				<cfset variables.cachedViewLocations[arguments.view.template] = template />
+				<cfbreak />
+			</cfif>	
+		</cfloop>
+	</cfif>
 
 	<cfif not includeFound>
 		<cfthrow type="ViewRenderer.includeNotFound"
